@@ -80,13 +80,6 @@ end)
 local WebURL = "https://gag.ef.in.th/gag.php" -- แก้ไข URL ของพี่เอฟที่นี่
 local CodeToSend = "" -- ตัวแปรเก็บค่าที่จะส่ง
 
--- --- UI Elements ---
-
-Tabs.Main:AddParagraph({
-    Title = "Data Input",
-    Content = "วางโค้ดในช่อง หรือกดปุ่ม Paste เพื่อดึงจาก Clipboard"
-})
-
 -- 1. สร้าง Input Field
 local Input = Tabs.Main:AddInput("Input", {
     Title = "Lua Code",
@@ -144,11 +137,6 @@ Input:OnChanged(function()
     end
 end)
 
-
-Tabs.Main:AddParagraph({
-    Title = "Action",
-    Content = "------------------------------------------------"
-})
 
 -- 4. ปุ่ม Send
 Tabs.Main:AddButton({
