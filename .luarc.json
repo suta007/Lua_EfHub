@@ -1,0 +1,16 @@
+{
+    "languageServer.luau.enabled": true,
+    "diagnostics.globals": [
+        "game",
+        "workspace",
+        "script",
+        "task",
+        "Enum",
+        "getgenv",
+        "setclipboard",
+        "identifyexecutor",
+        "loadstring"
+    ],
+    "runtime.version": "Lua 5.1",
+    "workspace.checkThirdParty": false
+}

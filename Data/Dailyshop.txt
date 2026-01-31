@@ -1,0 +1,182 @@
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/brNTY8nX8t)
+-- Decompiled on 2026-01-30 14:51:15
+-- Luau version 6, Types version 3
+-- Time taken: 0.006894 seconds
+
+local SeedData = require(game:GetService("ReplicatedStorage").Data.SeedData)
+return {
+	Broccoli = {
+		Seed = SeedData.Broccoli;
+		StockChance = 100;
+		StockAmount = {1, 1};
+		Price = 250000000;
+	};
+	Potato = {
+		Seed = SeedData.Potato;
+		StockChance = 100;
+		StockAmount = {1, 1};
+		Price = 500000000;
+	};
+	["Brussels Sprout"] = {
+		Seed = SeedData["Brussels Sprout"];
+		StockChance = 100;
+		StockAmount = {1, 1};
+		Price = 1000000000;
+	};
+	Cocomango = {
+		Seed = SeedData.Cocomango;
+		StockChance = 100;
+		StockAmount = {1, 1};
+		Price = 10000000000;
+	};
+	Cauliflower = {
+		Seed = SeedData.Cauliflower;
+		StockChance = 10;
+		StockAmount = {2, 4};
+		Price = 1040;
+	};
+	["Orange Tulip"] = {
+		Seed = SeedData["Orange Tulip"];
+		StockChance = 10;
+		StockAmount = {2, 4};
+		Price = 450;
+	};
+	Rafflesia = {
+		Seed = SeedData.Rafflesia;
+		StockChance = 15;
+		StockAmount = {1, 3};
+		Price = 2560;
+	};
+	["Green Apple"] = {
+		Seed = SeedData["Green Apple"];
+		StockChance = 20;
+		StockAmount = {1, 1};
+		Price = 2800;
+	};
+	Avocado = {
+		Seed = SeedData.Avocado;
+		StockChance = 25;
+		StockAmount = {1, 1};
+		Price = 4000;
+	};
+	Banana = {
+		Seed = SeedData.Banana;
+		StockChance = 30;
+		StockAmount = {1, 1};
+		Price = 5600;
+	};
+	Pineapple = {
+		Seed = SeedData.Pineapple;
+		StockChance = 35;
+		StockAmount = {1, 1};
+		Price = 6000;
+	};
+	Kiwi = {
+		Seed = SeedData.Kiwi;
+		StockChance = 40;
+		StockAmount = {1, 1};
+		Price = 8000;
+	};
+	["Bell Pepper"] = {
+		Seed = SeedData["Bell Pepper"];
+		StockChance = 50;
+		StockAmount = {1, 1};
+		Price = 44000;
+	};
+	["Prickly Pear"] = {
+		Seed = SeedData["Prickly Pear"];
+		StockChance = 60;
+		StockAmount = {1, 1};
+		Price = 444000;
+	};
+	Loquat = {
+		Seed = SeedData.Loquat;
+		StockChance = 70;
+		StockAmount = {1, 1};
+		Price = 720000;
+	};
+	Feijoa = {
+		Seed = SeedData.Feijoa;
+		StockChance = 80;
+		StockAmount = {1, 1};
+		Price = 2200000;
+	};
+	["Pitcher Plant"] = {
+		Seed = SeedData["Pitcher Plant"];
+		StockChance = 90;
+		StockAmount = {1, 1};
+		Price = 6000000;
+	};
+	Grape = {
+		Seed = SeedData.Grape;
+		StockChance = 100;
+		StockAmount = {1, 1};
+		Price = 680000;
+	};
+	Mushroom = {
+		Seed = SeedData.Mushroom;
+		StockChance = 120;
+		StockAmount = {13, 25};
+		Price = 120000;
+	};
+	Pepper = {
+		Seed = SeedData.Pepper;
+		StockChance = 140;
+		StockAmount = {1, 1};
+		Price = 800000;
+	};
+	Cacao = {
+		Seed = SeedData.Cacao;
+		StockChance = 160;
+		StockAmount = {1, 1};
+		Price = 2000000;
+	};
+	Beanstalk = {
+		Seed = SeedData.Beanstalk;
+		StockChance = 210;
+		StockAmount = {1, 1};
+		Price = 8000000;
+	};
+	["Ember Lily"] = {
+		Seed = SeedData["Ember Lily"];
+		StockChance = 240;
+		StockAmount = {1, 1};
+		Price = 12000000;
+	};
+	["Sugar Apple"] = {
+		Seed = SeedData["Sugar Apple"];
+		StockChance = 290;
+		StockAmount = {1, 1};
+		Price = 20000000;
+	};
+	["Burning Bud"] = {
+		Seed = SeedData["Burning Bud"];
+		StockChance = 340;
+		StockAmount = {1, 1};
+		Price = 32000000;
+	};
+	["Giant Pinecone"] = {
+		Seed = SeedData["Giant Pinecone"];
+		StockChance = 380;
+		StockAmount = {1, 1};
+		Price = 44000000;
+	};
+	["Elder Strawberry"] = {
+		Seed = SeedData["Elder Strawberry"];
+		StockChance = 405;
+		StockAmount = {1, 1};
+		Price = 56000000;
+	};
+	Romanesco = {
+		Seed = SeedData.Romanesco;
+		StockChance = 440;
+		StockAmount = {1, 1};
+		Price = 70400000;
+	};
+	["Crimson Thorn"] = {
+		Seed = SeedData["Crimson Thorn"];
+		StockChance = 777;
+		StockAmount = {1, 1};
+		Price = 8000000000;
+	};
+}

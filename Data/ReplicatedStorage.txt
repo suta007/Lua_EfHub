@@ -1,0 +1,53 @@
+local args = {
+	"Shop",
+	"Carrot"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuySeedStock"):FireServer(unpack(args))
+
+
+local args = {
+	"Shop",
+	"Blueberry"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuySeedStock"):FireServer(unpack(args))
+
+
+local args = {
+	"Shop",
+	"Firework Fern"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuySeedStock"):FireServer(unpack(args))
+
+
+local args = {
+	"Shop",
+	"Crimson Thorn"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuySeedStock"):FireServer(unpack(args))
+
+
+local args = {
+	"Berry Blusher Sprinkler"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyTravelingMerchantShopStock"):FireServer(unpack(args))
+
+
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("SaveSlotService"):WaitForChild("RememberUnlockage"):FireServer()
+
+local args = {
+	"Flower Froster Sprinkler"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyTravelingMerchantShopStock"):FireServer(unpack(args))
+
+
+
+
+local args = {
+	"Stalk Sprout Sprinkler"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyTravelingMerchantShopStock"):FireServer(unpack(args))
+
+local args = {
+	"Cauliflower"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyDailySeedShopStock"):FireServer(unpack(args))

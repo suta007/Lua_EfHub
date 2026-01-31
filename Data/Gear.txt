@@ -1,0 +1,1387 @@
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/brNTY8nX8t)
+-- Decompiled on 2026-01-30 15:39:31
+-- Luau version 6, Types version 3
+-- Time taken: 0.072172 seconds
+
+local Chalk = require(game:GetService("ReplicatedStorage").Modules.Chalk)
+return {
+	["Watering Can"] = {
+		GearName = "Watering Can";
+		GearRarity = "Common";
+		Stack = 10;
+		Asset = "rbxassetid://140223014467344";
+		GearDescription = "Speeds up plant growth. 10 uses";
+	};
+	["Trading Ticket"] = {
+		GearName = "Trading Ticket";
+		GearRarity = "Uncommon";
+		Stack = 1;
+		Asset = "rbxassetid://80065730540573";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 0, 127))("Allows trading with other players!");
+	};
+	Trowel = {
+		GearName = "Trowel";
+		GearRarity = "Uncommon";
+		Stack = 5;
+		Asset = "rbxassetid://115261280019001";
+		GearDescription = "Moves plants. 5 uses";
+	};
+	["Recall Wrench"] = {
+		GearName = "Recall Wrench";
+		GearRarity = "Uncommon";
+		Stack = 5;
+		Asset = "rbxassetid://98327818593168";
+		GearDescription = "Teleports to Gear Shop. 5 uses";
+	};
+	["Basic Sprinkler"] = {
+		GearName = "Basic Sprinkler";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://120314005864914";
+		GearDescription = "Increases growth speed and fruit size. Lasts 5 minutes";
+	};
+	["Advanced Sprinkler"] = {
+		GearName = "Advanced Sprinkler";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://90193997839883";
+		GearDescription = "Increases growth speed and mutation chances. Lasts 5 minutes";
+	};
+	["Small Toy"] = {
+		GearName = "Small Toy";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://118990580091132";
+		GearDescription = "Give your pet a small boost to their passive ability";
+	};
+	["Medium Toy"] = {
+		GearName = "Medium Toy";
+		GearRarity = "Legendary";
+		Stack = 3;
+		Asset = "rbxassetid://87196351819335";
+		GearDescription = "Give your pet a medium boost to their passive ability";
+	};
+	["Large Toy"] = {
+		GearName = "Large Toy";
+		GearRarity = "Divine";
+		Stack = 3;
+		Asset = "rbxassetid://72187558026565";
+		GearDescription = "Give your pet a large boost to their passive ability";
+	};
+	["Small Treat"] = {
+		GearName = "Small Treat";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://107646462537237";
+		GearDescription = "Give your pet a small boost to their xp over time";
+	};
+	["Medium Treat"] = {
+		GearName = "Medium Treat";
+		GearRarity = "Legendary";
+		Stack = 3;
+		Asset = "rbxassetid://134834545436849";
+		GearDescription = "Give your pet a medium boost to their xp over time";
+	};
+	["Smith Treat"] = {
+		GearName = "Smith Treat";
+		GearRarity = "Divine";
+		Stack = 3;
+		Asset = "rbxassetid://105824290273754";
+		GearDescription = "Give your pet a large boost to their xp over time";
+	};
+	["Godly Sprinkler"] = {
+		GearName = "Godly Sprinkler";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://75442797836082";
+		GearDescription = "Increases growth speed, mutation chances and fruit size. Lasts 5 minutes";
+	};
+	["Lightning Rod"] = {
+		GearName = "Lightning Rod";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://125433095334047";
+		GearDescription = "Redirects lightning 3 times before being destroyed";
+	};
+	["Magnifying Glass"] = {
+		GearName = "Magnifying Glass";
+		GearRarity = "Mythical";
+		Stack = 10;
+		Asset = "rbxassetid://107914377975445";
+		GearDescription = Chalk.color(Color3.fromRGB(85, 255, 255))("Inspect plants to reveal the value, without collecting them!");
+	};
+	["Tanning Mirror"] = {
+		GearName = "Tanning Mirror";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://81619835086288";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 0))("Redirects Sun Beams 10 times before being destroyed");
+	};
+	["Master Sprinkler"] = {
+		GearName = "Master Sprinkler";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://98504519094449";
+		GearDescription = Chalk.yellow("Greatly increases growth speed, mutation chances and fruit size. Lasts 10 minutes");
+	};
+	["Cleaning Spray"] = {
+		GearName = "Cleaning Spray";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://134458369683392";
+		GearDescription = Chalk.white("Cleans mutations off fruit! 10 Uses");
+	};
+	["Silver Fertilizer"] = {
+		GearName = "Silver Fertilizer";
+		GearRarity = "Mythical";
+		Stack = 10;
+		Asset = "rbxassetid://116180181854951";
+		GearDescription = Chalk.white("Makes a plant Silver for 2 hours!");
+	};
+	["Gold Fertilizer"] = {
+		GearName = "Gold Fertilizer";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://136127365492823";
+		GearDescription = Chalk.white("Makes a plant Silver for 2 hours!");
+	};
+	["Rainbow Fertilizer"] = {
+		GearName = "Rainbow Fertilizer";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://84184684687849";
+		GearDescription = Chalk.white("Makes a plant Silver for 2 hours!");
+	};
+	["Favorite Tool"] = {
+		GearName = "Favorite Tool";
+		GearRarity = "Divine";
+		Stack = 20;
+		Asset = "rbxassetid://129676033321965";
+		GearDescription = Chalk.orange("Favorites your fruit to prevent collecting.")..Chalk.orange(" 20 uses");
+	};
+	["Harvest Tool"] = {
+		GearName = "Harvest Tool";
+		GearRarity = "Divine";
+		Stack = 5;
+		Asset = "rbxassetid://99521037861537";
+		GearDescription = Chalk.orange("Harvest all fruit from a chosen plant. 5 uses");
+	};
+	["Friendship Pot"] = {
+		GearName = "Friendship Pot";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://106888620308041";
+		GearDescription = Chalk.pink("A flower pot to share with a friend!");
+	};
+	["Pet Pouch"] = {
+		GearName = "Pet Pouch";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://81309368707861";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 0))("Increases your pet inventory slots by +1. Max +50");
+	};
+	["Grandmaster Sprinkler"] = {
+		GearName = "Grandmaster Sprinkler";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://113979110147102";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 50, 50))("Massively increases growth speed, mutation chances, fruit size and boosts pets. Lasts 10 minutes");
+	};
+	["Levelup Lollipop"] = {
+		GearName = "Levelup Lollipop";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://92216660575982";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 0, 0))("Increases your pet's age by 1");
+	};
+	["Silver Lollipop"] = {
+		GearName = "Silver Lollipop";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://129355380203742";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 255))("Increases your pet's age by 5");
+	};
+	["Gold Lollipop"] = {
+		GearName = "Gold Lollipop";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://88845732789842";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 0))("Increases your pet's age by 10");
+	};
+	["Rainbow Lollipop"] = {
+		GearName = "Rainbow Lollipop";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://75150651893802";
+		GearDescription = Chalk.color(Color3.fromRGB(100, 100, 200))("Increases your pet's age by 50");
+	};
+	["Mega Lollipop"] = {
+		GearName = "Mega Lollipop";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://91289591806628";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 0, 255))("Increases your pet's age by 100!");
+	};
+	["Event Lantern"] = {
+		GearName = "Event Lantern";
+		GearRarity = "Rare";
+		Stack = 5;
+		Asset = "rbxassetid://120464955669662";
+		GearDescription = "Teleports to the event!";
+	};
+	["Small Bowl"] = {
+		GearName = "Small Pet Size Boost";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://114089908282697";
+		GearDescription = "Give your pet a small boost to their size and weight";
+	};
+	["Medium Bowl"] = {
+		GearName = "Medium Pet Size Boost";
+		GearRarity = "Legendary";
+		Stack = 3;
+		Asset = "rbxassetid://127973837115000";
+		GearDescription = "Give your pet a medium boost to their size and weight";
+	};
+	["Garden Guide"] = {
+		GearName = "Garden Guide";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://96147201616033";
+		GearDescription = "A book containing information about potential plants!";
+	};
+	["Plant Booster"] = {
+		GearName = "Plant Booster";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://86602672756084";
+		GearDescription = "A plant booster";
+	};
+	["Pet Shard Tranquil"] = {
+		GearName = "Pet Shard Tranquil";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://89240663276696";
+		GearDescription = "Calm your pet's mind and make it tranquil!";
+	};
+	["Pet Shard Corrupted"] = {
+		GearName = "Pet Shard Corrupted";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://114953192928342";
+		GearDescription = "Darken your pet's mind and make it corrupted!";
+	};
+	["Pet Shard Fried"] = {
+		GearName = "Pet Shard Fried";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://76156216865979";
+		GearDescription = "Unlock the inner chef in your pet!";
+	};
+	["Pet Shard Mega"] = {
+		GearName = "Pet Shard Mega";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://132251713933337";
+		GearDescription = "Make your pet MEGA like giants!";
+	};
+	["Pet Shard Aromatic"] = {
+		GearName = "Pet Shard Aromatic";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://126438230205950";
+		GearDescription = "Smells like it's fresh out the oven";
+	};
+	["Pet Shard Silver"] = {
+		GearName = "Pet Shard Silver";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://121577824688085";
+		GearDescription = "Polish up your pet and make it silver!";
+	};
+	["Pet Shard Golden"] = {
+		GearName = "Pet Shard Golden";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://93203116407679";
+		GearDescription = "Make your pet shine like the sun!";
+	};
+	["Pet Shard Rainbow"] = {
+		GearName = "Pet Shard Rainbow";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://103557510521587";
+		GearDescription = "Make your pet shine bright in rainbow light!";
+	};
+	["Cleansing Pet Shard"] = {
+		GearName = "Cleansing Pet Shard";
+		GearRarity = "Divine";
+		StockChance = 12;
+		Stack = 10;
+		Asset = "rbxassetid://80815612016706";
+		GearDescription = "Bring your pet back to normal!";
+	};
+	["Pet Shard GiantBean"] = {
+		GearName = "Pet Shard GiantBean";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://99321086204906";
+		GearDescription = "Make your pet turn into a Giant Bean!";
+	};
+	["Pet Shard Glimmering"] = {
+		GearName = "Pet Shard Glimmering";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://125506626001248";
+		GearDescription = "Make your pet glimmer like a fairy!";
+	};
+	["Pet Shard Luminous"] = {
+		GearName = "Pet Shard Luminous";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://125506626001248";
+		GearDescription = "Make your pet luminous!";
+	};
+	["Pet Shard Nutty"] = {
+		GearName = "Pet Shard Nutty";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://110373097490205";
+		GearDescription = "Make your pet Nutty!";
+	};
+	["Tranquil Radar"] = {
+		GearName = "Tranquil Radar";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://133779065360759";
+		GearDescription = "";
+	};
+	["Corrupt Radar"] = {
+		GearName = "Corrupt Radar";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://101384658792701";
+		GearDescription = "";
+	};
+	["Glimmering Radar"] = {
+		GearName = "Glimmering Radar";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://102770681711135";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 170, 255))("Scans and collects fruits with Glimmering mutation!");
+	};
+	["Mutation Spray Moonlit"] = {
+		GearName = "Mutation Spray Moonlit";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://93742006172968";
+		GearDescription = Chalk.color(Color3.fromRGB(85, 85, 255))("Applies Moonlit to a fruit!");
+	};
+	["Mutation Spray Vamp"] = {
+		GearName = "Mutation Spray Vamp";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://93034205268030";
+		GearDescription = Chalk.color(Color3.fromRGB(85, 0, 0))("Applies Vamp to a fruit!");
+	};
+	["Mutation Spray Bloodlit"] = {
+		GearName = "Mutation Spray Bloodlit";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://133993014780070";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 0, 0))("Applies Bloodlit to a fruit!");
+	};
+	["Mutation Spray Spooky"] = {
+		GearName = "Mutation Spray Spooky";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://84599424511972";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 255))("Spooks a fruit!");
+	};
+	["Mutation Spray Choc"] = {
+		GearName = "Mutation Spray Choc";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://104900539098874";
+		GearDescription = Chalk.color(Color3.fromRGB(148, 103, 82))("Covers a fruit in Choc!");
+	};
+	["Mutation Spray Pollinated"] = {
+		GearName = "Mutation Spray Choc";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://103170047234524";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 170, 0))("Pollinates a fruit!");
+	};
+	["Mutation Spray Shocked"] = {
+		GearName = "Mutation Spray Shocked";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://131806798815295";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 100))("Shocks a fruit!");
+	};
+	["Mutation Spray Chilled"] = {
+		GearName = "Mutation Spray Chilled";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://81133409755490";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 100))("Chills a fruit!");
+	};
+	["Mutation Spray Glimmering"] = {
+		GearName = "Mutation Spray Glimmering";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://121096078532314";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 170, 255))("Makes fruit shine like a fairy!");
+	};
+	["Mutation Spray Luminous"] = {
+		GearName = "Mutation Spray Luminous";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://85780662842247";
+		GearDescription = Chalk.color(Color3.fromRGB(85, 170, 255))("A fairy's true essence!");
+	};
+	["Mutation Spray Burnt"] = {
+		GearName = "Mutation Spray Burnt";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://99446610437201";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 100))("Burns a fruit!");
+	};
+	["Mutation Spray Cooked"] = {
+		GearName = "Mutation Spray Cooked";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://126432432084372";
+		GearDescription = Chalk.color(Color3.fromRGB(210, 120, 60))("Cooks a fruit!");
+	};
+	["Mutation Spray HoneyGlazed"] = {
+		GearName = "Mutation Spray HoneyGlazed";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://82241706965782";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 204, 0))("Coats a fruit in Honey!");
+	};
+	["Mutation Spray Fried"] = {
+		GearName = "Mutation Spray Fried";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://94750385791976";
+		GearDescription = Chalk.color(Color3.fromRGB(223, 110, 34))("Fries a fruit!");
+	};
+	["Mutation Spray Cloudtouched"] = {
+		GearName = "Mutation Spray Cloudtouched";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://83361659792737";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 100))("Fruits become blessed by clouds!");
+	};
+	["Mutation Spray Wet"] = {
+		GearName = "Mutation Spray Wet";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://71256961970374";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 100))("Wets a fruit!");
+	};
+	["Mutation Spray Windstruck"] = {
+		GearName = "Mutation Spray Windstruck";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://108654127163609";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 100))("Fruits become Windstruck!");
+	};
+	["Mutation Spray Verdant"] = {
+		GearName = "Mutation Spray Verdant";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://110872337408229";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 100))("Fruits become Verdant!");
+	};
+	["Mutation Spray Disco"] = {
+		GearName = "Mutation Spray Disco";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://101495928459631";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 100))("Empowers Fruit with Disco!");
+	};
+	["Mutation Spray Amber"] = {
+		GearName = "Mutation Spray Amber";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://134185036315338";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 100))("Fruit start to grow Amber!");
+	};
+	["Mutation Spray Corrupt"] = {
+		GearName = "Mutation Spray Corrupt";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://131496625192449";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 100))("Corrupts Fruits!");
+	};
+	["Mutation Spray Tranquil"] = {
+		GearName = "Mutation Spray Tranquil";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://100842098233252";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 255, 100))("Makes Fruit Tranquil!");
+	};
+	["Mutation Spray Bloom"] = {
+		GearName = "Mutation Spray Bloom";
+		GearRarity = "Divine";
+		Stack = 10;
+		Asset = "rbxassetid://104900539098874";
+		GearDescription = Chalk.color(Color3.fromRGB(170, 255, 0))("Makes fruit Bloom!");
+	};
+	Reclaimer = {
+		GearName = "Reclaimer";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://79034654924763";
+		GearDescription = Chalk.color(Color3.fromRGB(0, 170, 0))("Reclaims plants, turning them into seeds!");
+	};
+	Firework = {
+		GearName = "Firework";
+		GearRarity = "Common";
+		Stack = 5;
+		Asset = "rbxassetid://106727369137782";
+		GearDescription = "Launches fireworks! 5 Uses";
+	};
+	Beanworks = {
+		GearName = "Beanworks";
+		GearRarity = "Common";
+		Stack = 5;
+		Asset = "rbxassetid://106727369137782";
+		GearDescription = "Launches Beanstalk fireworks! 5 Uses";
+	};
+	["Tropical Mist Sprinkler"] = {
+		GearName = "Tropical Mist Sprinkler";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://122592465315585";
+		GearDescription = "Increases growth speed and size bonus for Coconut, Dragon Fruit, Mango, Cacao & Watermelon. Lasts 4 minutes";
+	};
+	["Spice Spritzer Sprinkler"] = {
+		GearName = "Spice Spritzer Sprinkler";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://130541096369176";
+		GearDescription = "Greatly increases variant chance bonus for Pepper, Cacao, Ember Lily and Papaya. Lasts 2.5 minutes";
+	};
+	["Sweet Soaker Sprinkler"] = {
+		GearName = "Sweet Soaker Sprinkler";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://91036428046936";
+		GearDescription = "Increases size bonus for Watermelon, Pumpkin and Moon Melon. Lasts 5 minutes";
+	};
+	["Stalk Sprout Sprinkler"] = {
+		GearName = "Stalk Sprout Sprinkler";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://125326661954614";
+		GearDescription = "Greatly increases growth speed and wets Beanstalk, Bamboo and Mushroom. Lasts 2 minutes";
+	};
+	["Berry Blusher Sprinkler"] = {
+		GearName = "Berry Blusher Sprinkler";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://121776369197466";
+		GearDescription = "Greatly increases size bonus for Grape, Blueberry, Strawberry, Raspberry and Celestiberry. Lasts 1.5 minutes";
+	};
+	["Flower Froster Sprinkler"] = {
+		GearName = "Flower Froster Sprinkler";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://86602672756084";
+		GearDescription = "Freezes Flower type plants. Lasts 2.5 minutes";
+	};
+	["Bean Speaker"] = {
+		GearName = "Bean Speaker";
+		GearRarity = "Common";
+		Stack = 5;
+		Asset = "rbxassetid://106727369137782";
+		GearDescription = "Bean or leave!";
+	};
+	["Can Of Beans"] = {
+		GearName = "Can Of Beans";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://75302189671253";
+		GearDescription = "For when you need a little boost in life...";
+	};
+	["Fairy Summoner"] = {
+		GearName = "Fairy Summoner";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://70923644117541";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 170, 255))("Summons a Fairy Wave!");
+	};
+	["Fairy Power Extender"] = {
+		GearName = "Fairy Power Extender";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://124645530618939";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 170, 255))("Extends the duration of the next Fairy wave!");
+	};
+	["Fairy Targeter"] = {
+		GearName = "Fairy Targeter";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://120586018702719";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 170, 255))("Attracts Fairies to nearby fruit");
+	};
+	["Fairy Caller"] = {
+		GearName = "Fairy Caller";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://91757592448950";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 170, 255))("Summons a loose Fairy on the map!");
+	};
+	["Luminous Wand"] = {
+		GearName = "Luminous Wand";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://77498741936491";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 170, 255))("Empowers the next Fairy to use Luminous instead of Glimmering!");
+	};
+	["Fairy Net"] = {
+		GearName = "Fairy Net";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://116748151506209";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 170, 255))("Use to catch and save Fairies to get bonus Fairy Points!");
+	};
+	["Fairy Jar"] = {
+		GearName = "Fairy Jar";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://96168603825271";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 170, 255))("A fairy in a jar!");
+	};
+	["Pet Name Reroller"] = {
+		GearName = "Pet Name Reroller";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://75965661010163";
+		GearDescription = "Picks a new random name for your pet!";
+	};
+	["Pet Lead"] = {
+		GearName = "Pet Lead";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://129795023623532";
+		GearDescription = "Make a pet follow you for 10 seconds!";
+	};
+	["Chocolate Sprinkler"] = {
+		GearName = "Chocolate Sprinkler";
+		GearRarity = "Mythical";
+		Asset = "rbxassetid://115881753102059";
+		Stack = 1;
+		GearDescription = "Covers plants in chocolate! Lasts 1 minute";
+	};
+	["Nectar Staff"] = {
+		GearName = "Nectar Staff";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://109105197997415";
+		GearDescription = "";
+	};
+	["Night Staff"] = {
+		GearName = "Night Staff";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://86894493095285";
+		GearDescription = "";
+	};
+	["Tranquil Staff"] = {
+		GearName = "Tranquil Staff";
+		GearRarity = "Common";
+		Asset = "rbxassetid://118265137979088";
+		GearDescription = "";
+	};
+	["Corrupt Staff"] = {
+		GearName = "Corrupt Staff";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://133948006225272";
+		GearDescription = "";
+	};
+	["Star Caller"] = {
+		GearName = "Star Caller";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://108537992961712";
+		GearDescription = "";
+	};
+	["Honey Sprinkler"] = {
+		GearName = "Honey Sprinkler";
+		GearRarity = "Divine";
+		Asset = "rbxassetid://90156288104343";
+		Stack = 1;
+		GearDescription = "Covers plants in Honey! Lasts 1 minute";
+	};
+	["Pollen Radar"] = {
+		GearName = "Pollen Radar";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://105620836609339";
+		GearDescription = "";
+	};
+	["Firefly Jar"] = {
+		GearName = "Firefly Jar";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://123147701320566";
+		GearDescription = "A firefly in a jar!";
+	};
+	["Sky Lantern"] = {
+		GearName = "Sky Lantern";
+		GearRarity = "Uncommon";
+		Stack = 1;
+		Asset = "rbxassetid://88840697754774";
+		GearDescription = "Light up the skies with the glow of fall";
+	};
+	["Maple Leaf Kite"] = {
+		GearName = "Maple Leaf Kite";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://94694559446067";
+		GearDescription = "Look at it soar!";
+	};
+	["Leaf Blower"] = {
+		GearName = "Leaf Blower";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://116067282320680";
+		GearDescription = "Fly with the leaves";
+	};
+	["Maple Syrup"] = {
+		GearName = "Maple Syrup";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://82575496704431";
+		GearDescription = "Gives 50 XP to a pet!";
+	};
+	["Maple Leaf Charm"] = {
+		GearName = "Maple Leaf Charm";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://132566474931424";
+		GearDescription = "Summons the winds to bring forth rain.";
+	};
+	["Maple Sprinkler"] = {
+		GearName = "Maple Sprinkler";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://96077151737465";
+		GearDescription = Chalk.orange("Increases growth speed, mutation chances and fruit size of Fall plants. Lasts 5 minutes");
+	};
+	Bonfire = {
+		GearName = "Bonfire";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://71754335799002";
+		GearDescription = `Place down to give a temporary boost for cooking and {Chalk.orange("fall-related")} pets. Boost decreases as fire weakens`;
+	};
+	["Harvest Basket"] = {
+		GearName = "Harvest Basket";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://90267962738984";
+		GearDescription = "Toss a bunch of fruit around! Feeds all your pets";
+	};
+	["Golden Acorn"] = {
+		GearName = "Golden Acorn";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://122041101537564";
+		GearDescription = "Resets a pet back to Age 1 but empowers it with a random mutation! (Must be over Age 40)";
+	};
+	Rake = {
+		GearName = "Rake";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://123007566196057";
+		GearDescription = "Place down to do... what? I guess someone will find out soon!";
+	};
+	["Sheckles Gun"] = {
+		GearName = "Sheckles Gun";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://128722800183998";
+		GearDescription = "Make it rain!";
+	};
+	["Super Leaf Blower"] = {
+		GearName = "Super Leaf Blower";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://115901959792916";
+		GearDescription = "Ascend with the leaves!";
+	};
+	["Acorn Bell"] = {
+		GearName = "Acorn Bell";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://109503976464120";
+		GearDescription = `Causes a {Chalk.orange("fall-related")} pet to run around you for a few seconds, before returning to their position`;
+	};
+	["Acorn Lollipop"] = {
+		GearName = "Acorn Lollipop";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://114980305116277";
+		GearDescription = `Increases a {Chalk.orange("fall-related")} pet's age by 1`;
+	};
+	["Grow All"] = {
+		GearName = "Grow All";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://120928632087334";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 170, 255))("Grows all plants in your garden");
+	};
+	Steal = {
+		GearName = "Steal";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://71833009041293";
+		GearDescription = Chalk.color(Color3.fromRGB(255, 170, 255))("Steals a plant from another garden");
+	};
+	["Super Watering Can"] = {
+		GearName = "Super Watering Can";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://139084715000316";
+		GearDescription = "Speeds up plant growth by 25% of their total growth time.";
+	};
+	["Energy Chew"] = {
+		GearName = "Energy Chew";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://126385420732649";
+		GearDescription = "Refreshes a pet's ability cooldowns.";
+	};
+	["Halloween Radar"] = {
+		GearName = "Halloween Radar";
+		GearRarity = "Uncommon";
+		Stack = 1;
+		Asset = "rbxassetid://104492750297987";
+		GearDescription = `Scans and collects fruits with any {Chalk.yellow("Halloween-related")} mutations!`;
+	};
+	["Suspicious Soup"] = {
+		GearName = "Suspicious Soup";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://70844802663067";
+		GearDescription = `{Chalk.color(Color3.fromRGB(170, 85, 255))("The Witch")}'s signature dish! Doesn't look too appeasing though...`;
+	};
+	["Witch's Broom"] = {
+		GearName = "Witch's Broom";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://86839537275000";
+		GearDescription = `{Chalk.color(Color3.fromRGB(170, 85, 255))("The Witch")}'s signature tool for cleaning! Oh, and for flying too I guess...`;
+	};
+	["Bland Jelly"] = {
+		GearName = "Bland Jelly";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://123485266166758";
+		GearDescription = "Tastes bland it's still jelly! (Gives 40 XP to a pet!)";
+	};
+	["Jack-O-Jelly"] = {
+		GearName = "Jack-O-Jelly";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://75168995000522";
+		GearDescription = "Now this tastes spooky! (Gives 100 XP to a pet!)";
+	};
+	["Sugar Watering Can"] = {
+		GearName = "Sugar Watering Can";
+		GearRarity = "Mythical";
+		Stack = 3;
+		Asset = "rbxassetid://112086217100715";
+		GearDescription = "Speeds up plant growth by 5% of their total growth time!";
+	};
+	["Pumpkin Lollipop"] = {
+		GearName = "Pumpkin Lollipop";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://121711144046909";
+		GearDescription = `Increases a {Chalk.yellow("Halloween-related")} pet's age by 1!`;
+	};
+	["Toffee Tether"] = {
+		GearName = "Toffee Tether";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://89308998158046";
+		GearDescription = "Gives a pet the Tethered mutation. Become inseparable from your pet, and gain an unshakeable bond!";
+	};
+	["Dig Trinket"] = {
+		GearName = "Dig Trinket";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://94981549567471";
+		GearDescription = "Gives one more dig for the digging minigame!";
+	};
+	["Bat Caller Charm"] = {
+		GearName = "Bat Caller Charm";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://99813904735924";
+		GearDescription = "Call upon the creatures of the darkness!";
+	};
+	["Lich Crystal"] = {
+		GearName = "Lich Crystal";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://82840725816596";
+		GearDescription = "The power of the Lich lays dormant...";
+	};
+	["Reaper Token"] = {
+		GearName = "Reaper Token";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://99813904735924";
+		GearDescription = "Can be used in the Harvest Reaper Ritual...";
+	};
+	Frightwork = {
+		GearName = "Frightwork";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://87125092383816";
+		GearDescription = "A spooky fireworks display to celebrate Halloween";
+	};
+	["Vampire Fang"] = {
+		GearName = "Vampire Fang";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://111548832079802";
+		GearDescription = "Imbue yourself with the power of a vampire for 30 seconds!";
+	};
+	["Clown Horn"] = {
+		GearName = "Clown Horn";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = "";
+	};
+	["GZ Jeep"] = {
+		GearName = "GZ Jeep";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = "";
+	};
+	["Beetle Juice"] = {
+		GearName = "Beetle Juice";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://75168995000522";
+		GearDescription = `Now this also tastes spooky...? (Gives 100 XP to a {Chalk.yellow("Beetle-type")} pet!)`;
+	};
+	["Beetle Lollipop"] = {
+		GearName = "Beetle Lollipop";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = `Increases a {Chalk.yellow("Beetle-type")} pet's age by 1!`;
+	};
+	["Beetle Chew"] = {
+		GearName = "Energy Chew";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = `Refreshes a {Chalk.yellow("Beetle-type")} pet's ability cooldowns.`;
+	};
+	["Explorer's Compass"] = {
+		GearName = "Explorer's Compass";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://124319103956160";
+		GearDescription = "An essential tool for every explorer! Points towards the most valuable fruit.";
+	};
+	["Zebra Whistle"] = {
+		GearName = "Zebra Whistle";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://93088081981303";
+		GearDescription = "Blow the whistle and make your pets run around the farm!";
+	};
+	["Lush Sprinkler"] = {
+		GearName = "Lush Sprinkler";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://130323211119567";
+		GearDescription = "Turns nearby plants Lush! Lasts 1 minute";
+	};
+	["Mini Shipping Container"] = {
+		GearName = "Mini Shipping Container";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://80237570815904";
+		GearDescription = "Imported fruits! Feeds all your pets.";
+	};
+	["Safari Totem Charm"] = {
+		GearName = "Safari Totem Charm";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://132658181949155";
+		GearDescription = "Summon forth the elements of the Safari!";
+	};
+	["Pet Shard JUMBO"] = {
+		GearName = "Pet Shard JUMBO";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://139610191213486";
+		GearDescription = `Turns your pet {Chalk.color(Color3.fromRGB(255, 170, 0))("JUMBO")}!`;
+	};
+	["Cheetah Pendant"] = {
+		GearName = "Cheetah Pendant";
+		GearRarity = "Uncommon";
+		Stack = 1;
+		Asset = "rbxassetid://71083921185068";
+		GearDescription = "Imbue yourself with the speed of a Cheetah for 30 seconds! Collecting fruit in this form has a chance to apply Wildfast mutation!";
+	};
+	["RC Safari Jeep"] = {
+		GearName = "RC Safari Jeep";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://139165935380197";
+		GearDescription = "Control a Jeep to cruise around and discover the Safari!";
+	};
+	["Safari Obelisk Charm"] = {
+		GearName = "Safari Obelisk Charm";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://139367752531208";
+		GearDescription = "Summon forth the greater elements of the Safari!";
+	};
+	["Ancestral Horn"] = {
+		GearName = "Ancestral Horn";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://72543614173306";
+		GearDescription = "Call upon a Spirit of the Savanna to aid you!";
+	};
+	["Pet Shard Oxpecker"] = {
+		GearName = "Pet Shard Oxpecker";
+		GearRarity = "Uncommon";
+		Stack = 1;
+		Asset = "rbxassetid://80689489058319";
+		GearDescription = `Empowers your pet with spirit of the {Chalk.color(Color3.fromRGB(255, 170, 0))("Oxpecker")}!`;
+	};
+	["Pet Shard Giraffe"] = {
+		GearName = "Pet Shard Giraffe";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://104242485230706";
+		GearDescription = `Empowers your pet with spirit of the {Chalk.color(Color3.fromRGB(255, 215, 0))("Giraffe")}!`;
+	};
+	["Pet Shard Rhino"] = {
+		GearName = "Pet Shard Rhino";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://102302299138621";
+		GearDescription = `Empowers your pet with spirit of the {Chalk.color(Color3.fromRGB(211, 211, 211))("Rhino")}!`;
+	};
+	["Pet Shard Crocodile"] = {
+		GearName = "Pet Shard Crocodile";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://108464593778065";
+		GearDescription = `Empowers your pet with spirit of the {Chalk.color(Color3.fromRGB(85, 170, 0))("Crocodile")}!`;
+	};
+	["Pet Shard Lion"] = {
+		GearName = "Pet Shard Lion";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://135452981314452";
+		GearDescription = `Empowers your pet with spirit of the {Chalk.color(Color3.fromRGB(255, 255, 102))("Lion")}!`;
+	};
+	["Geode Sprinkler"] = {
+		GearName = "Geode Sprinkler";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://130323211119567";
+		GearDescription = "Turns nearby plants Crystalized! Lasts 1 minute";
+	};
+	Coal = {
+		GearName = "Coal";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = "A dirty chunk of coal...";
+	};
+	["Common Coal"] = {
+		GearName = "Coal";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://106546991747854";
+		GearDescription = "A dirty chunk of coal...";
+	};
+	["Rare Coal"] = {
+		GearName = "Coal";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://123920426417689";
+		GearDescription = "A dirty chunk of coal... but rarer...";
+	};
+	["Legendary Coal"] = {
+		GearName = "Coal";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://125761737043211";
+		GearDescription = "A legendary chunk of coal... yet it's true form is still hidden";
+	};
+	["Divine Coal"] = {
+		GearName = "Coal";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://79869754247506";
+		GearDescription = "A chunk of coal... closest to it's true form";
+	};
+	["Garden Ore"] = {
+		GearName = "Garden Ore";
+		GearRarity = "Uncommon";
+		Stack = 1;
+		Asset = "rbxassetid://95742868294687";
+		GearDescription = "Has a low chance to apply the Tempered mutation to your plants";
+	};
+	["Garden Ingot"] = {
+		GearName = "Garden Ingot";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://91743782601490";
+		GearDescription = "Has a greater chance to apply the Tempered mutation to your plants";
+	};
+	["Charcoal Sprinkler"] = {
+		GearName = "Charcoal Sprinkler";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = "Can apply the Charcoal mutation!";
+	};
+	["Smith Hammer of Harvest"] = {
+		GearName = "Smith Hammer of Harvest";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://136717099575038";
+		GearDescription = "A replica of the legendary hammer. Harvests all fruit within a radius!";
+	};
+	["Pet Shard Forger"] = {
+		GearName = "Pet Shard Forger";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://87632992575385";
+		GearDescription = `Blesses your pet with the wit of a {Chalk.color(Color3.fromRGB(150, 150, 150))("Smith")}!`;
+	};
+	Thundelbringer = {
+		GearName = "Thundelbringer";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://89957534400543";
+		GearDescription = "Are you worthy? Summons a lightning bolt upon your farm!";
+	};
+	["Chimera Stone"] = {
+		GearName = "Chimera Stone";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://109989985251809";
+		GearDescription = "The stone overflows with fusion energy...";
+	};
+	["Booth Sign"] = {
+		GearName = "Booth Sign";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://74141674179367";
+		GearDescription = "Papers! Papers! Get ya papers here!";
+	};
+	["Christmas Sprinkler"] = {
+		GearName = "Christmas Sprinkler";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://125548483858434";
+		GearDescription = `Increases growth speed, variant chances and fruit size of {Chalk.red("Chris")}{Chalk.green("tmas-")}{Chalk.red("type")} plants. Lasts 10 minutes`;
+	};
+	["Christmas Firework"] = {
+		GearName = "Christmas Firework";
+		GearRarity = "Common";
+		Stack = 5;
+		Asset = "rbxassetid://81272638925741";
+		GearDescription = "Tiss the season to be jolly! Celebrate loud and proud!";
+	};
+	["Gift Basket"] = {
+		GearName = "Gift Basket";
+		GearRarity = "Rare";
+		Stack = 1;
+		Asset = "rbxassetid://115650740843869";
+		GearDescription = "It's giving season! Feeds all your pets.";
+	};
+	["Yule Log"] = {
+		GearName = "Yule Log";
+		GearRarity = "Legendary";
+		Stack = 1;
+		Asset = "rbxassetid://134400876711365";
+		GearDescription = `Place down to give a temporary boost for cooking and {Chalk.red("Chris")}{Chalk.green("tmas-")}{Chalk.red("type")} pets. Boost decreases over time.`;
+	};
+	["Santa's Stocking"] = {
+		GearName = "Santa's Stocking";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://85399978567166";
+		GearDescription = "A winter magic resides within... (Removes half of the mutations on a fruit and re-rolls the rest. Rarer mutations have lower chances)";
+	};
+	["Pet Shard HyperHunger"] = {
+		GearName = "Pet Shard HyperHunger";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://100789711005323";
+		GearDescription = "Make your pet have Hyper Hunger!";
+	};
+	Sleigh = {
+		GearName = "Sleigh";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://101567543538485";
+		GearDescription = "Eight guide the sleigh... yet it longs for one more.";
+	};
+	Snowball = {
+		GearName = "Snowball";
+		GearRarity = "Common";
+		Stack = 10;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = "A festive snowball full of holiday cheer!";
+	};
+	GingerBreadManGear = {
+		GearName = "GingerBreadManGear";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = "Use on a pet and it will give it a random mutation out of 3 types!";
+	};
+	["Pet Shard Nocturnal"] = {
+		GearName = "Pet Shard Nocturnal";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://88061877208815";
+		GearDescription = "Make your pet become Nocturnal!";
+	};
+	Areaclaimer = {
+		GearName = "Areaclaimer";
+		GearRarity = "Divine";
+		Stack = 3;
+		Asset = "rbxassetid://137945552388160";
+		GearDescription = "Reclaim!";
+	};
+	["Player Gift"] = {
+		GearName = "Player Gift";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = "Feel the Christmas Spirit! Give another player a surprise gift and be rewarded for your generosity!";
+	};
+	["Jingle Bells"] = {
+		GearName = "Jingle Bells";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://118105501495538";
+		GearDescription = `During Festive Night, fruits around Jingle Bells' have a higher chance to become more {Chalk.color(Color3.fromRGB(34, 102, 50))("Ornamented")}!`;
+	};
+	["Ice Wand"] = {
+		GearName = "Ice Wand";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://96051982787719";
+		GearDescription = `During Snowfall, fruits around Ice Wands have a higher chance to become more {Chalk.color(Color3.fromRGB(157, 217, 255))("Snowy")}!`;
+	};
+	["Admin Board Booster"] = {
+		GearName = "Admin Board Booster";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://101556022325255";
+		GearDescription = "Use Sheckles to give a luck boost to the Admin Board! (Resets every event)";
+	};
+	["Mystical Snow Globe"] = {
+		GearName = "Mystical Snow Globe";
+		GearRarity = "Prismatic";
+		Stack = 1;
+		Asset = "rbxassetid://101698221930841";
+		GearDescription = `Place down and use to get a random beneficial effect for {Chalk.red("Chris")}{Chalk.green("tmas-")}{Chalk.red("type")} plants/pets! (Subsequent uses increase break chance and require Sheckles. Resets Daily)`;
+	};
+	["Ice Skates"] = {
+		GearName = "Ice Skates";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = "";
+	};
+	["Christmas Radar"] = {
+		GearName = "Christmas Radar";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://134345033690550";
+		GearDescription = `Scans and collects fruits with any {Chalk.red("Chris")}{Chalk.green("tmas-")}{Chalk.red("type")} mutations!`;
+	};
+	["Snow Shovel"] = {
+		GearName = "Snow Shovel";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://90301193547227";
+		GearDescription = "Snow! Snow everywhere!";
+	};
+	["Christmas Treat"] = {
+		GearName = "Christmas Treat";
+		GearRarity = "Divine";
+		Stack = 3;
+		Asset = "rbxassetid://119344599995095";
+		GearDescription = `Give a {Chalk.red("Chris")}{Chalk.green("tmas-")}{Chalk.red("type")} pet a large boost to their xp over time (NOTE: Lactose-free Milk and does not contain Chocolate!)`;
+	};
+	["Christmas Stocking"] = {
+		GearName = "Christmas Stocking";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://71565638182517";
+		GearDescription = "Place on your front fence and wait for it to be filled with rewards!";
+	};
+	["Tree Grower Kit"] = {
+		GearName = "Tree Grower Kit";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = "Tend to your Christmas Tree and help it grow!";
+	};
+	Chamberstick = {
+		GearName = "Chamberstick";
+		GearRarity = "Divine";
+		Stack = 1;
+		Asset = "rbxassetid://125823198765607";
+		GearDescription = `Like a candlelight in a harsh winter night... may your {Chalk.red("Christmas Spirit")} never fade!`;
+	};
+	["Wonder Water"] = {
+		GearName = "Wonder Water";
+		GearRarity = "Common";
+		Stack = 1;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = "Tend to your Christmas Tree and help it grow!";
+	};
+	["Beetle Medal"] = {
+		GearName = "Beetle Medal";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://6937742258";
+		GearDescription = "A reward for only those who are worthy! (Gives 50 XP per trophy on the farm to a pet!)";
+	};
+	["Dragon's Firework"] = {
+		GearName = "Dragon's Firework";
+		GearRarity = "Mythical";
+		Stack = 1;
+		Asset = "rbxassetid://87833143802166";
+		GearDescription = "The power of a dragon in the palm of your hands! (Targets a random pet/plant and provides a beneficial effect!)";
+	};
+	["New Year's Firework"] = {
+		GearName = "New Year's Firework";
+		GearRarity = "Common";
+		Stack = 5;
+		Asset = "rbxassetid://138401486124989";
+		GearDescription = "Celebrate the New Year! 5x uses";
+	};
+}

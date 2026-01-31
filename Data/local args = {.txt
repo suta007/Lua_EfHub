@@ -1,0 +1,55 @@
+local args = {
+	3248695947
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("TradeEvents"):WaitForChild("TradeTokens"):WaitForChild("CanPurchase"):InvokeServer(unpack(args))
+
+local args = {
+
+"Shop",
+
+"Carrot"
+
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuySeedStock"):FireServer(unpack(args))
+
+
+game:GetService("Players").LocalPlayer.PlayerGui.PetShop_UI.Frame.ScrollingFrame["Common Egg"]
+
+game:GetService("ReplicatedStorage").GameEvents.BuyDailySeedShopStock
+
+game:GetService("ReplicatedStorage").GameEvents.BuyTravelingMerchantShopStock
+game:GetService("ReplicatedStorage").GameEvents.BuyEasterStock
+game:GetService("ReplicatedStorage").GameEvents.BuyEventShopStock
+game:GetService("ReplicatedStorage").GameEvents.BuyPetEgg
+game:GetService("ReplicatedStorage").GameEvents.BuyGearStock
+game:GetService("ReplicatedStorage").GameEvents.BuyNightEventShopStock
+game:GetService("ReplicatedStorage").GameEvents.BuySeedStock
+game:GetService("ReplicatedStorage").GameEvents.BuyPetEgg
+
+local args = {
+"Common Egg"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyPetEgg"):FireServer(unpack(args))
+
+TravelingMerchantShopStock
+
+
+ROOT/TravelingMerchantShopStock/Stocks
+ROOT/SeedStocks/Shop/Stocks
+ROOT/GearStock/Stocks
+ROOT/SeasonPass/Season 3/Stocks
+ROOT/EventShopStock/New Years Shop/Stocks
+ROOT/EventShopStock/Santa's Stash/Stocks
+ROOT/GardenCoinShopStock/Stocks
+ROOT/PetEggStock/Stocks
+
+
+
+
+
+
+ROOT/SeedStocks/Shop/Seed
+ROOT/GearStock/Gear
+
+

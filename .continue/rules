@@ -1,0 +1,9 @@
+# Project Architecture
+
+This is a LUA/LUAU Script For Roblox With Delta Excutor
+- Code พื้นฐานที่จะเอามาใช้ในการสร้าง Script สำหรับเกม Grow a Garden ใน Roblox อยู่ใน '/core
+- ข้อมูลต่างๆของเกมที่จะนำม่ใช้ใน script อยู่ใน '/Data'
+- ข้อมูล Fluent UI อยู่ใน '/FluentData'
+- ข้อมูลโปรเจค อยู่ใน '/PROJECT_CONTEXT.md'
+- โปรเจค Custom Log GUI อยู่ใน '/GuiLogProject'
+- โปรเจ็ค Script ช่วยซื้อของในเกมอัตโนมัติ อยู่ใน '/AutoBuyProject'
