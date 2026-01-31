@@ -34,7 +34,7 @@ local Window = Fluent:CreateWindow({
     Title = "EfHub Auto Buy 0.1", -- .. Fluent.Version,
     SubTitle = "by EfHub",
     TabWidth = 0,
-    Size = UDim2.fromOffset(580, 460),
+    Size = UDim2.fromOffset(580, 380),
     Resize = true, -- Resize this ^ Size according to a 1920x1080 screen, good for mobile users but may look weird on some devices
     --MinSize = Vector2.new(470, 380),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
@@ -78,7 +78,7 @@ end)
 ------------------------------------------------------
 -- ประกาศตัวแปรระบบ (จองที่ไว้ก่อน)
 ------------------------------------------------------
-local MaxLines = 20          -- จำนวนบรรทัดที่จะโชว์
+local MaxLines = 40          -- จำนวนบรรทัดที่จะโชว์
 local DisplayTable = {}      -- ตารางเก็บข้อความโชว์
 local FullHistoryTable = {}  -- ตารางเก็บประวัติทั้งหมด
 local IsPaused = false
