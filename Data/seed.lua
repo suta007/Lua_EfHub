@@ -484,3 +484,7 @@ for seedName, seedInfo in pairs(SeedList) do
     SeedData[seedName] = seedInfo
 end
 print("Seed data loaded with " .. tostring(#SeedList) .. " entries.")
+
+
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/AutoBuyProject/AutoBuy.lua"))()
