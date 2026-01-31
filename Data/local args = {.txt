@@ -53,3 +53,14 @@ ROOT/SeedStocks/Shop/Seed
 ROOT/GearStock/Gear
 
 
+local args = {
+	"Christmas Firework",
+	"Santa's Stash"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyEventShopStock"):FireServer(unpack(args))
+
+local args = {
+	"New Year's Firework",
+	"New Years Shop"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyEventShopStock"):FireServer(unpack(args))

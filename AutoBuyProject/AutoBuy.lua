@@ -213,7 +213,21 @@ local BuyList ={
         Items={"Common Egg","Uncommon Egg","Rare Egg","Legendary Egg","Mythical Egg","Bug Egg","Jungle Egg","Gem Egg"},
         RemoteName="BuyPetEgg",
         ArgType="NormalMode"
-    }
+    },
+    ["ROOT/EventShopStock/Santa's Stash/Stocks"]={
+        Enabled=true,
+        BuyAll=false,
+        Items={"Pet Shard HyperHunger","Hot Chocolate Mug","Christmas Firework"},
+        RemoteName="BuyEventShopStock",
+        ArgType="SantaMode"
+    },
+    ["ROOT/EventShopStock/New Years Shop/Stocks"]={
+        Enabled=true,
+        BuyAll=false,
+        Items={"Dragon's Firework","New Year's Egg"},
+        RemoteName="BuyEventShopStock",
+        ArgType="NewYearMode"
+    },
 }
 
 
@@ -253,6 +267,10 @@ local function BuyItems(ShopKey, StockData)
                     Args = {"Shop", ItemName}
                 elseif Setting.ArgType == "NormalMode" then
                     Args = {ItemName}
+                elseif Setting.ArgType == "SantaMode" then
+                    Args = {ItemName,"Santa's Stash"}
+                elseif Setting.ArgType == "NewYearMode" then
+                    Args = {ItemName,"New Years Shop"}
                 end
                 
                 -- [Optimization] ยิง Remote ตรงๆ ไม่ต้อง WaitForChild แล้ว
