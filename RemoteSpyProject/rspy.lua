@@ -4,7 +4,7 @@
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
 local Window = Fluent:CreateWindow({
-    Title = "Remote Spy Project v0.1", -- .. Fluent.Version,
+    Title = "Remote Spy Project v0.1.1", -- .. Fluent.Version,
     SubTitle = "by EfHub",
     TabWidth = 0,
     Size = UDim2.fromOffset(580, 380),
@@ -151,67 +151,64 @@ end
 InfoLog("Script initialized successfully.")
 task.wait(0.5)
 
+--------------------------------------------------------------------------------
+-- Remote Spy Logic (วางไว้ล่างสุดของ Script ต่อจาก AddLog)
+--------------------------------------------------------------------------------
 
---[[ 
-    ส่วนนี้คัดลอกไปวางต่อจากบรรทัดที่มี function AddLog(message) ... end 
-    และต่อจาก GUI Code ของพี่เอฟ
-]]
+local LOG_REMOTE_EVENT = true    -- ต้องการดัก FireServer ไหม?
+local LOG_REMOTE_FUNCTION = true -- ต้องการดัก InvokeServer ไหม?
 
-local mt = getrawmetatable(game)
-local oldNamecall = mt.__namecall
-
--- ปลดล็อกให้แก้ไข metatable ได้
-setreadonly(mt, false)
-
--- ฟังก์ชันช่วยแปลง Table เป็น String เพื่อให้อ่านง่ายขึ้น (กัน Error เวลาเจอข้อมูลแปลกๆ)
-local function TableToString(tbl)
-    local result = "{"
-    for k, v in pairs(tbl) do
-        if type(v) == "table" then
-            result = result .. tostring(k) .. ": " .. "table, "
-        else
-            result = result .. tostring(k) .. ": " .. tostring(v) .. ", "
+-- ฟังก์ชันแปลง Table เป็นข้อความ (Serializer) เพื่อให้อ่านง่าย
+local function FormatArgs(args)
+    local output = {}
+    for i, v in pairs(args) do
+        local valueType = type(v)
+        local valueStr = tostring(v)
+        
+        if valueType == "table" then
+            valueStr = "Table" -- (ถ้าต้องการดูไส้ใน Table อาจต้องเขียนฟังก์ชัน Recursive เพิ่ม)
+        elseif valueType == "string" then
+            valueStr = '"' .. v .. '"'
+        elseif valueType == "Instance" then
+            valueStr = v.Name
         end
+        table.insert(output, valueStr)
     end
-    return result .. "}"
+    return table.concat(output, ", ")
 end
 
--- ทำการ Hook __namecall เพื่อดักจับ Event
-mt.__namecall = newcclosure(function(self, ...)
-    local method = getnamecallmethod()
-    local args = {...}
+-- ตรวจสอบว่า Executor รองรับ hookmetamethod หรือไม่
+if not hookmetamethod then
+    AddLog("Error: Your executor does not support hookmetamethod!")
+    return
+end
 
-    -- ตรวจสอบว่าเป็น RemoteEvent (FireServer) หรือ RemoteFunction (InvokeServer) หรือไม่
-    if method == "FireServer" or method == "InvokeServer" then
-        
-        -- สร้างข้อความที่จะโชว์ใน Log
-        local remoteName = self.Name
-        local argsString = ""
+local OldNameCall = nil
 
-        -- วนลูปแกะข้อมูลใน Arguments ที่ส่งไป
-        for i, v in ipairs(args) do
-            if type(v) == "table" then
-                argsString = argsString .. TableToString(v) .. ", "
-            else
-                argsString = argsString .. tostring(v) .. ", "
-            end
-        end
+-- เริ่มการ Hook
+OldNameCall = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
+    local Method = getnamecallmethod()
+    local Args = {...}
 
-        -- ส่งข้อความเข้าสู่ระบบ Log ของพี่เอฟ
-        local logMessage = "[Remote]: " .. remoteName .. " | [Args]: " .. argsString
-        
-        -- เรียกใช้ฟังก์ชัน AddLog ที่พี่เอฟมีอยู่แล้ว
+    -- ตรวจสอบว่าเป็น RemoteEvent หรือ RemoteFunction
+    if (self.ClassName == "RemoteEvent" and Method == "FireServer" and LOG_REMOTE_EVENT) or 
+       (self.ClassName == "RemoteFunction" and Method == "InvokeServer" and LOG_REMOTE_FUNCTION) then
+
+        -- ห่อหุ้มด้วย pcall เพื่อกัน Script พังถ้ามี Error ในการแปลงข้อความ
         pcall(function()
-            AddLog(logMessage) 
+            local remoteName = self.Name
+            local argsData = FormatArgs(Args)
+            local logMsg = string.format("[Remote] %s | Args: %s", remoteName, argsData)
+            
+            -- ส่งเข้า GUI
+            AddLog(logMsg)
+            
+            -- (Option) ปริ้นลง Console (F9) เผื่อ GUI ไม่ขึ้น
+            print("Spy Caught: " .. logMsg)
         end)
     end
 
-    -- ปล่อยให้เกมทำงานต่อไปตามปกติ (ถ้าไม่ใส่บรรทัดนี้ เกมจะพังหรือคำสั่งไม่ทำงาน)
-    return oldNamecall(self, ...)
-end)
+    return OldNameCall(self, ...)
+end))
 
--- ล็อก metatable กลับคืน
-setreadonly(mt, true)
-
--- แจ้งเตือนว่าเริ่มทำงานแล้ว
-AddLog("Remote Spy Started! Waiting for signals...")
+AddLog("Remote Spy Hooks Initialized Successfully.")
