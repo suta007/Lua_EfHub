@@ -34,7 +34,7 @@ local Window = Fluent:CreateWindow({
     Title = "EfHub Auto Buy 0.1", -- .. Fluent.Version,
     SubTitle = "by EfHub",
     TabWidth = 0,
-    Size = UDim2.fromOffset(580, 380),
+    Size = UDim2.fromOffset(580, 340),
     Resize = true, -- Resize this ^ Size according to a 1920x1080 screen, good for mobile users but may look weird on some devices
     --MinSize = Vector2.new(470, 380),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
@@ -149,12 +149,12 @@ local function AddLog(message)
     local entry = string.format("[%s] %s", timestamp, message)
     
     -- เก็บลงประวัติทั้งหมด
-    table.insert(FullHistoryTable, 1, entry)
+    table.insert(FullHistoryTable, entry)
     
     -- เก็บลงตารางแสดงผล (จำกัดบรรทัด)
-    table.insert(DisplayTable, 1, entry)
+    table.insert(DisplayTable, entry)
     if #DisplayTable > MaxLines then
-        table.remove(DisplayTable, #DisplayTable)
+        table.remove(DisplayTable, 1)
     end
     
     -- อัปเดตหน้าจอ
