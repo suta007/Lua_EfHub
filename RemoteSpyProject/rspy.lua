@@ -35,7 +35,7 @@ ToggleButton.Parent = ToggleGui
 ToggleButton.BackgroundColor3 = Color3.fromRGB(71, 1, 1)
 ToggleButton.Position = UDim2.new(0, 10, 0.5, 0)
 ToggleButton.Size = UDim2.new(0, 50, 0, 50)
-ToggleButton.Text = "EF"
+ToggleButton.Text = "rSpy"
 ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 ToggleButton.Draggable = true
 
@@ -152,63 +152,72 @@ InfoLog("Script initialized successfully.")
 task.wait(0.5)
 
 --------------------------------------------------------------------------------
--- Remote Spy Logic (วางไว้ล่างสุดของ Script ต่อจาก AddLog)
+-- Remote Spy (Method 2: Direct Function Hook)
+-- วางไว้ล่างสุดของไฟล์ ต่อจาก AddLog
 --------------------------------------------------------------------------------
 
-local LOG_REMOTE_EVENT = true    -- ต้องการดัก FireServer ไหม?
-local LOG_REMOTE_FUNCTION = true -- ต้องการดัก InvokeServer ไหม?
+AddLog("Starting Remote Spy (Method 2)...")
 
--- ฟังก์ชันแปลง Table เป็นข้อความ (Serializer) เพื่อให้อ่านง่าย
-local function FormatArgs(args)
-    local output = {}
-    for i, v in pairs(args) do
-        local valueType = type(v)
-        local valueStr = tostring(v)
+-- ฟังก์ชันแปลง Table เป็นข้อความ (แบบย่อ)
+local function SimpleFormat(val)
+    if type(val) == "string" then return '"' .. val .. '"' end
+    if type(val) == "table" then return "{...}" end -- ย่อ Table เพื่อกัน Code ยาวเกิน
+    if type(val) == "userdata" or type(val) == "Instance" then return tostring(val) end
+    return tostring(val)
+end
+
+-- สร้าง Remote ปลอมขึ้นมาเพื่อดึงฟังก์ชันต้นฉบับ
+local DummyEvent = Instance.new("RemoteEvent")
+local DummyFunc = Instance.new("RemoteFunction")
+
+local OldFireServer = nil
+local OldInvokeServer = nil
+
+-- ตรวจสอบว่า Executor รองรับ hookfunction ไหม
+if hookfunction then
+    
+    -- 1. Hook FireServer (แบบส่งข้อมูล)
+    OldFireServer = hookfunction(DummyEvent.FireServer, newcclosure(function(self, ...)
+        local args = {...}
         
-        if valueType == "table" then
-            valueStr = "Table" -- (ถ้าต้องการดูไส้ใน Table อาจต้องเขียนฟังก์ชัน Recursive เพิ่ม)
-        elseif valueType == "string" then
-            valueStr = '"' .. v .. '"'
-        elseif valueType == "Instance" then
-            valueStr = v.Name
-        end
-        table.insert(output, valueStr)
-    end
-    return table.concat(output, ", ")
-end
-
--- ตรวจสอบว่า Executor รองรับ hookmetamethod หรือไม่
-if not hookmetamethod then
-    AddLog("Error: Your executor does not support hookmetamethod!")
-    return
-end
-
-local OldNameCall = nil
-
--- เริ่มการ Hook
-OldNameCall = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
-    local Method = getnamecallmethod()
-    local Args = {...}
-
-    -- ตรวจสอบว่าเป็น RemoteEvent หรือ RemoteFunction
-    if (self.ClassName == "RemoteEvent" and Method == "FireServer" and LOG_REMOTE_EVENT) or 
-       (self.ClassName == "RemoteFunction" and Method == "InvokeServer" and LOG_REMOTE_FUNCTION) then
-
-        -- ห่อหุ้มด้วย pcall เพื่อกัน Script พังถ้ามี Error ในการแปลงข้อความ
         pcall(function()
             local remoteName = self.Name
-            local argsData = FormatArgs(Args)
-            local logMsg = string.format("[Remote] %s | Args: %s", remoteName, argsData)
+            local argsStr = ""
             
-            -- ส่งเข้า GUI
-            AddLog(logMsg)
+            for i, v in ipairs(args) do
+                argsStr = argsStr .. SimpleFormat(v) .. ", "
+            end
             
-            -- (Option) ปริ้นลง Console (F9) เผื่อ GUI ไม่ขึ้น
-            print("Spy Caught: " .. logMsg)
+            -- ลบลูกน้ำตัวสุดท้ายออก
+            if #argsStr > 0 then argsStr = argsStr:sub(1, -3) end
+
+            -- แสดงผลใน GUI
+            AddLog("[Event] " .. remoteName .. " (" .. argsStr .. ")")
+            
+            -- แสดงผลใน Console (F9) เผื่อ GUI ไม่ขึ้น
+            print("[Spy] " .. remoteName, ...)
         end)
-    end
+        
+        return OldFireServer(self, ...)
+    end))
 
-    return OldNameCall(self, ...)
-end))
-
-AddLog("Remote Spy Hooks Initialized Successfully.")
+    -- 2. Hook InvokeServer (แบบรับส่งข้อมูล)
+    OldInvokeServer = hookfunction(DummyFunc.InvokeServer, newcclosure(function(self, ...)
+        local args = {...}
+        
+        pcall(function()
+            local remoteName = self.Name
+            local argsStr = ""
+            for i, v in ipairs(args) do
+                argsStr = argsStr .. SimpleFormat(v) .. ", "
+            end
+            AddLog("[Func] " .. remoteName .. " (" .. argsStr .. ")")
+        end)
+        
+        return OldInvokeServer(self, ...)
+    end))
+    
+    AddLog("Spy Hooked Successfully! Try doing something in game.")
+else
+    AddLog("Error: 'hookfunction' is not supported on this executor.")
+end
