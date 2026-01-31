@@ -4,7 +4,7 @@
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
 local Window = Fluent:CreateWindow({
-    Title = "Remote Spy Project v0.1.1", -- .. Fluent.Version,
+    Title = "Remote Spy Project v0.1.3", -- .. Fluent.Version,
     SubTitle = "by EfHub",
     TabWidth = 0,
     Size = UDim2.fromOffset(580, 380),
@@ -152,72 +152,89 @@ InfoLog("Script initialized successfully.")
 task.wait(0.5)
 
 --------------------------------------------------------------------------------
--- Remote Spy (Method 2: Direct Function Hook)
--- วางไว้ล่างสุดของไฟล์ ต่อจาก AddLog
+-- Remote Spy (Version: Mobile Optimized)
+-- สคริปต์สำหรับดักจับข้อมูลที่เกมส่งไป Server (เหมาะสำหรับมือถือ)
 --------------------------------------------------------------------------------
 
-AddLog("Starting Remote Spy (Method 2)...")
+-- 1. แจ้งเตือนว่าเริ่มทำงานแล้ว
+AddLog("Initializing Mobile Spy...") 
 
--- ฟังก์ชันแปลง Table เป็นข้อความ (แบบย่อ)
-local function SimpleFormat(val)
-    if type(val) == "string" then return '"' .. val .. '"' end
-    if type(val) == "table" then return "{...}" end -- ย่อ Table เพื่อกัน Code ยาวเกิน
-    if type(val) == "userdata" or type(val) == "Instance" then return tostring(val) end
-    return tostring(val)
+-- 2. ตรวจสอบความพร้อมของ Executor (ตัวรันโปรแกรม)
+-- คำสั่ง getrawmetatable เป็นคำสั่งระดับสูง ถ้าไม่มี แสดงว่า Executor รุ่นนี้ไม่รองรับ
+if not getrawmetatable then
+    AddLog("Error: getrawmetatable not found! (Executor ไม่รองรับ)")
+    return -- จบการทำงานทันทีถ้าไม่รองรับ
 end
 
--- สร้าง Remote ปลอมขึ้นมาเพื่อดึงฟังก์ชันต้นฉบับ
-local DummyEvent = Instance.new("RemoteEvent")
-local DummyFunc = Instance.new("RemoteFunction")
+-- 3. ดึงตาราง Metatable ของตัวเกม (game) มาเก็บไว้
+-- Metatable เปรียบเสมือน "คู่มือการทำงานเบื้องหลัง" ของ object นั้นๆ
+local mt = getrawmetatable(game)
 
-local OldFireServer = nil
-local OldInvokeServer = nil
+-- 4. สำรองฟังก์ชัน __namecall ตัวเดิมเก็บไว้
+-- __namecall คือฟังก์ชันที่จะถูกเรียกทำงานเมื่อ object ในเกมมีการเรียก method (เช่น game:GetService(...))
+-- เราต้องเก็บตัวเก่าไว้ เพื่อให้หลังจากเราแอบดูข้อมูลเสร็จ เราจะได้ส่งให้มันทำงานต่อได้ตามปกติ
+local oldNamecall = mt.__namecall
 
--- ตรวจสอบว่า Executor รองรับ hookfunction ไหม
-if hookfunction then
+-- 5. ปลดล็อก Metatable ให้แก้ไขได้
+-- ปกติ Metatable ของเกมจะถูกล็อกเป็น Read-only (อ่านได้อย่างเดียว) เราต้องปลดล็อกก่อนเพื่อแทรกโค้ดเราลงไป
+setreadonly(mt, false)
+
+-- 6. ฟังก์ชันช่วยแปลงข้อมูล (Arguments) ให้เป็นตัวหนังสือ (String)
+-- ใช้สำหรับแปลงข้อมูลที่ดักจับได้ เพื่อเอาไปโชว์ใน Log
+local function SafeArgsString(args)
+    -- ใช้ pcall (Protected Call) เพื่อป้องกัน Error 
+    -- ถ้าข้อมูลตัวไหนแปลงเป็นตัวหนังสือไม่ได้ โปรแกรมจะได้ไม่หยุดทำงาน
+    local success, result = pcall(function()
+        local str = ""
+        -- วนลูปดูข้อมูลทุกตัวที่ส่งมา
+        for i, v in pairs(args) do
+            str = str .. tostring(v) .. ", " -- แปลงเป็น string แล้วต่อด้วยลูกน้ำ
+        end
+        return str
+    end)
     
-    -- 1. Hook FireServer (แบบส่งข้อมูล)
-    OldFireServer = hookfunction(DummyEvent.FireServer, newcclosure(function(self, ...)
-        local args = {...}
-        
-        pcall(function()
-            local remoteName = self.Name
-            local argsStr = ""
-            
-            for i, v in ipairs(args) do
-                argsStr = argsStr .. SimpleFormat(v) .. ", "
-            end
-            
-            -- ลบลูกน้ำตัวสุดท้ายออก
-            if #argsStr > 0 then argsStr = argsStr:sub(1, -3) end
-
-            -- แสดงผลใน GUI
-            AddLog("[Event] " .. remoteName .. " (" .. argsStr .. ")")
-            
-            -- แสดงผลใน Console (F9) เผื่อ GUI ไม่ขึ้น
-            print("[Spy] " .. remoteName, ...)
-        end)
-        
-        return OldFireServer(self, ...)
-    end))
-
-    -- 2. Hook InvokeServer (แบบรับส่งข้อมูล)
-    OldInvokeServer = hookfunction(DummyFunc.InvokeServer, newcclosure(function(self, ...)
-        local args = {...}
-        
-        pcall(function()
-            local remoteName = self.Name
-            local argsStr = ""
-            for i, v in ipairs(args) do
-                argsStr = argsStr .. SimpleFormat(v) .. ", "
-            end
-            AddLog("[Func] " .. remoteName .. " (" .. argsStr .. ")")
-        end)
-        
-        return OldInvokeServer(self, ...)
-    end))
-    
-    AddLog("Spy Hooked Successfully! Try doing something in game.")
-else
-    AddLog("Error: 'hookfunction' is not supported on this executor.")
+    -- ถ้าแปลงสำเร็จให้ส่งค่ากลับ ถ้าไม่สำเร็จให้บอกว่า Error
+    if success then return result else return "Error parsing args" end
 end
+
+-- 7. *** หัวใจสำคัญ *** การเขียนทับ (Hook) ฟังก์ชัน __namecall
+-- เราสร้างฟังก์ชันใหม่ขึ้นมาแทนที่ตัวเดิม (newcclosure ช่วยให้ตรวจจับยากขึ้น)
+mt.__namecall = newcclosure(function(self, ...)
+    
+    -- ดึงชื่อ Method ที่กำลังถูกเรียกใช้ (เช่น "FireServer", "Kick", "WalkTo")
+    local method = getnamecallmethod()
+    
+    -- แปลง method เป็นตัวหนังสือ แล้วเช็คว่าใช่คำสั่งส่งข้อมูลไป Server ไหม?
+    -- "FireServer" = ส่งข้อมูลไป (RemoteEvent)
+    -- "InvokeServer" = ส่งข้อมูลไปและรอตอบกลับ (RemoteFunction)
+    if tostring(method) == "FireServer" or tostring(method) == "InvokeServer" then
+        
+        -- เก็บข้อมูล (Arguments) ที่ส่งมาทั้งหมดใส่ตัวแปร args
+        local args = {...}
+        -- เก็บชื่อของ Remote ที่ถูกเรียกใช้
+        local remoteName = tostring(self.Name)
+        -- แปลงข้อมูล args เป็นข้อความเพื่อเตรียมแสดงผล
+        local argsData = SafeArgsString(args)
+        
+        -- 8. แยกการทำงาน (Spawn Thread) *** สำคัญมากสำหรับมือถือ ***
+        -- เราใช้ task.spawn เพื่อแยกการแสดงผล Log ออกจาก Thread หลักของเกม
+        -- ข้อดี: ทำให้เกมไม่สะดุด และลดโอกาสที่ GUI จะค้างหรือชนกับระบบเกม
+        task.spawn(function()
+            pcall(function()
+                -- ส่งข้อความเข้าสู่ระบบ Log GUI ของพี่เอฟ
+                AddLog("[Spy] " .. remoteName .. " : " .. argsData)
+            end)
+        end)
+    end
+
+    -- 9. ส่งคืนการทำงานให้ฟังก์ชันเดิม (oldNamecall)
+    -- สำคัญที่สุด! ถ้าไม่มีบรรทัดนี้ เกมจะหยุดทำงาน (เพราะคำสั่งไปไม่ถึง Server)
+    return oldNamecall(self, ...)
+end)
+
+-- 10. ล็อก Metatable กลับให้เป็นเหมือนเดิม
+-- เพื่อความปลอดภัยและทำให้เกมจับผิดได้ยากขึ้น
+setreadonly(mt, true)
+
+-- แจ้งเตือนเมื่อติดตั้งระบบดักจับเสร็จสมบูรณ์
+AddLog("Spy Started! Check logs now.")
