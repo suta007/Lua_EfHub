@@ -17,8 +17,8 @@ UICorner.CornerRadius = UDim.new(0, 10)
 UICorner.Parent = Frame
 
 local MiniLog = Instance.new("TextBox")
-MiniLog.Size = UDim2.new(0, 140, 0, 30)
-MiniLog.Position = UDim2.new(0, 5, 0, 5)
+MiniLog.Size = UDim2.new(0, 140, 0, 20)
+MiniLog.Position = UDim2.new(0, 5, 0, 15)
 MiniLog.Text = "MiniLog"
 MiniLog.TextColor3 = Color3.fromRGB(0, 255, 0)
 MiniLog.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
@@ -59,9 +59,9 @@ local function BuyItems(Key, Content)
                     local Args = {ItemName, Setting.EventArg}
                     game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyEventShopStock"):FireServer(unpack(Args))
                     BuyCount[ItemName] = (BuyCount[ItemName] or 0) + 1
-                    if FocusList[ItemName] then
-                        MiniLog.Text = string.format("[%s] Bought %s : %d", os.date("%X"), ItemName, BuyCount[ItemName])
-                    end
+                    -- if FocusList[ItemName] then
+                    MiniLog.Text = string.format("[%s] Bought %s : %d", os.date("%X"), ItemName, BuyCount[ItemName])
+                    -- end
                     task.wait(0.2)
                 end
             end
@@ -91,9 +91,9 @@ for Key, Setting in pairs(BuyList) do
         local Args = {ItemName, Setting.EventArg}
         game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyEventShopStock"):FireServer(unpack(Args))
         BuyCount[ItemName] = (BuyCount[ItemName] or 0) + 1
-        if FocusList[ItemName] then
-            MiniLog.Text = string.format("[%s] Bought %s : %d", os.date("%X"), ItemName, BuyCount[ItemName])
-        end
+        -- if FocusList[ItemName] then
+        MiniLog.Text = string.format("[%s] Bought %s : %d", os.date("%X"), ItemName, BuyCount[ItemName])
+        -- end
         task.wait(0.2)
     end
 end
