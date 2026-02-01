@@ -54,7 +54,7 @@ local function BuyItems(Key, Content)
         local ItemName = itemInfo.EggName or itemId 
         local StockAmount = tonumber(itemInfo.Stock) or 0
         for _, BuyItemName in ipairs(Setting.Items) do
-            if BuyItemName == ItemName then
+            if BuyItemName == ItemName and StockAmount > 0 then
                 for i=1, StockAmount do
                     local Args = {ItemName, Setting.EventArg}
                     game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyEventShopStock"):FireServer(unpack(Args))
