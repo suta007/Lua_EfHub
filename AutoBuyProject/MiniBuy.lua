@@ -26,6 +26,8 @@ MiniLog.Parent = Frame
 MiniLog.TextWrapped = true
 MiniLog.TextXAlignment = Enum.TextXAlignment.Left
 MiniLog.TextYAlignment = Enum.TextYAlignment.Top
+--MiniLog.TextSize = 10
+MiniLog.TextScaled = true
 
 --[[ Test TextBox  ]]
 MiniLog.Text = "Script Started"
