@@ -209,7 +209,7 @@ local BuyList ={
     },
     ["ROOT/PetEggStock/Stocks"]={
         Enabled=true,
-        BuyAll=false,
+        BuyAll=true,
         Items={"Common Egg","Uncommon Egg","Rare Egg","Legendary Egg","Mythical Egg","Bug Egg","Jungle Egg","Gem Egg"},
         RemoteName="BuyPetEgg",
         ArgType="NormalMode"
@@ -217,17 +217,28 @@ local BuyList ={
     ["ROOT/EventShopStock/Santa's Stash/Stocks"]={
         Enabled=true,
         BuyAll=false,
-        Items={"Pet Shard HyperHunger","Hot Chocolate Mug","Christmas Firework"},
+        Items={"Pet Shard HyperHunger","Santa's Stocking","Santa's Surprise Present","Christmas Present"},
         RemoteName="BuyEventShopStock",
-        ArgType="SantaMode"
+        ArgType="EventMode",
+        EventArg="Santa's Stash"
     },
     ["ROOT/EventShopStock/New Years Shop/Stocks"]={
         Enabled=true,
         BuyAll=false,
         Items={"Dragon's Firework","New Year's Egg"},
         RemoteName="BuyEventShopStock",
-        ArgType="NewYearMode"
+        ArgType="EventMode",
+        EventArg="New Years Shop"
     },
+}
+
+local DailyBuyList = {
+    ["ROOT/DailyDealStock/Stocks"] = {
+        Enabled = true,
+        Items = {"Mega Snack", "Ultra Snack", "Giga Snack"},
+        RemoteName = "BuyDailySeedShopStock",
+        ArgType = "NormalMode"
+    }
 }
 
 
@@ -265,12 +276,10 @@ local function BuyItems(ShopKey, StockData)
                 local Args = {}
                 if Setting.ArgType == "SeedMode" then
                     Args = {"Shop", ItemName}
-                elseif Setting.ArgType == "NormalMode" then
+                elseif Setting.ArgType == "EventMode" then
+                    Args = {ItemName, Setting.EventArg}
+                else
                     Args = {ItemName}
-                elseif Setting.ArgType == "SantaMode" then
-                    Args = {ItemName,"Santa's Stash"}
-                elseif Setting.ArgType == "NewYearMode" then
-                    Args = {ItemName,"New Years Shop"}
                 end
                 
                 -- [Optimization] ยิง Remote ตรงๆ ไม่ต้อง WaitForChild แล้ว

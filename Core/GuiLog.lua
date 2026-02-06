@@ -22,6 +22,7 @@ Window:SelectTab(1)
 -- 1. ประกาศตัวแปรระบบ (จองที่ไว้ก่อน)
 ------------------------------------------------------
 local MaxLines = 20          -- จำนวนบรรทัดที่จะโชว์
+local MaxFullHistory = 1000  -- จำนวนบรรทัดสูงสุดของประวัติทั้งหมด
 local DisplayTable = {}      -- ตารางเก็บข้อความโชว์
 local FullHistoryTable = {}  -- ตารางเก็บประวัติทั้งหมด
 local IsPaused = false
@@ -88,14 +89,17 @@ local function AddLog(message)
     local entry = string.format("[%s] %s", timestamp, message)
     
     -- เก็บลงประวัติทั้งหมด
-    table.insert(FullHistoryTable, 1, entry)
-    
-    -- เก็บลงตารางแสดงผล (จำกัดบรรทัด)
-    table.insert(DisplayTable, 1, entry)
-    if #DisplayTable > MaxLines then
-        table.remove(DisplayTable, #DisplayTable)
+    table.insert(FullHistoryTable, entry)
+    if #FullHistoryTable > MaxFullHistory then
+        table.remove(FullHistoryTable, 1)
     end
     
+    -- เก็บลงตารางแสดงผล (จำกัดบรรทัด)
+    table.insert(DisplayTable, entry)
+    if #DisplayTable > MaxLines then
+        table.remove(DisplayTable, 1)
+    end
+
     -- อัปเดตหน้าจอ
     if LogDisplay then
         LogDisplay:SetDesc(table.concat(DisplayTable, "\n"))
