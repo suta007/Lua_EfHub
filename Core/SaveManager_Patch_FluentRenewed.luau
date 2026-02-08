@@ -1,48 +1,47 @@
--- SaveManager_Patch_FluentRenewed.luau
--- SAFE / PARSER-AWARE / STATELESS
--- Designed specifically for Fluent-Renewed
+-- SaveManager_Patch_FluentRenewed_FINAL.luau
+-- Stable / Type-Safe / Fluent-Renewed Compatible
 
 local HttpService = game:GetService("HttpService")
 
--- Load original SaveManager
 local SaveManager = loadstring(game:HttpGet(
     "https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/main/Addons/SaveManager.luau"
 ))()
 
+-- backup original methods
 local _Save = SaveManager.Save
 local _Load = SaveManager.Load
 
--- =========================
--- Utilities
--- =========================
+-------------------------------------------------
+-- Helpers
+-------------------------------------------------
 
-local function EncodeTable(v)
-    if typeof(v) == "table" then
-        return HttpService:JSONEncode(v)
+local function SafeJSONDecode(v)
+    local ok, res = pcall(HttpService.JSONDecode, HttpService, v)
+    if ok then return res end
+    return nil
+end
+
+local function EncodeValue(value, option)
+    -- ColorPicker (Color3 → table)
+    if option.Type == "ColorPicker" and typeof(value) == "Color3" then
+        return HttpService:JSONEncode({
+            R = value.R,
+            G = value.G,
+            B = value.B
+        })
     end
-    return v
-end
 
-local function SafeDecodeTable(v)
-    if typeof(v) ~= "string" then return v end
-    local ok, result = pcall(HttpService.JSONDecode, HttpService, v)
-    if ok and typeof(result) == "table" then
-        return result
+    -- Table types (MultiDropdown, Keybind, etc.)
+    if typeof(value) == "table" then
+        return HttpService:JSONEncode(value)
     end
-    return v
+
+    return value
 end
 
-local function IsMultiDropdown(option)
-    -- Fluent-Renewed multi dropdown identification
-    return option
-        and option.Type == "Dropdown"
-        and option.Multi == true
-        and typeof(option.Value) == "table"
-end
-
--- =========================
--- PATCH: SAVE
--- =========================
+-------------------------------------------------
+-- SAVE (Transactional, No Side Effects)
+-------------------------------------------------
 
 function SaveManager:Save(name)
     local options = self.Library and self.Library.Options
@@ -52,48 +51,76 @@ function SaveManager:Save(name)
 
     local backup = {}
 
-    -- Encode only Multi-Dropdown tables
-    for id, option in pairs(options) do
-        if IsMultiDropdown(option) then
-            backup[id] = option.Value
-            option.Value = EncodeTable(option.Value)
-        end
+    for id, opt in pairs(options) do
+        backup[id] = opt.Value
+        opt.Value = EncodeValue(opt.Value, opt)
     end
 
-    local success, err = pcall(_Save, self, name)
+    local ok, err = pcall(function()
+        _Save(self, name)
+    end)
 
-    -- Restore original values immediately
-    for id, value in pairs(backup) do
-        if options[id] then
-            options[id].Value = value
-        end
+    -- restore immediately (IMPORTANT)
+    for id, opt in pairs(options) do
+        opt.Value = backup[id]
     end
 
-    if not success then
+    if not ok then
         error(err)
     end
 end
 
--- =========================
--- PATCH: LOAD
--- =========================
+-------------------------------------------------
+-- LOAD (Strict Type Restore)
+-------------------------------------------------
 
 function SaveManager:Load(name)
-    local success, err = pcall(_Load, self, name)
-    if not success then
-        error(err)
-    end
+    _Load(self, name)
 
     local options = self.Library and self.Library.Options
     if not options then return end
 
-    -- Decode only Multi-Dropdown values
-    for _, option in pairs(options) do
-        if option.Type == "Dropdown" and option.Multi == true then
-            local decoded = SafeDecodeTable(option.Value)
-            if typeof(decoded) == "table" and typeof(option.SetValue) == "function" then
-                option:SetValue(decoded)
+    for _, opt in pairs(options) do
+        local raw = opt.Value
+
+        -- Only care about string (saved JSON)
+        if typeof(raw) ~= "string" then
+            continue
+        end
+
+        -- Decide expected type using DEFAULT (stateless & safe)
+        local expectTable =
+            typeof(opt.Default) == "table"
+            or opt.Type == "MultiDropdown"
+            or opt.Type == "Keybind"
+            or opt.Type == "ColorPicker"
+
+        if not expectTable then
+            continue
+        end
+
+        local decoded = SafeJSONDecode(raw)
+        if typeof(decoded) ~= "table" then
+            continue
+        end
+
+        -- ColorPicker restore
+        if opt.Type == "ColorPicker" then
+            if decoded.R and decoded.G and decoded.B then
+                decoded = Color3.new(decoded.R, decoded.G, decoded.B)
+            else
+                continue
             end
+        end
+
+        -- Final safe apply
+        local ok = pcall(function()
+            opt:SetValue(decoded)
+        end)
+
+        if not ok then
+            -- fallback to default (prevents nil concat / next crash)
+            opt.Value = opt.Default
         end
     end
 end
