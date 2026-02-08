@@ -1,123 +1,181 @@
-return function(Fluent)
-    -- ตรวจสอบตำแหน่งของ Tab Class ใน Fluent Renewed
-    -- โดยปกติจะอยู่ที่ Fluent.Elements.Tab
-    local TabClass = Fluent.Tab or (Fluent.Elements and Fluent.Elements.Tab)
+-- [[ EfHub Addon: Collapsible Section (Final Stable Version) ]] --
+-- Features: Auto-Layout, Lua 5.1 Support, Snapshot Capture, Visibility Toggle
+return function(FluentLibrary)
+    local AddonName = "AddCollapsibleSection"
 
-    if not TabClass then
-        warn("EfHub Error: ไม่สามารถค้นหา Tab Class ใน Library นี้ได้")
-        return
+    -- Helper: หาเลขลำดับถัดไป (Auto LayoutOrder) เพื่อเรียง Element ให้ถูกต้อง
+    local function GetNextLayoutOrder(Container)
+        local MaxOrder = 0
+        local Children = Container:GetChildren()
+        for _, Child in ipairs(Children) do
+            if Child:IsA("GuiObject") and Child.LayoutOrder > MaxOrder then
+                MaxOrder = Child.LayoutOrder
+            end
+        end
+        return MaxOrder + 1
     end
 
-    function TabClass:AddCollapsibleSection(Title, Opened)
+    local function CreateCollapsibleSection(self, Title, Opened)
         local Section = {}
         local ParentTab = self
+        local IsOpened = (Opened == nil and false) or Opened
+        local SectionElements = {}
 
-        -- กำหนดค่าเริ่มต้นให้ Opened
-        if Opened == nil then
-            Opened = false
-        end
+        -- [ 1. สร้าง Header ]
+        local HeaderHolder = Instance.new("Frame")
+        HeaderHolder.Name = "Header_" .. Title
+        HeaderHolder.BackgroundTransparency = 1
+        HeaderHolder.Size = UDim2.new(1, 0, 0, 32)
+        HeaderHolder.Parent = ParentTab.Container
 
-        -- Main Container สำหรับ Section
-        local Holder = Instance.new("Frame")
-        Holder.Name = "CollapsibleSection_" .. Title
-        Holder.BackgroundTransparency = 1
-        Holder.Size = UDim2.new(1, 0, 0, 30)
-        Holder.ClipsDescendants = true
-        Holder.Parent = ParentTab.Container
+        -- บังคับรันคิวลำดับให้ Header
+        HeaderHolder.LayoutOrder = GetNextLayoutOrder(ParentTab.Container)
 
-        local Layout = Instance.new("UIListLayout")
-        Layout.SortOrder = Enum.SortOrder.LayoutOrder
-        Layout.Padding = UDim.new(0, 6)
-        Layout.Parent = Holder
+        local HeaderBtn = Instance.new("TextButton")
+        HeaderBtn.Name = "Button"
+        HeaderBtn.Size = UDim2.new(1, 0, 0, 30)
+        HeaderBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+        HeaderBtn.TextColor3 = Color3.fromRGB(235, 235, 235)
+        HeaderBtn.Font = Enum.Font.GothamBold
+        HeaderBtn.TextSize = 14
+        HeaderBtn.TextXAlignment = Enum.TextXAlignment.Left
+        HeaderBtn.AutoButtonColor = true
+        HeaderBtn.Parent = HeaderHolder
 
-        -- Header (ปุ่มเปิด-ปิด)
-        local Header = Instance.new("TextButton")
-        Header.Name = "Header"
-        Header.Text = (Opened and "▼  " or "▶  ") .. Title
-        Header.Font = Enum.Font.GothamMedium
-        Header.TextSize = 13
-        Header.TextXAlignment = Enum.TextXAlignment.Left
-        Header.Size = UDim2.new(1, 0, 0, 30)
-        Header.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-        Header.TextColor3 = Color3.fromRGB(200, 200, 200)
-        Header.AutoButtonColor = true
-        Header.LayoutOrder = 1
-        Header.Parent = Holder
-
+        Instance.new("UICorner", HeaderBtn).CornerRadius = UDim.new(0, 4)
         local Padding = Instance.new("UIPadding")
         Padding.PaddingLeft = UDim.new(0, 10)
-        Padding.Parent = Header
+        Padding.Parent = HeaderBtn
 
-        local Corner = Instance.new("UICorner")
-        Corner.CornerRadius = UDim.new(0, 4)
-        Corner.Parent = Header
-
-        -- Content
-        local Content = Instance.new("Frame")
-        Content.Name = "Content"
-        Content.BackgroundTransparency = 1
-        Content.Size = UDim2.new(1, 0, 0, 0)
-        Content.Visible = Opened
-        Content.LayoutOrder = 2
-        Content.Parent = Holder
-
-        local ContentLayout = Instance.new("UIListLayout")
-        ContentLayout.SortOrder = Enum.SortOrder.LayoutOrder
-        ContentLayout.Padding = UDim.new(0, 6)
-        ContentLayout.Parent = Content
-
-        -- ฟังก์ชัน Update ขนาด
-        local function Update()
-            if Content.Visible then
-                Content.Size = UDim2.new(1, 0, 0, ContentLayout.AbsoluteContentSize.Y)
-                Holder.Size = UDim2.new(1, 0, 0, Header.AbsoluteSize.Y + ContentLayout.AbsoluteContentSize.Y + 8)
-            else
-                Holder.Size = UDim2.new(1, 0, 0, Header.AbsoluteSize.Y)
+        -- [ 2. ฟังก์ชันอัปเดตสถานะ ]
+        local function UpdateState()
+            HeaderBtn.Text = (IsOpened and "▼  " or "▶  ") .. Title
+            for _, Item in ipairs(SectionElements) do
+                if Item.Frame then
+                    Item.Frame.Visible = IsOpened
+                end
             end
         end
 
-        ContentLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(Update)
-
-        Header.MouseButton1Click:Connect(function()
-            Opened = not Opened
-            Content.Visible = Opened
-            Header.Text = (Opened and "▼  " or "▶  ") .. Title
-            Update()
+        HeaderBtn.MouseButton1Click:Connect(function()
+            IsOpened = not IsOpened
+            UpdateState()
         end)
 
-        -- Bridge สำหรับเชื่อมต่อ Elements
-        function Section:_Attach(Element)
-            if Element and Element.Frame then
-                Element.Frame.Parent = Content
-                Update()
+        -- [ 3. ฟังก์ชันจับตาดู UI ใหม่ (Snapshot Logic) ]
+        function Section:Wrap(Callback)
+            local OldChildren = ParentTab.Container:GetChildren()
+
+            -- สร้าง Element
+            local Element = Callback()
+
+            local NewChildren = ParentTab.Container:GetChildren()
+            local FoundFrame = nil
+
+            if Element and type(Element) == "table" and Element.Frame then
+                FoundFrame = Element.Frame
+            else
+                for _, Child in ipairs(NewChildren) do
+                    local IsOld = false
+                    for _, Old in ipairs(OldChildren) do
+                        if Old == Child then
+                            IsOld = true
+                            break
+                        end
+                    end
+                    if not IsOld and Child ~= HeaderHolder and Child:IsA("GuiObject") then
+                        FoundFrame = Child
+                        break
+                    end
+                end
             end
+
+            if FoundFrame then
+                table.insert(SectionElements, {
+                    Frame = FoundFrame
+                })
+                FoundFrame.Visible = IsOpened
+
+                -- บังคับรันคิวลำดับให้ Element ต่อท้าย Header หรือ Element ก่อนหน้า
+                FoundFrame.LayoutOrder = GetNextLayoutOrder(ParentTab.Container)
+            end
+
             return Element
         end
 
-        -- Mapping Methods
-        function Section:AddToggle(Id, Config)
-            return Section:_Attach(ParentTab:AddToggle(Id, Config))
-        end
-        function Section:AddSlider(Id, Config)
-            return Section:_Attach(ParentTab:AddSlider(Id, Config))
-        end
-        function Section:AddDropdown(Id, Config)
-            return Section:_Attach(ParentTab:AddDropdown(Id, Config))
-        end
-        function Section:AddInput(Id, Config)
-            return Section:_Attach(ParentTab:AddInput(Id, Config))
-        end
-        function Section:AddButton(Config)
-            return Section:_Attach(ParentTab:AddButton(Config))
-        end
-        function Section:AddColorpicker(Id, Config)
-            return Section:_Attach(ParentTab:AddColorpicker(Id, Config))
-        end
-        function Section:AddParagraph(Config)
-            return Section:_Attach(ParentTab:AddParagraph(Config))
+        -- [ 4. Wrapper Functions (Lua 5.1 Safe) ]
+        function Section:AddToggle(...)
+            local args = {...}
+            return Section:Wrap(function()
+                return ParentTab:AddToggle(unpack(args))
+            end)
         end
 
-        task.spawn(Update)
+        function Section:AddButton(...)
+            local args = {...}
+            return Section:Wrap(function()
+                return ParentTab:AddButton(unpack(args))
+            end)
+        end
+
+        function Section:AddSlider(...)
+            local args = {...}
+            return Section:Wrap(function()
+                return ParentTab:AddSlider(unpack(args))
+            end)
+        end
+
+        function Section:AddDropdown(...)
+            local args = {...}
+            return Section:Wrap(function()
+                return ParentTab:AddDropdown(unpack(args))
+            end)
+        end
+
+        function Section:AddInput(...)
+            local args = {...}
+            return Section:Wrap(function()
+                return ParentTab:AddInput(unpack(args))
+            end)
+        end
+
+        function Section:AddParagraph(...)
+            local args = {...}
+            return Section:Wrap(function()
+                return ParentTab:AddParagraph(unpack(args))
+            end)
+        end
+
+        function Section:AddKeybind(...)
+            local args = {...}
+            return Section:Wrap(function()
+                return ParentTab:AddKeybind(unpack(args))
+            end)
+        end
+
+        function Section:AddColorpicker(...)
+            local args = {...}
+            return Section:Wrap(function()
+                return ParentTab:AddColorpicker(unpack(args))
+            end)
+        end
+
+        task.delay(0.1, UpdateState)
         return Section
     end
+
+    -- [ 5. ติดตั้งระบบ (Hook) ]
+    local OldCreateWindow = FluentLibrary.CreateWindow
+    FluentLibrary.CreateWindow = function(self, Config)
+        local Window = OldCreateWindow(self, Config)
+        local OldAddTab = Window.AddTab
+        Window.AddTab = function(self, TabConfig)
+            local Tab = OldAddTab(self, TabConfig)
+            Tab[AddonName] = CreateCollapsibleSection
+            return Tab
+        end
+        return Window
+    end
+
+    -- print("EfHub Addon: Collapsible Section Installed Successfully")
 end
