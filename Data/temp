@@ -63,3 +63,20 @@ if TargetUI then
     TargetUI.Enabled = true
     task.wait(0.5)
 end
+
+
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local VirtualUser = game:GetService("VirtualUser")
+LocalPlayer.Idled:Connect(function()
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+end)
+
+
+[21:26:06] 📋 Script initialized successfully.
+[21:26:07] ✅ Connected to server.
+[21:26:07] 📋 Pet Name: EnumToPetMutation
+[21:26:07] 📋 Pet Name: MachineMutationTypes
+[21:26:07] 📋 Pet Name: RollRandomMutation
+[21:26:07] 📋 Pet Name: PetMutationToEnum
+[21:26:07] 📋 Pet Name: PetMutationRegistry

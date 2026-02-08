@@ -3,9 +3,7 @@ local function GetPetUUID(petName)
         if item:GetAttribute("ItemType") == "Pet" then
             local name = string.match(item.Name, "^(.-)%s*%[")
             if string.find(name, TargetPet) then
-                if string.find(name, TargetMutant) then
-                    continue
-                else
+                if not string.find(name, TargetMutant) then
                     return item:GetAttribute("PET_UUID")
                 end
             end

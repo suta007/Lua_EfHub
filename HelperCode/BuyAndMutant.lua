@@ -48,9 +48,18 @@ local Window = Fluent:CreateWindow({
 })
 
 local Tabs = {
-    Home = Window:AddTab({ Title = "Home / Logs", Icon = "home" }),
-    AutoBuy = Window:AddTab({ Title = "Auto Buy", Icon = "shopping-cart" }),
-    Mutation = Window:AddTab({ Title = "Pet Mutation", Icon = "flask-conical" }),
+    Home = Window:AddTab({
+        Title = "Home / Logs",
+        Icon = "home"
+    }),
+    AutoBuy = Window:AddTab({
+        Title = "Auto Buy",
+        Icon = "shopping-cart"
+    }),
+    Mutation = Window:AddTab({
+        Title = "Pet Mutation",
+        Icon = "flask-conical"
+    })
 }
 
 Window:SelectTab(1)
@@ -62,7 +71,7 @@ local MaxLines = 50
 local FullHistoryTable = {}
 local DisplayTable = {}
 local IsPaused = false
-local LogDisplay = nil 
+local LogDisplay = nil
 
 -- สร้าง Log Display ในหน้า Home
 LogDisplay = Tabs.Home:AddParagraph({
@@ -71,24 +80,36 @@ LogDisplay = Tabs.Home:AddParagraph({
 })
 
 local function AddLog(message)
-    if IsPaused then return end
+    if IsPaused then
+        return
+    end
     local timestamp = os.date("%X")
     local entry = string.format("[%s] %s", timestamp, message)
-    
+
     table.insert(FullHistoryTable, entry)
     table.insert(DisplayTable, entry)
-    if #DisplayTable > MaxLines then table.remove(DisplayTable, 1) end
-    
+    if #DisplayTable > MaxLines then
+        table.remove(DisplayTable, 1)
+    end
+
     if LogDisplay then
         LogDisplay:SetDesc(table.concat(DisplayTable, "\n"))
     end
 end
 
 -- Wrapper Functions
-local function InfoLog(msg) AddLog("📋 " .. msg) end
-local function WarnLog(msg) AddLog("⚠️ " .. msg) end
-local function ErrorLog(msg) AddLog("❌ " .. msg) end
-local function SuccessLog(msg) AddLog("✅ " .. msg) end
+local function InfoLog(msg)
+    AddLog("📋 " .. msg)
+end
+local function WarnLog(msg)
+    AddLog("⚠️ " .. msg)
+end
+local function ErrorLog(msg)
+    AddLog("❌ " .. msg)
+end
+local function SuccessLog(msg)
+    AddLog("✅ " .. msg)
+end
 
 -- ปุ่มควบคุม Log
 Tabs.Home:AddButton({
@@ -104,7 +125,11 @@ Tabs.Home:AddButton({
     Callback = function()
         if setclipboard then
             setclipboard(table.concat(FullHistoryTable, "\n"))
-            Fluent:Notify({Title="Success", Content="Copied to clipboard!", Duration=2})
+            Fluent:Notify({
+                Title = "Success",
+                Content = "Copied to clipboard!",
+                Duration = 2
+            })
         end
     end
 })
@@ -128,7 +153,9 @@ ToggleButton.Size = UDim2.new(0, 50, 0, 50)
 ToggleButton.Text = "EF"
 ToggleButton.TextColor3 = Color3.white
 ToggleButton.Draggable = true
-ToggleButton.MouseButton1Click:Connect(function() Window:Minimize() end)
+ToggleButton.MouseButton1Click:Connect(function()
+    Window:Minimize()
+end)
 
 UICorner.CornerRadius = UDim.new(0, 25)
 UICorner.Parent = ToggleButton
@@ -139,50 +166,85 @@ UICorner.Parent = ToggleButton
 local AutoBuyEnabled = false
 local BuyList = {
     ["ROOT/SeedStocks/Shop/Stocks"] = {
-        Enabled=true, BuyAll=false, RemoteName="BuySeedStock", ArgType="SeedMode",
-        Items={"Orange Tulip", "Daffodil", "Watermelon", "Pumpkin", "Apple", "Bamboo", "Coconut", "Cactus", "Dragon Fruit", "Mango", "Grape", "Mushroom", "Pepper", "Cacao", "Sunflower", "Beanstalk", "Ember Lily", "Sugar Apple", "Burning Bud", "Giant Pinecone", "Elder Strawberry", "Romanesco", "Crimson Thorn", "Zebrazinkle", "Octobloom", "Beast Buttercup", "Bonanza Bloom"}
+        Enabled = true,
+        BuyAll = false,
+        RemoteName = "BuySeedStock",
+        ArgType = "SeedMode",
+        Items = {"Orange Tulip", "Daffodil", "Watermelon", "Pumpkin", "Apple", "Bamboo", "Coconut", "Cactus",
+                 "Dragon Fruit", "Mango", "Grape", "Mushroom", "Pepper", "Cacao", "Sunflower", "Beanstalk",
+                 "Ember Lily", "Sugar Apple", "Burning Bud", "Giant Pinecone", "Elder Strawberry", "Romanesco",
+                 "Crimson Thorn", "Zebrazinkle", "Octobloom", "Beast Buttercup", "Bonanza Bloom"}
     },
     ["ROOT/GearStock/Stocks"] = {
-        Enabled=true, BuyAll=false, RemoteName="BuyGearStock", ArgType="NormalMode",
-        Items={"Watering Can", "Trading Ticket","Trowel","Recall Wrench","Basic Sprinkler","Advanced Sprinkler","Godly Sprinkler","Master Sprinkler","Grandmaster Sprinkler","Levelup Lollipop","Medium Toy","Medium Treat","Pet Lead","Harvest Tool","Magnifying Glass","Cleaning Spray","Favorite Tool","Cleansing Pet Shard"}
+        Enabled = true,
+        BuyAll = false,
+        RemoteName = "BuyGearStock",
+        ArgType = "NormalMode",
+        Items = {"Watering Can", "Trading Ticket", "Trowel", "Recall Wrench", "Basic Sprinkler", "Advanced Sprinkler",
+                 "Godly Sprinkler", "Master Sprinkler", "Grandmaster Sprinkler", "Levelup Lollipop", "Medium Toy",
+                 "Medium Treat", "Pet Lead", "Harvest Tool", "Magnifying Glass", "Cleaning Spray", "Favorite Tool",
+                 "Cleansing Pet Shard"}
     },
     ["ROOT/PetEggStock/Stocks"] = {
-        Enabled=true, BuyAll=true, RemoteName="BuyPetEgg", ArgType="NormalMode",
-        Items={"Common Egg","Uncommon Egg","Rare Egg","Legendary Egg","Mythical Egg","Bug Egg","Jungle Egg","Gem Egg"}
+        Enabled = true,
+        BuyAll = true,
+        RemoteName = "BuyPetEgg",
+        ArgType = "NormalMode",
+        Items = {"Common Egg", "Uncommon Egg", "Rare Egg", "Legendary Egg", "Mythical Egg", "Bug Egg", "Jungle Egg",
+                 "Gem Egg"}
     },
     ["ROOT/EventShopStock/Santa's Stash/Stocks"] = {
-        Enabled=true, BuyAll=false, RemoteName="BuyEventShopStock", ArgType="EventMode", EventArg="Santa's Stash",
-        Items={"Pet Shard HyperHunger","Santa's Stocking","Santa's Surprise Present","Christmas Present"}
+        Enabled = true,
+        BuyAll = false,
+        RemoteName = "BuyEventShopStock",
+        ArgType = "EventMode",
+        EventArg = "Santa's Stash",
+        Items = {"Pet Shard HyperHunger", "Santa's Stocking", "Santa's Surprise Present", "Christmas Present"}
     },
     ["ROOT/EventShopStock/New Years Shop/Stocks"] = {
-        Enabled=true, BuyAll=false, RemoteName="BuyEventShopStock", ArgType="EventMode", EventArg="New Years Shop",
-        Items={"Dragon's Firework","New Year's Egg"}
+        Enabled = true,
+        BuyAll = false,
+        RemoteName = "BuyEventShopStock",
+        ArgType = "EventMode",
+        EventArg = "New Years Shop",
+        Items = {"Dragon's Firework", "New Year's Egg"}
     },
     ["ROOT/DailyDealStock/Stocks"] = {
-        Enabled=true, BuyAll=false, RemoteName="BuyDailySeedShopStock", ArgType="NormalMode",
-        Items={"Mega Snack", "Ultra Snack", "Giga Snack"}
+        Enabled = true,
+        BuyAll = false,
+        RemoteName = "BuyDailySeedShopStock",
+        ArgType = "NormalMode",
+        Items = {"Mega Snack", "Ultra Snack", "Giga Snack"}
     }
 }
 
 Tabs.AutoBuy:AddToggle("MasterAutoBuy", {
     Title = "Enable Auto Buy",
     Default = false,
-    Callback = function(Value) AutoBuyEnabled = Value end
+    Callback = function(Value)
+        AutoBuyEnabled = Value
+    end
 })
 
 local function ProcessBuy(ShopKey, StockData)
-    if not AutoBuyEnabled then return end
+    if not AutoBuyEnabled then
+        return
+    end
     local Setting = BuyList[ShopKey]
-    if not Setting or not Setting.Enabled then return end
-    
+    if not Setting or not Setting.Enabled then
+        return
+    end
+
     local Remote = GameEvents:FindFirstChild(Setting.RemoteName)
-    if not Remote then return end
+    if not Remote then
+        return
+    end
 
     for itemId, itemInfo in pairs(StockData) do
-        local ItemName = itemInfo.EggName or itemId 
+        local ItemName = itemInfo.EggName or itemId
         local StockAmount = tonumber(itemInfo.Stock) or 0
         local ShouldBuy = false
-        
+
         -- InfoLog(string.format("Found %s : %s", ItemName, StockAmount)) -- Optional: Uncomment to spam log
 
         if Setting.BuyAll then
@@ -199,10 +261,14 @@ local function ProcessBuy(ShopKey, StockData)
         if ShouldBuy and StockAmount > 0 then
             for i = 1, StockAmount do
                 local Args = {}
-                if Setting.ArgType == "SeedMode" then Args = {"Shop", ItemName}
-                elseif Setting.ArgType == "EventMode" then Args = {ItemName, Setting.EventArg}
-                else Args = {ItemName} end
-                
+                if Setting.ArgType == "SeedMode" then
+                    Args = {"Shop", ItemName}
+                elseif Setting.ArgType == "EventMode" then
+                    Args = {ItemName, Setting.EventArg}
+                else
+                    Args = {ItemName}
+                end
+
                 Remote:FireServer(unpack(Args))
             end
             SuccessLog(string.format("Bought %s x%s", ItemName, StockAmount))
@@ -227,20 +293,20 @@ Tabs.Mutation:AddToggle("MasterMutation", {
     Title = "Enable Auto Mutation",
     Description = "Auto Level Up -> Mutate -> Claim",
     Default = false,
-    Callback = function(Value) 
-        MutationEnabled = Value 
-        if Value then 
-            WarnLog("Mutation Started...") 
+    Callback = function(Value)
+        MutationEnabled = Value
+        if Value then
+            WarnLog("Mutation Started...")
             task.spawn(function()
-                 -- Trigger check immediately
-                 local currentUUID = GetPetUUID(TargetPet)
-                 if currentUUID then 
-                     local _, age = GetPetAge(currentUUID)
-                     if age and age >= TargetLevel then
-                         InfoLog("Pet ready on start. Executing...")
-                         MakeMutant(currentUUID)
-                     end
-                 end
+                -- Trigger check immediately
+                local currentUUID = GetPetUUID(TargetPet)
+                if currentUUID then
+                    local _, age = GetPetAge(currentUUID)
+                    if age and age >= TargetLevel then
+                        InfoLog("Pet ready on start. Executing...")
+                        MakeMutant(currentUUID)
+                    end
+                end
             end)
         end
     end
@@ -249,7 +315,9 @@ Tabs.Mutation:AddToggle("MasterMutation", {
 Tabs.Mutation:AddInput("TargetPetName", {
     Title = "Target Pet Name",
     Default = "Bald Eagle",
-    Callback = function(Value) TargetPet = Value end
+    Callback = function(Value)
+        TargetPet = Value
+    end
 })
 
 -- Mutation Functions
@@ -258,9 +326,7 @@ function GetPetUUID(petName)
         if item:GetAttribute("ItemType") == "Pet" then
             local name = string.match(item.Name, "^(.-)%s*%[") or item.Name
             if string.find(name, TargetPet) then
-                if string.find(name, TargetMutant) then
-                    continue -- ข้ามตัวที่เป็น Golem แล้ว
-                else
+                if not string.find(name, TargetMutant) then
                     return item:GetAttribute("PET_UUID")
                 end
             end
@@ -322,7 +388,7 @@ function MakeMutant(uuid)
     InfoLog("Process: Making Mutant...")
     SwapPetLoadout(MutantLoadout)
     task.wait(LoadoutWaitTime)
-    
+
     if heldPet(uuid) then
         task.wait(1)
         GameEvents:WaitForChild("PetMutationMachineService_RE"):FireServer("SubmitHeldPet")
@@ -340,27 +406,29 @@ function ClaimPet()
     InfoLog("Process: Claiming Mutant...")
     SwapPetLoadout(ClaimLoadout)
     task.wait(LoadoutWaitTime)
-    
+
     GameEvents:WaitForChild("PetMutationMachineService_RE"):FireServer("ClaimMutatedPet")
     SuccessLog("Claimed Mutant Pet!")
-    
+
     task.wait(1)
     if Character and Character:FindFirstChild("Humanoid") then
         Character.Humanoid:UnequipTools()
     end
     task.wait(2)
     -- Loop check again
-    CheckMutationLoop() 
+    CheckMutationLoop()
 end
 
 function CheckMutationLoop()
-    if not MutationEnabled then return end
-    
+    if not MutationEnabled then
+        return
+    end
+
     targetUUID = GetPetUUID(TargetPet)
     if targetUUID then
         local found, age = GetPetAge(targetUUID)
         age = age or 1
-        
+
         if found then
             if age < TargetLevel then
                 -- Leveling logic
@@ -387,8 +455,12 @@ end
 -- 6. Main Event Listener (Combined)
 ------------------------------------------------------
 DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
-    if Type ~= "UpdateData" then return end
-    if not string.find(Profile, LocalPlayer.Name) then return end
+    if Type ~= "UpdateData" then
+        return
+    end
+    if not string.find(Profile, LocalPlayer.Name) then
+        return
+    end
 
     for _, Packet in ipairs(Data) do
         local Key = Packet[1]
@@ -396,28 +468,30 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 
         -- 6.1 Logic Auto Buy
         if AutoBuyEnabled and BuyList[Key] then
-            task.spawn(function() ProcessBuy(Key, Content) end)
+            task.spawn(function()
+                ProcessBuy(Key, Content)
+            end)
         end
 
         -- 6.2 Logic Mutation
         if MutationEnabled then
             local CheckLevelKey = "ROOT/GardenGuide/PetData/" .. TargetPet .. "/MaxLevel"
-            
+
             -- Case: Level Up
             if Key == CheckLevelKey then
                 local age = tonumber(Content) or 0
                 InfoLog("Pet Level Updated: " .. age)
                 if age >= TargetLevel then
-                    --local uuid = GetPetUUID(TargetPet)
-                    --local uuid = targetUUID
-                    --if uuid then
+                    -- local uuid = GetPetUUID(TargetPet)
+                    -- local uuid = targetUUID
+                    -- if uuid then
                     UnequipPet(targetUUID)
                     task.wait(0.5)
                     MakeMutant(targetUUID)
-                    --end
+                    -- end
                 end
             end
-            
+
             -- Case: Pet Ready to Claim
             if Key == "ROOT/PetMutationMachine/PetReady" then
                 ClaimPet()

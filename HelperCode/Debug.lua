@@ -177,7 +177,12 @@ InfoLog("Script initialized successfully.")
 task.wait(0.5)
 SuccessLog("Connected to server.")
 
--- local VirtualUser = game:GetService("VirtualUser")
+local MutantData = require(game:GetService("ReplicatedStorage").Data.PetRegistry.PetMutationRegistry)
+for name, data in pairs(MutantData["PetMutationRegistry"]) do
+    InfoLog("Pet Name: " .. name)
+end
+
+--[[ -- local VirtualUser = game:GetService("VirtualUser")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 -- local Backpack = LocalPlayer:WaitForChild("Backpack")
@@ -206,3 +211,4 @@ for _, pet in ipairs(scrollFramePath:GetChildren()) do
         end)
     end
 end
+ ]]
