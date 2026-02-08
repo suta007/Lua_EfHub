@@ -1,7 +1,7 @@
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
 local Window = Fluent:CreateWindow({
-    Title = "Log Console 0.1", -- .. Fluent.Version,
+    Title = "Gient Golem", -- .. Fluent.Version,
     SubTitle = "by EfHub",
     TabWidth = 0,
     Size = UDim2.fromOffset(830, 525),
@@ -27,16 +27,16 @@ Window:SelectTab(1)
 local ToggleGui = Instance.new("ScreenGui")
 local ToggleButton = Instance.new("TextButton")
 
-ToggleGui.Name = "EfHub_Toggle"
+ToggleGui.Name = "MU_Toggle"
 ToggleGui.Parent = game:GetService("CoreGui") -- หรือเปลี่ยนเป็น PlayerGui ถ้าไม่ติด
 ToggleGui.ResetOnSpawn = false
 
 ToggleButton.Name = "ToggleButton"
 ToggleButton.Parent = ToggleGui
-ToggleButton.BackgroundColor3 = Color3.fromRGB(71, 1, 1)
+ToggleButton.BackgroundColor3 = Color3.fromRGB(1, 71, 71)
 ToggleButton.Position = UDim2.new(0, 10, 0.5, 0)
 ToggleButton.Size = UDim2.new(0, 50, 0, 50)
-ToggleButton.Text = "EF"
+ToggleButton.Text = "DEBUG"
 ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 ToggleButton.Draggable = true
 
@@ -177,62 +177,32 @@ InfoLog("Script initialized successfully.")
 task.wait(0.5)
 SuccessLog("Connected to server.")
 
-LocalPlayer = game:GetService("Players").LocalPlayer
-DataStream = game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("DataStream")
-WarnLog("Listening to DataStream events...")
-task.wait(0.5)
+-- local VirtualUser = game:GetService("VirtualUser")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+-- local Backpack = LocalPlayer:WaitForChild("Backpack")
+---local GameEvents = game:GetService("ReplicatedStorage"):WaitForChild("GameEvents")
+-- local DataStream = GameEvents:WaitForChild("DataStream")
+-- local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+-- local Humanoid = Character:WaitForChild("Humanoid")
 
-local BacklistPackets = {"ROOT/SaveSlots/AllSlots/DEFAULT/LastPetEggsIncubationTime", "ROOT/LastSaveTime",
-                         "ROOT/LastPetsIncubationTime", "ROOT/LastPetsSaveTime",
-                         "ROOT/TravelingMerchantShopStock/Stocks", "ROOT/SaveSlots/AllSlots/DEFAULT/LastSaveTime",
-                         "ROOT/SaveSlots/AllSlots/DEFAULT/LastObjectsSaveTime"}
+local scrollFramePath = game:GetService("Players").LocalPlayer.PlayerGui.ActivePetUI.Frame.Main.PetDisplay
+                            .ScrollingFrame
 
-local IgnorePatterns = {"ROOT/PetsData/PetInventory/Data"}
+for _, pet in ipairs(scrollFramePath:GetChildren()) do
+    -- [จุดสำคัญ] เช็คก่อนว่าในตัวลูก มี "Main" อยู่ไหม?
+    -- เพื่อข้ามพวก UIListLayout, UIPadding หรือ PetTemplate ที่ยังไม่โหลด
+    if pet:FindFirstChild("Main") then
+        -- ใช้ pcall กันเหนียว เผื่อบางตัว Text ยังไม่โหลด
+        pcall(function()
+            local petUUID = pet.Name
+            local petType = pet.Main.PET_TYPE.Text
+            local petAge = pet.Main.PET_AGE.Text
 
-DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
-    -- InfoLog("Received DataStream event: " .. Type)
-    -- InfoLog("Profile: " .. Profile)
-
-    -- เช็คว่าข้อมูลที่ส่งมาเป็นประเภท "UpdateData" หรือไม่
-    -- if Type ~= "UpdateData" then return end
-
-    -- เช็คว่าเป็นข้อมูลของตัวเราเองหรือไม่
-    if not Profile:find(LocalPlayer.Name) then
-        return
+            InfoLog("UUID: " .. petUUID)
+            InfoLog("Pet Name: " .. petType)
+            InfoLog("Pet Age: " .. petAge)
+            AddLog(false, "-------------------------")
+        end)
     end
-
-    -- ต้องการดูว่าใน data มีอะไรบ้าง
-    for index, packet in pairs(Data) do
-
-        local isIgnored = false
-        if table.find(BacklistPackets, packet[1]) then
-            isIgnored = true
-        end
-
-        for _, pattern in ipairs(IgnorePatterns) do
-            if string.find(packet[1], pattern) then
-                isIgnored = true
-                break
-            end
-        end
-
-        if not isIgnored then
-            AddLog(false, string.format("Packet %d: Key=%s", index, packet[1]))
-            -- InfoLog(string.format("Content: %s", tostring(packet[2])))
-            if type(packet[2]) == "table" then
-                for index2, content in pairs(packet[2]) do
-                    InfoLog(string.format("  Content %d: ID=%s", index2))
-                    if type(content) == "table" then
-                        for key, value in pairs(content) do
-                            InfoLog(string.format("    %s = %s", key, tostring(value)))
-                        end
-                    else
-                        InfoLog(string.format("    Value: %s", tostring(content)))
-                    end
-                end
-            else
-                InfoLog(string.format("Content: %s", tostring(packet[2])))
-            end
-        end
-    end
-end)
+end

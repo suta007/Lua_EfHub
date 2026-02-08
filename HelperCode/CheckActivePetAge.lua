@@ -27,7 +27,7 @@ Window:SelectTab(1)
 local ToggleGui = Instance.new("ScreenGui")
 local ToggleButton = Instance.new("TextButton")
 
-ToggleGui.Name = "EfHub_Toggle"
+ToggleGui.Name = "PetAge_Toggle"
 ToggleGui.Parent = game:GetService("CoreGui") -- หรือเปลี่ยนเป็น PlayerGui ถ้าไม่ติด
 ToggleGui.ResetOnSpawn = false
 
@@ -36,7 +36,7 @@ ToggleButton.Parent = ToggleGui
 ToggleButton.BackgroundColor3 = Color3.fromRGB(71, 1, 1)
 ToggleButton.Position = UDim2.new(0, 10, 0.5, 0)
 ToggleButton.Size = UDim2.new(0, 50, 0, 50)
-ToggleButton.Text = "EF"
+ToggleButton.Text = "PET"
 ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 ToggleButton.Draggable = true
 
@@ -177,62 +177,19 @@ InfoLog("Script initialized successfully.")
 task.wait(0.5)
 SuccessLog("Connected to server.")
 
-LocalPlayer = game:GetService("Players").LocalPlayer
-DataStream = game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("DataStream")
-WarnLog("Listening to DataStream events...")
-task.wait(0.5)
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
 
-local BacklistPackets = {"ROOT/SaveSlots/AllSlots/DEFAULT/LastPetEggsIncubationTime", "ROOT/LastSaveTime",
-                         "ROOT/LastPetsIncubationTime", "ROOT/LastPetsSaveTime",
-                         "ROOT/TravelingMerchantShopStock/Stocks", "ROOT/SaveSlots/AllSlots/DEFAULT/LastSaveTime",
-                         "ROOT/SaveSlots/AllSlots/DEFAULT/LastObjectsSaveTime"}
+-- 1. ระบุตำแหน่งโฟลเดอร์ที่เก็บรายชื่อ Pet (ScrollingFrame)
+local scrollFramePath = LocalPlayer.PlayerGui.ActivePetUI.Frame.Main.PetDisplay.ScrollingFrame
+-- list data in ScrollingFrame
+local targetUUID = "{2d80eee4-0e86-44e6-b141-05959aa5af93}"
 
-local IgnorePatterns = {"ROOT/PetsData/PetInventory/Data"}
-
-DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
-    -- InfoLog("Received DataStream event: " .. Type)
-    -- InfoLog("Profile: " .. Profile)
-
-    -- เช็คว่าข้อมูลที่ส่งมาเป็นประเภท "UpdateData" หรือไม่
-    -- if Type ~= "UpdateData" then return end
-
-    -- เช็คว่าเป็นข้อมูลของตัวเราเองหรือไม่
-    if not Profile:find(LocalPlayer.Name) then
-        return
-    end
-
-    -- ต้องการดูว่าใน data มีอะไรบ้าง
-    for index, packet in pairs(Data) do
-
-        local isIgnored = false
-        if table.find(BacklistPackets, packet[1]) then
-            isIgnored = true
-        end
-
-        for _, pattern in ipairs(IgnorePatterns) do
-            if string.find(packet[1], pattern) then
-                isIgnored = true
-                break
-            end
-        end
-
-        if not isIgnored then
-            AddLog(false, string.format("Packet %d: Key=%s", index, packet[1]))
-            -- InfoLog(string.format("Content: %s", tostring(packet[2])))
-            if type(packet[2]) == "table" then
-                for index2, content in pairs(packet[2]) do
-                    InfoLog(string.format("  Content %d: ID=%s", index2))
-                    if type(content) == "table" then
-                        for key, value in pairs(content) do
-                            InfoLog(string.format("    %s = %s", key, tostring(value)))
-                        end
-                    else
-                        InfoLog(string.format("    Value: %s", tostring(content)))
-                    end
-                end
-            else
-                InfoLog(string.format("Content: %s", tostring(packet[2])))
-            end
-        end
-    end
-end)
+local targetPet = scrollFramePath:FindFirstChild(targetUUID)
+if targetPet then
+    local ageString = scrollFramePath[targetUUID].Main.PET_AGE.Text
+    local targetPetAge = tonumber(string.match(ageString, "%d+"))
+    SuccessLog("Found Pet with UUID: " .. targetUUID)
+    ErrorLog("Raw Age Text: " .. ageString)
+    InfoLog("Extracted Age Number: " .. targetPetAge)
+end

@@ -1,2 +1,143 @@
  Key=ROOT/PetsData/EquippedPets/1
+ ROOT/GardenCoinShopStock/Stocks
+ Packet 4: Key=ROOT/GearStock/Gear
+Packet 5: Key=ROOT/GearStock/Stocks
+Packet 1: Key=ROOT/EventShopStock/Santa's Stash/Stocks
+Packet 6: Key=ROOT/SeedStocks/Shop/Stocks
+Packet 1: Key=ROOT/SeasonPass/Season 3/Stocks
  
+ [21:15:53] 📋 Script initialized successfully.
+[21:15:53] ✅ Connected to server.
+[21:15:53] ⚠️ Listening to DataStream events...
+Packet 1: Key=ROOT/InventoryData/{05321c98-8a63-4c80-8ddb-68015e2a50f6}/ItemData/Quantity
+[21:16:20] 📋 Content: 214
+Packet 2: Key=ROOT/SeedStocks/Shop/Stocks/Strawberry/Stock
+[21:16:20] 📋 Content: 4
+Packet 4: Key=ROOT/Sheckles
+[21:16:20] 📋 Content: 96993946276999
+
+
+Packet 1: Key=ROOT/SeedStocks/Shop/Stocks/Carrot/Stock
+[21:17:44] 📋 Content: 7
+Packet 3: Key=ROOT/InventoryData/{9c338220-1d22-472f-b117-5c1bf1d03f44}/ItemData/Quantity
+[21:17:44] 📋 Content: 781
+Packet 4: Key=ROOT/Sheckles
+[21:17:44] 📋 Content: 96993946276989
+
+
+Packet 4: Key=ROOT/PetsData/PetLoadouts/1
+Packet 1: Key=ROOT/PetsData/PetLoadouts/3
+Packet 2: Key=ROOT/PetsData/SelectedPetLoadout
+[22:19:59] 📋 Content: 2
+
+
+Packet 1: Key=ROOT/GardenGuide/PetData/Gift Rat/MaxLevel
+[22:25:39] 📋 Content: 8
+
+local args = {
+	"SwapPetLoadout",
+	3
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PetsService"):FireServer(unpack(args))
+
+
+
+local args = {
+	"UnequipPet",
+	"{2d80eee4-0e86-44e6-b141-05959aa5af93}"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PetsService"):FireServer(unpack(args))
+
+
+local args = {
+	"EquipPet",
+	"{2d80eee4-0e86-44e6-b141-05959aa5af93}",
+	CFrame.new(-25.649507522583008, 0.1355276107788086, -89.16636657714844, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PetsService"):FireServer(unpack(args))
+
+
+local args = {
+	"EquipPet",
+	"{2d80eee4-0e86-44e6-b141-05959aa5af93}",
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PetsService"):FireServer(unpack(args))
+
+
+
+game:GetService("Players").LocalPlayer.Backpack["Gift Rat [1.89 KG] [Age 7]"]
+
+game:GetService("Players").LocalPlayer.PlayerGui.ActivePetUI.Frame.Main.PetDisplay.ScrollingFrame["{2d80eee4-0e86-44e6-b141-05959aa5af93}"].Main.PET_AGE.Text
+
+
+game:GetService("Players").LocalPlayer.PlayerGui.ActivePetUI.Frame.Main.PetDisplay.ScrollingFrame["{04f44223-7b06-4239-9500-ffc625b9e93e}"].Main.PET_TYPE.Text
+
+Rainbow Moon Cat
+
+local args = {
+	"StartMachine"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args))
+
+
+ROOT/PetMutationMachine/SubmittedPet
+Packet 2: Key=ROOT/PetMutationMachine/TimeLeft
+[10:53:30] 📋 Content: 3600
+Packet 3: Key=ROOT/PetMutationMachine/IsRunning
+[10:53:30] 📋 Content: true
+
+
+Packet 7: Key=ROOT/PetMutationMachine/PetReady
+[10:58:57] 📋 Content: true
+Packet 8: Key=ROOT/PetMutationMachine/TimeLeft
+[10:58:57] 📋 Content: 0
+Packet 9: Key=ROOT/PetMutationMachine/IsRunning
+[10:58:57] 📋 Content: false
+
+
+[11:37:24] 📋 Script initialized successfully.
+[11:37:25] ✅ Connected to server.
+[11:37:25] ⚠️ Listening to DataStream events...
+Packet 12: Key=ROOT/BadgeData/PetMaster
+[11:37:27] 📋 Content: 80
+
+
+local args = {
+	"SubmitHeldPet"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args))
+
+local args = {
+	"PetAssets",
+	"Bald Eagle"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("ReplicationChannel"):FireServer(unpack(args))
+
+
+local args = {
+	"ClaimMutatedPet"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args))
+
+
+local args = {
+	"Farm"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PlayerTeleportTriggered"):FireServer(unpack(args))
+
+local args = {
+	"Sell Shop"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PlayerTeleportTriggered"):FireServer(unpack(args))
+
+
+local args = {
+	"Seed Shop"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PlayerTeleportTriggered"):FireServer(unpack(args))
+
+
+local args = {
+	"Farm"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("Teleport"):FireServer(unpack(args))

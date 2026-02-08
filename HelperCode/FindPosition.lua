@@ -19,6 +19,10 @@ local Tabs = {
     })
 }
 
+local AddLog -- จองชื่อไว้ก่อน
+-- local InfoLog, WarnLog, ErrorLog, SuccessLog -- จองชื่อกลุ่มนี้ด้วย
+local LogDisplay -- จองชื่อ UI Display
+
 Window:SelectTab(1)
 
 ------------------------------------------------------
@@ -106,6 +110,24 @@ Tabs.Main:AddButton({
     end
 })
 
+Tabs.Main:AddButton({
+    Title = "Get Position",
+    Callback = function()
+        local Character = game:GetService("Players").LocalPlayer.Character or
+                              game:GetService("Players").LocalPlayer.CharacterAdded:Wait()
+        local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+
+        if HumanoidRootPart then
+            local pivot = Character:GetPivot()
+            local pos = pivot.Position
+
+            local posString = string.format("CFrame.new(%.2f, %.2f, %.2f)", pos.X, pos.Y, pos.Z)
+
+            AddLog(false, "Current Pos: " .. posString)
+        end
+    end
+})
+
 ------------------------------------------------------
 -- 3. สร้างหน้าจอแสดงผล (อยู่ด้านล่าง)
 ------------------------------------------------------
@@ -120,7 +142,8 @@ LogDisplay = Tabs.Main:AddParagraph({
 -- 4. ฟังก์ชัน AddLog
 ------------------------------------------------------
 
-local function AddLog(ts, message)
+-- local function AddLog(ts, message)
+AddLog = function(ts, message)
     if IsPaused then
         return
     end
@@ -170,69 +193,3 @@ local function SuccessLog(message)
     AddLog(true, "✅ " .. message)
 end
 
-------------------------------------------------------
--- 6. Test Loop (ทดสอบดูความสวยงาม)
-------------------------------------------------------
-InfoLog("Script initialized successfully.")
-task.wait(0.5)
-SuccessLog("Connected to server.")
-
-LocalPlayer = game:GetService("Players").LocalPlayer
-DataStream = game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("DataStream")
-WarnLog("Listening to DataStream events...")
-task.wait(0.5)
-
-local BacklistPackets = {"ROOT/SaveSlots/AllSlots/DEFAULT/LastPetEggsIncubationTime", "ROOT/LastSaveTime",
-                         "ROOT/LastPetsIncubationTime", "ROOT/LastPetsSaveTime",
-                         "ROOT/TravelingMerchantShopStock/Stocks", "ROOT/SaveSlots/AllSlots/DEFAULT/LastSaveTime",
-                         "ROOT/SaveSlots/AllSlots/DEFAULT/LastObjectsSaveTime"}
-
-local IgnorePatterns = {"ROOT/PetsData/PetInventory/Data"}
-
-DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
-    -- InfoLog("Received DataStream event: " .. Type)
-    -- InfoLog("Profile: " .. Profile)
-
-    -- เช็คว่าข้อมูลที่ส่งมาเป็นประเภท "UpdateData" หรือไม่
-    -- if Type ~= "UpdateData" then return end
-
-    -- เช็คว่าเป็นข้อมูลของตัวเราเองหรือไม่
-    if not Profile:find(LocalPlayer.Name) then
-        return
-    end
-
-    -- ต้องการดูว่าใน data มีอะไรบ้าง
-    for index, packet in pairs(Data) do
-
-        local isIgnored = false
-        if table.find(BacklistPackets, packet[1]) then
-            isIgnored = true
-        end
-
-        for _, pattern in ipairs(IgnorePatterns) do
-            if string.find(packet[1], pattern) then
-                isIgnored = true
-                break
-            end
-        end
-
-        if not isIgnored then
-            AddLog(false, string.format("Packet %d: Key=%s", index, packet[1]))
-            -- InfoLog(string.format("Content: %s", tostring(packet[2])))
-            if type(packet[2]) == "table" then
-                for index2, content in pairs(packet[2]) do
-                    InfoLog(string.format("  Content %d: ID=%s", index2))
-                    if type(content) == "table" then
-                        for key, value in pairs(content) do
-                            InfoLog(string.format("    %s = %s", key, tostring(value)))
-                        end
-                    else
-                        InfoLog(string.format("    Value: %s", tostring(content)))
-                    end
-                end
-            else
-                InfoLog(string.format("Content: %s", tostring(packet[2])))
-            end
-        end
-    end
-end)

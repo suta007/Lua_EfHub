@@ -9,7 +9,8 @@
         "getgenv",
         "setclipboard",
         "identifyexecutor",
-        "loadstring"
+        "loadstring",
+        "continue"
     ],
     "runtime.version": "Lua 5.1",
     "workspace.checkThirdParty": false

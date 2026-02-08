@@ -1,0 +1,65 @@
+
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Backpack = LocalPlayer:WaitForChild("Backpack")
+local GameEvents = game:GetService("ReplicatedStorage"):WaitForChild("GameEvents")
+local DataStream = GameEvents:WaitForChild("DataStream")
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local Humanoid = Character:WaitForChild("Humanoid")
+
+local TargetPet = "Bald Eagle"
+local TargetMutant = "Nightmare"
+local targetUUID = nil
+
+
+local function GetPetUUID(petName)
+    for _, item in ipairs(Backpack:GetChildren()) do
+        if item:GetAttribute("ItemType") == "Pet" then
+            local name = string.match(item.Name, "^(.-)%s*%[")
+            if string.find(name, TargetPet) then
+                if string.find(name, TargetMutant) then
+                    continue
+                else
+                    return item:GetAttribute("PET_UUID")
+                end
+            end
+        end
+    end
+    return nil
+end
+
+local function heldPet()
+    local uuid = GetPetUUID(TargetPet)
+    for _, item in ipairs(Backpack:GetChildren()) do
+        if item:GetAttribute("ItemType") == "Pet" and item:GetAttribute("PET_UUID") == uuid then
+            Humanoid:EquipTool(item)
+            return true
+        end
+    end
+    return false
+end
+
+heldPet()
+
+
+
+local Character= game:GetService("Players").LocalPlayer.Character or game:GetService("Players").LocalPlayer.CharacterAdded:Wait()
+local Previous = Character:GetPivot()
+Character:PivotTo(CFrame.new(62, 4, -26))
+Character:PivotTo(Previous)
+
+workspace.Farm.Farm.Important.Data.Owner.Value
+
+
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local TargetUI = PlayerGui:FindFirstChild("ActivePetUI")
+if TargetUI then 
+    TargetUI.Enabled = false
+    task.wait(0.2)
+    TargetUI.Enabled = true
+    task.wait(0.5)
+end
