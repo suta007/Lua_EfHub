@@ -10,11 +10,15 @@ game:GetService("Players").LocalPlayer.PlayerGui.Seed_Shop.Daily.ScrollingFrame.
 
 game:GetService("Players").LocalPlayer.PlayerGui.Seed_Shop.Frame.ScrollingFrame.Apple.Frame.Value
 
+game:GetService("Players").LocalPlayer.PlayerGui.Seed_Shop.Frame.ScrollingFrame.Apple.Frame.Value
 
-local player = game:GetService("Players").LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
+game:GetService("Players").LocalPlayer.PlayerGui.TravelingMerchantShop_UI.Frame.ScrollingFrame["Cooking Pot"].Frame.Value
+
+
+
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local DailySeed = playerGui:WaitForChild("Seed_Shop"):WaitForChild("Daily"):WaitForChild("ScrollingFrame")
--- รอจนกว่า ScrollingFrame จะปรากฏ
 local DailySeedData={}
 
 for _, item in ipairs(scrollingFrame:GetChildren()) do

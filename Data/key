@@ -141,3 +141,4 @@ local args = {
 	"Farm"
 }
 game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("Teleport"):FireServer(unpack(args))
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PlayerTeleportTriggered"):FireServer("Farm")

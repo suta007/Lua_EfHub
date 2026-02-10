@@ -36,11 +36,13 @@ local Mutanting = false
 local IsActivePet = false
 local ApplyAntiLag
 local RawName
+local DevLog
 
 local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType
 
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
+	Daily = "ROOT/SeedStocks/Daily/Stocks",
 	Gear = "ROOT/GearStock/Stocks",
 	Egg = "ROOT/PetEggStock/Stocks",
 	Santa = "ROOT/EventShopStock/Santa's Stash/Stocks",
@@ -55,6 +57,13 @@ local BuyList = {
 		Items = {},
 		RemoteName = "BuySeedStock",
 		ArgType = "SeedMode",
+	},
+	[ShopKey.Daily] = {
+		Enabled = true,
+		BuyAll = true,
+		Items = {},
+		RemoteName = "BuyDailySeedShopStock",
+		ArgType = "NormalMode",
 	},
 	[ShopKey.Gear] = {
 		Enabled = false,
@@ -94,6 +103,10 @@ local BuyList = {
 		EventArg = "New Years Shop",
 	},
 }
+
+local function isTableEmpty(t)
+	return next(t) == nil
+end
 
 local Window = Fluent:CreateWindow({
 	Title = "Grow a Garden",
@@ -137,11 +150,12 @@ local Options = Fluent.Options
 
 DevNoti = function(content)
 	if DevMode then
-		Fluent:Notify({
-			Title = "EfHub - Dev Mode",
-			Content = content,
-			Duration = 5,
-		})
+		--[[         Fluent:Notify({
+            Title = "EfHub - Dev Mode",
+            Content = content,
+            Duration = 5
+        }) ]]
+		DevLog(content)
 	end
 end
 
@@ -540,7 +554,7 @@ local PetModeEnable = PetWorkSection:AddToggle("PetModeEnable", {
 	Title = "Enable Pet Farm",
 	Default = false,
 	Callback = function(Value)
-		--PetSetting["PetMode"].Enabled = Value
+		-- PetSetting["PetMode"].Enabled = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -548,13 +562,13 @@ local PetModeEnable = PetWorkSection:AddToggle("PetModeEnable", {
 			task.wait(1)
 			local mode = Options.PetMode.Value
 			if mode == "Nightmare" then
-				--Mutation = "Nightmare"
+				-- Mutation = "Nightmare"
 			elseif mode == "Mutant" then
 				if Mutation then
 					Mutation()
 				end
 			else
-				--Mutation = "EfHub"
+				-- Mutation = "EfHub"
 			end
 		end
 	end,
@@ -619,7 +633,7 @@ local AgeLimitInput = PetWorkSection:AddInput("AgeLimitInput", {
 			numValue = 50
 			AgeLimitInput:SetValue(numValue)
 		end
-		--PetSetting["PetMode"].AgeLimit = numValue
+		-- PetSetting["PetMode"].AgeLimit = numValue
 		if QuickSave then
 			QuickSave()
 		end
@@ -633,7 +647,7 @@ local LoadOutDelay = PetWorkSection:AddInput("LoadOutDelay", {
 	Filter = "Number",
 	Default = 10,
 	Callback = function(Value)
-		--PetSetting["PetMode"].LoadOutDelay = tonumber(Value)
+		-- PetSetting["PetMode"].LoadOutDelay = tonumber(Value)
 		if QuickSave then
 			QuickSave()
 		end
@@ -646,7 +660,7 @@ local LevelSlots = PetWorkSection:AddDropdown("LevelSlots", {
 	Default = 1,
 	Multi = false,
 	Callback = function(Value)
-		--PetSetting["PetMode"].LevelSlots = Value
+		-- PetSetting["PetMode"].LevelSlots = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -656,10 +670,10 @@ local LevelSlots = PetWorkSection:AddDropdown("LevelSlots", {
 local TimeSlots = PetWorkSection:AddDropdown("TimeSlots", {
 	Title = "Select Time Slot",
 	Values = { 1, 2, 3, 4, 5, 6 },
-	Default = 3,
+	Default = 2,
 	Multi = false,
 	Callback = function(Value)
-		--PetSetting["PetMode"].TimeSlot = Value
+		-- PetSetting["PetMode"].TimeSlot = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -669,10 +683,10 @@ local TimeSlots = PetWorkSection:AddDropdown("TimeSlots", {
 local MutantSlots = PetWorkSection:AddDropdown("MutantSlots", {
 	Title = "Select Mutant Slot",
 	Values = { 1, 2, 3, 4, 5, 6 },
-	Default = 2,
+	Default = 3,
 	Multi = false,
 	Callback = function(Value)
-		--PetSetting["PetMode"].MutantSlot = Value
+		-- PetSetting["PetMode"].MutantSlot = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -681,7 +695,7 @@ local MutantSlots = PetWorkSection:AddDropdown("MutantSlots", {
 
 --[[ Log Section Not finished yet ]]
 --
-local MaxLines = 30 -- จำนวนบรรทัดที่จะโชว์
+local MaxLines = 100 -- จำนวนบรรทัดที่จะโชว์
 local DisplayTable = {} -- ตารางเก็บข้อความโชว์
 
 --[[ Tabs.Log:AddButton({
@@ -733,7 +747,7 @@ local function AddLog(message)
 		table.remove(DisplayTable, 1)
 	end
 	if LogDisplay then
-		--LogDisplay:SetDesc(table.concat(DisplayTable, "\n"))
+		-- LogDisplay:SetDesc(table.concat(DisplayTable, "\n"))
 		local TempText = ""
 		TempText = table.concat(DisplayTable, "\n")
 		LogDisplay:SetValue(TempText)
@@ -757,6 +771,10 @@ end
 
 local function SuccessLog(message)
 	AddLog("✅ " .. message)
+end
+
+DevLog = function(message)
+	AddLog("💻 " .. message)
 end
 
 --[[
@@ -855,8 +873,8 @@ local function ProcessBuy(ShopKey, StockData)
 			end
 			BuyEnabled = false
 
-			--local LogMessage = string.format("Bought %s : %s", ItemName, StockAmount)
-			--DevNoti(LogMessage)
+			local LogMessage = string.format("Bought %s : %s", ItemName, StockAmount)
+			DevNoti(LogMessage)
 		end
 	end
 end
@@ -938,7 +956,7 @@ GetPetType = function(uuid)
 end
 
 RawName = function(Name)
-	--MutantTable
+	-- MutantTable
 	for _, prefix in ipairs(MutantTable) do
 		if string.sub(Name, 1, #prefix) == prefix then
 			Name = string.sub(Name, #prefix + 1)
@@ -953,7 +971,7 @@ RawName = function(Name)
 end
 
 GetPetUUID = function(petName)
-	local TargetPet = petName --PetSetting["PetMode"].TargetPet
+	local TargetPet = petName -- PetSetting["PetMode"].TargetPet
 	local name
 	local TargetMutant = "EfHub"
 
@@ -968,7 +986,7 @@ GetPetUUID = function(petName)
 		for _, item in ipairs(Backpack:GetChildren()) do
 			if item:GetAttribute("ItemType") == "Pet" then
 				name = RawName(item.Name)
-				--if string.find(name, TargetPet) then
+				-- if string.find(name, TargetPet) then
 				if name == TargetPet then
 					if not string.find(name, TargetMutant) then
 						InfoLog("Found pet in backpack: " .. name .. " (UUID: " .. item:GetAttribute("PET_UUID") .. ")")
@@ -982,7 +1000,7 @@ GetPetUUID = function(petName)
 		for _, pet in ipairs(scrollFramePath:GetChildren()) do
 			if pet:FindFirstChild("Main") then
 				name = RawName(pet.Main.PET_TYPE.Text)
-				--if string.find(pet.Main.PET_TYPE.Text, petName) then
+				-- if string.find(pet.Main.PET_TYPE.Text, petName) then
 				if name == TargetPet then
 					if not string.find(pet.Main.PET_TYPE.Text, TargetMutant) then
 						InfoLog("Found pet in ActivePetUI: " .. pet.Main.PET_TYPE.Text .. " (UUID: " .. pet.Name .. ")")
@@ -1120,7 +1138,7 @@ MakeMutant = function(uuid)
 end
 
 ClaimMutantPet = function(uuid)
-	--print("Swapping to claim loadout " .. ClaimLoadout .. " to claim mutant pet...")
+	-- print("Swapping to claim loadout " .. ClaimLoadout .. " to claim mutant pet...")
 	SwapPetLoadout(Options.MutantSlots.Value)
 	task.wait(Options.LoadOutDelay.Value)
 	task.wait(Options.LoadOutDelay.Value)
@@ -1129,14 +1147,14 @@ ClaimMutantPet = function(uuid)
 		:WaitForChild("GameEvents")
 		:WaitForChild("PetMutationMachineService_RE")
 		:FireServer(unpack(args))
-	--print("Mutant pet claimed successfully!")
+	-- print("Mutant pet claimed successfully!")
 	task.wait(3)
 	if Character and Humanoid then
 		pcall(function()
 			Humanoid:UnequipTools()
 		end)
 	end
-	--local mutantPetname = GetPetMutation(uuid)
+	-- local mutantPetname = GetPetMutation(uuid)
 	SuccessLog("Successfully claimed " .. GetPetType(uuid) .. " Mutant : " .. GetPetMutation(uuid))
 	Mutanting = false
 	task.wait(10)
@@ -1144,7 +1162,7 @@ ClaimMutantPet = function(uuid)
 end
 
 Mutation = function()
-	--if PetSetting["PetMode"].Enabled then
+	-- if PetSetting["PetMode"].Enabled then
 	if Options.PetModeEnable.Value then
 		local TargetPet = Options.TargetPetDropdown.Value
 		targetUUID = GetPetUUID(TargetPet)
@@ -1197,9 +1215,9 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 		-- Process Pet Mutation
 		if string.find(Key, "ROOT/GardenGuide/PetData") then
 			local age = tonumber(Content) or GetPetLevel(targetUUID)
-			InfoLog("Key 1 : Current max level of " .. TargetPet .. ": " .. tostring(age))
+			DevNoti("Key 1 :  " .. TargetPet .. " Age : " .. tostring(age))
 			if age >= TargetLevel then
-				InfoLog(TargetPet .. " has reached level " .. TargetLevel .. ". Proceeding to swap loadout...")
+				DevInfoLogNoti(TargetPet .. " has reached level " .. TargetLevel)
 				UnequipPet(targetUUID)
 				task.wait(0.3)
 				MakeMutant(targetUUID)
@@ -1208,16 +1226,9 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 		if Key == "ROOT/BadgeData/PetMaster" then
 			local age = GetPetLevel(targetUUID)
 			task.wait(1)
-			InfoLog(
-				"Key 2 : Current max level of "
-					.. TargetPet
-					.. ": "
-					.. tostring(age)
-					.. " Waiting for Age "
-					.. TargetLevel
-			)
+			DevNoti("Key 2 :  " .. TargetPet .. " Age : " .. tostring(age))
 			if age >= TargetLevel then
-				InfoLog(TargetPet .. " has reached level " .. TargetLevel .. ". Proceeding to swap loadout...")
+				InfoLog(TargetPet .. " has reached level " .. TargetLevel)
 				UnequipPet(targetUUID)
 				task.wait(0.3)
 				MakeMutant(targetUUID)
@@ -1268,55 +1279,129 @@ ApplyAntiLag = function()
 	end)
 end
 
+function ManualBuy()
+	local SeedShop = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Seed_Shop")
+	local DailySeed = SeedShop:WaitForChild("Daily"):WaitForChild("ScrollingFrame")
+	local DailySeedChildren = DailySeed:WaitForChild("Seeds")
+
+	local DailySeedData = {}
+
+	for _, item in ipairs(DailySeed:GetChildren()) do
+		local stockChild = item:FindFirstChild("_StockValue")
+		if stockChild and stockChild.Value > 0 then
+			InfoLog(item.Name .. ": " .. stockChild.Value)
+			DailySeedData[item.Name] = {
+				Stock = stockChild.Value,
+			}
+		end
+	end
+
+	for _, item in ipairs(DailySeedChildren:GetChildren()) do
+		local stockChild = item:FindFirstChild("_StockValue")
+		if stockChild and stockChild.Value > 0 then
+			DailySeedData[item.Name] = {
+				Stock = stockChild.Value,
+			}
+		end
+	end
+
+	if not isTableEmpty(DailySeedData) then
+		ProcessBuy(ShopKey.Daily, DailySeedData)
+	end
+
+	local NormalSeed = SeedShop:WaitForChild("Frame"):WaitForChild("ScrollingFrame")
+	local NormalSeedData = {}
+
+	for _, item in ipairs(NormalSeed:GetChildren()) do
+		local frame = item:FindFirstChild("Frame")
+		if frame then
+			local stockChild = frame:FindFirstChild("Value")
+			if stockChild and stockChild.Value > 0 then
+				NormalSeedData[item.Name] = {
+					Stock = stockChild.Value,
+				}
+			end
+		end
+	end
+
+	if not isTableEmpty(NormalSeedData) then
+		ProcessBuy(ShopKey.Seed, NormalSeedData)
+	end
+
+
+	local GearShop = LocalPlayer:WaitForChild("PlayerGui")
+		:WaitForChild("Gear_Shop")
+		:WaitForChild("Frame")
+		:WaitForChild("ScrollingFrame")
+	local GearShopData = {}
+
+	for _, item in ipairs(GearShop:GetChildren()) do
+		local frame = item:FindFirstChild("Frame")
+		if frame then
+			local stockChild = frame:FindFirstChild("Value")
+			if stockChild and stockChild.Value > 0 then
+				GearShopData[item.Name] = {
+					Stock = stockChild.Value,
+				}
+			end
+		end
+	end
+
+	if not isTableEmpty(GearShopData) then
+		ProcessBuy(ShopKey.Gear, GearShopData)
+	end
+
+	
+
+	local PetShop = LocalPlayer:WaitForChild("PlayerGui")
+		:WaitForChild("PetShop_UI")
+		:WaitForChild("Frame")
+		:WaitForChild("ScrollingFrame")
+	local PetShopData = {}
+	
+	for _, item in ipairs(PetShop:GetChildren()) do
+		local frame = item:FindFirstChild("Frame")
+		if frame then
+			local stockChild = frame:FindFirstChild("Value")
+			if stockChild and stockChild.Value > 0 then
+				PetShopData[item.Name] = {
+					Stock = stockChild.Value,
+				}
+			end
+		end
+	end
+	
+	if not isTableEmpty(PetShopData) then
+		ProcessBuy(ShopKey.Egg, PetShopData)
+	end
+	
+	local TravelShop = LocalPlayer:WaitForChild("PlayerGui")
+		:WaitForChild("TravelingMerchantShop_UI")
+		:WaitForChild("Frame")
+		:WaitForChild("ScrollingFrame")
+	local TravelShopData = {}
+
+	for _, item in ipairs(TravelShop:GetChildren()) do
+		local frame = item:FindFirstChild("Frame")
+		if frame then
+			local stockChild = frame:FindFirstChild("Value")
+			if stockChild and stockChild.Value > 0 then
+				TravelShopData[item.Name] = {
+					Stock = stockChild.Value,
+				}
+			end
+		end
+	end
+
+	if not isTableEmpty(TravelShopData) then
+		ProcessBuy(ShopKey.Travel, TravelShopData)
+	end
+end
+task.wait(5)
+ManualBuy()
 --[[ Anti-AFK ]]
 
 LocalPlayer.Idled:Connect(function()
 	VirtualUser:CaptureController()
 	VirtualUser:ClickButton2(Vector2.new())
 end)
-
--- DevNoti(tostring(IsLoading))
-
---[[ task.spawn(function()
-    -- SeedTable
-    for _, seedName in pairs(SeedTable) do
-        BuySeed(seedName, 10)
-        task.wait(0.1)
-    end
-end) ]]
-
---[[ Data
-Shop Data
-game:GetService("ReplicatedStorage").Data.SeedShopData
-game:GetService("ReplicatedStorage").Data.GearShopData
-game:GetService("ReplicatedStorage").Data.PetEggData
-game:GetService("ReplicatedStorage").Data.DailySeedShopData
-game:GetService("ReplicatedStorage").Data.EventShopData
-
-game:GetService("ReplicatedStorage").Data.GiftData
-
-game:GetService("ReplicatedStorage").Data.TravelingMerchant.TravelingMerchantData
-game:GetService("ReplicatedStorage").Data.TravelingMerchant.TravelingMerchantData.AmericanMerchantShopData
-game:GetService("ReplicatedStorage").Data.TravelingMerchant.TravelingMerchantData.FallMerchantShopData
-game:GetService("ReplicatedStorage").Data.TravelingMerchant.TravelingMerchantData.GnomeMerchantShopData
-game:GetService("ReplicatedStorage").Data.TravelingMerchant.TravelingMerchantData.HalloweenMerchantShopData
-game:GetService("ReplicatedStorage").Data.TravelingMerchant.TravelingMerchantData.HoneyMerchantShopData
-game:GetService("ReplicatedStorage").Data.TravelingMerchant.TravelingMerchantData.RareCosmeticMerchantShopData
-game:GetService("ReplicatedStorage").Data.TravelingMerchant.TravelingMerchantData.SafariMerchantShopData
-game:GetService("ReplicatedStorage").Data.TravelingMerchant.TravelingMerchantData.SkyMerchantShopData
-game:GetService("ReplicatedStorage").Data.TravelingMerchant.TravelingMerchantData.SprayMerchantShopData
-game:GetService("ReplicatedStorage").Data.TravelingMerchant.TravelingMerchantData.SprinklerMerchantShopData
-game:GetService("ReplicatedStorage").Data.TravelingMerchant.TravelingMerchantData.SummerMerchantShopData
-
-
-All Data
-game:GetService("ReplicatedStorage").Data.SeedData
-game:GetService("ReplicatedStorage").Data.PetRegistry.PetEggs
-game:GetService("ReplicatedStorage").Data.PetRegistry.PetList
-game:GetService("ReplicatedStorage").Data.PetRegistry.PetMutationRegistry
-
-game:GetService("ReplicatedStorage").Data.CraftingData
-game:GetService("ReplicatedStorage").Data.CraftingData.CraftingObjectRegistry
-game:GetService("ReplicatedStorage").Data.CraftingData.CraftingRecipeRegistry
-
-]]

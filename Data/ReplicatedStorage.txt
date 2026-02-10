@@ -51,3 +51,8 @@ local args = {
 	"Cauliflower"
 }
 game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyDailySeedShopStock"):FireServer(unpack(args))
+
+
+
+
+game:GetService("Players").LocalPlayer.PlayerGui.TravelingMerchantShop_UI.Frame.ScrollingFrame["Cooking Pot"].Frame.Value
