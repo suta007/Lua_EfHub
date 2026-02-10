@@ -107,7 +107,7 @@ local Window = Fluent:CreateWindow({
 })
 
 local Tabs = {
-	Main = window.AddTab({
+	Main = Window:AddTab({
 		Title="Main",
 		Icon="home",
 	}),
