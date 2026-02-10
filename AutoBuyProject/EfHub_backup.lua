@@ -23,21 +23,23 @@ local GetSelectedItems
 local targetUUID
 local GetPetUUID
 local GetPetName
+local GetPetAge
 local EquipPet
 local UnequipPet
 local SwapPetLoadout
 local heldPet
 local heldItemName
 local heldItemUUID
+local CheckPetAge
 local MakeMutant
 local Mutation
 local ClaimMutantPet
 local Mutanting = false
 local IsActivePet = false
-local ApplyAntiLag
 local RawName
+local ApplyAntiLag
 
-local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType
+local GetRawPetData, GetPetLevel, GetPetMutationType, GetPetHunger, GetPetType
 
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
@@ -582,14 +584,9 @@ local TargetPetDropdown = PetWorkSection:AddDropdown("TargetPetDropdown", {
 
 local MutantData = require(game:GetService("ReplicatedStorage").Data.PetRegistry.PetMutationRegistry)
 local MutantTable = {}
-local EnumToNameCache = {}
 for mutantName, mutantInfo in pairs(MutantData["PetMutationRegistry"]) do
-	if type(mutantInfo) == "table" and mutantInfo.EnumId then
-		table.insert(MutantTable, mutantName)
-		EnumToNameCache[mutantInfo.EnumId] = mutantName
-	end
+	table.insert(MutantTable, mutantName)
 end
-
 table.sort(MutantTable)
 local TargetMutantDropdown = PetWorkSection:AddDropdown("TargetMutantDropdown", {
 	Title = "Target Mutant",
@@ -799,8 +796,7 @@ IsLoading = false
 --[[
  Auto Buy System
 ]]
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
+local GameEvents = game:GetService("ReplicatedStorage"):WaitForChild("GameEvents")
 local DataStream = GameEvents:WaitForChild("DataStream")
 
 local LocalPlayer = game:GetService("Players").LocalPlayer
@@ -810,9 +806,7 @@ local Humanoid = Character:WaitForChild("Humanoid")
 local VirtualUser = game:GetService("VirtualUser")
 local Lighting = game:GetService("Lighting")
 local Terrain = workspace.Terrain
-
-local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
-local PetMutationRegistry = require(ReplicatedStorage.Data.PetRegistry.PetMutationRegistry)
+local ActivePetsService = require(game:GetService("ReplicatedStorage").Modules.PetServices.ActivePetsService)
 
 local function ProcessBuy(ShopKey, StockData)
 	local Setting = BuyList[ShopKey]
@@ -861,80 +855,62 @@ local function ProcessBuy(ShopKey, StockData)
 	end
 end
 
-local function BuildMutationCache()
-	-- เช็คโครงสร้างข้อมูลว่า List Mutation เก็บอยู่ที่ไหน
-	-- (บางทีอาจซ้อนอยู่ใน .PetMutationRegistry หรืออยู่ที่ตัวแปรหลักเลย)
-	local mutations = PetMutationRegistry.PetMutationRegistry or PetMutationRegistry
-
-	for name, info in pairs(mutations) do
-		-- ถ้าข้อมูลมี EnumId ให้เก็บลงตาราง Cache
-		-- ตัวอย่าง: info.EnumId คือ 'a', name คือ "Shocked"
-		-- ผลลัพธ์ใน Cache: EnumToNameCache['a'] = "Shocked"
-		if type(info) == "table" and info.EnumId then
-			EnumToNameCache[info.EnumId] = name
-		end
-	end
-end
-
 GetRawPetData = function(uuid)
-	local success, result = pcall(function()
-		-- ถูกต้อง: ส่ง Name ตามที่เราแกะได้
-		return ActivePetsService:GetPetData(LocalPlayer.Name, uuid)
-	end)
-
-	if success and result then
-		return result -- คืนค่า Table ข้อมูลทั้งหมดกลับไป
-	end
-	return nil
+    local success, result = pcall(function()
+        -- ถูกต้อง: ส่ง Name ตามที่เราแกะได้
+        return ActivePetsService:GetPetData(LocalPlayer.Name, uuid)
+    end)
+    
+    if success and result then
+        return result -- คืนค่า Table ข้อมูลทั้งหมดกลับไป
+    end
+    return nil
 end
 
 -- ==========================================
 -- 1. ฟังก์ชันหา Level
 -- ==========================================
 GetPetLevel = function(uuid)
-	local data = GetRawPetData(uuid)
-	-- เช็ค PetData ก่อน เพราะ Level อยู่ข้างในนั้น
-	if data and data.PetData then
-		return data.PetData.Level or 1
-	end
-	return 1
+    local data = GetRawPetData(uuid)
+    -- เช็ค PetData ก่อน เพราะ Level อยู่ข้างในนั้น
+    if data and data.PetData then
+        return data.PetData.Level or 0
+    end
+    return 0
 end
 
 -- ==========================================
--- 2. ฟังก์ชันหา Mutation
+-- 2. ฟังก์ชันหา MutationType
 -- ==========================================
-GetPetMutation = function(uuid)
-	local data = GetRawPetData(uuid)
-	if data and data.PetData then
-		local rawEnum = data.PetData.MutationType
-		if rawEnum then
-			return EnumToNameCache[rawEnum] or rawEnum
-		end
-	end
-	return nil
+GetPetMutationType = function(uuid)
+    local data = GetRawPetData(uuid)
+    if data and data.PetData then
+        return data.PetData.MutationType -- คืนค่า nil ได้ถ้าไม่มี
+    end
+    return nil
 end
 
 -- ==========================================
 -- 3. ฟังก์ชันหา Hunger
 -- ==========================================
 GetPetHunger = function(uuid)
-	local data = GetRawPetData(uuid)
-	if data and data.PetData then
-		return data.PetData.Hunger or 0
-	end
-	return 0
+    local data = GetRawPetData(uuid)
+    if data and data.PetData then
+        return data.PetData.Hunger or 0
+    end
+    return 0
 end
 
 -- ==========================================
 -- 4. ฟังก์ชันหา PetType
 -- ==========================================
 GetPetType = function(uuid)
-	local data = GetRawPetData(uuid)
-	if data then
-		-- ถูกต้อง: ตัวนี้อยู่นอก PetData (ตามโครงสร้างที่พี่เอฟเจอ)
-		return data.PetType or "Unknown"
-	end
-	return "Unknown"
+    local data = GetRawPetData(uuid)
+    if data then
+        -- ถูกต้อง: ตัวนี้อยู่นอก PetData (ตามโครงสร้างที่พี่เอฟเจอ)
+        return data.PetType or "Unknown"
+    end
+    return "Unknown"
 end
 
 RawName = function(Name)
@@ -945,8 +921,12 @@ RawName = function(Name)
 			break
 		end
 	end
+	--Name = string.match(Name, "^(.-)%s*%[")
+	--Name = string.gsub(Name, "%s+", "") -- Remove spaces
+
 	-- 2. ลบทุกวงเล็บทิ้ง
 	Name = string.gsub(Name, "%b[]", "")
+
 	-- 3. ตัดช่องว่างหัวท้าย
 	Name = string.match(Name, "^%s*(.-)%s*$")
 	return Name
@@ -1002,13 +982,13 @@ GetPetName = function(uuid)
 	repeat
 		for _, item in ipairs(Backpack:GetChildren()) do
 			if item:GetAttribute("ItemType") == "Pet" and item:GetAttribute("PET_UUID") == uuid then
-				return GetPetType(item.Name)
+				return RawName(item.Name)
 			end
 		end
 		local scrollFramePath = LocalPlayer.PlayerGui.ActivePetUI.Frame.Main.PetDisplay.ScrollingFrame
 		local targetPet = scrollFramePath:FindFirstChild(uuid)
 		if targetPet then
-			return GetPetType(targetPet.Main.PET_TYPE.Text)
+			return RawName(targetPet.Main.PET_TYPE.Text)
 		end
 	until tick() - startTime > timeout
 	return nil
@@ -1042,7 +1022,7 @@ heldPet = function(uuid)
 		for _, item in ipairs(Backpack:GetChildren()) do
 			if item:GetAttribute("ItemType") == "Pet" and item:GetAttribute("PET_UUID") == uuid then
 				Humanoid:EquipTool(item)
-				task.wait(0.3) -- รอให้ถือติด
+				task.wait(0.1) -- รอให้ถือติด
 				return true
 			end
 		end
@@ -1075,6 +1055,34 @@ heldItemName = function(itemName) -- find item in backpack and select it
 	return false
 end
 
+GetPetAge = function(uuid)
+	local age = nil
+	local FoundPet = false
+	pcall(function()
+		UnequipPet(uuid)
+		task.wait(0.2)
+		EquipPet(uuid)
+		task.wait(0.5)
+	end)
+	local scrollFramePath = LocalPlayer.PlayerGui.ActivePetUI.Frame.Main.PetDisplay.ScrollingFrame
+	local targetPet = scrollFramePath:FindFirstChild(uuid)
+	if targetPet then
+		age = tonumber(string.match(targetPet.Main.PET_AGE.Text, "%d+"))
+		FoundPet = true
+	end
+
+	if not FoundPet then
+		for _, item in ipairs(Backpack:GetChildren()) do
+			if item:GetAttribute("ItemType") == "Pet" and item:GetAttribute("PET_UUID") == uuid then
+				age = tonumber(string.match(item.Name, "%[%s*Age%s*(%d+)%s*%]"))
+				FoundPet = true
+				break
+			end
+		end
+	end
+	return FoundPet, age
+end
+
 IsActivePet = function(uuid)
 	local scrollFramePath = LocalPlayer.PlayerGui.ActivePetUI.Frame.Main.PetDisplay.ScrollingFrame
 	local targetPet = scrollFramePath:FindFirstChild(uuid)
@@ -1083,6 +1091,24 @@ IsActivePet = function(uuid)
 	else
 		return false
 	end
+end
+
+CheckPetAge = function(uuid)
+	local timeout = 3
+	local startTime = tick()
+	repeat
+		UnequipPet(uuid) -- Swaps to loadout 4 to check pet age
+		task.wait(0.5)
+		EquipPet(uuid)
+		task.wait(1.5)
+		local scrollFramePath = LocalPlayer.PlayerGui.ActivePetUI.Frame.Main.PetDisplay.ScrollingFrame
+		local targetPet = scrollFramePath:FindFirstChild(uuid)
+		if targetPet then
+			return tonumber(string.match(targetPet.Main.PET_AGE.Text, "%d+"))
+		end
+		task.wait(0.5)
+	until tick() - startTime >= timeout
+	return nil
 end
 
 MakeMutant = function(uuid)
@@ -1136,8 +1162,8 @@ ClaimMutantPet = function(uuid)
 			Humanoid:UnequipTools()
 		end)
 	end
-	--local mutantPetname = GetPetMutation(uuid)
-	SuccessLog("Successfully claimed " .. GetPetType(uuid) .. " Mutant : " .. GetPetMutation(uuid))
+	local mutantPetname = GetPetName(uuid)
+	SuccessLog("Successfully claimed mutant pet: " .. tostring(mutantPetname))
 	Mutanting = false
 	task.wait(10)
 	Mutation()
@@ -1150,7 +1176,10 @@ Mutation = function()
 		targetUUID = GetPetUUID(TargetPet)
 		if targetUUID then
 			-- InfoLog("Found target pet: " .. TargetPet .. " (UUID: " .. targetUUID .. ")")
-			local age = GetPetLevel(targetUUID)
+			local found, age = GetPetAge(targetUUID)
+			if age == nil then
+				age = CheckPetAge(targetUUID) or 1
+			end
 			InfoLog("Current age of " .. TargetPet .. ": " .. tostring(age))
 			if age < 50 then
 				Character:PivotTo(CFrame.new(-16.63, 4.50, -64.73))
@@ -1196,7 +1225,7 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 
 		-- Process Pet Mutation
 		if string.find(Key, "ROOT/GardenGuide/PetData") then
-			local age = tonumber(Content) or GetPetLevel(targetUUID)
+			local age = tonumber(Content) or CheckPetAge(targetUUID)
 			InfoLog("Key 1 : Current max level of " .. TargetPet .. ": " .. tostring(age))
 			if age >= TargetLevel then
 				InfoLog(TargetPet .. " has reached level " .. TargetLevel .. ". Proceeding to swap loadout...")
@@ -1206,7 +1235,7 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 			end
 		end
 		if Key == "ROOT/BadgeData/PetMaster" then
-			local age = GetPetLevel(targetUUID)
+			local age = tonumber(CheckPetAge(targetUUID)) or 0
 			task.wait(1)
 			InfoLog(
 				"Key 2 : Current max level of "
