@@ -13,31 +13,6 @@ local CollapsibleAddon = loadstring(
 	game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua")
 )()
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
-local DataStream = GameEvents:WaitForChild("DataStream")
-
-local LocalPlayer = game:GetService("Players").LocalPlayer
-local Backpack = LocalPlayer:WaitForChild("Backpack")
-local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-local Humanoid = Character:WaitForChild("Humanoid")
-local VirtualUser = game:GetService("VirtualUser")
-local Lighting = game:GetService("Lighting")
-local Terrain = workspace.Terrain
-
-local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
-local PetMutationRegistry = require(ReplicatedStorage.Data.PetRegistry.PetMutationRegistry)
-
-local DataService = require(ReplicatedStorage.Modules.DataService)
-local GetData_result = DataService:GetData()
-local SeedStocks = GetData_result.SeedStocks.Shop.Stocks
-local DailyStocks = GetData_result.SeedStocks["Daily Deals"].Stocks
-local NewYearStocks = GetData_result.EventShopStock["New Years Shop"].Stocks
-local SantaStocks = GetData_result.EventShopStock["Santa's Stash"].Stocks
-local GearStock = GetData_result.GearStock.Stocks
-local EggStock = GetData_result.PetEggStock.Stocks
-local TravelingStock = GetData_result.TravelingMerchantShopStock.Stocks
-
 CollapsibleAddon(Fluent)
 local DevMode = true
 local DevNoti
@@ -62,7 +37,6 @@ local IsActivePet = false
 local ApplyAntiLag
 local RawName
 local DevLog
-local ProcessBuy, ManualBuy
 
 local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType
 
@@ -131,54 +105,7 @@ local BuyList = {
 }
 
 local function isTableEmpty(t)
-	return type(t) ~= "table" or next(t) == nil
-end
-
-ProcessBuy = function(ShopKey, StockData)
-	local Setting = BuyList[ShopKey]
-	if not Setting or not Setting.Enabled then
-		return
-	end
-	local Remote = GameEvents:FindFirstChild(Setting.RemoteName)
-	if not Remote then
-		return
-	end
-	for itemId, itemInfo in pairs(StockData) do
-		local ItemName = itemInfo.EggName or itemId
-		local StockAmount = tonumber(itemInfo.Stock) or 0
-		local BuyEnabled = false
-		local StockInfo = string.format("Found %s : %s", ItemName, StockAmount)
-		DevNoti(StockInfo)
-		if Setting.BuyAll then
-			BuyEnabled = true
-		else
-			for _, TargetName in ipairs(Setting.Items) do
-				if TargetName == ItemName then
-					BuyEnabled = true
-					break
-				end
-			end
-		end
-
-		if BuyEnabled == true and StockAmount > 0 then
-			for i = 1, StockAmount do
-				local Args = {}
-				if Setting.ArgType == "SeedMode" then
-					Args = { "Shop", ItemName }
-				elseif Setting.ArgType == "EventMode" then
-					Args = { ItemName, Setting.EventArg }
-				else
-					Args = { ItemName }
-				end
-				Remote:FireServer(unpack(Args))
-				task.wait(0.1)
-			end
-			BuyEnabled = false
-
-			local LogMessage = string.format("Bought %s : %s", ItemName, StockAmount)
-			DevNoti(LogMessage)
-		end
-	end
+	return next(t) == nil
 end
 
 local Window = Fluent:CreateWindow({
@@ -308,9 +235,6 @@ local buySeedEnable = BuySeedSection:AddToggle("buySeedEnable", {
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Seed].Enabled = Value
-		if not isTableEmpty(SeedStocks) then
-			ProcessBuy(ShopKey.Seed, SeedStocks)
-		end
 		if QuickSave then
 			QuickSave()
 		end
@@ -348,32 +272,6 @@ local SeedList = BuySeedSection:AddDropdown("SeedList", {
 	end,
 })
 
---[[ Buy Daily Deal Section ]]
-local BuyDailySection = Tabs.Buy:AddCollapsibleSection("Auto Buy Daily Seed", false)
-local buyDailyEnable = BuyDailySection:AddToggle("buyDailyEnable", {
-	Title = "Buy Daily Seed",
-	Default = false,
-	Callback = function(Value)
-		BuyList[ShopKey.Daily].Enabled = Value
-		if not isTableEmpty(DailyStock) then
-			ProcessBuy(ShopKey.Daily, DailyStock)
-		end
-		if QuickSave then
-			QuickSave()
-		end
-	end,
-})
-local buyDailyAll = BuyDailySection:AddToggle("buyDailyAll", {
-	Title = "Buy All Daily Seed",
-	Default = false,
-	Callback = function(Value)
-		BuyList[ShopKey.Daily].BuyAll = Value
-		if QuickSave then
-			QuickSave()
-		end
-	end,
-})
-
 --[[
  Buy Gear Section
 ]]
@@ -383,9 +281,6 @@ local buyGearEnable = buyGearSection:AddToggle("buyGearEnable", {
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Gear].Enabled = Value
-		if not isTableEmpty(GearStock) then
-			ProcessBuy(ShopKey.Gear, GearStock)
-		end
 		if QuickSave then
 			QuickSave()
 		end
@@ -431,9 +326,6 @@ local buyEggEnable = buyEggSection:AddToggle("buyEggEnable", {
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Egg].Enabled = Value
-		if not isTableEmpty(EggStock) then
-			ProcessBuy(ShopKey.Egg, EggStock)
-		end
 		if QuickSave then
 			QuickSave()
 		end
@@ -479,9 +371,6 @@ local buyTravelingEnable = BuyTravelingSection:AddToggle("buyTravelingEnable", {
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Traveling].Enabled = Value
-		if not isTableEmpty(TravelingStock) then
-			ProcessBuy(ShopKey.Travel, TravelingStock)
-		end
 		if QuickSave then
 			QuickSave()
 		end
@@ -551,9 +440,6 @@ local buySantaEnable = BuySantaSection:AddToggle("buySantaEnable", {
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Santa].Enabled = Value
-		if not isTableEmpty(SantaStocks) then
-			ProcessBuy(ShopKey.Santa, SantaStocks)
-		end
 		if QuickSave then
 			QuickSave()
 		end
@@ -600,9 +486,6 @@ local buyNewYearEnable = BuyNewYearSection:AddToggle("buyNewYearEnable", {
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.NewYear].Enabled = Value
-		if not isTableEmpty(NewYearStocks) then
-			ProcessBuy(ShopKey.NewYear, NewYearStocks)
-		end
 		if QuickSave then
 			QuickSave()
 		end
@@ -934,6 +817,67 @@ IsLoading = false
 --[[
  Auto Buy System
 ]]
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
+local DataStream = GameEvents:WaitForChild("DataStream")
+
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Backpack = LocalPlayer:WaitForChild("Backpack")
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local Humanoid = Character:WaitForChild("Humanoid")
+local VirtualUser = game:GetService("VirtualUser")
+local Lighting = game:GetService("Lighting")
+local Terrain = workspace.Terrain
+
+local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
+local PetMutationRegistry = require(ReplicatedStorage.Data.PetRegistry.PetMutationRegistry)
+
+local function ProcessBuy(ShopKey, StockData)
+	local Setting = BuyList[ShopKey]
+	if not Setting or not Setting.Enabled then
+		return
+	end
+	local Remote = GameEvents:FindFirstChild(Setting.RemoteName)
+	if not Remote then
+		return
+	end
+	for itemId, itemInfo in pairs(StockData) do
+		local ItemName = itemInfo.EggName or itemId
+		local StockAmount = tonumber(itemInfo.Stock) or 0
+		local BuyEnabled = false
+		local StockInfo = string.format("Found %s : %s", ItemName, StockAmount)
+		DevNoti(StockInfo)
+		if Setting.BuyAll then
+			BuyEnabled = true
+		else
+			for _, TargetName in ipairs(Setting.Items) do
+				if TargetName == ItemName then
+					BuyEnabled = true
+					break
+				end
+			end
+		end
+
+		if BuyEnabled == true and StockAmount > 0 then
+			for i = 1, StockAmount do
+				local Args = {}
+				if Setting.ArgType == "SeedMode" then
+					Args = { "Shop", ItemName }
+				elseif Setting.ArgType == "EventMode" then
+					Args = { ItemName, Setting.EventArg }
+				else
+					Args = { ItemName }
+				end
+				Remote:FireServer(unpack(Args))
+				task.wait(0.1)
+			end
+			BuyEnabled = false
+
+			local LogMessage = string.format("Bought %s : %s", ItemName, StockAmount)
+			DevNoti(LogMessage)
+		end
+	end
+end
 
 local function BuildMutationCache()
 	-- เช็คโครงสร้างข้อมูลว่า List Mutation เก็บอยู่ที่ไหน
@@ -1335,6 +1279,126 @@ ApplyAntiLag = function()
 	end)
 end
 
+function ManualBuy()
+	local SeedShop = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Seed_Shop")
+	local DailySeed = SeedShop:WaitForChild("Daily"):WaitForChild("ScrollingFrame")
+	local DailySeedChildren = DailySeed:WaitForChild("Seeds")
+
+	local DailySeedData = {}
+
+	for _, item in ipairs(DailySeed:GetChildren()) do
+		local stockChild = item:FindFirstChild("_StockValue")
+		if stockChild and stockChild.Value > 0 then
+			InfoLog(item.Name .. ": " .. stockChild.Value)
+			DailySeedData[item.Name] = {
+				Stock = stockChild.Value,
+			}
+		end
+	end
+
+	for _, item in ipairs(DailySeedChildren:GetChildren()) do
+		local stockChild = item:FindFirstChild("_StockValue")
+		if stockChild and stockChild.Value > 0 then
+			DailySeedData[item.Name] = {
+				Stock = stockChild.Value,
+			}
+		end
+	end
+
+	if not isTableEmpty(DailySeedData) then
+		ProcessBuy(ShopKey.Daily, DailySeedData)
+	end
+
+	local NormalSeed = SeedShop:WaitForChild("Frame"):WaitForChild("ScrollingFrame")
+	local NormalSeedData = {}
+
+	for _, item in ipairs(NormalSeed:GetChildren()) do
+		local frame = item:FindFirstChild("Frame")
+		if frame then
+			local stockChild = frame:FindFirstChild("Value")
+			if stockChild and stockChild.Value > 0 then
+				NormalSeedData[item.Name] = {
+					Stock = stockChild.Value,
+				}
+			end
+		end
+	end
+
+	if not isTableEmpty(NormalSeedData) then
+		ProcessBuy(ShopKey.Seed, NormalSeedData)
+	end
+
+
+	local GearShop = LocalPlayer:WaitForChild("PlayerGui")
+		:WaitForChild("Gear_Shop")
+		:WaitForChild("Frame")
+		:WaitForChild("ScrollingFrame")
+	local GearShopData = {}
+
+	for _, item in ipairs(GearShop:GetChildren()) do
+		local frame = item:FindFirstChild("Frame")
+		if frame then
+			local stockChild = frame:FindFirstChild("Value")
+			if stockChild and stockChild.Value > 0 then
+				GearShopData[item.Name] = {
+					Stock = stockChild.Value,
+				}
+			end
+		end
+	end
+
+	if not isTableEmpty(GearShopData) then
+		ProcessBuy(ShopKey.Gear, GearShopData)
+	end
+
+	
+
+	local PetShop = LocalPlayer:WaitForChild("PlayerGui")
+		:WaitForChild("PetShop_UI")
+		:WaitForChild("Frame")
+		:WaitForChild("ScrollingFrame")
+	local PetShopData = {}
+	
+	for _, item in ipairs(PetShop:GetChildren()) do
+		local frame = item:FindFirstChild("Frame")
+		if frame then
+			local stockChild = frame:FindFirstChild("Value")
+			if stockChild and stockChild.Value > 0 then
+				PetShopData[item.Name] = {
+					Stock = stockChild.Value,
+				}
+			end
+		end
+	end
+	
+	if not isTableEmpty(PetShopData) then
+		ProcessBuy(ShopKey.Egg, PetShopData)
+	end
+	
+	local TravelShop = LocalPlayer:WaitForChild("PlayerGui")
+		:WaitForChild("TravelingMerchantShop_UI")
+		:WaitForChild("Frame")
+		:WaitForChild("ScrollingFrame")
+	local TravelShopData = {}
+
+	for _, item in ipairs(TravelShop:GetChildren()) do
+		local frame = item:FindFirstChild("Frame")
+		if frame then
+			local stockChild = frame:FindFirstChild("Value")
+			if stockChild and stockChild.Value > 0 then
+				TravelShopData[item.Name] = {
+					Stock = stockChild.Value,
+				}
+			end
+		end
+	end
+
+	if not isTableEmpty(TravelShopData) then
+		ProcessBuy(ShopKey.Travel, TravelShopData)
+	end
+end
+task.wait(5)
+ManualBuy()
 --[[ Anti-AFK ]]
 
 LocalPlayer.Idled:Connect(function()

@@ -142,38 +142,62 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataService = require(ReplicatedStorage.Modules.DataService)
 local GetData_result = DataService:GetData()
 
+local function GetEggStock()
+	local EggStock = GetData_result.PetEggStock.Stocks
+	--[[ 	for i=1 to 3 do 
+		AddLog("Eggname : "..tostring(EggStock[i].EggName).." Stock : "..tostring(EggStock[i].Stock).
+	end *]]
+	for i, v in ipairs(EggStock) do
+		AddLog("Eggname : " .. tostring(v.EggName) .. " Stock : " .. tostring(v.Stock))
+	end
+end
+
+task.wait(2)
+GetEggStock()
+
 --GetData_result.SeedStocks.Shop
 
 local SeedStocks = GetData_result.SeedStocks.Shop.Stocks
 
 local function ShowData(tbl, indent)
-    indent = 1
-    local spacing = string.rep("  ", indent)
-    for k, v in pairs(tbl) do
-        if type(v) == "table" then -- แก้ไข: ใส่ "" ครอบ table
-             for k2, v2 in pairs(v) do
-                if type(v2) == "table" then
-					AddLog(spacing.."GetData_result.SeedStocks.Shop."..tostring(k) .. "."..tostring(k2).." is table")
-                else        
-                    AddLog(spacing.."GetData_result.SeedStocks.Shop."..tostring(k) .. "."..tostring(k2).."=" .. tostring(v2))
-                end
-                task.wait(0.1)
-            end
+	indent = 1
+	local spacing = string.rep("  ", indent)
+	for k, v in pairs(tbl) do
+		if type(v) == "table" then -- แก้ไข: ใส่ "" ครอบ table
+			for k2, v2 in pairs(v) do
+				if type(v2) == "table" then
+					AddLog(
+						spacing
+							.. "GetData_result.PetEggStock.Stocks."
+							.. tostring(k)
+							.. "."
+							.. tostring(k2)
+							.. " is table"
+					)
+				else
+					AddLog(
+						spacing
+							.. "GetData_result.PetEggStock.Stocks."
+							.. tostring(k)
+							.. "."
+							.. tostring(k2)
+							.. "="
+							.. tostring(v2)
+					)
+				end
+				task.wait(0.1)
+			end
 
-            task.wait(0.1)
-        else
-            AddLog("GetData_result.SeedStocks.Shop."..tostring(k) .. "=" .. tostring(v))
-        end
-        task.wait(0.1)
-    end
+			task.wait(0.1)
+		else
+			AddLog("GetData_result.PetEggStock.Stocks." .. tostring(k) .. "=" .. tostring(v))
+		end
+		task.wait(0.1)
+	end
 	ErrorLog("Finish")
 end
 
-task.wait(2)
-
-ShowData(SeedStocks)
-
-
+ShowData(EggStock)
 
 --[[ โครงสร้าง Table
   GetData_result.SeedStocks.Shop.Stocks.Carrot.Stock=21
@@ -182,8 +206,6 @@ ShowData(SeedStocks)
   GetData_result.SeedStocks.Shop.Stocks.Tomato.Stock=1
   GetData_result.SeedStocks.Shop.Stocks.Blueberry.Stock=2
 ]]
-
-
 
 --[[
 📋 Script initialized successfully.

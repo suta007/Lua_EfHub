@@ -143,10 +143,12 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataService = require(ReplicatedStorage.Modules.DataService)
 local GetData_result = DataService:GetData()
 local SeedStocks = GetData_result.SeedStocks.Shop.Stocks
+local DailyStocks = GetData_result.SeedStocks["Daily Deals"].Stocks
 local NewYearStocks = GetData_result.EventShopStock["New Years Shop"].Stocks
 local SantaStocks = GetData_result.EventShopStock["Santa's Stash"].Stocks
 local GearStock = GetData_result.GearStock.Stocks
-
+local EggStock = GetData_result.PetEggStock.Stocks
+local TravelingStock = GetData_result.TravelingMerchantShopStock.Stocks
 
 local function GetShopStock(tbl)
 	local stock = {}
@@ -154,14 +156,26 @@ local function GetShopStock(tbl)
 		stock[ItemName] = {
 			Stock = data.Stock,
 		}
-		AddLog(ItemName .. " Stock: " .. data.Stock)
+		--[[ 		if data.EggName then
+		table.insert(stock, stock[ItemName])
+		AddLog(ItemName .. " Stock: " .. data.Stock) *]]
 	end
-    AddLog("-----------------------------------------")
-    task.wait(1)
+	AddLog("-----------------------------------------")
+	task.wait(1)
 	return stock
 end
 
+--[[ local function GetEggStock()
+	local EggStock = GetData_result.PetEggStock.Stocks
+	for i, v in ipairs(EggStock) do
+		AddLog("Eggname : " .. tostring(v.EggName) .. " Stock : " .. tostring(v.Stock))
+	end
+end *]]
+
 local SeedShopData = GetShopStock(SeedStocks)
+local DailyShopData = GetShopStock(DailyStocks)
 local GearShopData = GetShopStock(GearStock)
 local NewYearShopData = GetShopStock(NewYearStocks)
 local SantaShopData = GetShopStock(SantaStocks)
+local EggShopData = GetShopStock(EggStock)
+local TravelingShopData = GetShopStock(TravelingStock)

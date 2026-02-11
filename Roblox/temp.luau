@@ -62,3 +62,15 @@ local function BuyItems(Key, Content)
         end
     end
 end
+
+
+
+local DataService_upvr = require(ReplicatedStorage_upvr.Modules.DataService)
+
+local any_GetData_result1 = DataService_upvr:GetData()
+
+local PetMutationMachine = any_GetData_result1.PetMutationMachine
+GetMachineData_result1_5 = GetMachineData_upvr()
+GetMachineData_result1_5.PetReady
+
+DataService_upvr:GetPathSignal("PetMutationMachine/IsRunning"):Connect(function()
