@@ -1,0 +1,904 @@
+📋 Script initialized successfully.
+GetData_result.PlayedGuaranteedLuckyHarvest=false
+GetData_result.ArbitraryFTUEData.AcknowledgedBackpack=true
+GetData_result.ClaimedCodes.FREE_PANDA_PET_UPDATE=false
+GetData_result.ExtraBackpackSize=50
+* GetData_result.SeedStocks.Shop is table
+* GetData_result.SeedStocks.Daily Deals is table
+GetData_result.AwardedBadges.1=3966694991137927
+GetData_result.AwardedBadges.2=4330691652818014
+GetData_result.AwardedBadges.3=3602894446235962
+GetData_result.AwardedBadges.4=674039989298417
+GetData_result.AwardedBadges.5=4493388333080928
+GetData_result.AwardedBadges.6=2213702621912050
+GetData_result.FirstTimeUser=false
+GetData_result.SmithingEventData.CurrentElfLevel=1
+GetData_result.SmithingEventData.CurrentElfGauge=0
+GetData_result.SmithingEventData.SubmittedPet=false
+GetData_result.SmithingEventData.StoredValue=0
+GetData_result.SmithingEventData.SubmittedFruit=false
+GetData_result.SmithingEventData.SubmittedGear=false
+GetData_result.SmithingEventData.MigratedBrokenState=false
+GetData_result.CookingKit.RnbCy is table
+GetData_result.CookingKit.DEFAULT is table
+GetData_result.CookingKit.XHdWP is table
+GetData_result.CookingKit.leUyu is table
+GetData_result.TradeBoothSkinData.OwnedSkins is table
+GetData_result.GardenCoinShopStats.LifetimeGardenCoins=0
+GetData_result.GardenCoinShopStats.UnlockedGardenCoins=true
+GetData_result.GardenCoinShopStats.LifetimePurchases is table
+GetData_result.GardenLikes.LikedGardens is table
+GetData_result.GardenLikes.Likes=0
+GetData_result.GardenLikes.LikedBy is table
+GetData_result.SpecialCurrency.CandyCorn=0
+GetData_result.SpecialCurrency.CarrotCoins=0
+GetData_result.SpecialCurrency.ButtercupCoins=0
+GetData_result.SpecialCurrency.Chi=0
+GetData_result.SpecialCurrency.SummerCoins=0
+GetData_result.SpecialCurrency.Honey=0
+GetData_result.SpecialCurrency.FairyPoints=0
+GetData_result.SpecialCurrency.PassPoints=0
+GetData_result.SpecialCurrency.AdventToken=0
+GetData_result.SpecialCurrency.GardenCoins=8770
+GetData_result.CropMastery.PlantData is table
+GetData_result.RebirthData.RequiredPlants is table
+GetData_result.RebirthData.TotalRebirths=1000
+GetData_result.RebirthData.LastRebirthTime=1770429978
+GetData_result.GearUseData.SnowGlobe is table
+GetData_result.GearUseData.WonderWaterTutorialCompleted=false
+GetData_result.GearUseData.ChristmasStockings is table
+GetData_result.GearUseData.ChristmasStockingsTutorialCompleted=false
+GetData_result.InventorySortData.1={655ba126-c207-4afd-91c8-6753431e69ae}
+GetData_result.InventorySortData.2={a67ee6ed-a85d-4a46-9d4e-63b09af7e5ed}
+GetData_result.InventorySortData.3={aca98ac5-3bb6-468b-bdad-6bdd060704c4}
+GetData_result.InventorySortData.4={e6fd0a58-a4ee-4da7-9994-3614bf63677c}
+GetData_result.InventorySortData.5={d9df49da-d054-44df-bb93-1bb738286fe1}
+GetData_result.InventorySortData.6={771aae2f-790d-470b-899d-32ddb0eaf8f1}
+GetData_result.InventorySortData.7={c8a44481-3fae-4524-8b6c-24de0477ba06}
+GetData_result.InventorySortData.8={941b71a0-8b3a-463e-bf1a-8bb5140b6920}
+GetData_result.InventorySortData.9={2fc5f0c5-b96c-43a9-8e1a-96cd342cec55}
+GetData_result.InventorySortData.10={61b07551-ef0e-4201-8b1e-e044cbcc99f2}
+GetData_result.InventorySortData.11={e74e70ed-ab15-4bcc-9687-9562b937bf33}
+GetData_result.InventorySortData.12={903c35b6-af6f-4d68-96c4-1f40ec6da851}
+GetData_result.InventorySortData.13={63b07850-784f-4ab0-82e8-7dd4b5326999}
+GetData_result.InventorySortData.14={801825dc-1d2c-4645-b314-d93bc176e1fa}
+GetData_result.InventorySortData.15={42a5aedb-3b17-4901-a43b-6bf7dd4cd634}
+GetData_result.InventorySortData.16={cb23fdfe-6b9d-4ccc-94a4-42f3afa7f32d}
+GetData_result.InventorySortData.17={c7a02731-7efb-4b39-b1eb-6e4c0161727b}
+GetData_result.InventorySortData.18={7cac8135-0987-43f6-826c-a305def347be}
+GetData_result.InventorySortData.19={5676ee86-bbca-45c9-b227-9cad64079e0b}
+GetData_result.InventorySortData.20={cc034702-a88a-4348-9596-b687224f2521}
+GetData_result.InventorySortData.21={36f26533-6a21-4a82-9fb6-1da42f58069b}
+GetData_result.InventorySortData.22={43b37b63-a15b-4ad9-839f-e71d4d2fdf48}
+GetData_result.InventorySortData.23={de7cce05-9609-42ae-924a-850549c9b2da}
+GetData_result.InventorySortData.24={fad8830a-de37-4459-aff5-a8ce6d7a7cbe}
+GetData_result.InventorySortData.25={b55c81e5-e702-4fce-83a7-96e76c3e7ebe}
+GetData_result.InventorySortData.26={c3c49469-2d12-433f-bfd0-513488aa1479}
+GetData_result.InventorySortData.27={4896327e-d213-4e56-9fe4-01b482cdcfbb}
+GetData_result.InventorySortData.28={71bff727-0631-4b54-bcb9-a03bdfab20f9}
+GetData_result.InventorySortData.29={4ebd82f4-6bba-42ae-bc24-bb420938d992}
+GetData_result.InventorySortData.30={46179af4-385a-4320-88df-ee61f033083c}
+GetData_result.InventorySortData.31={38d8bb12-35cf-46b5-9ea9-71a0dfc98e13}
+GetData_result.InventorySortData.32={6be7b108-3e03-493c-bd3c-77fe70a95de7}
+GetData_result.InventorySortData.33={75917a8a-1ee4-4551-b2dc-57dabcf72503}
+GetData_result.InventorySortData.34={53137af4-c36e-410e-a71d-8d792c7d351d}
+GetData_result.InventorySortData.35={672f6471-4fd0-48a3-9b67-2be70e9fa223}
+GetData_result.InventorySortData.36={a41d3d39-217e-4441-9cc4-0e4919b7bf56}
+GetData_result.InventorySortData.37={864059c0-807c-42ac-bfb9-6320e2556952}
+GetData_result.InventorySortData.38={77674dc6-8acb-4026-81e6-817d712c3817}
+GetData_result.InventorySortData.39={1f10101b-102c-4a0a-a8c7-01ed776b73e0}
+GetData_result.InventorySortData.40={4ff902e4-c358-4fe0-b938-c1fd111fafdd}
+GetData_result.InventorySortData.41={5c076e04-99c4-43c9-8cfa-cc34f0f1858f}
+GetData_result.InventorySortData.42={96393141-44aa-41b9-964e-0112a5ee7ab8}
+GetData_result.InventorySortData.43={29647bfc-1a8b-4bc0-ae39-a5d25e278fde}
+GetData_result.InventorySortData.44={a1eb6f13-11a3-4c76-b56a-48c0ce1a1ec7}
+GetData_result.InventorySortData.45={28839b80-6423-4a1e-8219-1af12edbd2b9}
+GetData_result.InventorySortData.46={2e048ef6-e3eb-44c5-9c31-c91aaa5d8d8f}
+GetData_result.InventorySortData.47={f9e61774-74e8-4b27-84e6-6e4b773aa283}
+GetData_result.InventorySortData.48={ddb42530-baf1-4383-9da2-bdf5b335bc6b}
+GetData_result.InventorySortData.49={4ae88461-82ba-456c-b1a0-118f0096dc33}
+GetData_result.InventorySortData.50={c5d32937-cd7f-4cd1-a229-69c140d3f229}
+GetData_result.InventorySortData.51={25ebcd22-1072-4b65-8ee9-384c5d731402}
+GetData_result.InventorySortData.52={15e0cbfb-648c-4e3a-a6cf-774f2d831eb9}
+GetData_result.InventorySortData.53={28a56993-e666-48cd-9c54-cf7459e3e410}
+GetData_result.InventorySortData.54={1ef2d5d8-24ba-4efc-bc62-fe8f82af9090}
+GetData_result.InventorySortData.55={4dbeefb3-1da1-4feb-b286-a4915e3969a1}
+GetData_result.InventorySortData.56={5530af34-226d-4df4-a6db-d93ccd7d7081}
+GetData_result.InventorySortData.57={14b4fa63-bcdc-400c-957b-5343a89269f6}
+GetData_result.InventorySortData.58={e33a6e5c-a312-4740-b50f-6f1aa2bbfef1}
+GetData_result.InventorySortData.59={fc4690b0-cd06-44c6-8a73-0a5fca537235}
+GetData_result.InventorySortData.60={b2a481f3-844e-40c9-81e3-087c2a56f652}
+GetData_result.InventorySortData.61={84d6b4ce-d0d8-497a-8b22-3454b8d21576}
+GetData_result.InventorySortData.62={c4cabc5a-aeb7-412d-8a2e-886a00433666}
+GetData_result.InventorySortData.63={1c9cb9e7-526c-45ff-9a1a-831cd5078bbf}
+GetData_result.InventorySortData.64={e6f4b358-2a3b-41e2-8fe2-915c37ef7592}
+GetData_result.InventorySortData.65={5179d00d-5bf2-49b8-abc9-d7eae4e09e57}
+GetData_result.InventorySortData.66={d9243026-3c66-4a6b-8445-70e172b3c8ec}
+GetData_result.InventorySortData.67={e549e351-f8b0-4420-bb1d-869f984a44a9}
+GetData_result.InventorySortData.68={6bd54d5b-5f56-4921-99c0-6881983a66ff}
+GetData_result.InventorySortData.69={8ffebe36-3acc-46a8-86aa-ceee18fd3d92}
+GetData_result.InventorySortData.70={1c495bae-1584-4eaf-b31e-c5073ff6fe76}
+GetData_result.InventorySortData.71={17098cae-4670-4f1b-b6e5-cab4fc036fc4}
+GetData_result.InventorySortData.72={0fa41e3d-231d-45f5-84c6-5615e711f29f}
+GetData_result.InventorySortData.73={4fa69cef-cb7e-4846-8794-a1a80be2673e}
+GetData_result.InventorySortData.74={151a6de6-74ae-4283-9cc3-d49e415e2055}
+GetData_result.InventorySortData.75={365a1d3f-58c3-439c-98ff-873a437732ce}
+GetData_result.InventorySortData.76={4b6f7843-1b35-4398-bf86-e2d9c276b456}
+GetData_result.InventorySortData.77={ca4f6d6d-229e-4ccf-816b-4b2b351e8969}
+GetData_result.InventorySortData.78={a41c60d9-873d-4d5c-ba89-988f619ab2bd}
+GetData_result.InventorySortData.79={3e3f7fe0-e94d-4e28-88af-9bfcb763e775}
+GetData_result.InventorySortData.80={f93fbfc9-73f4-47a3-a2fd-55a143704f27}
+GetData_result.InventorySortData.81={07ee37b8-d5be-41ef-beb0-c81d195f81b4}
+GetData_result.InventorySortData.82={b45de9e9-7f02-4d18-a864-907a00ae16c9}
+GetData_result.InventorySortData.83={4962f273-b4d6-451f-b856-47bff0f6c309}
+GetData_result.InventorySortData.84={f21cbbc6-3737-4585-9d0d-300f736dfc56}
+GetData_result.InventorySortData.85={09a26996-d32b-4328-a6d8-37235f1cc93d}
+GetData_result.InventorySortData.86={ef0d1b89-0add-4489-baf9-06995f96057e}
+GetData_result.InventorySortData.87={ea16a779-b46e-4f57-bd08-37e3c6dfe3ac}
+GetData_result.InventorySortData.88={e71b2eeb-050d-4036-a015-8e5e747a3605}
+GetData_result.InventorySortData.89={e4faa0fe-0f4f-4477-9933-b6221a62edd3}
+GetData_result.InventorySortData.90={12a05768-a9ed-4317-ada3-96c0052fe388}
+GetData_result.InventorySortData.91={9a6b188f-6a4e-49b5-aaf4-9598305b7c38}
+GetData_result.InventorySortData.92={d0a304d8-0979-4d97-8214-8e1d6adc9703}
+GetData_result.InventorySortData.93={97f0f55d-45e2-40e4-b96f-3ef1008f6747}
+GetData_result.InventorySortData.94={be34a4ca-fd5d-45a4-92a8-f7de186ae2d6}
+GetData_result.InventorySortData.95={cef1a6fb-e8b5-4150-8013-5896bad74f85}
+GetData_result.InventorySortData.96={f024f327-96e3-4690-b66c-df613a7c369e}
+GetData_result.InventorySortData.97={aae755a3-c24c-4ac2-ad0a-6e349964cb0c}
+GetData_result.InventorySortData.98={65fc2631-611f-40fb-988e-0c0672a33beb}
+GetData_result.InventorySortData.99={697c8241-13d6-4216-beff-ed32cdf1508e}
+GetData_result.InventorySortData.100={bd16aae6-06bb-412a-b01c-8d2c5e81e597}
+GetData_result.InventorySortData.101={dfc922b8-4150-4086-8a06-d3309243b44a}
+GetData_result.InventorySortData.102={0aaf4a76-a431-4a21-a4f1-e52d6bad75d7}
+GetData_result.InventorySortData.103={7341a81b-ee6a-4e2b-befb-088dd4b38815}
+GetData_result.InventorySortData.104={185a72db-d40e-42fc-a1d9-af730e22713e}
+GetData_result.InventorySortData.105={d5fde870-2fdb-401c-beb9-addd8ab9ba71}
+GetData_result.InventorySortData.106={22beb5e6-1510-470d-85e9-62fc9868b64b}
+GetData_result.InventorySortData.107={ecee4aeb-25df-465a-b6cf-43df8454d2e2}
+GetData_result.InventorySortData.108={d556a037-444c-4f89-93b4-92afa776ac8a}
+GetData_result.InventorySortData.109={2ededff7-e5cb-4eb6-9415-1dae52eff5ce}
+GetData_result.InventorySortData.110={dc954a3a-5cc8-4241-94d4-f2ae3e5fcba7}
+GetData_result.InventorySortData.111={71f67994-23e3-42c9-8da3-8edf1995277e}
+GetData_result.InventorySortData.112={36b9fce4-bd0a-43fb-8b99-86a63e33de6c}
+GetData_result.InventorySortData.113={333725e9-ded4-4a26-8324-bbfcec5e2a84}
+GetData_result.InventorySortData.114={3b261654-34ac-49b6-83f0-0ea970d66235}
+GetData_result.InventorySortData.115={e912e148-7cc1-474c-9267-d28310b9d85e}
+GetData_result.InventorySortData.116={00a8aae1-3fa1-4907-848a-dde94a31de09}
+GetData_result.InventorySortData.117={c5690bb0-bbc9-4287-8d69-e03beeda5ae2}
+GetData_result.InventorySortData.118={17f4990e-6ec9-4b56-abba-dabb4fcd4c30}
+GetData_result.InventorySortData.119={840ea1f3-407d-4996-bd92-aec5682792d0}
+GetData_result.InventorySortData.120={dd089e1c-8591-42dc-8a0a-a3167cc5f81c}
+GetData_result.InventorySortData.121={6255a4f0-6fbb-474b-a2f6-d877d231f88a}
+GetData_result.InventorySortData.122={d9522ecd-84e2-4d69-8027-6ace679636df}
+GetData_result.InventorySortData.123={dd703caf-845f-495d-a6e7-e6052f37839d}
+GetData_result.InventorySortData.124={b47d5986-8360-455f-80db-4ec30181defb}
+GetData_result.InventorySortData.125={030d619b-a1dc-43c4-bbfd-344cd312c482}
+GetData_result.InventorySortData.126={14084499-9c67-4bcb-9771-556e8272b174}
+GetData_result.InventorySortData.127={426fc989-66b8-4d12-b9f8-4654761858ab}
+GetData_result.InventorySortData.128={5289c2f4-ba6c-41fe-bb04-d64d41d19bae}
+GetData_result.InventorySortData.129={7a727566-48a9-40ae-995f-ac3bf40bcc7c}
+GetData_result.InventorySortData.130={2e05a6cf-d142-4ec6-be18-bc2c5a2fbc5d}
+GetData_result.InventorySortData.131={5d4f2101-0651-45dc-a05c-45d193590f51}
+GetData_result.InventorySortData.132={4662eed2-b980-41d9-ab05-a7266de765cb}
+GetData_result.InventorySortData.133={85240557-80ac-4315-bf29-504b3d98f88e}
+GetData_result.InventorySortData.134={0bceb83f-464d-4f44-9ba4-ebc515ee974c}
+GetData_result.InventorySortData.135={35ffedf2-d6ea-4842-9d5d-98cc08fea475}
+GetData_result.InventorySortData.136={5f1271d5-e500-463b-9075-a250ed087786}
+GetData_result.InventorySortData.137={2fa3493e-9dea-45c6-9cde-c5fb7e4e9b83}
+GetData_result.InventorySortData.138={0a04e4ce-d5db-474a-8bcf-23ba6b05a8aa}
+GetData_result.InventorySortData.139={aafeb85f-beb0-4bb9-bd49-eb53f8de82aa}
+GetData_result.InventorySortData.140={05ee6967-e99b-4a4c-8fd8-708e16271b5a}
+GetData_result.InventorySortData.141={9259e1f2-ceeb-4b4c-9cc5-c23b069bab59}
+GetData_result.InventorySortData.142={428ddc03-4fe5-451e-80d3-a25004b7a386}
+GetData_result.InventorySortData.143={65cce8fc-e5a7-4ec0-9f74-fa5bff3f84d7}
+GetData_result.InventorySortData.144={87d43c30-464d-4e4e-8a85-f1b0d79f9e26}
+GetData_result.InventorySortData.145={dd25dd51-158b-4648-bf09-767c5dae0da0}
+GetData_result.InventorySortData.146={bf8388d5-7297-44dc-907f-fbbaf035116c}
+GetData_result.InventorySortData.147={41fd0014-616d-43e8-8550-17ea4b30ca7d}
+GetData_result.InventorySortData.148={9877a7ee-02f9-455b-9066-458f8a7fe819}
+GetData_result.InventorySortData.149={fab82df7-0b35-4c7f-8f1e-7acf025b3ad4}
+GetData_result.InventorySortData.150={72617bc1-10ba-4584-a23e-7898ba5f8940}
+GetData_result.InventorySortData.151={3c04c0b2-83d7-401d-84b1-7c75ccd85f35}
+GetData_result.InventorySortData.152={71657afb-4252-40d5-99c1-80179d94231a}
+GetData_result.InventorySortData.153={8e7963c7-ae12-4733-854f-4def3b5db246}
+GetData_result.InventorySortData.154={a45eca16-be91-4be7-b1a0-4cbd2dce28da}
+GetData_result.InventorySortData.155={5f352fbd-2cd3-434c-b9cd-810a06f7b4cb}
+GetData_result.InventorySortData.156={64538fae-9d8f-42b6-a81d-5dbe34eb1972}
+GetData_result.InventorySortData.157={67a7f1fe-93b0-4ff2-adc4-5ecbef322589}
+GetData_result.InventorySortData.158={8a313c2f-61c4-4bfb-bf17-0a6acba79221}
+GetData_result.InventorySortData.159={fefd340d-74c2-4f16-a48d-2e872774e9e7}
+GetData_result.InventorySortData.160={284f0d77-c329-411d-aed2-2ff7a9d327a5}
+GetData_result.InventorySortData.161={05e38182-333c-4bd8-9d8a-85e10299dbd0}
+GetData_result.InventorySortData.162={f4490b43-300a-42ac-b58c-9695ee1f2d4c}
+GetData_result.InventorySortData.163={e7536072-f0c0-4892-9d07-0abdc9a71a4a}
+GetData_result.InventorySortData.164={50de4146-d4a4-4772-99a1-5ad3cc388c06}
+GetData_result.InventorySortData.165={e457eab9-d551-450b-a788-3b53ee3e4400}
+GetData_result.InventorySortData.166={d4dba25d-7e93-4da5-885f-2c17b917b971}
+GetData_result.InventorySortData.167={9a47c7cf-af49-407e-a92e-e1521008c11e}
+GetData_result.InventorySortData.168={1511643b-2cda-4dec-8ad9-de52548d6b41}
+GetData_result.InventorySortData.169={7e88bbbc-9f1f-467a-8353-533004e0e54f}
+GetData_result.InventorySortData.170={67ecf414-bf17-4543-bce7-9c7b0ee29321}
+GetData_result.InventorySortData.171={e8a1ad10-1e21-421c-a095-c44dcedf873e}
+GetData_result.InventorySortData.172={7e4a06e4-55d0-4d66-9719-2bace8079f9d}
+GetData_result.InventorySortData.173={cd3a9c88-5c23-49f2-a281-4141bf3fea9a}
+GetData_result.InventorySortData.174={af17610f-ef97-4cba-b007-7eccf9580884}
+GetData_result.InventorySortData.175={0cdea919-8f4f-417d-80cf-93c3fc2dfb51}
+GetData_result.InventorySortData.176={8c2939e5-a313-46f3-b2b3-161fec4ec09f}
+GetData_result.InventorySortData.177={be5cafbb-2910-413f-8334-34eb1bf81342}
+GetData_result.InventorySortData.178={7659b377-fe16-4f7d-b6c8-0764a3e15ae9}
+GetData_result.InventorySortData.179={d7acecf2-1117-4e86-a0e8-1afc59b2cecc}
+GetData_result.InventorySortData.180={ed65ff57-3e4b-4a7f-9b12-fd2431ed6de0}
+GetData_result.InventorySortData.181={a088e75a-9b31-485c-b04a-c5c63ddfdbf5}
+GetData_result.InventorySortData.182={f049917a-297f-4cf5-9744-28148f62803c}
+GetData_result.InventorySortData.183={e34dd643-040b-4a94-bffc-df0f3252371a}
+GetData_result.InventorySortData.184={4e49e9ae-2e82-40c0-8e0a-dd844af67fb5}
+GetData_result.InventorySortData.185={fcd0c269-7ca9-44ba-a6b8-d85437080de8}
+GetData_result.InventorySortData.186={bf345a75-8c68-401b-8439-04484e29f761}
+GetData_result.InventorySortData.187={7598c0b2-19de-42f2-a6b5-3de72f78d3a4}
+GetData_result.InventorySortData.188={c2409a00-da42-434c-9f34-07d8933ec645}
+GetData_result.InventorySortData.189={373db388-21c5-4e7a-8220-b815a2b43644}
+GetData_result.InventorySortData.190={5504ce46-c8d1-4446-9bec-c36359dbfc29}
+GetData_result.InventorySortData.191={42a115de-9bcd-4401-9812-f1e6b139f199}
+GetData_result.InventorySortData.192={5e214131-55b8-4e3b-a5de-b9a1e73681c4}
+GetData_result.InventorySortData.193={a3292a6b-48c8-4cf1-9f92-ab36ae99c221}
+GetData_result.InventorySortData.194={3cb0e82e-2d3e-41be-a931-bf102e86e995}
+GetData_result.InventorySortData.195={65ab4741-92d6-493d-8d72-a52725ca3853}
+GetData_result.InventorySortData.196={cf56d13f-d3a4-4c3e-b2aa-71a4e5558a77}
+GetData_result.InventorySortData.197={da4a43e5-871a-4606-8aa2-1afef30b26cd}
+GetData_result.InventorySortData.198={61a25292-baef-4d95-b7bd-d108990541b3}
+GetData_result.InventorySortData.199={6dd116ec-c147-497b-904e-dbc0d68b497f}
+GetData_result.InventorySortData.200={8f737c4d-fb25-4ff7-b4c5-8d24f0f7fc7e}
+GetData_result.InventorySortData.201={25ea0676-0fec-4588-a7e1-a3d17f1b0c53}
+GetData_result.InventorySortData.202={8c57fae1-1fb1-488a-9f1d-68e853e6c7d4}
+GetData_result.InventorySortData.203={0a9c531b-420c-4c7b-b6b8-172d4c090526}
+GetData_result.InventorySortData.204={9c6f8f86-5d6e-44ea-9d2f-e85800271cef}
+GetData_result.InventorySortData.205={6b8f10ec-53fd-49d2-886e-a8f313929f33}
+GetData_result.InventorySortData.206={4e76d80c-af09-4486-b250-7a12542c88f8}
+GetData_result.InventorySortData.207={6fde9501-01ca-4611-acae-5c86ed9d1dfc}
+GetData_result.InventorySortData.208={bc423954-5205-4090-8d61-b187cc029826}
+GetData_result.InventorySortData.209={f53c38f2-302b-4016-b9b1-bdcebb1c4c03}
+GetData_result.InventorySortData.210={856df9e9-1e8c-47bf-8f89-9f1c97412e63}
+GetData_result.InventorySortData.211={5eead332-9193-48fc-8a0d-5eac33e7d980}
+GetData_result.InventorySortData.212={d8b3d49b-7944-455c-92b2-6ef27737932c}
+GetData_result.InventorySortData.213={2dc799ea-332b-4d0d-bf50-e1ee283edaf9}
+GetData_result.InventorySortData.214={9453cc45-d78b-48d1-8e50-90c05cbf6eb7}
+GetData_result.InventorySortData.215={a692be22-6344-4218-ac4d-b2b0e30a8837}
+GetData_result.InventorySortData.216={a7ef026c-52a9-434c-92d9-383732da924a}
+GetData_result.InventorySortData.217={02b98ae9-e3bc-4872-8c6a-f17ab878d733}
+GetData_result.InventorySortData.218={6dc274f3-9e35-4661-a0b2-91876c193b21}
+GetData_result.InventorySortData.219={b3ae31e4-d1c5-4b88-8ad7-c77b3aee3b7f}
+GetData_result.InventorySortData.220={7a1c38de-6bd9-4441-93e8-afbc95ffbe00}
+GetData_result.InventorySortData.221={0d501767-eb76-4a48-8465-b89d6ed963c3}
+GetData_result.InventorySortData.222={5279b289-8347-4948-a22e-18ada818a48c}
+GetData_result.InventorySortData.223={f7dc9f1e-8ef7-4d5a-b996-27e1b4b78a0e}
+GetData_result.InventorySortData.224={cd04a20c-f1b7-4d90-a789-f59af03521dc}
+GetData_result.InventorySortData.225={6b02a901-c10a-4299-9066-891aa85c5c90}
+GetData_result.InventorySortData.226={adf36095-1611-4b2a-9aea-602ae756bc89}
+GetData_result.InventorySortData.227={546f150f-10fb-44d4-a684-40a7b4fb7aa7}
+GetData_result.InventorySortData.228={01ad9bb0-684a-4afe-a407-4a635bae15dd}
+GetData_result.InventorySortData.229={3b671fe1-9152-4f9f-9635-5ae872fbb216}
+GetData_result.InventorySortData.230={85329dd1-f574-4007-925f-91698d50222b}
+GetData_result.InventorySortData.231={8efad6a5-c9df-4ddb-929f-a8ebaadea755}
+GetData_result.InventorySortData.232={149fd413-a656-45c4-89a6-cba6a2c35e3a}
+GetData_result.InventorySortData.233={7a812337-f59d-413d-85de-39bcf93f69f7}
+GetData_result.InventorySortData.234={03e9257d-cfa1-4abb-a42e-fbd0965c2c56}
+GetData_result.InventorySortData.235={ab5e91f8-9758-4550-b2a8-2eb32ad0b5a6}
+GetData_result.InventorySortData.236={1cc6614f-b4a0-48fb-90da-ab007ab77c4a}
+GetData_result.InventorySortData.237={933875e7-f943-42ec-8e40-6be1b36821eb}
+GetData_result.InventorySortData.238={eb2d9ba4-2416-436e-b35e-abe7a4ca10f9}
+GetData_result.InventorySortData.239={8afda1f2-c499-4e8c-b41d-ce8fb88eb84c}
+GetData_result.InventorySortData.240={356b4044-684d-4373-9548-877f6e7c1da3}
+GetData_result.InventorySortData.241={a6c594a0-7482-4c7a-8faa-4aef3dcbe3d2}
+GetData_result.InventorySortData.242={2944e2be-6b30-430e-8d41-ac4334543d28}
+GetData_result.InventorySortData.243={74ae9eb3-7515-43a2-bbb9-8d81c452a01d}
+GetData_result.InventorySortData.244={3ec593d5-2a7b-42c9-99c2-d9afc023e261}
+GetData_result.InventorySortData.245={dea73ed7-30d4-44c0-b09f-715e365cdc1d}
+GetData_result.InventorySortData.246={2da08204-fa9e-4fa3-b331-bd781f30f875}
+GetData_result.InventorySortData.247={c18388f6-a312-4299-8728-64d29825779d}
+GetData_result.InventorySortData.248={cbcc066b-ac40-421d-b531-e04ce030dfba}
+GetData_result.InventorySortData.249={a1d3cc20-9f5b-4e99-9d3e-b3307c63d80a}
+GetData_result.InventorySortData.250={72d9bb8f-f86e-4d26-ac00-fef9409c1808}
+GetData_result.InventorySortData.251={475819a6-9974-4040-ac3f-d477fb0f9a6c}
+GetData_result.InventorySortData.252={ff3f887a-84e0-4457-9af9-69eae8426c69}
+GetData_result.InventorySortData.253={d7d41326-4bcd-4128-a0e5-896e75160cca}
+GetData_result.InventorySortData.254={088da428-e41d-4e25-a354-82ad0f999b2d}
+GetData_result.InventorySortData.255={ce43dbec-ae1d-4ff5-822c-f999239ea0f9}
+GetData_result.InventorySortData.256={37c7f844-a18f-4299-beae-9e8050ad60d8}
+GetData_result.InventorySortData.257={91675034-3e93-4437-ada8-8f4ae54791a2}
+GetData_result.InventorySortData.258={492d6fd8-1519-4406-a6c6-115541a32384}
+GetData_result.InventorySortData.259={85bcc83d-43b1-4c47-8536-2d04477f87f2}
+GetData_result.InventorySortData.260=SHOVEL
+GetData_result.InventorySortData.261={f5cec645-01c5-461b-ac75-c35d4512b9fe}
+GetData_result.InventorySortData.262={26c607a5-9f71-44a0-afb0-9e346a7530fd}
+GetData_result.InventorySortData.263={63421d03-9235-461c-81bc-a3cce5301188}
+GetData_result.InventorySortData.264={bff8d39a-3839-4e23-a281-edacd3fdf186}
+GetData_result.InventorySortData.265={7340a02c-e9fe-4478-98f7-3fbb2e2d728e}
+GetData_result.InventorySortData.266={1b0bada5-56d7-42ae-9951-9b053fca8da0}
+GetData_result.InventorySortData.267={62d285ef-27c5-4ada-a2e2-78c94df4c069}
+GetData_result.InventorySortData.268={cfaf8a15-2b59-40e5-b4c9-6e0fba2c5ba8}
+GetData_result.InventorySortData.269={a397ddc1-eea8-49e0-a165-7dfb386c443d}
+GetData_result.InventorySortData.270={fbcb8661-672d-4766-a5c1-b6dfb30f0877}
+GetData_result.InventorySortData.271={e1e74586-14fa-404c-ae48-1717f391bc20}
+GetData_result.InventorySortData.272={ad9fc010-1119-4587-8240-3de331478efb}
+GetData_result.InventorySortData.273={16c75cb1-693c-47bc-a6b5-3d67a148f4ab}
+GetData_result.InventorySortData.274={6a14216c-f3ab-4138-b480-22e65fcbdcc1}
+GetData_result.InventorySortData.275={e2ffc814-f73e-4210-99cb-19f96e0be72d}
+GetData_result.InventorySortData.276={bffce969-d1d2-4338-a155-8d784d349791}
+GetData_result.InventorySortData.277={f25e35fa-1ee9-4a45-b0f8-0f1bf6f42697}
+GetData_result.InventorySortData.278={74de253d-caaf-439d-82d2-874ca18de5c7}
+GetData_result.InventorySortData.279={0f85360a-3107-45c6-92b7-538260d5f978}
+GetData_result.InventorySortData.280={da34af75-81c5-42f1-974f-59470e3b86a3}
+GetData_result.InventorySortData.281={730a6410-6576-468e-9a09-09443cb6af51}
+GetData_result.InventorySortData.282={5c564602-bd84-4a8f-b599-aa7ea6f616c1}
+GetData_result.InventorySortData.283={f9d33193-da89-4041-baef-3f705a0c9c7e}
+GetData_result.InventorySortData.284={edb1adc5-89c2-4840-8d03-c337e5d94847}
+GetData_result.InventorySortData.285={c5efa47d-16f8-4a02-8245-50e20be2be09}
+GetData_result.InventorySortData.286={7aa20f88-1212-47b5-b2ab-655088891b77}
+GetData_result.InventorySortData.287={78db6924-a2bc-4a15-8303-21d8dce1b850}
+GetData_result.InventorySortData.288={8a522a98-d5b6-480b-b02f-ea6bf98c19ed}
+GetData_result.InventorySortData.289={5c1a610d-e192-4e55-938e-d1d058e0f31c}
+GetData_result.InventorySortData.290={9b971c91-d3d3-4168-860f-b8dd218eb062}
+GetData_result.InventorySortData.291={00ed9415-cc58-4cca-ab3e-392c04d667f2}
+GetData_result.InventorySortData.292={eeff2013-3b2a-4873-893b-d04ee859599f}
+GetData_result.InventorySortData.293={ca38e44a-535a-4987-8e9a-4873d622287f}
+GetData_result.InventorySortData.294={f8aadf31-8196-4fdb-9881-4fa5c1da37c7}
+GetData_result.InventorySortData.295={5d447eda-8801-430a-bbed-0d37c442cdb7}
+GetData_result.InventorySortData.296={2d4c3136-ca1d-4d1c-8380-f18a835ee196}
+GetData_result.InventorySortData.297={93d86307-acbc-4b0a-8471-82a01298fb19}
+GetData_result.InventorySortData.298={53e23e77-ebd0-443f-aba0-4598b096d5f2}
+GetData_result.InventorySortData.299={b44b2ed7-e5ae-423b-ba22-7df30e94a70c}
+GetData_result.InventorySortData.300={6fc7e9bd-893c-4627-883a-ff1d866d84cc}
+GetData_result.InventorySortData.301={60e2c009-65ed-4085-8585-eb35143e74bb}
+GetData_result.InventorySortData.302={00742e61-d55d-46a1-980f-95b01a89ed1f}
+GetData_result.InventorySortData.303={a12342f5-4d4b-4e0f-a005-288fc86f1773}
+GetData_result.InventorySortData.304={98642a54-a94d-496d-8ba0-63c84bdc936f}
+GetData_result.InventorySortData.305={2505c4f6-19a8-49a6-9ee3-aff5858fc20e}
+GetData_result.InventorySortData.306={03c3089f-78cd-4c15-821b-2c426645a341}
+GetData_result.InventorySortData.307={a093bd25-738d-48af-b7d5-f8ec6ad9cd3d}
+GetData_result.InventorySortData.308={9cc0f77f-19b1-4c6d-b79d-16993c2b3968}
+GetData_result.InventorySortData.309={2fe9ee72-16d8-4015-9d80-e0b3a26bba16}
+GetData_result.InventorySortData.310={5387a373-231f-4c9c-a865-16c215086c7d}
+GetData_result.InventorySortData.311={5d5798a4-736c-4f53-af26-bd429b96a32f}
+GetData_result.InventorySortData.312={8eed356a-0436-43a0-b5af-500aca42d597}
+GetData_result.InventorySortData.313={3f04ff54-328a-418d-b74b-e419860dfefb}
+GetData_result.InventorySortData.314={73a763d2-7f0f-4850-8577-6b6383a8508c}
+GetData_result.InventorySortData.315={3781441c-cfb7-4be3-a5b4-b61619693b06}
+GetData_result.InventorySortData.316={b6f4c444-b554-45d0-af33-0e77d08ff105}
+GetData_result.InventorySortData.317={7fb2c858-19a3-4e23-b2c4-aaeb68b06728}
+GetData_result.InventorySortData.318={8b76bdd2-de59-4ecb-b89a-1ec4bb9345fb}
+GetData_result.InventorySortData.319={06e5e4c1-96a9-4a12-b194-6d0331031c37}
+GetData_result.InventorySortData.320={ef6de1a3-41e2-464e-8633-ca72bf3f990f}
+GetData_result.InventorySortData.321={2a76d8f1-9237-4e5e-83de-84620f83aabc}
+GetData_result.InventorySortData.322={3b395264-8ced-4d3d-acd9-55fe8de1d039}
+GetData_result.InventorySortData.323={0b726396-95d8-40e0-baef-a7721e585664}
+GetData_result.InventorySortData.324={2a01abdb-74a9-43c5-83ea-85dc7144a67e}
+GetData_result.InventorySortData.325={1bb53d82-2c22-4aa8-b91a-c15dd7698723}
+GetData_result.InventorySortData.326={86330f56-44e7-4eff-a62d-137cafde46ba}
+GetData_result.InventorySortData.327={ffbb2964-35f6-4c2c-9ba6-98006dca2ba9}
+GetData_result.InventorySortData.328={7a1362cb-505e-4f96-9701-ec3ab857bc25}
+GetData_result.InventorySortData.329={bb0d84dd-8dbd-4904-af70-c873ca905c74}
+GetData_result.InventorySortData.330={f81cb412-258e-4b78-9d4d-c8276338b652}
+GetData_result.InventorySortData.331={95f2d9a4-bbc0-4877-95b5-c8941d0dda7e}
+GetData_result.InventorySortData.332={08a445c6-ab16-45aa-919d-2b566897d24e}
+GetData_result.InventorySortData.333={e54c40b7-3003-405d-8d1a-792311d0a9df}
+GetData_result.InventorySortData.334={64712cd7-66b5-452b-a646-0236f020939e}
+GetData_result.InventorySortData.335={830069ed-e58a-4d3e-b36a-423e57d22910}
+GetData_result.TotalRobuxSpent=0
+GetData_result.GardenGuide.PetData is table
+GetData_result.GardenGuide.FoodData is table
+GetData_result.GardenGuide.PlantData is table
+GetData_result.GardenGuide.MutationData is table
+GetData_result.GardenGuide.CosmeticData is table
+GetData_result.PetAgeBreakMachine.PetReady=false
+GetData_result.PetAgeBreakMachine.TimeLeft=0
+GetData_result.PetAgeBreakMachine.IsRunning=false
+GetData_result.BoothHistory.RecentTransactions is table
+GetData_result.BoothHistory.Shard=1
+GetData_result.FenceSkinData.OwnedFences is table
+GetData_result.InfinitePack.Day=20495
+GetData_result.InfinitePack.Depth=0
+GetData_result.CookingPot.IsCooking=false
+GetData_result.CookingPot.CookTimeTotal=0
+GetData_result.CookingPot.MutationChance=0
+GetData_result.CookingPot.SubmittedIngredients is table
+GetData_result.QuestContainers.q3e80449427a34599 is table
+GetData_result.QuestContainers.q01a4d36bacc94799 is table
+GetData_result.CosmeticStock.PermanentPurchases is table
+GetData_result.CosmeticStock.TabStocks is table
+GetData_result.CosmeticStock.CosmeticSeed=245943
+GetData_result.GiftHatchEggAttempts=0
+GetData_result.Migrated.Delete_Old_Plants_Data_v2=true
+GetData_result.Migrated.Sheckles_Data=true
+GetData_result.Migrated.Optimize_Plants_Data_v2=true
+GetData_result.Migrated.Set_Played_Egg_Tutorial_v1=true
+GetData_result.Migrated.Remove_Tier_1_And_2_Stock_Data=true
+GetData_result.Migrated.WateringCan_Charges_To_Uses_v1=true
+GetData_result.Migrated.Backpack_To_InventoryService_v1=true
+GetData_result.Migrated.Data_Module=true
+GetData_result.Migrated.Add_Variant_Field_To_Seeds_v1=true
+GetData_result.Migrated.Rename_Sunflowers_v1=true
+GetData_result.Migrated.Refund_Failed_Skips_v1=true
+GetData_result.Migrated.Migrate_To_Save_Slots_v1=true
+GetData_result.Migrated.Reset_Growth_Multi_v1=true
+GetData_result.Migrated.Add_LastObjectsSaveTime_To_Save_Slots_v1=true
+GetData_result.Migrated.Delete_Duplicate_Seed_Entries_v1=true
+GetData_result.Migrated.ItemType_Watering_To_Watering_Can_v1=true
+GetData_result.Migrated.Reset_Rebirth_Data_v1=true
+GetData_result.Migrated.SeedPacks_To_InventoryService_v1=true
+GetData_result.Migrated.Migrate_New_Players_Servers_Data_v1=true
+GetData_result.Migrated.Give_Rainbow_Exotic_Crafters_Seed_Packs_v1=true
+GetData_result.Migrated.CleanupInvalidSprinklers_Backpack_v1=true
+GetData_result.Migrated.Remove_Invalid_Pets_Boosts_From_Gift_History_V1=true
+GetData_result.Migrated.Remove_Invalid_Pets_Boosts_V1=true
+GetData_result.Achievements.Seasons is table
+GetData_result.TravelingHoneyMerchant.SubmittedWeight=0
+GetData_result.Settings.PetShopButton=false
+GetData_result.Settings.ToggleNotifications=true
+GetData_result.Settings.PlantableCollisions=true
+GetData_result.Settings.RecieveGifts=true
+GetData_result.Settings.Sounds=true
+GetData_result.Settings.KeepPetOnGround=true
+GetData_result.Settings.PerformanceMode=true
+GetData_result.Settings.Textures=true
+GetData_result.Settings.Audio=true
+GetData_result.Settings.PetMutationVFX=false
+GetData_result.Settings.CropMutationVFX=false
+GetData_result.Settings.TradeRequests=true
+GetData_result.Settings.YourFarmIcon=true
+GetData_result.Settings.Tips=true
+GetData_result.Settings.LowerPlantFXQuality=true
+GetData_result.Settings.AutoCloseActivePetsUI=true
+GetData_result.Settings.VisualEffects=true
+GetData_result.Settings.PetScaling=false
+GetData_result.Settings.FavoriteIcons=true
+GetData_result.Settings.Music=true
+GetData_result.Settings.PetUpdateRate=0.035
+GetData_result.Settings.GearShopButton=false
+GetData_result.BlackButtercupEvent.ButtercupsGiven=0
+GetData_result.BlackButtercupEvent.CurrentQuestIndex=1
+GetData_result.TotalCropsValueSold=164307333
+GetData_result.ExpansionsData.CanSeeExpansions=true
+GetData_result.ExpansionsData.Unlocked is table
+GetData_result.ExpansionsData.ExpansionTimers is table
+GetData_result.DailyEgg.LastPurchaseDay=0
+GetData_result.PetEggStock.Egg=474435006
+GetData_result.PetEggStock.Stocks is table
+GetData_result.DefaultSettingsAlreadySet.PetShopButton=true
+GetData_result.DefaultSettingsAlreadySet.ToggleNotifications=true
+GetData_result.DefaultSettingsAlreadySet.PlantableCollisions=true
+GetData_result.DefaultSettingsAlreadySet.RecieveGifts=true
+GetData_result.DefaultSettingsAlreadySet.Sounds=true
+GetData_result.DefaultSettingsAlreadySet.KeepPetOnGround=true
+GetData_result.DefaultSettingsAlreadySet.PerformanceMode=true
+GetData_result.DefaultSettingsAlreadySet.Textures=true
+GetData_result.DefaultSettingsAlreadySet.Audio=true
+GetData_result.DefaultSettingsAlreadySet.PetMutationVFX=true
+GetData_result.DefaultSettingsAlreadySet.CropMutationVFX=true
+GetData_result.DefaultSettingsAlreadySet.TradeRequests=true
+GetData_result.DefaultSettingsAlreadySet.YourFarmIcon=true
+GetData_result.DefaultSettingsAlreadySet.Tips=true
+GetData_result.DefaultSettingsAlreadySet.LowerPlantFXQuality=true
+GetData_result.DefaultSettingsAlreadySet.AutoCloseActivePetsUI=true
+GetData_result.DefaultSettingsAlreadySet.VisualEffects=true
+GetData_result.DefaultSettingsAlreadySet.PetScaling=true
+GetData_result.DefaultSettingsAlreadySet.FavoriteIcons=true
+GetData_result.DefaultSettingsAlreadySet.Music=true
+GetData_result.DefaultSettingsAlreadySet.PetUpdateRate=true
+GetData_result.DefaultSettingsAlreadySet.GearShopButton=true
+GetData_result.BadgeData.SeedpackConnoisseur=5
+GetData_result.BadgeData.CarrotConnoisseur=6
+GetData_result.BadgeData.PetMaster=2879
+GetData_result.InventoryData.{dfc922b8-4150-4086-8a06-d3309243b44a} is table
+GetData_result.InventoryData.{5387a373-231f-4c9c-a865-16c215086c7d} is table
+GetData_result.InventoryData.{ca38e44a-535a-4987-8e9a-4873d622287f} is table
+GetData_result.InventoryData.{8ffebe36-3acc-46a8-86aa-ceee18fd3d92} is table
+GetData_result.InventoryData.{36b9fce4-bd0a-43fb-8b99-86a63e33de6c} is table
+GetData_result.InventoryData.{365a1d3f-58c3-439c-98ff-873a437732ce} is table
+GetData_result.InventoryData.{85240557-80ac-4315-bf29-504b3d98f88e} is table
+GetData_result.InventoryData.{28839b80-6423-4a1e-8219-1af12edbd2b9} is table
+GetData_result.InventoryData.{05e38182-333c-4bd8-9d8a-85e10299dbd0} is table
+GetData_result.InventoryData.{5676ee86-bbca-45c9-b227-9cad64079e0b} is table
+GetData_result.InventoryData.{da34af75-81c5-42f1-974f-59470e3b86a3} is table
+GetData_result.InventoryData.{97f0f55d-45e2-40e4-b96f-3ef1008f6747} is table
+GetData_result.InventoryData.{75917a8a-1ee4-4551-b2dc-57dabcf72503} is table
+GetData_result.InventoryData.{ef6de1a3-41e2-464e-8633-ca72bf3f990f} is table
+GetData_result.InventoryData.{0a04e4ce-d5db-474a-8bcf-23ba6b05a8aa} is table
+GetData_result.InventoryData.{5c076e04-99c4-43c9-8cfa-cc34f0f1858f} is table
+GetData_result.InventoryData.{1c9cb9e7-526c-45ff-9a1a-831cd5078bbf} is table
+GetData_result.InventoryData.{8b76bdd2-de59-4ecb-b89a-1ec4bb9345fb} is table
+GetData_result.InventoryData.{a692be22-6344-4218-ac4d-b2b0e30a8837} is table
+GetData_result.InventoryData.{2fc5f0c5-b96c-43a9-8e1a-96cd342cec55} is table
+GetData_result.InventoryData.{50de4146-d4a4-4772-99a1-5ad3cc388c06} is table
+GetData_result.InventoryData.{71f67994-23e3-42c9-8da3-8edf1995277e} is table
+GetData_result.InventoryData.{9259e1f2-ceeb-4b4c-9cc5-c23b069bab59} is table
+GetData_result.InventoryData.{14b4fa63-bcdc-400c-957b-5343a89269f6} is table
+GetData_result.InventoryData.{2505c4f6-19a8-49a6-9ee3-aff5858fc20e} is table
+GetData_result.InventoryData.{7a1362cb-505e-4f96-9701-ec3ab857bc25} is table
+GetData_result.InventoryData.{dd089e1c-8591-42dc-8a0a-a3167cc5f81c} is table
+GetData_result.InventoryData.{e4faa0fe-0f4f-4477-9933-b6221a62edd3} is table
+GetData_result.InventoryData.{a7ef026c-52a9-434c-92d9-383732da924a} is table
+GetData_result.InventoryData.{030d619b-a1dc-43c4-bbfd-344cd312c482} is table
+GetData_result.InventoryData.{5e214131-55b8-4e3b-a5de-b9a1e73681c4} is table
+GetData_result.InventoryData.{4ae88461-82ba-456c-b1a0-118f0096dc33} is table
+GetData_result.InventoryData.{cb23fdfe-6b9d-4ccc-94a4-42f3afa7f32d} is table
+GetData_result.InventoryData.{284f0d77-c329-411d-aed2-2ff7a9d327a5} is table
+GetData_result.InventoryData.{4962f273-b4d6-451f-b856-47bff0f6c309} is table
+GetData_result.InventoryData.{3b395264-8ced-4d3d-acd9-55fe8de1d039} is table
+GetData_result.InventoryData.{4662eed2-b980-41d9-ab05-a7266de765cb} is table
+GetData_result.InventoryData.{16c75cb1-693c-47bc-a6b5-3d67a148f4ab} is table
+GetData_result.InventoryData.{bd16aae6-06bb-412a-b01c-8d2c5e81e597} is table
+GetData_result.InventoryData.{c5efa47d-16f8-4a02-8245-50e20be2be09} is table
+GetData_result.InventoryData.{149fd413-a656-45c4-89a6-cba6a2c35e3a} is table
+GetData_result.InventoryData.{62d285ef-27c5-4ada-a2e2-78c94df4c069} is table
+GetData_result.InventoryData.{5f352fbd-2cd3-434c-b9cd-810a06f7b4cb} is table
+GetData_result.InventoryData.{e1e74586-14fa-404c-ae48-1717f391bc20} is table
+GetData_result.InventoryData.{86330f56-44e7-4eff-a62d-137cafde46ba} is table
+GetData_result.InventoryData.{09a26996-d32b-4328-a6d8-37235f1cc93d} is table
+GetData_result.InventoryData.{0d501767-eb76-4a48-8465-b89d6ed963c3} is table
+GetData_result.InventoryData.{6255a4f0-6fbb-474b-a2f6-d877d231f88a} is table
+GetData_result.InventoryData.{edb1adc5-89c2-4840-8d03-c337e5d94847} is table
+GetData_result.InventoryData.{cfaf8a15-2b59-40e5-b4c9-6e0fba2c5ba8} is table
+GetData_result.InventoryData.{4ebd82f4-6bba-42ae-bc24-bb420938d992} is table
+GetData_result.InventoryData.{5f1271d5-e500-463b-9075-a250ed087786} is table
+GetData_result.InventoryData.{1f10101b-102c-4a0a-a8c7-01ed776b73e0} is table
+GetData_result.InventoryData.{2fe9ee72-16d8-4015-9d80-e0b3a26bba16} is table
+GetData_result.InventoryData.{672f6471-4fd0-48a3-9b67-2be70e9fa223} is table
+GetData_result.InventoryData.{5289c2f4-ba6c-41fe-bb04-d64d41d19bae} is table
+GetData_result.InventoryData.{6bd54d5b-5f56-4921-99c0-6881983a66ff} is table
+GetData_result.InventoryData.{373db388-21c5-4e7a-8220-b815a2b43644} is table
+GetData_result.InventoryData.{be34a4ca-fd5d-45a4-92a8-f7de186ae2d6} is table
+GetData_result.InventoryData.{bb0d84dd-8dbd-4904-af70-c873ca905c74} is table
+GetData_result.InventoryData.{25ebcd22-1072-4b65-8ee9-384c5d731402} is table
+GetData_result.InventoryData.{856df9e9-1e8c-47bf-8f89-9f1c97412e63} is table
+GetData_result.InventoryData.{63b07850-784f-4ab0-82e8-7dd4b5326999} is table
+GetData_result.InventoryData.{ddb42530-baf1-4383-9da2-bdf5b335bc6b} is table
+GetData_result.InventoryData.{60e2c009-65ed-4085-8585-eb35143e74bb} is table
+GetData_result.InventoryData.{2a01abdb-74a9-43c5-83ea-85dc7144a67e} is table
+GetData_result.InventoryData.{84d6b4ce-d0d8-497a-8b22-3454b8d21576} is table
+GetData_result.InventoryData.{d8b3d49b-7944-455c-92b2-6ef27737932c} is table
+GetData_result.InventoryData.{15e0cbfb-648c-4e3a-a6cf-774f2d831eb9} is table
+GetData_result.InventoryData.{a6c594a0-7482-4c7a-8faa-4aef3dcbe3d2} is table
+GetData_result.InventoryData.{71bff727-0631-4b54-bcb9-a03bdfab20f9} is table
+GetData_result.InventoryData.{151a6de6-74ae-4283-9cc3-d49e415e2055} is table
+GetData_result.InventoryData.{85329dd1-f574-4007-925f-91698d50222b} is table
+GetData_result.InventoryData.{7cac8135-0987-43f6-826c-a305def347be} is table
+GetData_result.InventoryData.{a41c60d9-873d-4d5c-ba89-988f619ab2bd} is table
+GetData_result.InventoryData.{d556a037-444c-4f89-93b4-92afa776ac8a} is table
+GetData_result.InventoryData.{3b671fe1-9152-4f9f-9635-5ae872fbb216} is table
+GetData_result.InventoryData.{840ea1f3-407d-4996-bd92-aec5682792d0} is table
+GetData_result.InventoryData.{35ffedf2-d6ea-4842-9d5d-98cc08fea475} is table
+GetData_result.InventoryData.{8c2939e5-a313-46f3-b2b3-161fec4ec09f} is table
+GetData_result.InventoryData.{67a7f1fe-93b0-4ff2-adc4-5ecbef322589} is table
+GetData_result.InventoryData.{03c3089f-78cd-4c15-821b-2c426645a341} is table
+GetData_result.InventoryData.{a12342f5-4d4b-4e0f-a005-288fc86f1773} is table
+GetData_result.InventoryData.{2ededff7-e5cb-4eb6-9415-1dae52eff5ce} is table
+GetData_result.InventoryData.{a67ee6ed-a85d-4a46-9d4e-63b09af7e5ed} is table
+GetData_result.InventoryData.{e6fd0a58-a4ee-4da7-9994-3614bf63677c} is table
+GetData_result.InventoryData.{3b261654-34ac-49b6-83f0-0ea970d66235} is table
+GetData_result.InventoryData.{8e7963c7-ae12-4733-854f-4def3b5db246} is table
+GetData_result.InventoryData.{903c35b6-af6f-4d68-96c4-1f40ec6da851} is table
+GetData_result.InventoryData.{ef0d1b89-0add-4489-baf9-06995f96057e} is table
+GetData_result.InventoryData.{98642a54-a94d-496d-8ba0-63c84bdc936f} is table
+GetData_result.InventoryData.{ecee4aeb-25df-465a-b6cf-43df8454d2e2} is table
+GetData_result.InventoryData.{f53c38f2-302b-4016-b9b1-bdcebb1c4c03} is table
+GetData_result.InventoryData.{d7acecf2-1117-4e86-a0e8-1afc59b2cecc} is table
+GetData_result.InventoryData.{9453cc45-d78b-48d1-8e50-90c05cbf6eb7} is table
+GetData_result.InventoryData.{f9d33193-da89-4041-baef-3f705a0c9c7e} is table
+GetData_result.InventoryData.{f93fbfc9-73f4-47a3-a2fd-55a143704f27} is table
+GetData_result.InventoryData.{f4490b43-300a-42ac-b58c-9695ee1f2d4c} is table
+GetData_result.InventoryData.{7a727566-48a9-40ae-995f-ac3bf40bcc7c} is table
+GetData_result.InventoryData.{801825dc-1d2c-4645-b314-d93bc176e1fa} is table
+GetData_result.InventoryData.{01ad9bb0-684a-4afe-a407-4a635bae15dd} is table
+GetData_result.InventoryData.{65cce8fc-e5a7-4ec0-9f74-fa5bff3f84d7} is table
+GetData_result.InventoryData.{7598c0b2-19de-42f2-a6b5-3de72f78d3a4} is table
+GetData_result.InventoryData.{3e3f7fe0-e94d-4e28-88af-9bfcb763e775} is table
+GetData_result.InventoryData.{29647bfc-1a8b-4bc0-ae39-a5d25e278fde} is table
+GetData_result.InventoryData.{73a763d2-7f0f-4850-8577-6b6383a8508c} is table
+GetData_result.InventoryData.{4fa69cef-cb7e-4846-8794-a1a80be2673e} is table
+GetData_result.InventoryData.{63421d03-9235-461c-81bc-a3cce5301188} is table
+GetData_result.InventoryData.{d4dba25d-7e93-4da5-885f-2c17b917b971} is table
+GetData_result.InventoryData.{c5690bb0-bbc9-4287-8d69-e03beeda5ae2} is table
+GetData_result.InventoryData.{e912e148-7cc1-474c-9267-d28310b9d85e} is table
+GetData_result.InventoryData.{17f4990e-6ec9-4b56-abba-dabb4fcd4c30} is table
+GetData_result.InventoryData.{f024f327-96e3-4690-b66c-df613a7c369e} is table
+GetData_result.InventoryData.{7e88bbbc-9f1f-467a-8353-533004e0e54f} is table
+GetData_result.InventoryData.{7a1c38de-6bd9-4441-93e8-afbc95ffbe00} is table
+GetData_result.InventoryData.{12a05768-a9ed-4317-ada3-96c0052fe388} is table
+GetData_result.InventoryData.{6fde9501-01ca-4611-acae-5c86ed9d1dfc} is table
+GetData_result.InventoryData.{53e23e77-ebd0-443f-aba0-4598b096d5f2} is table
+GetData_result.InventoryData.{14084499-9c67-4bcb-9771-556e8272b174} is table
+GetData_result.InventoryData.{655ba126-c207-4afd-91c8-6753431e69ae} is table
+GetData_result.InventoryData.{0fa41e3d-231d-45f5-84c6-5615e711f29f} is table
+GetData_result.InventoryData.{d9243026-3c66-4a6b-8445-70e172b3c8ec} is table
+GetData_result.InventoryData.{4dbeefb3-1da1-4feb-b286-a4915e3969a1} is table
+GetData_result.InventoryData.{71657afb-4252-40d5-99c1-80179d94231a} is table
+GetData_result.InventoryData.{933875e7-f943-42ec-8e40-6be1b36821eb} is table
+GetData_result.InventoryData.{e457eab9-d551-450b-a788-3b53ee3e4400} is table
+GetData_result.InventoryData.{22beb5e6-1510-470d-85e9-62fc9868b64b} is table
+GetData_result.InventoryData.{dc954a3a-5cc8-4241-94d4-f2ae3e5fcba7} is table
+GetData_result.InventoryData.{1ef2d5d8-24ba-4efc-bc62-fe8f82af9090} is table
+GetData_result.InventoryData.{17098cae-4670-4f1b-b6e5-cab4fc036fc4} is table
+GetData_result.InventoryData.{ad9fc010-1119-4587-8240-3de331478efb} is table
+GetData_result.InventoryData.{aae755a3-c24c-4ac2-ad0a-6e349964cb0c} is table
+GetData_result.InventoryData.{da4a43e5-871a-4606-8aa2-1afef30b26cd} is table
+GetData_result.InventoryData.{5279b289-8347-4948-a22e-18ada818a48c} is table
+GetData_result.InventoryData.{dd703caf-845f-495d-a6e7-e6052f37839d} is table
+GetData_result.InventoryData.{492d6fd8-1519-4406-a6c6-115541a32384} is table
+GetData_result.InventoryData.{2fa3493e-9dea-45c6-9cde-c5fb7e4e9b83} is table
+GetData_result.InventoryData.{c7a02731-7efb-4b39-b1eb-6e4c0161727b} is table
+GetData_result.InventoryData.{9c6f8f86-5d6e-44ea-9d2f-e85800271cef} is table
+GetData_result.InventoryData.{bf345a75-8c68-401b-8439-04484e29f761} is table
+GetData_result.InventoryData.{426fc989-66b8-4d12-b9f8-4654761858ab} is table
+GetData_result.InventoryData.{6b8f10ec-53fd-49d2-886e-a8f313929f33} is table
+GetData_result.InventoryData.{eb2d9ba4-2416-436e-b35e-abe7a4ca10f9} is table
+GetData_result.InventoryData.{b45de9e9-7f02-4d18-a864-907a00ae16c9} is table
+GetData_result.InventoryData.{42a5aedb-3b17-4901-a43b-6bf7dd4cd634} is table
+GetData_result.InventoryData.{6dc274f3-9e35-4661-a0b2-91876c193b21} is table
+GetData_result.InventoryData.{08a445c6-ab16-45aa-919d-2b566897d24e} is table
+GetData_result.InventoryData.{1511643b-2cda-4dec-8ad9-de52548d6b41} is table
+GetData_result.InventoryData.{8efad6a5-c9df-4ddb-929f-a8ebaadea755} is table
+GetData_result.InventoryData.{41fd0014-616d-43e8-8550-17ea4b30ca7d} is table
+GetData_result.InventoryData.{7fb2c858-19a3-4e23-b2c4-aaeb68b06728} is table
+GetData_result.InventoryData.{28a56993-e666-48cd-9c54-cf7459e3e410} is table
+GetData_result.InventoryData.{ffbb2964-35f6-4c2c-9ba6-98006dca2ba9} is table
+GetData_result.InventoryData.{a41d3d39-217e-4441-9cc4-0e4919b7bf56} is table
+GetData_result.InventoryData.{e2ffc814-f73e-4210-99cb-19f96e0be72d} is table
+GetData_result.InventoryData.{e74e70ed-ab15-4bcc-9687-9562b937bf33} is table
+GetData_result.InventoryData.{0aaf4a76-a431-4a21-a4f1-e52d6bad75d7} is table
+GetData_result.InventoryData.{2e05a6cf-d142-4ec6-be18-bc2c5a2fbc5d} is table
+GetData_result.InventoryData.{8a313c2f-61c4-4bfb-bf17-0a6acba79221} is table
+GetData_result.InventoryData.{546f150f-10fb-44d4-a684-40a7b4fb7aa7} is table
+GetData_result.InventoryData.{72617bc1-10ba-4584-a23e-7898ba5f8940} is table
+GetData_result.InventoryData.{2e048ef6-e3eb-44c5-9c31-c91aaa5d8d8f} is table
+GetData_result.InventoryData.{4e76d80c-af09-4486-b250-7a12542c88f8} is table
+GetData_result.InventoryData.{428ddc03-4fe5-451e-80d3-a25004b7a386} is table
+GetData_result.InventoryData.{5c1a610d-e192-4e55-938e-d1d058e0f31c} is table
+GetData_result.InventoryData.{8c57fae1-1fb1-488a-9f1d-68e853e6c7d4} is table
+GetData_result.InventoryData.{6dd116ec-c147-497b-904e-dbc0d68b497f} is table
+GetData_result.InventoryData.{2a76d8f1-9237-4e5e-83de-84620f83aabc} is table
+GetData_result.InventoryData.{00742e61-d55d-46a1-980f-95b01a89ed1f} is table
+GetData_result.InventoryData.{96393141-44aa-41b9-964e-0112a5ee7ab8} is table
+GetData_result.InventoryData.{7659b377-fe16-4f7d-b6c8-0764a3e15ae9} is table
+GetData_result.InventoryData.{2dc799ea-332b-4d0d-bf50-e1ee283edaf9} is table
+GetData_result.InventoryData.{6a14216c-f3ab-4138-b480-22e65fcbdcc1} is table
+GetData_result.InventoryData.{64712cd7-66b5-452b-a646-0236f020939e} is table
+GetData_result.InventoryData.{c4cabc5a-aeb7-412d-8a2e-886a00433666} is table
+GetData_result.InventoryData.{42a115de-9bcd-4401-9812-f1e6b139f199} is table
+GetData_result.InventoryData.{b3ae31e4-d1c5-4b88-8ad7-c77b3aee3b7f} is table
+GetData_result.InventoryData.{6fc7e9bd-893c-4627-883a-ff1d866d84cc} is table
+GetData_result.InventoryData.{fcd0c269-7ca9-44ba-a6b8-d85437080de8} is table
+GetData_result.InventoryData.{fc4690b0-cd06-44c6-8a73-0a5fca537235} is table
+GetData_result.InventoryData.{ca4f6d6d-229e-4ccf-816b-4b2b351e8969} is table
+GetData_result.InventoryData.{1b0bada5-56d7-42ae-9951-9b053fca8da0} is table
+GetData_result.InventoryData.{5d4f2101-0651-45dc-a05c-45d193590f51} is table
+GetData_result.InventoryData.{95f2d9a4-bbc0-4877-95b5-c8941d0dda7e} is table
+GetData_result.InventoryData.{bc423954-5205-4090-8d61-b187cc029826} is table
+GetData_result.InventoryData.{3f04ff54-328a-418d-b74b-e419860dfefb} is table
+GetData_result.InventoryData.{e33a6e5c-a312-4740-b50f-6f1aa2bbfef1} is table
+GetData_result.InventoryData.{aafeb85f-beb0-4bb9-bd49-eb53f8de82aa} is table
+GetData_result.InventoryData.{0b726396-95d8-40e0-baef-a7721e585664} is table
+GetData_result.InventoryData.{356b4044-684d-4373-9548-877f6e7c1da3} is table
+GetData_result.InventoryData.{3c04c0b2-83d7-401d-84b1-7c75ccd85f35} is table
+GetData_result.InventoryData.{74de253d-caaf-439d-82d2-874ca18de5c7} is table
+GetData_result.InventoryData.{697c8241-13d6-4216-beff-ed32cdf1508e} is table
+GetData_result.InventoryData.{03e9257d-cfa1-4abb-a42e-fbd0965c2c56} is table
+GetData_result.InventoryData.{c3c49469-2d12-433f-bfd0-513488aa1479} is table
+GetData_result.InventoryData.{e71b2eeb-050d-4036-a015-8e5e747a3605} is table
+GetData_result.InventoryData.{b47d5986-8360-455f-80db-4ec30181defb} is table
+GetData_result.InventoryData.{d9df49da-d054-44df-bb93-1bb738286fe1} is table
+GetData_result.InventoryData.{aca98ac5-3bb6-468b-bdad-6bdd060704c4} is table
+GetData_result.InventoryData.{9cc0f77f-19b1-4c6d-b79d-16993c2b3968} is table
+GetData_result.InventoryData.{0bceb83f-464d-4f44-9ba4-ebc515ee974c} is table
+GetData_result.InventoryData.{b44b2ed7-e5ae-423b-ba22-7df30e94a70c} is table
+GetData_result.InventoryData.{cf56d13f-d3a4-4c3e-b2aa-71a4e5558a77} is table
+GetData_result.InventoryData.{f9e61774-74e8-4b27-84e6-6e4b773aa283} is table
+GetData_result.InventoryData.{f21cbbc6-3737-4585-9d0d-300f736dfc56} is table
+GetData_result.InventoryData.{e549e351-f8b0-4420-bb1d-869f984a44a9} is table
+GetData_result.InventoryData.{3cb0e82e-2d3e-41be-a931-bf102e86e995} is table
+GetData_result.InventoryData.{7340a02c-e9fe-4478-98f7-3fbb2e2d728e} is table
+GetData_result.InventoryData.{cd04a20c-f1b7-4d90-a789-f59af03521dc} is table
+GetData_result.InventoryData.{61b07551-ef0e-4201-8b1e-e044cbcc99f2} is table
+GetData_result.InventoryData.{9877a7ee-02f9-455b-9066-458f8a7fe819} is table
+GetData_result.InventoryData.{07ee37b8-d5be-41ef-beb0-c81d195f81b4} is table
+GetData_result.InventoryData.{ea16a779-b46e-4f57-bd08-37e3c6dfe3ac} is table
+GetData_result.InventoryData.{0cdea919-8f4f-417d-80cf-93c3fc2dfb51} is table
+GetData_result.InventoryData.{5d447eda-8801-430a-bbed-0d37c442cdb7} is table
+GetData_result.InventoryData.{61a25292-baef-4d95-b7bd-d108990541b3} is table
+GetData_result.InventoryData.{8a522a98-d5b6-480b-b02f-ea6bf98c19ed} is table
+GetData_result.InventoryData.{185a72db-d40e-42fc-a1d9-af730e22713e} is table
+GetData_result.InventoryData.{0a9c531b-420c-4c7b-b6b8-172d4c090526} is table
+GetData_result.InventoryData.{a397ddc1-eea8-49e0-a165-7dfb386c443d} is table
+GetData_result.InventoryData.{8f737c4d-fb25-4ff7-b4c5-8d24f0f7fc7e} is table
+GetData_result.InventoryData.{a3292a6b-48c8-4cf1-9f92-ab36ae99c221} is table
+GetData_result.InventoryData.{bf8388d5-7297-44dc-907f-fbbaf035116c} is table
+GetData_result.InventoryData.{e7536072-f0c0-4892-9d07-0abdc9a71a4a} is table
+GetData_result.InventoryData.{adf36095-1611-4b2a-9aea-602ae756bc89} is table
+GetData_result.InventoryData.{4896327e-d213-4e56-9fe4-01b482cdcfbb} is table
+GetData_result.InventoryData.{4e49e9ae-2e82-40c0-8e0a-dd844af67fb5} is table
+GetData_result.InventoryData.{ab5e91f8-9758-4550-b2a8-2eb32ad0b5a6} is table
+GetData_result.InventoryData.{5504ce46-c8d1-4446-9bec-c36359dbfc29} is table
+GetData_result.InventoryData.{0f85360a-3107-45c6-92b7-538260d5f978} is table
+GetData_result.InventoryData.{9b971c91-d3d3-4168-860f-b8dd218eb062} is table
+GetData_result.InventoryData.{1cc6614f-b4a0-48fb-90da-ab007ab77c4a} is table
+GetData_result.InventoryData.{d0a304d8-0979-4d97-8214-8e1d6adc9703} is table
+GetData_result.InventoryData.{c2409a00-da42-434c-9f34-07d8933ec645} is table
+GetData_result.InventoryData.{a088e75a-9b31-485c-b04a-c5c63ddfdbf5} is table
+GetData_result.InventoryData.{fefd340d-74c2-4f16-a48d-2e872774e9e7} is table
+GetData_result.InventoryData.{be5cafbb-2910-413f-8334-34eb1bf81342} is table
+GetData_result.InventoryData.{333725e9-ded4-4a26-8324-bbfcec5e2a84} is table
+GetData_result.InventoryData.{bff8d39a-3839-4e23-a281-edacd3fdf186} is table
+GetData_result.InventoryData.{2d4c3136-ca1d-4d1c-8380-f18a835ee196} is table
+GetData_result.InventoryData.{00a8aae1-3fa1-4907-848a-dde94a31de09} is table
+GetData_result.InventoryData.{af17610f-ef97-4cba-b007-7eccf9580884} is table
+GetData_result.InventoryData.{9a47c7cf-af49-407e-a92e-e1521008c11e} is table
+GetData_result.InventoryData.{cef1a6fb-e8b5-4150-8013-5896bad74f85} is table
+GetData_result.InventoryData.{7341a81b-ee6a-4e2b-befb-088dd4b38815} is table
+GetData_result.InventoryData.{e34dd643-040b-4a94-bffc-df0f3252371a} is table
+GetData_result.InventoryData.{53137af4-c36e-410e-a71d-8d792c7d351d} is table
+GetData_result.InventoryData.{7a812337-f59d-413d-85de-39bcf93f69f7} is table
+GetData_result.InventoryData.{5eead332-9193-48fc-8a0d-5eac33e7d980} is table
+GetData_result.InventoryData.{65fc2631-611f-40fb-988e-0c0672a33beb} is table
+GetData_result.InventoryData.{5530af34-226d-4df4-a6db-d93ccd7d7081} is table
+GetData_result.InventoryData.{fab82df7-0b35-4c7f-8f1e-7acf025b3ad4} is table
+GetData_result.InventoryData.{02b98ae9-e3bc-4872-8c6a-f17ab878d733} is table
+GetData_result.InventoryData.{87d43c30-464d-4e4e-8a85-f1b0d79f9e26} is table
+GetData_result.InventoryData.{ed65ff57-3e4b-4a7f-9b12-fd2431ed6de0} is table
+GetData_result.InventoryData.{eeff2013-3b2a-4873-893b-d04ee859599f} is table
+GetData_result.InventoryData.{e8a1ad10-1e21-421c-a095-c44dcedf873e} is table
+GetData_result.InventoryData.{7e4a06e4-55d0-4d66-9719-2bace8079f9d} is table
+GetData_result.InventoryData.{dd25dd51-158b-4648-bf09-767c5dae0da0} is table
+GetData_result.InventoryData.{f049917a-297f-4cf5-9744-28148f62803c} is table
+GetData_result.InventoryData.{f25e35fa-1ee9-4a45-b0f8-0f1bf6f42697} is table
+GetData_result.InventoryData.{771aae2f-790d-470b-899d-32ddb0eaf8f1} is table
+GetData_result.InventoryData.{77674dc6-8acb-4026-81e6-817d712c3817} is table
+GetData_result.InventoryData.{1bb53d82-2c22-4aa8-b91a-c15dd7698723} is table
+GetData_result.InventoryData.{64538fae-9d8f-42b6-a81d-5dbe34eb1972} is table
+GetData_result.InventoryData.{6b02a901-c10a-4299-9066-891aa85c5c90} is table
+GetData_result.InventoryData.{4b6f7843-1b35-4398-bf86-e2d9c276b456} is table
+GetData_result.InventoryData.{e6f4b358-2a3b-41e2-8fe2-915c37ef7592} is table
+GetData_result.InventoryData.{05ee6967-e99b-4a4c-8fd8-708e16271b5a} is table
+GetData_result.InventoryData.{a1eb6f13-11a3-4c76-b56a-48c0ce1a1ec7} is table
+GetData_result.InventoryData.{9a6b188f-6a4e-49b5-aaf4-9598305b7c38} is table
+GetData_result.InventoryData.{f81cb412-258e-4b78-9d4d-c8276338b652} is table
+GetData_result.InventoryData.{730a6410-6576-468e-9a09-09443cb6af51} is table
+GetData_result.InventoryData.{93d86307-acbc-4b0a-8471-82a01298fb19} is table
+GetData_result.InventoryData.{bffce969-d1d2-4338-a155-8d784d349791} is table
+GetData_result.InventoryData.{b2a481f3-844e-40c9-81e3-087c2a56f652} is table
+GetData_result.InventoryData.{25ea0676-0fec-4588-a7e1-a3d17f1b0c53} is table
+GetData_result.InventoryData.{e54c40b7-3003-405d-8d1a-792311d0a9df} is table
+GetData_result.InventoryData.{38d8bb12-35cf-46b5-9ea9-71a0dfc98e13} is table
+GetData_result.InventoryData.{06e5e4c1-96a9-4a12-b194-6d0331031c37} is table
+GetData_result.InventoryData.{00ed9415-cc58-4cca-ab3e-392c04d667f2} is table
+GetData_result.InventoryData.{5179d00d-5bf2-49b8-abc9-d7eae4e09e57} is table
+GetData_result.InventoryData.{c5d32937-cd7f-4cd1-a229-69c140d3f229} is table
+GetData_result.InventoryData.{65ab4741-92d6-493d-8d72-a52725ca3853} is table
+GetData_result.InventoryData.{6be7b108-3e03-493c-bd3c-77fe70a95de7} is table
+GetData_result.InventoryData.{26c607a5-9f71-44a0-afb0-9e346a7530fd} is table
+GetData_result.InventoryData.{f7dc9f1e-8ef7-4d5a-b996-27e1b4b78a0e} is table
+GetData_result.InventoryData.{5d5798a4-736c-4f53-af26-bd429b96a32f} is table
+GetData_result.InventoryData.{cd3a9c88-5c23-49f2-a281-4141bf3fea9a} is table
+GetData_result.InventoryData.{d9522ecd-84e2-4d69-8027-6ace679636df} is table
+GetData_result.InventoryData.{67ecf414-bf17-4543-bce7-9c7b0ee29321} is table
+GetData_result.InventoryData.{5c564602-bd84-4a8f-b599-aa7ea6f616c1} is table
+GetData_result.InventoryData.{8afda1f2-c499-4e8c-b41d-ce8fb88eb84c} is table
+GetData_result.InventoryData.{d5fde870-2fdb-401c-beb9-addd8ab9ba71} is table
+GetData_result.InventoryData.{4ff902e4-c358-4fe0-b938-c1fd111fafdd} is table
+GetData_result.InventoryData.{a45eca16-be91-4be7-b1a0-4cbd2dce28da} is table
+GetData_result.InventoryData.{78db6924-a2bc-4a15-8303-21d8dce1b850} is table
+GetData_result.InventoryData.{7aa20f88-1212-47b5-b2ab-655088891b77} is table
+GetData_result.InventoryData.{8eed356a-0436-43a0-b5af-500aca42d597} is table
+GetData_result.InventoryData.{1c495bae-1584-4eaf-b31e-c5073ff6fe76} is table
+GetData_result.InventoryData.{f8aadf31-8196-4fdb-9881-4fa5c1da37c7} is table
+GetData_result.InventoryData.{864059c0-807c-42ac-bfb9-6320e2556952} is table
+GetData_result.InventoryData.{46179af4-385a-4320-88df-ee61f033083c} is table
+GetData_result.SafariEvent.ItemRewardsLockedOut is table
+GetData_result.SafariEvent.ContibutedPoints=0
+GetData_result.SafariEvent.ItemRewardsReceived is table
+GetData_result.SafariEvent.TotalRewardsClaimed=0
+GetData_result.SafariEvent.V1Contributions=0
+GetData_result.SafariEvent.IndivdualRewardPoints=0
+GetData_result.SafariEvent.Version=0
+GetData_result.PlayedEggTutorial=false
+GetData_result.ButtercupEvent.Buttercup_Seeds=0
+GetData_result.ButtercupEvent.Quests is table
+GetData_result.ButtercupEvent.EventActivated=true
+GetData_result.ToyCodeCooldown=0
+GetData_result.TradeData.UnfairTradeWarning=true
+GetData_result.TradeData.ViewInventoryPermission=Everyone
+GetData_result.TradeData.Tokens=0
+GetData_result.TradeData.Pin is table
+GetData_result.TradeData.TradeLocks is table
+GetData_result.TradeData.RecentlyViewedListingIds is table
+GetData_result.TradeData.TokenAmounts is table
+GetData_result.TradeData.Listings is table
+GetData_result.Gifts.Inventory is table
+GetData_result.Gifts.History is table
+GetData_result.TravelingMerchantShopStock.Stocks is table
+GetData_result.TravelingMerchantShopStock.MerchantStartTime=0
+GetData_result.TravelingMerchantShopStock.LifetimePurchases is table
+GetData_result.SaveSlots.UnlockedBefore=true
+GetData_result.SaveSlots.AllSlots is table
+GetData_result.SaveSlots.SelectedSlot=DEFAULT
+GetData_result.CosmeticData.Inventory is table
+GetData_result.CosmeticData.MutableStats is table
+GetData_result.CosmeticData.Equipped is table
+GetData_result.PetMutationMachine.PetReady=false
+GetData_result.PetMutationMachine.TimeLeft=0
+GetData_result.PetMutationMachine.IsRunning=false
+GetData_result.InfGrowPlants.RnbCy is table
+GetData_result.InfGrowPlants.DEFAULT is table
+GetData_result.InfGrowPlants.XHdWP is table
+GetData_result.InfGrowPlants.leUyu is table
+GetData_result.GearStock.Gear=479353871
+GetData_result.GearStock.Stocks is table
+GetData_result.GardenLevel.TotalExperience=0
+GetData_result.GardenLevel.ClaimedLevelRewards is table
+GetData_result.CraftingData.GlobalCraftingObjectData is table
+GetData_result.StarterPack.Timer=0
+GetData_result.StarterPack.ShowTimer=0
+GetData_result.StarterPack.Started=true
+GetData_result.HungryBirdsEvent.CooldownTime=0
+GetData_result.GardenCoinShopStock.Stocks is table
+GetData_result.GardenCoinShopStock.LastRefreshed=1770791133.543299
+GetData_result.EventShopStock. is table
+GetData_result.EventShopStock.New Years Shop is table
+GetData_result.EventShopStock.Santa's Stash is table
+GetData_result.LastPetsSaveTime=1770791332
+GetData_result.Sheckles=1.199998724860194e+21
+GetData_result.TendablePlants.RnbCy is table
+GetData_result.TendablePlants.DEFAULT is table
+GetData_result.TendablePlants.XHdWP is table
+GetData_result.TendablePlants.leUyu is table
+GetData_result.DailyQuests.DaysCompleted=0
+GetData_result.DailyQuests.Day=20495
+GetData_result.DailyQuests.DailyRewards is table
+GetData_result.DailyQuests.RunStartDay=20495
+GetData_result.DailyQuests.ContainerId=q3e80449427a34599
+GetData_result.TradeHistory.Shard=1
+GetData_result.TradeHistory.RecentTrades is table
+GetData_result.CosmeticNotice=284
+GetData_result.OldRebirthData.RequiredPlants is table
+GetData_result.OldRebirthData.TotalRebirths=0
+GetData_result.OldRebirthData.LastRebirthTime=0
+GetData_result.SeasonPass.Season 2 is table
+GetData_result.SeasonPass.Season 3 is table
+GetData_result.PetsData.SelectedPetLoadout=1
+GetData_result.PetsData.PetInventory is table
+GetData_result.PetsData.PetIncubatorData is table
+GetData_result.PetsData.MaxLoadoutSlots=4
+GetData_result.PetsData.PetPouchUses=0
+GetData_result.PetsData.MutableStats is table
+GetData_result.PetsData.PetEggIncubatorData is table
+GetData_result.PetsData.PurchasedEggSlots=0
+GetData_result.PetsData.PurchasedEquipSlots=5
+GetData_result.PetsData.PurchasedPetInventorySlots=0
+GetData_result.PetsData.EquippedPets is table
+GetData_result.PetsData.PetLoadouts is table
+GetData_result.ChristmasEvent.Advent is table
+GetData_result.ChristmasEvent.Gifting is table
+GetData_result.ChristmasEvent.SubmissionPoints=0
+GetData_result.ChristmasEvent.ChristmasGlow is table
+GetData_result.ChristmasEvent.ChristmasTree is table
+GetData_result.ChristmasEvent.GiftingV2 is table
+GetData_result.LastSaveTime=1770791338
+GetData_result.TotalTokensSpent=0
+GetData_result.TraderEventData.MaxStreak=0
+GetData_result.TraderEventData.CurrentStreak=0
+GetData_result.TraderEventData.StreakEndTime=0
+GetData_result.TraderEventData.LastClaimedCycle=0
+GetData_result.LastPetsIncubationTime=1770791340
+GetData_result.BoxingMachineData.BoxingMachines is table
+GetData_result.DiggingData.GridData is table
+GetData_result.DiggingData.DigComplete=false
+GetData_result.DiggingData.DataCycle=245943
+GetData_result.DiggingData.GridSize=-1
+GetData_result.DiggingData.NextDiggingGainTime=0
+GetData_result.DiggingData.TreasureData is table
+GetData_result.DiggingData.RemainingDigs=10
+GetData_result.PunnishmentData.Warnings is table
+GetData_result.Fertilizer.FertilizedPlants is table
+GetData_result.CropsSold=30
+GetData_result.ItemGiftHistory.Pets is table
+GetData_result.ItemGiftHistory.Plants is table
+GetData_result.NewPlayersServers.ShouldTeleport=false
+❌ Finish

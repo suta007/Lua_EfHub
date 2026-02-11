@@ -1,0 +1,897 @@
+📋 Script initialized successfully.
+📋 PlayedGuaranteedLuckyHarvest : false
+📋 k2 AcknowledgedBackpack : true
+📋 k2 FREE_PANDA_PET_UPDATE : false
+📋 ExtraBackpackSize : 50
+📋 v2 is table
+📋 v2 is table
+📋 k2 1 : 3966694991137927
+📋 k2 2 : 4330691652818014
+📋 k2 3 : 3602894446235962
+📋 k2 4 : 674039989298417
+📋 k2 5 : 4493388333080928
+📋 k2 6 : 2213702621912050
+📋 FirstTimeUser : false
+📋 k2 CurrentElfLevel : 1
+📋 k2 CurrentElfGauge : 0
+📋 k2 SubmittedPet : false
+📋 k2 StoredValue : 0
+📋 k2 SubmittedFruit : false
+📋 k2 SubmittedGear : false
+📋 k2 MigratedBrokenState : false
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 k2 LifetimeGardenCoins : 0
+📋 k2 UnlockedGardenCoins : true
+📋 v2 is table
+📋 v2 is table
+📋 k2 Likes : 0
+📋 v2 is table
+📋 k2 CandyCorn : 0
+📋 k2 CarrotCoins : 0
+📋 k2 ButtercupCoins : 0
+📋 k2 Chi : 0
+📋 k2 SummerCoins : 0
+📋 k2 Honey : 0
+📋 k2 FairyPoints : 0
+📋 k2 PassPoints : 0
+📋 k2 AdventToken : 0
+📋 k2 GardenCoins : 8770
+📋 v2 is table
+📋 v2 is table
+📋 k2 TotalRebirths : 1000
+📋 k2 LastRebirthTime : 1770429978
+📋 v2 is table
+📋 k2 WonderWaterTutorialCompleted : false
+📋 v2 is table
+📋 k2 ChristmasStockingsTutorialCompleted : false
+📋 k2 1 : {655ba126-c207-4afd-91c8-6753431e69ae}
+📋 k2 2 : {a67ee6ed-a85d-4a46-9d4e-63b09af7e5ed}
+📋 k2 3 : {aca98ac5-3bb6-468b-bdad-6bdd060704c4}
+📋 k2 4 : {e6fd0a58-a4ee-4da7-9994-3614bf63677c}
+📋 k2 5 : {d9df49da-d054-44df-bb93-1bb738286fe1}
+📋 k2 6 : {771aae2f-790d-470b-899d-32ddb0eaf8f1}
+📋 k2 7 : {c8a44481-3fae-4524-8b6c-24de0477ba06}
+📋 k2 8 : {941b71a0-8b3a-463e-bf1a-8bb5140b6920}
+📋 k2 9 : {2fc5f0c5-b96c-43a9-8e1a-96cd342cec55}
+📋 k2 10 : {61b07551-ef0e-4201-8b1e-e044cbcc99f2}
+📋 k2 11 : {e74e70ed-ab15-4bcc-9687-9562b937bf33}
+📋 k2 12 : {903c35b6-af6f-4d68-96c4-1f40ec6da851}
+📋 k2 13 : {63b07850-784f-4ab0-82e8-7dd4b5326999}
+📋 k2 14 : {801825dc-1d2c-4645-b314-d93bc176e1fa}
+📋 k2 15 : {42a5aedb-3b17-4901-a43b-6bf7dd4cd634}
+📋 k2 16 : {cb23fdfe-6b9d-4ccc-94a4-42f3afa7f32d}
+📋 k2 17 : {c7a02731-7efb-4b39-b1eb-6e4c0161727b}
+📋 k2 18 : {7cac8135-0987-43f6-826c-a305def347be}
+📋 k2 19 : {5676ee86-bbca-45c9-b227-9cad64079e0b}
+📋 k2 20 : {cc034702-a88a-4348-9596-b687224f2521}
+📋 k2 21 : {36f26533-6a21-4a82-9fb6-1da42f58069b}
+📋 k2 22 : {43b37b63-a15b-4ad9-839f-e71d4d2fdf48}
+📋 k2 23 : {de7cce05-9609-42ae-924a-850549c9b2da}
+📋 k2 24 : {fad8830a-de37-4459-aff5-a8ce6d7a7cbe}
+📋 k2 25 : {b55c81e5-e702-4fce-83a7-96e76c3e7ebe}
+📋 k2 26 : {c3c49469-2d12-433f-bfd0-513488aa1479}
+📋 k2 27 : {4896327e-d213-4e56-9fe4-01b482cdcfbb}
+📋 k2 28 : {71bff727-0631-4b54-bcb9-a03bdfab20f9}
+📋 k2 29 : {4ebd82f4-6bba-42ae-bc24-bb420938d992}
+📋 k2 30 : {46179af4-385a-4320-88df-ee61f033083c}
+📋 k2 31 : {38d8bb12-35cf-46b5-9ea9-71a0dfc98e13}
+📋 k2 32 : {6be7b108-3e03-493c-bd3c-77fe70a95de7}
+📋 k2 33 : {75917a8a-1ee4-4551-b2dc-57dabcf72503}
+📋 k2 34 : {53137af4-c36e-410e-a71d-8d792c7d351d}
+📋 k2 35 : {672f6471-4fd0-48a3-9b67-2be70e9fa223}
+📋 k2 36 : {a41d3d39-217e-4441-9cc4-0e4919b7bf56}
+📋 k2 37 : {864059c0-807c-42ac-bfb9-6320e2556952}
+📋 k2 38 : {77674dc6-8acb-4026-81e6-817d712c3817}
+📋 k2 39 : {1f10101b-102c-4a0a-a8c7-01ed776b73e0}
+📋 k2 40 : {4ff902e4-c358-4fe0-b938-c1fd111fafdd}
+📋 k2 41 : {5c076e04-99c4-43c9-8cfa-cc34f0f1858f}
+📋 k2 42 : {96393141-44aa-41b9-964e-0112a5ee7ab8}
+📋 k2 43 : {29647bfc-1a8b-4bc0-ae39-a5d25e278fde}
+📋 k2 44 : {a1eb6f13-11a3-4c76-b56a-48c0ce1a1ec7}
+📋 k2 45 : {28839b80-6423-4a1e-8219-1af12edbd2b9}
+📋 k2 46 : {2e048ef6-e3eb-44c5-9c31-c91aaa5d8d8f}
+📋 k2 47 : {f9e61774-74e8-4b27-84e6-6e4b773aa283}
+📋 k2 48 : {ddb42530-baf1-4383-9da2-bdf5b335bc6b}
+📋 k2 49 : {4ae88461-82ba-456c-b1a0-118f0096dc33}
+📋 k2 50 : {c5d32937-cd7f-4cd1-a229-69c140d3f229}
+📋 k2 51 : {25ebcd22-1072-4b65-8ee9-384c5d731402}
+📋 k2 52 : {15e0cbfb-648c-4e3a-a6cf-774f2d831eb9}
+📋 k2 53 : {28a56993-e666-48cd-9c54-cf7459e3e410}
+📋 k2 54 : {1ef2d5d8-24ba-4efc-bc62-fe8f82af9090}
+📋 k2 55 : {4dbeefb3-1da1-4feb-b286-a4915e3969a1}
+📋 k2 56 : {5530af34-226d-4df4-a6db-d93ccd7d7081}
+📋 k2 57 : {14b4fa63-bcdc-400c-957b-5343a89269f6}
+📋 k2 58 : {e33a6e5c-a312-4740-b50f-6f1aa2bbfef1}
+📋 k2 59 : {fc4690b0-cd06-44c6-8a73-0a5fca537235}
+📋 k2 60 : {b2a481f3-844e-40c9-81e3-087c2a56f652}
+📋 k2 61 : {84d6b4ce-d0d8-497a-8b22-3454b8d21576}
+📋 k2 62 : {c4cabc5a-aeb7-412d-8a2e-886a00433666}
+📋 k2 63 : {1c9cb9e7-526c-45ff-9a1a-831cd5078bbf}
+📋 k2 64 : {e6f4b358-2a3b-41e2-8fe2-915c37ef7592}
+📋 k2 65 : {5179d00d-5bf2-49b8-abc9-d7eae4e09e57}
+📋 k2 66 : {d9243026-3c66-4a6b-8445-70e172b3c8ec}
+📋 k2 67 : {e549e351-f8b0-4420-bb1d-869f984a44a9}
+📋 k2 68 : {6bd54d5b-5f56-4921-99c0-6881983a66ff}
+📋 k2 69 : {8ffebe36-3acc-46a8-86aa-ceee18fd3d92}
+📋 k2 70 : {1c495bae-1584-4eaf-b31e-c5073ff6fe76}
+📋 k2 71 : {17098cae-4670-4f1b-b6e5-cab4fc036fc4}
+📋 k2 72 : {0fa41e3d-231d-45f5-84c6-5615e711f29f}
+📋 k2 73 : {4fa69cef-cb7e-4846-8794-a1a80be2673e}
+📋 k2 74 : {151a6de6-74ae-4283-9cc3-d49e415e2055}
+📋 k2 75 : {365a1d3f-58c3-439c-98ff-873a437732ce}
+📋 k2 76 : {4b6f7843-1b35-4398-bf86-e2d9c276b456}
+📋 k2 77 : {ca4f6d6d-229e-4ccf-816b-4b2b351e8969}
+📋 k2 78 : {a41c60d9-873d-4d5c-ba89-988f619ab2bd}
+📋 k2 79 : {3e3f7fe0-e94d-4e28-88af-9bfcb763e775}
+📋 k2 80 : {f93fbfc9-73f4-47a3-a2fd-55a143704f27}
+📋 k2 81 : {07ee37b8-d5be-41ef-beb0-c81d195f81b4}
+📋 k2 82 : {b45de9e9-7f02-4d18-a864-907a00ae16c9}
+📋 k2 83 : {4962f273-b4d6-451f-b856-47bff0f6c309}
+📋 k2 84 : {f21cbbc6-3737-4585-9d0d-300f736dfc56}
+📋 k2 85 : {09a26996-d32b-4328-a6d8-37235f1cc93d}
+📋 k2 86 : {ef0d1b89-0add-4489-baf9-06995f96057e}
+📋 k2 87 : {ea16a779-b46e-4f57-bd08-37e3c6dfe3ac}
+📋 k2 88 : {e71b2eeb-050d-4036-a015-8e5e747a3605}
+📋 k2 89 : {e4faa0fe-0f4f-4477-9933-b6221a62edd3}
+📋 k2 90 : {12a05768-a9ed-4317-ada3-96c0052fe388}
+📋 k2 91 : {9a6b188f-6a4e-49b5-aaf4-9598305b7c38}
+📋 k2 92 : {d0a304d8-0979-4d97-8214-8e1d6adc9703}
+📋 k2 93 : {97f0f55d-45e2-40e4-b96f-3ef1008f6747}
+📋 k2 94 : {be34a4ca-fd5d-45a4-92a8-f7de186ae2d6}
+📋 k2 95 : {cef1a6fb-e8b5-4150-8013-5896bad74f85}
+📋 k2 96 : {f024f327-96e3-4690-b66c-df613a7c369e}
+📋 k2 97 : {aae755a3-c24c-4ac2-ad0a-6e349964cb0c}
+📋 k2 98 : {65fc2631-611f-40fb-988e-0c0672a33beb}
+📋 k2 99 : {697c8241-13d6-4216-beff-ed32cdf1508e}
+📋 k2 100 : {bd16aae6-06bb-412a-b01c-8d2c5e81e597}
+📋 k2 101 : {dfc922b8-4150-4086-8a06-d3309243b44a}
+📋 k2 102 : {0aaf4a76-a431-4a21-a4f1-e52d6bad75d7}
+📋 k2 103 : {7341a81b-ee6a-4e2b-befb-088dd4b38815}
+📋 k2 104 : {185a72db-d40e-42fc-a1d9-af730e22713e}
+📋 k2 105 : {d5fde870-2fdb-401c-beb9-addd8ab9ba71}
+📋 k2 106 : {22beb5e6-1510-470d-85e9-62fc9868b64b}
+📋 k2 107 : {ecee4aeb-25df-465a-b6cf-43df8454d2e2}
+📋 k2 108 : {d556a037-444c-4f89-93b4-92afa776ac8a}
+📋 k2 109 : {2ededff7-e5cb-4eb6-9415-1dae52eff5ce}
+📋 k2 110 : {dc954a3a-5cc8-4241-94d4-f2ae3e5fcba7}
+📋 k2 111 : {71f67994-23e3-42c9-8da3-8edf1995277e}
+📋 k2 112 : {36b9fce4-bd0a-43fb-8b99-86a63e33de6c}
+📋 k2 113 : {333725e9-ded4-4a26-8324-bbfcec5e2a84}
+📋 k2 114 : {3b261654-34ac-49b6-83f0-0ea970d66235}
+📋 k2 115 : {e912e148-7cc1-474c-9267-d28310b9d85e}
+📋 k2 116 : {00a8aae1-3fa1-4907-848a-dde94a31de09}
+📋 k2 117 : {c5690bb0-bbc9-4287-8d69-e03beeda5ae2}
+📋 k2 118 : {17f4990e-6ec9-4b56-abba-dabb4fcd4c30}
+📋 k2 119 : {840ea1f3-407d-4996-bd92-aec5682792d0}
+📋 k2 120 : {dd089e1c-8591-42dc-8a0a-a3167cc5f81c}
+📋 k2 121 : {6255a4f0-6fbb-474b-a2f6-d877d231f88a}
+📋 k2 122 : {d9522ecd-84e2-4d69-8027-6ace679636df}
+📋 k2 123 : {dd703caf-845f-495d-a6e7-e6052f37839d}
+📋 k2 124 : {b47d5986-8360-455f-80db-4ec30181defb}
+📋 k2 125 : {030d619b-a1dc-43c4-bbfd-344cd312c482}
+📋 k2 126 : {14084499-9c67-4bcb-9771-556e8272b174}
+📋 k2 127 : {426fc989-66b8-4d12-b9f8-4654761858ab}
+📋 k2 128 : {5289c2f4-ba6c-41fe-bb04-d64d41d19bae}
+📋 k2 129 : {7a727566-48a9-40ae-995f-ac3bf40bcc7c}
+📋 k2 130 : {2e05a6cf-d142-4ec6-be18-bc2c5a2fbc5d}
+📋 k2 131 : {5d4f2101-0651-45dc-a05c-45d193590f51}
+📋 k2 132 : {4662eed2-b980-41d9-ab05-a7266de765cb}
+📋 k2 133 : {85240557-80ac-4315-bf29-504b3d98f88e}
+📋 k2 134 : {0bceb83f-464d-4f44-9ba4-ebc515ee974c}
+📋 k2 135 : {35ffedf2-d6ea-4842-9d5d-98cc08fea475}
+📋 k2 136 : {5f1271d5-e500-463b-9075-a250ed087786}
+📋 k2 137 : {2fa3493e-9dea-45c6-9cde-c5fb7e4e9b83}
+📋 k2 138 : {0a04e4ce-d5db-474a-8bcf-23ba6b05a8aa}
+📋 k2 139 : {aafeb85f-beb0-4bb9-bd49-eb53f8de82aa}
+📋 k2 140 : {05ee6967-e99b-4a4c-8fd8-708e16271b5a}
+📋 k2 141 : {9259e1f2-ceeb-4b4c-9cc5-c23b069bab59}
+📋 k2 142 : {428ddc03-4fe5-451e-80d3-a25004b7a386}
+📋 k2 143 : {65cce8fc-e5a7-4ec0-9f74-fa5bff3f84d7}
+📋 k2 144 : {87d43c30-464d-4e4e-8a85-f1b0d79f9e26}
+📋 k2 145 : {dd25dd51-158b-4648-bf09-767c5dae0da0}
+📋 k2 146 : {bf8388d5-7297-44dc-907f-fbbaf035116c}
+📋 k2 147 : {41fd0014-616d-43e8-8550-17ea4b30ca7d}
+📋 k2 148 : {9877a7ee-02f9-455b-9066-458f8a7fe819}
+📋 k2 149 : {fab82df7-0b35-4c7f-8f1e-7acf025b3ad4}
+📋 k2 150 : {72617bc1-10ba-4584-a23e-7898ba5f8940}
+📋 k2 151 : {3c04c0b2-83d7-401d-84b1-7c75ccd85f35}
+📋 k2 152 : {71657afb-4252-40d5-99c1-80179d94231a}
+📋 k2 153 : {8e7963c7-ae12-4733-854f-4def3b5db246}
+📋 k2 154 : {a45eca16-be91-4be7-b1a0-4cbd2dce28da}
+📋 k2 155 : {5f352fbd-2cd3-434c-b9cd-810a06f7b4cb}
+📋 k2 156 : {64538fae-9d8f-42b6-a81d-5dbe34eb1972}
+📋 k2 157 : {67a7f1fe-93b0-4ff2-adc4-5ecbef322589}
+📋 k2 158 : {8a313c2f-61c4-4bfb-bf17-0a6acba79221}
+📋 k2 159 : {fefd340d-74c2-4f16-a48d-2e872774e9e7}
+📋 k2 160 : {284f0d77-c329-411d-aed2-2ff7a9d327a5}
+📋 k2 161 : {05e38182-333c-4bd8-9d8a-85e10299dbd0}
+📋 k2 162 : {f4490b43-300a-42ac-b58c-9695ee1f2d4c}
+📋 k2 163 : {e7536072-f0c0-4892-9d07-0abdc9a71a4a}
+📋 k2 164 : {50de4146-d4a4-4772-99a1-5ad3cc388c06}
+📋 k2 165 : {e457eab9-d551-450b-a788-3b53ee3e4400}
+📋 k2 166 : {d4dba25d-7e93-4da5-885f-2c17b917b971}
+📋 k2 167 : {9a47c7cf-af49-407e-a92e-e1521008c11e}
+📋 k2 168 : {1511643b-2cda-4dec-8ad9-de52548d6b41}
+📋 k2 169 : {7e88bbbc-9f1f-467a-8353-533004e0e54f}
+📋 k2 170 : {67ecf414-bf17-4543-bce7-9c7b0ee29321}
+📋 k2 171 : {e8a1ad10-1e21-421c-a095-c44dcedf873e}
+📋 k2 172 : {7e4a06e4-55d0-4d66-9719-2bace8079f9d}
+📋 k2 173 : {cd3a9c88-5c23-49f2-a281-4141bf3fea9a}
+📋 k2 174 : {af17610f-ef97-4cba-b007-7eccf9580884}
+📋 k2 175 : {0cdea919-8f4f-417d-80cf-93c3fc2dfb51}
+📋 k2 176 : {8c2939e5-a313-46f3-b2b3-161fec4ec09f}
+📋 k2 177 : {be5cafbb-2910-413f-8334-34eb1bf81342}
+📋 k2 178 : {7659b377-fe16-4f7d-b6c8-0764a3e15ae9}
+📋 k2 179 : {d7acecf2-1117-4e86-a0e8-1afc59b2cecc}
+📋 k2 180 : {ed65ff57-3e4b-4a7f-9b12-fd2431ed6de0}
+📋 k2 181 : {a088e75a-9b31-485c-b04a-c5c63ddfdbf5}
+📋 k2 182 : {f049917a-297f-4cf5-9744-28148f62803c}
+📋 k2 183 : {e34dd643-040b-4a94-bffc-df0f3252371a}
+📋 k2 184 : {4e49e9ae-2e82-40c0-8e0a-dd844af67fb5}
+📋 k2 185 : {fcd0c269-7ca9-44ba-a6b8-d85437080de8}
+📋 k2 186 : {bf345a75-8c68-401b-8439-04484e29f761}
+📋 k2 187 : {7598c0b2-19de-42f2-a6b5-3de72f78d3a4}
+📋 k2 188 : {c2409a00-da42-434c-9f34-07d8933ec645}
+📋 k2 189 : {373db388-21c5-4e7a-8220-b815a2b43644}
+📋 k2 190 : {5504ce46-c8d1-4446-9bec-c36359dbfc29}
+📋 k2 191 : {42a115de-9bcd-4401-9812-f1e6b139f199}
+📋 k2 192 : {5e214131-55b8-4e3b-a5de-b9a1e73681c4}
+📋 k2 193 : {a3292a6b-48c8-4cf1-9f92-ab36ae99c221}
+📋 k2 194 : {3cb0e82e-2d3e-41be-a931-bf102e86e995}
+📋 k2 195 : {65ab4741-92d6-493d-8d72-a52725ca3853}
+📋 k2 196 : {cf56d13f-d3a4-4c3e-b2aa-71a4e5558a77}
+📋 k2 197 : {da4a43e5-871a-4606-8aa2-1afef30b26cd}
+📋 k2 198 : {61a25292-baef-4d95-b7bd-d108990541b3}
+📋 k2 199 : {6dd116ec-c147-497b-904e-dbc0d68b497f}
+📋 k2 200 : {8f737c4d-fb25-4ff7-b4c5-8d24f0f7fc7e}
+📋 k2 201 : {25ea0676-0fec-4588-a7e1-a3d17f1b0c53}
+📋 k2 202 : {8c57fae1-1fb1-488a-9f1d-68e853e6c7d4}
+📋 k2 203 : {0a9c531b-420c-4c7b-b6b8-172d4c090526}
+📋 k2 204 : {9c6f8f86-5d6e-44ea-9d2f-e85800271cef}
+📋 k2 205 : {6b8f10ec-53fd-49d2-886e-a8f313929f33}
+📋 k2 206 : {4e76d80c-af09-4486-b250-7a12542c88f8}
+📋 k2 207 : {6fde9501-01ca-4611-acae-5c86ed9d1dfc}
+📋 k2 208 : {bc423954-5205-4090-8d61-b187cc029826}
+📋 k2 209 : {f53c38f2-302b-4016-b9b1-bdcebb1c4c03}
+📋 k2 210 : {856df9e9-1e8c-47bf-8f89-9f1c97412e63}
+📋 k2 211 : {5eead332-9193-48fc-8a0d-5eac33e7d980}
+📋 k2 212 : {d8b3d49b-7944-455c-92b2-6ef27737932c}
+📋 k2 213 : {2dc799ea-332b-4d0d-bf50-e1ee283edaf9}
+📋 k2 214 : {9453cc45-d78b-48d1-8e50-90c05cbf6eb7}
+📋 k2 215 : {a692be22-6344-4218-ac4d-b2b0e30a8837}
+📋 k2 216 : {a7ef026c-52a9-434c-92d9-383732da924a}
+📋 k2 217 : {02b98ae9-e3bc-4872-8c6a-f17ab878d733}
+📋 k2 218 : {6dc274f3-9e35-4661-a0b2-91876c193b21}
+📋 k2 219 : {b3ae31e4-d1c5-4b88-8ad7-c77b3aee3b7f}
+📋 k2 220 : {7a1c38de-6bd9-4441-93e8-afbc95ffbe00}
+📋 k2 221 : {0d501767-eb76-4a48-8465-b89d6ed963c3}
+📋 k2 222 : {5279b289-8347-4948-a22e-18ada818a48c}
+📋 k2 223 : {f7dc9f1e-8ef7-4d5a-b996-27e1b4b78a0e}
+📋 k2 224 : {cd04a20c-f1b7-4d90-a789-f59af03521dc}
+📋 k2 225 : {6b02a901-c10a-4299-9066-891aa85c5c90}
+📋 k2 226 : {adf36095-1611-4b2a-9aea-602ae756bc89}
+📋 k2 227 : {546f150f-10fb-44d4-a684-40a7b4fb7aa7}
+📋 k2 228 : {01ad9bb0-684a-4afe-a407-4a635bae15dd}
+📋 k2 229 : {3b671fe1-9152-4f9f-9635-5ae872fbb216}
+📋 k2 230 : {85329dd1-f574-4007-925f-91698d50222b}
+📋 k2 231 : {8efad6a5-c9df-4ddb-929f-a8ebaadea755}
+📋 k2 232 : {149fd413-a656-45c4-89a6-cba6a2c35e3a}
+📋 k2 233 : {7a812337-f59d-413d-85de-39bcf93f69f7}
+📋 k2 234 : {03e9257d-cfa1-4abb-a42e-fbd0965c2c56}
+📋 k2 235 : {ab5e91f8-9758-4550-b2a8-2eb32ad0b5a6}
+📋 k2 236 : {1cc6614f-b4a0-48fb-90da-ab007ab77c4a}
+📋 k2 237 : {933875e7-f943-42ec-8e40-6be1b36821eb}
+📋 k2 238 : {eb2d9ba4-2416-436e-b35e-abe7a4ca10f9}
+📋 k2 239 : {8afda1f2-c499-4e8c-b41d-ce8fb88eb84c}
+📋 k2 240 : {356b4044-684d-4373-9548-877f6e7c1da3}
+📋 k2 241 : {a6c594a0-7482-4c7a-8faa-4aef3dcbe3d2}
+📋 k2 242 : {2944e2be-6b30-430e-8d41-ac4334543d28}
+📋 k2 243 : {74ae9eb3-7515-43a2-bbb9-8d81c452a01d}
+📋 k2 244 : {3ec593d5-2a7b-42c9-99c2-d9afc023e261}
+📋 k2 245 : {dea73ed7-30d4-44c0-b09f-715e365cdc1d}
+📋 k2 246 : {2da08204-fa9e-4fa3-b331-bd781f30f875}
+📋 k2 247 : {c18388f6-a312-4299-8728-64d29825779d}
+📋 k2 248 : {cbcc066b-ac40-421d-b531-e04ce030dfba}
+📋 k2 249 : {a1d3cc20-9f5b-4e99-9d3e-b3307c63d80a}
+📋 k2 250 : {72d9bb8f-f86e-4d26-ac00-fef9409c1808}
+📋 k2 251 : {475819a6-9974-4040-ac3f-d477fb0f9a6c}
+📋 k2 252 : {ff3f887a-84e0-4457-9af9-69eae8426c69}
+📋 k2 253 : {d7d41326-4bcd-4128-a0e5-896e75160cca}
+📋 k2 254 : {088da428-e41d-4e25-a354-82ad0f999b2d}
+📋 k2 255 : {ce43dbec-ae1d-4ff5-822c-f999239ea0f9}
+📋 k2 256 : {37c7f844-a18f-4299-beae-9e8050ad60d8}
+📋 k2 257 : {91675034-3e93-4437-ada8-8f4ae54791a2}
+📋 k2 258 : {492d6fd8-1519-4406-a6c6-115541a32384}
+📋 k2 259 : {85bcc83d-43b1-4c47-8536-2d04477f87f2}
+📋 k2 260 : SHOVEL
+📋 k2 261 : {f5cec645-01c5-461b-ac75-c35d4512b9fe}
+📋 k2 262 : {26c607a5-9f71-44a0-afb0-9e346a7530fd}
+📋 k2 263 : {63421d03-9235-461c-81bc-a3cce5301188}
+📋 k2 264 : {bff8d39a-3839-4e23-a281-edacd3fdf186}
+📋 k2 265 : {7340a02c-e9fe-4478-98f7-3fbb2e2d728e}
+📋 k2 266 : {1b0bada5-56d7-42ae-9951-9b053fca8da0}
+📋 k2 267 : {62d285ef-27c5-4ada-a2e2-78c94df4c069}
+📋 k2 268 : {cfaf8a15-2b59-40e5-b4c9-6e0fba2c5ba8}
+📋 k2 269 : {a397ddc1-eea8-49e0-a165-7dfb386c443d}
+📋 k2 270 : {fbcb8661-672d-4766-a5c1-b6dfb30f0877}
+📋 k2 271 : {e1e74586-14fa-404c-ae48-1717f391bc20}
+📋 k2 272 : {ad9fc010-1119-4587-8240-3de331478efb}
+📋 k2 273 : {16c75cb1-693c-47bc-a6b5-3d67a148f4ab}
+📋 k2 274 : {6a14216c-f3ab-4138-b480-22e65fcbdcc1}
+📋 k2 275 : {e2ffc814-f73e-4210-99cb-19f96e0be72d}
+📋 k2 276 : {bffce969-d1d2-4338-a155-8d784d349791}
+📋 k2 277 : {f25e35fa-1ee9-4a45-b0f8-0f1bf6f42697}
+📋 k2 278 : {74de253d-caaf-439d-82d2-874ca18de5c7}
+📋 k2 279 : {0f85360a-3107-45c6-92b7-538260d5f978}
+📋 k2 280 : {da34af75-81c5-42f1-974f-59470e3b86a3}
+📋 k2 281 : {730a6410-6576-468e-9a09-09443cb6af51}
+📋 k2 282 : {5c564602-bd84-4a8f-b599-aa7ea6f616c1}
+📋 k2 283 : {f9d33193-da89-4041-baef-3f705a0c9c7e}
+📋 k2 284 : {edb1adc5-89c2-4840-8d03-c337e5d94847}
+📋 k2 285 : {c5efa47d-16f8-4a02-8245-50e20be2be09}
+📋 k2 286 : {7aa20f88-1212-47b5-b2ab-655088891b77}
+📋 k2 287 : {78db6924-a2bc-4a15-8303-21d8dce1b850}
+📋 k2 288 : {8a522a98-d5b6-480b-b02f-ea6bf98c19ed}
+📋 k2 289 : {5c1a610d-e192-4e55-938e-d1d058e0f31c}
+📋 k2 290 : {9b971c91-d3d3-4168-860f-b8dd218eb062}
+📋 k2 291 : {00ed9415-cc58-4cca-ab3e-392c04d667f2}
+📋 k2 292 : {eeff2013-3b2a-4873-893b-d04ee859599f}
+📋 k2 293 : {ca38e44a-535a-4987-8e9a-4873d622287f}
+📋 k2 294 : {f8aadf31-8196-4fdb-9881-4fa5c1da37c7}
+📋 k2 295 : {5d447eda-8801-430a-bbed-0d37c442cdb7}
+📋 k2 296 : {2d4c3136-ca1d-4d1c-8380-f18a835ee196}
+📋 k2 297 : {93d86307-acbc-4b0a-8471-82a01298fb19}
+📋 k2 298 : {53e23e77-ebd0-443f-aba0-4598b096d5f2}
+📋 k2 299 : {b44b2ed7-e5ae-423b-ba22-7df30e94a70c}
+📋 k2 300 : {6fc7e9bd-893c-4627-883a-ff1d866d84cc}
+📋 k2 301 : {60e2c009-65ed-4085-8585-eb35143e74bb}
+📋 k2 302 : {00742e61-d55d-46a1-980f-95b01a89ed1f}
+📋 k2 303 : {a12342f5-4d4b-4e0f-a005-288fc86f1773}
+📋 k2 304 : {98642a54-a94d-496d-8ba0-63c84bdc936f}
+📋 k2 305 : {2505c4f6-19a8-49a6-9ee3-aff5858fc20e}
+📋 k2 306 : {03c3089f-78cd-4c15-821b-2c426645a341}
+📋 k2 307 : {a093bd25-738d-48af-b7d5-f8ec6ad9cd3d}
+📋 k2 308 : {9cc0f77f-19b1-4c6d-b79d-16993c2b3968}
+📋 k2 309 : {2fe9ee72-16d8-4015-9d80-e0b3a26bba16}
+📋 k2 310 : {5387a373-231f-4c9c-a865-16c215086c7d}
+📋 k2 311 : {5d5798a4-736c-4f53-af26-bd429b96a32f}
+📋 k2 312 : {8eed356a-0436-43a0-b5af-500aca42d597}
+📋 k2 313 : {3f04ff54-328a-418d-b74b-e419860dfefb}
+📋 k2 314 : {73a763d2-7f0f-4850-8577-6b6383a8508c}
+📋 k2 315 : {3781441c-cfb7-4be3-a5b4-b61619693b06}
+📋 k2 316 : {b6f4c444-b554-45d0-af33-0e77d08ff105}
+📋 k2 317 : {7fb2c858-19a3-4e23-b2c4-aaeb68b06728}
+📋 k2 318 : {8b76bdd2-de59-4ecb-b89a-1ec4bb9345fb}
+📋 k2 319 : {06e5e4c1-96a9-4a12-b194-6d0331031c37}
+📋 k2 320 : {ef6de1a3-41e2-464e-8633-ca72bf3f990f}
+📋 k2 321 : {2a76d8f1-9237-4e5e-83de-84620f83aabc}
+📋 k2 322 : {3b395264-8ced-4d3d-acd9-55fe8de1d039}
+📋 k2 323 : {0b726396-95d8-40e0-baef-a7721e585664}
+📋 k2 324 : {2a01abdb-74a9-43c5-83ea-85dc7144a67e}
+📋 k2 325 : {1bb53d82-2c22-4aa8-b91a-c15dd7698723}
+📋 k2 326 : {86330f56-44e7-4eff-a62d-137cafde46ba}
+📋 k2 327 : {ffbb2964-35f6-4c2c-9ba6-98006dca2ba9}
+📋 k2 328 : {7a1362cb-505e-4f96-9701-ec3ab857bc25}
+📋 k2 329 : {bb0d84dd-8dbd-4904-af70-c873ca905c74}
+📋 k2 330 : {f81cb412-258e-4b78-9d4d-c8276338b652}
+📋 k2 331 : {95f2d9a4-bbc0-4877-95b5-c8941d0dda7e}
+📋 k2 332 : {08a445c6-ab16-45aa-919d-2b566897d24e}
+📋 k2 333 : {e54c40b7-3003-405d-8d1a-792311d0a9df}
+📋 k2 334 : {64712cd7-66b5-452b-a646-0236f020939e}
+📋 k2 335 : {830069ed-e58a-4d3e-b36a-423e57d22910}
+📋 TotalRobuxSpent : 0
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 k2 PetReady : false
+📋 k2 TimeLeft : 0
+📋 k2 IsRunning : false
+📋 v2 is table
+📋 k2 Shard : 1
+📋 v2 is table
+📋 k2 Day : 20495
+📋 k2 Depth : 0
+📋 k2 IsCooking : false
+📋 k2 CookTimeTotal : 0
+📋 k2 MutationChance : 0
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 k2 CosmeticSeed : 245943
+📋 GiftHatchEggAttempts : 0
+📋 k2 Delete_Old_Plants_Data_v2 : true
+📋 k2 Sheckles_Data : true
+📋 k2 Optimize_Plants_Data_v2 : true
+📋 k2 Set_Played_Egg_Tutorial_v1 : true
+📋 k2 Remove_Tier_1_And_2_Stock_Data : true
+📋 k2 WateringCan_Charges_To_Uses_v1 : true
+📋 k2 Backpack_To_InventoryService_v1 : true
+📋 k2 Data_Module : true
+📋 k2 Add_Variant_Field_To_Seeds_v1 : true
+📋 k2 Rename_Sunflowers_v1 : true
+📋 k2 Refund_Failed_Skips_v1 : true
+📋 k2 Migrate_To_Save_Slots_v1 : true
+📋 k2 Reset_Growth_Multi_v1 : true
+📋 k2 Add_LastObjectsSaveTime_To_Save_Slots_v1 : true
+📋 k2 Delete_Duplicate_Seed_Entries_v1 : true
+📋 k2 ItemType_Watering_To_Watering_Can_v1 : true
+📋 k2 Reset_Rebirth_Data_v1 : true
+📋 k2 SeedPacks_To_InventoryService_v1 : true
+📋 k2 Migrate_New_Players_Servers_Data_v1 : true
+📋 k2 Give_Rainbow_Exotic_Crafters_Seed_Packs_v1 : true
+📋 k2 CleanupInvalidSprinklers_Backpack_v1 : true
+📋 k2 Remove_Invalid_Pets_Boosts_From_Gift_History_V1 : true
+📋 k2 Remove_Invalid_Pets_Boosts_V1 : true
+📋 v2 is table
+📋 k2 SubmittedWeight : 0
+📋 k2 PetShopButton : false
+📋 k2 ToggleNotifications : true
+📋 k2 PlantableCollisions : true
+📋 k2 RecieveGifts : true
+📋 k2 Sounds : true
+📋 k2 KeepPetOnGround : true
+📋 k2 PerformanceMode : true
+📋 k2 Textures : true
+📋 k2 Audio : true
+📋 k2 PetMutationVFX : false
+📋 k2 CropMutationVFX : false
+📋 k2 TradeRequests : true
+📋 k2 YourFarmIcon : true
+📋 k2 Tips : true
+📋 k2 LowerPlantFXQuality : true
+📋 k2 AutoCloseActivePetsUI : true
+📋 k2 VisualEffects : true
+📋 k2 PetScaling : false
+📋 k2 FavoriteIcons : true
+📋 k2 Music : true
+📋 k2 PetUpdateRate : 0.035
+📋 k2 GearShopButton : false
+📋 k2 ButtercupsGiven : 0
+📋 k2 CurrentQuestIndex : 1
+📋 TotalCropsValueSold : 164307333
+📋 k2 CanSeeExpansions : true
+📋 v2 is table
+📋 v2 is table
+📋 k2 LastPurchaseDay : 0
+📋 k2 Egg : 474435006
+📋 v2 is table
+📋 k2 PetShopButton : true
+📋 k2 ToggleNotifications : true
+📋 k2 PlantableCollisions : true
+📋 k2 RecieveGifts : true
+📋 k2 Sounds : true
+📋 k2 KeepPetOnGround : true
+📋 k2 PerformanceMode : true
+📋 k2 Textures : true
+📋 k2 Audio : true
+📋 k2 PetMutationVFX : true
+📋 k2 CropMutationVFX : true
+📋 k2 TradeRequests : true
+📋 k2 YourFarmIcon : true
+📋 k2 Tips : true
+📋 k2 LowerPlantFXQuality : true
+📋 k2 AutoCloseActivePetsUI : true
+📋 k2 VisualEffects : true
+📋 k2 PetScaling : true
+📋 k2 FavoriteIcons : true
+📋 k2 Music : true
+📋 k2 PetUpdateRate : true
+📋 k2 GearShopButton : true
+📋 k2 SeedpackConnoisseur : 5
+📋 k2 CarrotConnoisseur : 6
+📋 k2 PetMaster : 2858
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 k2 ContibutedPoints : 0
+📋 v2 is table
+📋 k2 TotalRewardsClaimed : 0
+📋 k2 V1Contributions : 0
+📋 k2 IndivdualRewardPoints : 0
+📋 k2 Version : 0
+📋 PlayedEggTutorial : false
+📋 k2 Buttercup_Seeds : 0
+📋 v2 is table
+📋 k2 EventActivated : true
+📋 ToyCodeCooldown : 0
+📋 k2 UnfairTradeWarning : true
+📋 k2 ViewInventoryPermission : Everyone
+📋 k2 Tokens : 0
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 k2 MerchantStartTime : 0
+📋 v2 is table
+📋 k2 UnlockedBefore : true
+📋 v2 is table
+📋 k2 SelectedSlot : DEFAULT
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 k2 PetReady : false
+📋 k2 TimeLeft : 0
+📋 k2 IsRunning : false
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 k2 Gear : 479353867
+📋 v2 is table
+📋 k2 TotalExperience : 0
+📋 v2 is table
+📋 v2 is table
+📋 k2 Timer : 0
+📋 k2 ShowTimer : 0
+📋 k2 Started : true
+📋 k2 CooldownTime : 0
+📋 v2 is table
+📋 k2 LastRefreshed : 1770789932.336023
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 LastPetsSaveTime : 1770790047
+📋 Sheckles : 1.199998724860194e+21
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 k2 DaysCompleted : 0
+📋 k2 Day : 20495
+📋 v2 is table
+📋 k2 RunStartDay : 20495
+📋 k2 ContainerId : q3e80449427a34599
+📋 k2 Shard : 1
+📋 v2 is table
+📋 CosmeticNotice : 269
+📋 v2 is table
+📋 k2 TotalRebirths : 0
+📋 k2 LastRebirthTime : 0
+📋 v2 is table
+📋 v2 is table
+📋 k2 SelectedPetLoadout : 1
+📋 v2 is table
+📋 v2 is table
+📋 k2 MaxLoadoutSlots : 4
+📋 k2 PetPouchUses : 0
+📋 v2 is table
+📋 v2 is table
+📋 k2 PurchasedEggSlots : 0
+📋 k2 PurchasedEquipSlots : 5
+📋 k2 PurchasedPetInventorySlots : 0
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 k2 SubmissionPoints : 0
+📋 v2 is table
+📋 v2 is table
+📋 v2 is table
+📋 LastSaveTime : 1770790056
+📋 TotalTokensSpent : 0
+📋 k2 MaxStreak : 0
+📋 k2 CurrentStreak : 0
+📋 k2 StreakEndTime : 0
+📋 k2 LastClaimedCycle : 0
+📋 LastPetsIncubationTime : 1770790057
+📋 v2 is table
+📋 v2 is table
+📋 k2 DigComplete : false
+📋 k2 DataCycle : 245943
+📋 k2 GridSize : -1
+📋 k2 NextDiggingGainTime : 0
+📋 v2 is table
+📋 k2 RemainingDigs : 10
+📋 v2 is table
+📋 v2 is table
+📋 CropsSold : 30
+📋 v2 is table
+📋 v2 is table
+📋 k2 ShouldTeleport : false
+❌ Finish
