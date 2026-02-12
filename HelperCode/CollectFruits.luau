@@ -1,3 +1,4 @@
+--workspace.Farm.Farm.Important.Plants_Physical["Elder Strawberry"].Fruits:GetChildren()[2]["2"].ProximityPrompt
 local Fluent = loadstring(
 	game:HttpGet("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau")
 )()
@@ -138,70 +139,55 @@ end
 InfoLog("Script initialized successfully.")
 task.wait(0.5)
 
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local MyName = LocalPlayer.Name
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local DataService = require(ReplicatedStorage.Modules.DataService)
-local GetData_result = DataService:GetData()
-local PetInventory = GetData_result.PetsData.PetInventory
+local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect --  อ้างอิงจากบรรทัด 87
+local GetMyFarm
+local CollectFruit
 
+GetMyFarm = function()
+	local farmFolder = workspace:FindFirstChild("Farm")
+	if not farmFolder then
+		return nil
+	end
+	for _, oFarm in pairs(farmFolder:GetChildren()) do
+		local success, owner = pcall(function()
+			return oFarm.Important.Data.Owner.Value
+		end)
 
+		if success and owner == MyName then
+			return oFarm
+		end
+	end
+	return nil
+end
+--Collect Fruits
 
-local TargetPet = "Golem"
+CollectFruit = function()
+	MyFarm = GetMyFarm()
 
-if PetInventory then
-	for k, v in pairs(PetInventory) do
-		if type(v) == "table" then
-			for _, Data in pairs(v) do
-				local petType = Data.PetType
-				local uuid = Data.UUID
-				if petType == TargetPet then
-					AddLog("เจอสัตว์เลี้ยง: " .. tostring(petType).." "..uuid)
-					--return uuid
-					break
+	local Farm_Important = MyFarm:FindFirstChild("Important")
+	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+
+	if Plants_Physical then
+		for _, plant in pairs(Plants_Physical:GetChildren()) do
+			local Fruits = plant:FindFirstChild("Fruits")
+			if Fruits then
+				for _, fruit in pairs(Fruits:GetChildren()) do
+					if fruit:IsA("Model") then
+						local Prompt_Part = fruit:FindFirstChild("2")
+						if Prompt_Part then
+							local Prompt = Prompt_Part:FindFirstChild("ProximityPrompt")
+							if Prompt and Prompt.Enabled then
+								-- AddLog("Auto Collect: " .. fruit.Name)
+								CollectEvent:FireServer({ fruit })
+							end
+						end
+					end
 				end
 			end
 		end
 	end
 end
-
-
-
-
-local function ShowData(tbl, indent)
-	local lclIndent = indent or 0
-	local spacing = string.rep("  ", lclIndent)
-	for k, v in pairs(tbl) do
-		if type(v) == "table" then
-			AddLog(spacing .. "[" .. tostring(k) .. "] : (Table)")
-			ShowData(v, lclIndent + 1)
-		else
-			AddLog(spacing .. "[" .. tostring(k) .. "] : " .. tostring(v))
-		end
-		--return
-	end
-end
-ShowData(PetInventory, 0)
-
-local LocalPlayer = game:GetService("Players").LocalPlayer
-local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
-local PetLoadouts = GetData_result.PetsData.PetLoadouts
-local EquippedPets = GetData_result.PetsData.EquippedPets
-local function GetEquippedPetsUUID()
-	local UUIDtbl = {}
-	for _, uuid in pairs(EquippedPets) do
-		if uuid then
-			table.insert(UUIDtbl, uuid)
-		end
-	end
-	return UUIDtbl
-end
-
-local function findpet()
-	local UUIDs = GetEquippedPetsUUID()
-	for _, uuid in pairs(UUIDs) do
-		local petData = ActivePetsService:GetPetData(LocalPlayer.Name, uuid)
-		if petData and petData.PetType == "Golem" then
-			return uuid
-		end
-	end
-end
-AddLog(findpet())

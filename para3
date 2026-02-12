@@ -1,0 +1,1000 @@
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 42175409
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{8eed356a-0436-43a0-b5af-500aca42d597}] : (Table)
+  [ItemType] : CosmeticCrate
+  [ItemData] : (Table)
+    [Uses] : 1
+    [CrateType] : Classic Gnome Crate
+[{e8a1ad10-1e21-421c-a095-c44dcedf873e}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 67545197
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{74de253d-caaf-439d-82d2-874ca18de5c7}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Tomato
+    [Quantity] : 34
+    [Variant] : Normal
+[{697c8241-13d6-4216-beff-ed32cdf1508e}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 35100400
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{03e9257d-cfa1-4abb-a42e-fbd0965c2c56}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 24394822
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{19290c40-1be5-4608-849f-b5af71ba11ff}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 35132532
+    [FruitVersion] : 2
+    [MutationString] : Moonlit
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{26c607a5-9f71-44a0-afb0-9e346a7530fd}] : (Table)
+  [ItemType] : Watering Can
+  [ItemData] : (Table)
+    [Uses] : 5080
+[{f7dc9f1e-8ef7-4d5a-b996-27e1b4b78a0e}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 25922323
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{a397ddc1-eea8-49e0-a165-7dfb386c443d}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 5978228
+    [FruitVersion] : 2
+    [MutationString] : Twisted, Moonlit, Eclipsed, Bloodlit, Ornamented, Frozen
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{38d8bb12-35cf-46b5-9ea9-71a0dfc98e13}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 56215967
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{0bceb83f-464d-4f44-9ba4-ebc515ee974c}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 29862733
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{b44b2ed7-e5ae-423b-ba22-7df30e94a70c}] : (Table)
+  [ItemType] : Pet Lead
+  [ItemData] : (Table)
+    [Uses] : 18
+[{f9e61774-74e8-4b27-84e6-6e4b773aa283}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 42175409
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{cf56d13f-d3a4-4c3e-b2aa-71a4e5558a77}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 64834567
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{f21cbbc6-3737-4585-9d0d-300f736dfc56}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 12119425
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{7340a02c-e9fe-4478-98f7-3fbb2e2d728e}] : (Table)
+  [ItemType] : Trowel
+  [ItemData] : (Table)
+    [Uses] : 2740
+[{e549e351-f8b0-4420-bb1d-869f984a44a9}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 29923471
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{3cb0e82e-2d3e-41be-a931-bf102e86e995}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 66120378
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{e71b2eeb-050d-4036-a015-8e5e747a3605}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 33118380
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{e7536072-f0c0-4892-9d07-0abdc9a71a4a}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 33118380
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{61b07551-ef0e-4201-8b1e-e044cbcc99f2}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Potato
+    [Quantity] : 1
+    [Variant] : Normal
+[{72617bc1-10ba-4584-a23e-7898ba5f8940}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 54294110
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{07ee37b8-d5be-41ef-beb0-c81d195f81b4}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 48173404
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{d9df49da-d054-44df-bb93-1bb738286fe1}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Burning Bud
+    [Quantity] : 4
+    [Variant] : Normal
+[{5d447eda-8801-430a-bbed-0d37c442cdb7}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 83881169
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{e6f4b358-2a3b-41e2-8fe2-915c37ef7592}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 76820715
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{7aa20f88-1212-47b5-b2ab-655088891b77}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Coconut
+    [Quantity] : 15
+    [Variant] : Normal
+[{fab82df7-0b35-4c7f-8f1e-7acf025b3ad4}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 76774494
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{0fa41e3d-231d-45f5-84c6-5615e711f29f}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 12774734
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{61a25292-baef-4d95-b7bd-d108990541b3}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 21365394
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{16c75cb1-693c-47bc-a6b5-3d67a148f4ab}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Banana
+    [Quantity] : 2
+    [Variant] : Normal
+[{8f737c4d-fb25-4ff7-b4c5-8d24f0f7fc7e}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 18649226
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{ef6de1a3-41e2-464e-8633-ca72bf3f990f}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Pepper
+    [Quantity] : 2
+    [Variant] : Normal
+[{e2ffc814-f73e-4210-99cb-19f96e0be72d}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Blueberry
+    [Quantity] : 59
+    [Variant] : Normal
+[{0f85360a-3107-45c6-92b7-538260d5f978}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Corn
+    [Quantity] : 13
+    [Variant] : Normal
+[{adf36095-1611-4b2a-9aea-602ae756bc89}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 65196962
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{4896327e-d213-4e56-9fe4-01b482cdcfbb}] : (Table)
+  [ItemType] : Trading Ticket
+  [ItemData] : (Table)
+    [Uses] : 422
+[{67ecf414-bf17-4543-bce7-9c7b0ee29321}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 48614272
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{ab5e91f8-9758-4550-b2a8-2eb32ad0b5a6}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 60440431
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{5504ce46-c8d1-4446-9bec-c36359dbfc29}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 12774734
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{a3292a6b-48c8-4cf1-9f92-ab36ae99c221}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 74810800
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{bff8d39a-3839-4e23-a281-edacd3fdf186}] : (Table)
+  [ItemType] : Sprinkler
+  [ItemData] : (Table)
+    [Uses] : 57
+    [ItemName] : Advanced Sprinkler
+[{8c2939e5-a313-46f3-b2b3-161fec4ec09f}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 37947088
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{d0a304d8-0979-4d97-8214-8e1d6adc9703}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 37797326
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{c2409a00-da42-434c-9f34-07d8933ec645}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 37797326
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{a088e75a-9b31-485c-b04a-c5c63ddfdbf5}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 29862733
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{2d4c3136-ca1d-4d1c-8380-f18a835ee196}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 48376623
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{9b971c91-d3d3-4168-860f-b8dd218eb062}] : (Table)
+  [ItemType] : Favorite Tool
+  [ItemData] : (Table)
+    [Uses] : 11220
+[{333725e9-ded4-4a26-8324-bbfcec5e2a84}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 82905963
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{60e2c009-65ed-4085-8585-eb35143e74bb}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Cactus
+    [Quantity] : 39
+    [Variant] : Normal
+[{bffce969-d1d2-4338-a155-8d784d349791}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Carrot
+    [Quantity] : 329
+    [Variant] : Normal
+[{fefd340d-74c2-4f16-a48d-2e872774e9e7}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 68736059
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{7598c0b2-19de-42f2-a6b5-3de72f78d3a4}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 7115968
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{185a72db-d40e-42fc-a1d9-af730e22713e}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 5283877
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{0cdea919-8f4f-417d-80cf-93c3fc2dfb51}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 89311937
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{3b671fe1-9152-4f9f-9635-5ae872fbb216}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 65196962
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{e34dd643-040b-4a94-bffc-df0f3252371a}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 12492014
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{d468bfd8-391f-49a1-9b1d-8f5a02518765}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 26797411
+    [FruitVersion] : 2
+    [MutationString] : Frozen
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{7a812337-f59d-413d-85de-39bcf93f69f7}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 90792862
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{5eead332-9193-48fc-8a0d-5eac33e7d980}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 84105100
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{4e49e9ae-2e82-40c0-8e0a-dd844af67fb5}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 5571475
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{5530af34-226d-4df4-a6db-d93ccd7d7081}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 33359588
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{dd25dd51-158b-4648-bf09-767c5dae0da0}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 98975947
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{02b98ae9-e3bc-4872-8c6a-f17ab878d733}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 70485656
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{87d43c30-464d-4e4e-8a85-f1b0d79f9e26}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 86406446
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{373db388-21c5-4e7a-8220-b815a2b43644}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 59530348
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{eeff2013-3b2a-4873-893b-d04ee859599f}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Mango
+    [Quantity] : 6
+    [Variant] : Normal
+[{730a6410-6576-468e-9a09-09443cb6af51}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Pumpkin
+    [Quantity] : 57
+    [Variant] : Normal
+[{7e4a06e4-55d0-4d66-9719-2bace8079f9d}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 23672598
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{00a8aae1-3fa1-4907-848a-dde94a31de09}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 33867529
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{af17610f-ef97-4cba-b007-7eccf9580884}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 94916641
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{f25e35fa-1ee9-4a45-b0f8-0f1bf6f42697}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Strawberry
+    [Quantity] : 81
+    [Variant] : Normal
+[{a1eb6f13-11a3-4c76-b56a-48c0ce1a1ec7}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 266272
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{aca98ac5-3bb6-468b-bdad-6bdd060704c4}] : (Table)
+  [ItemType] : PetBoost
+  [ItemData] : (Table)
+    [ItemType] : PetBoost
+    [PetBoostAmount] : 0.2
+    [Uses] : 15
+    [PetBoostSize] : Medium
+    [PetBoostType] : PASSIVE_BOOST
+    [PetBoostTime] : 300
+[{1bb53d82-2c22-4aa8-b91a-c15dd7698723}] : (Table)
+  [ItemType] : Areaclaimer
+  [ItemData] : (Table)
+    [Uses] : 1
+[{64538fae-9d8f-42b6-a81d-5dbe34eb1972}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 94916641
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{6b02a901-c10a-4299-9066-891aa85c5c90}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 68736059
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{cef1a6fb-e8b5-4150-8013-5896bad74f85}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 89311937
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{b9005bf1-75c6-4960-b736-5f7c1ad41e29}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 87657863
+    [FruitVersion] : 2
+    [MutationString] : Frozen
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{ed65ff57-3e4b-4a7f-9b12-fd2431ed6de0}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 83881169
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{be5cafbb-2910-413f-8334-34eb1bf81342}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 43107491
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{9a6b188f-6a4e-49b5-aaf4-9598305b7c38}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 7115968
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{f81cb412-258e-4b78-9d4d-c8276338b652}] : (Table)
+  [ItemType] : PetEgg
+  [ItemData] : (Table)
+    [EggName] : Bug Egg
+    [Uses] : 2
+[{0a9c531b-420c-4c7b-b6b8-172d4c090526}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 92480922
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{93d86307-acbc-4b0a-8471-82a01298fb19}] : (Table)
+  [ItemType] : Magnifying Glass
+  [ItemData] : (Table)
+    [Uses] : 890
+[{ffd9ccaa-c3d4-4a79-9ebf-b1e7cfefe06d}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 88873527
+    [FruitVersion] : 2
+    [MutationString] : Wet
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{f049917a-297f-4cf5-9744-28148f62803c}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 74356199
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{25ea0676-0fec-4588-a7e1-a3d17f1b0c53}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 42988996
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{e54c40b7-3003-405d-8d1a-792311d0a9df}] : (Table)
+  [ItemType] : Seed Pack
+  [ItemData] : (Table)
+    [Uses] : 4
+    [Type] : Christmas Present
+[{05ee6967-e99b-4a4c-8fd8-708e16271b5a}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 84222776
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{356b4044-684d-4373-9548-877f6e7c1da3}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 67545197
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Gold
+    [WeightMultiplier] : 1
+[{00ed9415-cc58-4cca-ab3e-392c04d667f2}] : (Table)
+  [ItemType] : PetEgg
+  [ItemData] : (Table)
+    [EggName] : Rare Egg
+    [Uses] : 8
+[{9877a7ee-02f9-455b-9066-458f8a7fe819}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 46354965
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{71bff727-0631-4b54-bcb9-a03bdfab20f9}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 49134432
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{65ab4741-92d6-493d-8d72-a52725ca3853}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 52605055
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{6be7b108-3e03-493c-bd3c-77fe70a95de7}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 29493516
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{06e5e4c1-96a9-4a12-b194-6d0331031c37}] : (Table)
+  [ItemType] : Seed Pack
+  [ItemData] : (Table)
+    [Uses] : 25
+    [Type] : Santa's Surprise Present
+[{8a522a98-d5b6-480b-b02f-ea6bf98c19ed}] : (Table)
+  [ItemType] : PetEgg
+  [ItemData] : (Table)
+    [EggName] : Jungle Egg
+    [Uses] : 1
+[{5d5798a4-736c-4f53-af26-bd429b96a32f}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 59530348
+    [FruitVersion] : 2
+    [MutationString] : Fiery, Moonlit, Eclipsed, Bloodlit, Ornamented, Celestial, Windstruck, Frozen
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{b47d5986-8360-455f-80db-4ec30181defb}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 24603011
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{cd3a9c88-5c23-49f2-a281-4141bf3fea9a}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 16954218
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{7f2107f3-a7b8-4273-89f2-900fb3f168ae}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 85926491
+    [FruitVersion] : 2
+    [Variant] : Normal
+    [MutationString] : 
+    [WeightMultiplier] : 1
+[{73a763d2-7f0f-4850-8577-6b6383a8508c}] : (Table)
+  [ItemType] : PetShard
+  [ItemData] : (Table)
+    [Uses] : 2
+    [ShardMutationName] : HyperHunger
+    [ShardType] : Pet Shard
+[{8afda1f2-c499-4e8c-b41d-ce8fb88eb84c}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 92918965
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{d5fde870-2fdb-401c-beb9-addd8ab9ba71}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 42900937
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{5c564602-bd84-4a8f-b599-aa7ea6f616c1}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Cacao
+    [Quantity] : 1
+    [Variant] : Normal
+[{65fc2631-611f-40fb-988e-0c0672a33beb}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 39058230
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{78db6924-a2bc-4a15-8303-21d8dce1b850}] : (Table)
+  [ItemType] : Seed
+  [ItemData] : (Table)
+    [ItemName] : Beanstalk
+    [Quantity] : 1
+    [Variant] : Normal
+[{4ff902e4-c358-4fe0-b938-c1fd111fafdd}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 76249781
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{a45eca16-be91-4be7-b1a0-4cbd2dce28da}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 93572942
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{a67ee6ed-a85d-4a46-9d4e-63b09af7e5ed}] : (Table)
+  [ItemType] : Sprinkler
+  [ItemData] : (Table)
+    [Uses] : 1
+    [ItemName] : Grandmaster Sprinkler
+[{f8aadf31-8196-4fdb-9881-4fa5c1da37c7}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 79670798
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{53137af4-c36e-410e-a71d-8d792c7d351d}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 13408486
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1
+[{864059c0-807c-42ac-bfb9-6320e2556952}] : (Table)
+  [ItemType] : Holdable
+  [ItemData] : (Table)
+    [ItemName] : Elder Strawberry
+    [IsFavorite] : false
+    [Seed] : 44626670
+    [FruitVersion] : 2
+    [MutationString] : 
+    [Variant] : Normal
+    [WeightMultiplier] : 1

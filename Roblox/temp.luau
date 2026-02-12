@@ -74,3 +74,7 @@ GetMachineData_result1_5 = GetMachineData_upvr()
 GetMachineData_result1_5.PetReady
 
 DataService_upvr:GetPathSignal("PetMutationMachine/IsRunning"):Connect(function()
+
+
+
+    game:GetService("ReplicatedStorage").Modules.InventoryService

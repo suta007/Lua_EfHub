@@ -94,3 +94,7 @@ game:GetService("ReplicatedStorage").Modules.ReplicationClass
 game:GetService("ReplicatedStorage").Modules.ReplicationClass.TableListener
 
 game:GetService("ReplicatedStorage").Modules.PlantTraitsData
+
+
+					--local Variant = fruit:FindFirstChild("Variant")
+					--AddLog(fruit.Name.." Variant : "..Variant.Value)
