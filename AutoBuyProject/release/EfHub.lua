@@ -13,6 +13,35 @@ local CollapsibleAddon = loadstring(
 	game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua")
 )()
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
+local DataStream = GameEvents:WaitForChild("DataStream")
+
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local MyName = LocalPlayer.Name
+local Backpack = LocalPlayer:WaitForChild("Backpack")
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local Humanoid = Character:WaitForChild("Humanoid")
+local VirtualUser = game:GetService("VirtualUser")
+local Lighting = game:GetService("Lighting")
+local Terrain = workspace.Terrain
+local MyName = LocalPlayer.Name
+local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
+local PetMutationRegistry = require(ReplicatedStorage.Data.PetRegistry.PetMutationRegistry)
+
+local DataService = require(ReplicatedStorage.Modules.DataService)
+local GetData_result = DataService:GetData()
+local SeedStocks = GetData_result.SeedStocks.Shop.Stocks
+local DailyStocks = GetData_result.SeedStocks["Daily Deals"].Stocks
+local NewYearStocks = GetData_result.EventShopStock["New Years Shop"].Stocks
+local SantaStocks = GetData_result.EventShopStock["Santa's Stash"].Stocks
+local GearStock = GetData_result.GearStock.Stocks
+local EggStock = GetData_result.PetEggStock.Stocks
+local TravelingStock = GetData_result.TravelingMerchantShopStock.Stocks
+
+local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
+local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
+
 CollapsibleAddon(Fluent)
 local DevMode = true
 local DevNoti
@@ -37,8 +66,11 @@ local IsActivePet = false
 local ApplyAntiLag
 local RawName
 local DevLog
+local ProcessBuy, ManualBuy, GetMyFarm, CollectFruit, CollectFruitAll
+local AutoCollectFruitAll = false
 
 local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType
+local GetEquippedPetsUUID, FindFruitInv, FeedPet
 
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
@@ -105,7 +137,54 @@ local BuyList = {
 }
 
 local function isTableEmpty(t)
-	return next(t) == nil
+	return type(t) ~= "table" or next(t) == nil
+end
+
+ProcessBuy = function(ShopKey, StockData)
+	local Setting = BuyList[ShopKey]
+	if not Setting or not Setting.Enabled then
+		return
+	end
+	local Remote = GameEvents:FindFirstChild(Setting.RemoteName)
+	if not Remote then
+		return
+	end
+	for itemId, itemInfo in pairs(StockData) do
+		local ItemName = itemInfo.EggName or itemId
+		local StockAmount = tonumber(itemInfo.Stock) or 0
+		local BuyEnabled = false
+		local StockInfo = string.format("Found %s : %s", ItemName, StockAmount)
+		DevNoti(StockInfo)
+		if Setting.BuyAll then
+			BuyEnabled = true
+		else
+			for _, TargetName in ipairs(Setting.Items) do
+				if TargetName == ItemName then
+					BuyEnabled = true
+					break
+				end
+			end
+		end
+
+		if BuyEnabled == true and StockAmount > 0 then
+			for i = 1, StockAmount do
+				local Args = {}
+				if Setting.ArgType == "SeedMode" then
+					Args = { "Shop", ItemName }
+				elseif Setting.ArgType == "EventMode" then
+					Args = { ItemName, Setting.EventArg }
+				else
+					Args = { ItemName }
+				end
+				Remote:FireServer(unpack(Args))
+				task.wait(0.1)
+			end
+			BuyEnabled = false
+
+			local LogMessage = string.format("Bought %s : %s", ItemName, StockAmount)
+			DevNoti(LogMessage)
+		end
+	end
 end
 
 local Window = Fluent:CreateWindow({
@@ -235,6 +314,9 @@ local buySeedEnable = BuySeedSection:AddToggle("buySeedEnable", {
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Seed].Enabled = Value
+		if not isTableEmpty(SeedStocks) then
+			ProcessBuy(ShopKey.Seed, SeedStocks)
+		end
 		if QuickSave then
 			QuickSave()
 		end
@@ -272,6 +354,32 @@ local SeedList = BuySeedSection:AddDropdown("SeedList", {
 	end,
 })
 
+--[[ Buy Daily Deal Section ]]
+local BuyDailySection = Tabs.Buy:AddCollapsibleSection("Auto Buy Daily Seed", false)
+local buyDailyEnable = BuyDailySection:AddToggle("buyDailyEnable", {
+	Title = "Buy Daily Seed",
+	Default = false,
+	Callback = function(Value)
+		BuyList[ShopKey.Daily].Enabled = Value
+		if not isTableEmpty(DailyStock) then
+			ProcessBuy(ShopKey.Daily, DailyStock)
+		end
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+local buyDailyAll = BuyDailySection:AddToggle("buyDailyAll", {
+	Title = "Buy All Daily Seed",
+	Default = false,
+	Callback = function(Value)
+		BuyList[ShopKey.Daily].BuyAll = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
 --[[
  Buy Gear Section
 ]]
@@ -281,6 +389,9 @@ local buyGearEnable = buyGearSection:AddToggle("buyGearEnable", {
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Gear].Enabled = Value
+		if not isTableEmpty(GearStock) then
+			ProcessBuy(ShopKey.Gear, GearStock)
+		end
 		if QuickSave then
 			QuickSave()
 		end
@@ -326,6 +437,9 @@ local buyEggEnable = buyEggSection:AddToggle("buyEggEnable", {
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Egg].Enabled = Value
+		if not isTableEmpty(EggStock) then
+			ProcessBuy(ShopKey.Egg, EggStock)
+		end
 		if QuickSave then
 			QuickSave()
 		end
@@ -371,6 +485,9 @@ local buyTravelingEnable = BuyTravelingSection:AddToggle("buyTravelingEnable", {
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Traveling].Enabled = Value
+		if not isTableEmpty(TravelingStock) then
+			ProcessBuy(ShopKey.Travel, TravelingStock)
+		end
 		if QuickSave then
 			QuickSave()
 		end
@@ -440,6 +557,9 @@ local buySantaEnable = BuySantaSection:AddToggle("buySantaEnable", {
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Santa].Enabled = Value
+		if not isTableEmpty(SantaStocks) then
+			ProcessBuy(ShopKey.Santa, SantaStocks)
+		end
 		if QuickSave then
 			QuickSave()
 		end
@@ -486,6 +606,9 @@ local buyNewYearEnable = BuyNewYearSection:AddToggle("buyNewYearEnable", {
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.NewYear].Enabled = Value
+		if not isTableEmpty(NewYearStocks) then
+			ProcessBuy(ShopKey.NewYear, NewYearStocks)
+		end
 		if QuickSave then
 			QuickSave()
 		end
@@ -693,30 +816,26 @@ local MutantSlots = PetWorkSection:AddDropdown("MutantSlots", {
 	end,
 })
 
---[[ Log Section Not finished yet ]]
---
-local MaxLines = 100 -- จำนวนบรรทัดที่จะโชว์
-local DisplayTable = {} -- ตารางเก็บข้อความโชว์
-
---[[ Tabs.Log:AddButton({
-	Title = "Test",
-	Callback = function()
-		local TestMessage = "BuyEn:"
-			.. tostring(BuyList[ShopKey.Seed].Enabled)
-			.. ", BuyAll:"
-			.. tostring(BuyList[ShopKey.Seed].BuyAll)
-		DevNoti(TestMessage)
+--[[ Farm Section]]
+local CollectSection = Tabs.Farm:AddCollapsibleSection("Collect Fruit", false)
+local CollectFruitAllEnabled = CollectSection:AddToggle("tglCollectFruitAll", {
+	Title = "Auto Collect All Fruit ",
+	Default = false,
+	Callback = function(Value)
+		if CollectFruitAll then
+			CollectFruitAll(Value)
+		end
+		if QuickSave then
+			QuickSave()
+		end
+		AutoCollectFruitAll = Value
 	end,
 })
 
-Tabs.Log:AddButton({
-	Title = "Test 2",
-	Callback = function()
-		-- use concat to convert table to string
-		local Message = table.concat(BuyList[ShopKey.Traveling].Items, ", ")
-		DevNoti("Selected Traveling Items: " .. Message)
-	end,
-}) ]]
+--[[ Log Section ]]
+--
+local MaxLines = 100 -- จำนวนบรรทัดที่จะโชว์
+local DisplayTable = {} -- ตารางเก็บข้อความโชว์
 
 -- ปุ่ม Clear
 Tabs.Log:AddButton({
@@ -817,65 +936,29 @@ IsLoading = false
 --[[
  Auto Buy System
 ]]
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
-local DataStream = GameEvents:WaitForChild("DataStream")
 
-local LocalPlayer = game:GetService("Players").LocalPlayer
-local Backpack = LocalPlayer:WaitForChild("Backpack")
-local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-local Humanoid = Character:WaitForChild("Humanoid")
-local VirtualUser = game:GetService("VirtualUser")
-local Lighting = game:GetService("Lighting")
-local Terrain = workspace.Terrain
-
-local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
-local PetMutationRegistry = require(ReplicatedStorage.Data.PetRegistry.PetMutationRegistry)
-
-local function ProcessBuy(ShopKey, StockData)
-	local Setting = BuyList[ShopKey]
-	if not Setting or not Setting.Enabled then
-		return
+GetMyFarm = function()
+	local farmFolder = workspace:FindFirstChild("Farm")
+	if not farmFolder then
+		return nil
 	end
-	local Remote = GameEvents:FindFirstChild(Setting.RemoteName)
-	if not Remote then
-		return
+	for _, oFarm in pairs(farmFolder:GetChildren()) do
+		local success, owner = pcall(function()
+			return oFarm.Important.Data.Owner.Value
+		end)
+
+		if success and owner == MyName then
+			return oFarm
+		end
 	end
-	for itemId, itemInfo in pairs(StockData) do
-		local ItemName = itemInfo.EggName or itemId
-		local StockAmount = tonumber(itemInfo.Stock) or 0
-		local BuyEnabled = false
-		local StockInfo = string.format("Found %s : %s", ItemName, StockAmount)
-		DevNoti(StockInfo)
-		if Setting.BuyAll then
-			BuyEnabled = true
-		else
-			for _, TargetName in ipairs(Setting.Items) do
-				if TargetName == ItemName then
-					BuyEnabled = true
-					break
-				end
-			end
-		end
+	return nil
+end
 
-		if BuyEnabled == true and StockAmount > 0 then
-			for i = 1, StockAmount do
-				local Args = {}
-				if Setting.ArgType == "SeedMode" then
-					Args = { "Shop", ItemName }
-				elseif Setting.ArgType == "EventMode" then
-					Args = { ItemName, Setting.EventArg }
-				else
-					Args = { ItemName }
-				end
-				Remote:FireServer(unpack(Args))
-				task.wait(0.1)
-			end
-			BuyEnabled = false
-
-			local LogMessage = string.format("Bought %s : %s", ItemName, StockAmount)
-			DevNoti(LogMessage)
-		end
+local MyFarm = GetMyFarm()
+local FarmPoint
+if MyFarm then
+	if MyFarm:FindFirstChild("Spawn_Point") then
+		FarmPoint = MyFarm.Spawn_Point.CFrame
 	end
 end
 
@@ -892,6 +975,18 @@ local function BuildMutationCache()
 			EnumToNameCache[info.EnumId] = name
 		end
 	end
+end
+
+GetEquippedPetsUUID = function()
+	local GetData_result = DataService:GetData()
+	local EquippedPets = GetData_result.PetsData.EquippedPets or {}
+	local UUIDtbl = {}
+	for _, uuid in pairs(EquippedPets) do
+		if uuid then
+			table.insert(UUIDtbl, uuid)
+		end
+	end
+	return UUIDtbl
 end
 
 GetRawPetData = function(uuid)
@@ -983,7 +1078,36 @@ GetPetUUID = function(petName)
 	local timeout = 10
 	local startTime = tick()
 	repeat
-		for _, item in ipairs(Backpack:GetChildren()) do
+		local UUIDs = GetEquippedPetsUUID()
+		for _, uuid in pairs(UUIDs) do
+			local PetType = GetPetType(uuid)
+			if PetType and PetType == TargetPet then
+				if GetPetMutation(uuid) ~= TargetMutant then
+					InfoLog("Found pet in ActivePetUI: " .. PetType .. " (UUID: " .. uuid .. ")")
+					return uuid
+				end
+			end
+		end
+		local GetData_result = DataService:GetData()
+		local PetInventory = GetData_result.PetsData.PetInventory
+		if PetInventory then
+			for k, v in pairs(PetInventory) do
+				if type(v) == "table" then
+					for _, Data in pairs(v) do
+						local PetType = Data.PetType
+						local uuid = Data.UUID
+						if PetType and PetType == TargetPet then
+							if GetPetMutation(uuid) ~= TargetMutant then
+								InfoLog("Found pet in Backpack: " .. PetType .. " (UUID: " .. uuid .. ")")
+								return uuid
+							end
+						end
+					end
+				end
+			end
+		end
+
+		--[[ 		for _, item in ipairs(Backpack:GetChildren()) do
 			if item:GetAttribute("ItemType") == "Pet" then
 				name = RawName(item.Name)
 				-- if string.find(name, TargetPet) then
@@ -994,21 +1118,8 @@ GetPetUUID = function(petName)
 					end
 				end
 			end
-		end
+		end ]]
 
-		local scrollFramePath = LocalPlayer.PlayerGui.ActivePetUI.Frame.Main.PetDisplay.ScrollingFrame
-		for _, pet in ipairs(scrollFramePath:GetChildren()) do
-			if pet:FindFirstChild("Main") then
-				name = RawName(pet.Main.PET_TYPE.Text)
-				-- if string.find(pet.Main.PET_TYPE.Text, petName) then
-				if name == TargetPet then
-					if not string.find(pet.Main.PET_TYPE.Text, TargetMutant) then
-						InfoLog("Found pet in ActivePetUI: " .. pet.Main.PET_TYPE.Text .. " (UUID: " .. pet.Name .. ")")
-						return pet.Name
-					end
-				end
-			end
-		end
 		task.wait(0.5)
 	until tick() - startTime > timeout
 	return nil
@@ -1157,21 +1268,26 @@ ClaimMutantPet = function(uuid)
 	-- local mutantPetname = GetPetMutation(uuid)
 	SuccessLog("Successfully claimed " .. GetPetType(uuid) .. " Mutant : " .. GetPetMutation(uuid))
 	Mutanting = false
+	TargetMutant = Options.TargetMutantDropdown.Value
 	task.wait(10)
-	Mutation()
+	if TargetMutant == GetPetMutation(uuid) then
+		Mutation()
+	else
+		Mutation(uuid)
+	end
 end
 
-Mutation = function()
+Mutation = function(uuid)
 	-- if PetSetting["PetMode"].Enabled then
 	if Options.PetModeEnable.Value then
 		local TargetPet = Options.TargetPetDropdown.Value
-		targetUUID = GetPetUUID(TargetPet)
+		targetUUID = uuid or GetPetUUID(TargetPet)
 		if targetUUID then
 			-- InfoLog("Found target pet: " .. TargetPet .. " (UUID: " .. targetUUID .. ")")
 			local age = GetPetLevel(targetUUID)
 			InfoLog("Current age of " .. TargetPet .. ": " .. tostring(age))
 			if age < 50 then
-				Character:PivotTo(CFrame.new(-16.63, 4.50, -64.73))
+				Character:PivotTo(CFrame.new(FarmPoint.X, FarmPoint.Y, FarmPoint.Z))
 				task.wait(0.3)
 				InfoLog("Swapping to loadout " .. Options.LevelSlots.Value .. " to equip pet...")
 				SwapPetLoadout(Options.LevelSlots.Value)
@@ -1242,6 +1358,56 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 	end
 end)
 
+CollectFruit = function()
+	MyFarm = GetMyFarm()
+
+	local Farm_Important = MyFarm:FindFirstChild("Important")
+	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+	if InventoryService.IsMaxInventory() then --
+		--DevNoti("กระเป๋าเต็มแล้วครับ! หยุดเก็บ")
+		return -- สั่งจบฟังก์ชันตรงนี้เลย
+	end
+
+	if Plants_Physical then
+		for _, plant in pairs(Plants_Physical:GetChildren()) do
+			local Fruits = plant:FindFirstChild("Fruits")
+			if Fruits then
+				for _, fruit in pairs(Fruits:GetChildren()) do
+					if fruit:IsA("Model") then
+						local Prompt_Part = fruit:FindFirstChild("2")
+						if Prompt_Part then
+							local Prompt = Prompt_Part:FindFirstChild("ProximityPrompt")
+							if Prompt and Prompt.Enabled then
+								-- AddLog("Auto Collect: " .. fruit.Name)
+								CollectEvent:FireServer({ fruit })
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+CollectFruitAll = function(value)
+	DevNoti("Call Function Callect fruit all")
+	if AutoCollectFruitAll == value then
+		DevNoti("AutoCollectFruitAll Same Value " .. tostring(value))
+		return
+	end
+	AutoCollectFruitAll = value or false -- รับค่า true/false มาจากปุ่ม
+	DevNoti("AutoCollectFruitAll is " .. tostring(AutoCollectFruitAll))
+	if AutoCollectFruitAll then
+		DevNoti("Start All Collect")
+		task.spawn(function()
+			while AutoCollectFruitAll do -- เช็คตลอดว่ายังเปิดอยู่ไหม
+				CollectFruit()
+				task.wait(0.5)
+			end
+		end)
+	end
+end
+
 ApplyAntiLag = function()
 	-- Lighting
 	Lighting.GlobalShadows = false
@@ -1279,129 +1445,74 @@ ApplyAntiLag = function()
 	end)
 end
 
-function ManualBuy()
-	local SeedShop = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Seed_Shop")
-	local DailySeed = SeedShop:WaitForChild("Daily"):WaitForChild("ScrollingFrame")
-	local DailySeedChildren = DailySeed:WaitForChild("Seeds")
-
-	local DailySeedData = {}
-
-	for _, item in ipairs(DailySeed:GetChildren()) do
-		local stockChild = item:FindFirstChild("_StockValue")
-		if stockChild and stockChild.Value > 0 then
-			InfoLog(item.Name .. ": " .. stockChild.Value)
-			DailySeedData[item.Name] = {
-				Stock = stockChild.Value,
-			}
-		end
-	end
-
-	for _, item in ipairs(DailySeedChildren:GetChildren()) do
-		local stockChild = item:FindFirstChild("_StockValue")
-		if stockChild and stockChild.Value > 0 then
-			DailySeedData[item.Name] = {
-				Stock = stockChild.Value,
-			}
-		end
-	end
-
-	if not isTableEmpty(DailySeedData) then
-		ProcessBuy(ShopKey.Daily, DailySeedData)
-	end
-
-	local NormalSeed = SeedShop:WaitForChild("Frame"):WaitForChild("ScrollingFrame")
-	local NormalSeedData = {}
-
-	for _, item in ipairs(NormalSeed:GetChildren()) do
-		local frame = item:FindFirstChild("Frame")
-		if frame then
-			local stockChild = frame:FindFirstChild("Value")
-			if stockChild and stockChild.Value > 0 then
-				NormalSeedData[item.Name] = {
-					Stock = stockChild.Value,
-				}
-			end
-		end
-	end
-
-	if not isTableEmpty(NormalSeedData) then
-		ProcessBuy(ShopKey.Seed, NormalSeedData)
-	end
-
-
-	local GearShop = LocalPlayer:WaitForChild("PlayerGui")
-		:WaitForChild("Gear_Shop")
-		:WaitForChild("Frame")
-		:WaitForChild("ScrollingFrame")
-	local GearShopData = {}
-
-	for _, item in ipairs(GearShop:GetChildren()) do
-		local frame = item:FindFirstChild("Frame")
-		if frame then
-			local stockChild = frame:FindFirstChild("Value")
-			if stockChild and stockChild.Value > 0 then
-				GearShopData[item.Name] = {
-					Stock = stockChild.Value,
-				}
-			end
-		end
-	end
-
-	if not isTableEmpty(GearShopData) then
-		ProcessBuy(ShopKey.Gear, GearShopData)
-	end
-
-	
-
-	local PetShop = LocalPlayer:WaitForChild("PlayerGui")
-		:WaitForChild("PetShop_UI")
-		:WaitForChild("Frame")
-		:WaitForChild("ScrollingFrame")
-	local PetShopData = {}
-	
-	for _, item in ipairs(PetShop:GetChildren()) do
-		local frame = item:FindFirstChild("Frame")
-		if frame then
-			local stockChild = frame:FindFirstChild("Value")
-			if stockChild and stockChild.Value > 0 then
-				PetShopData[item.Name] = {
-					Stock = stockChild.Value,
-				}
-			end
-		end
-	end
-	
-	if not isTableEmpty(PetShopData) then
-		ProcessBuy(ShopKey.Egg, PetShopData)
-	end
-	
-	local TravelShop = LocalPlayer:WaitForChild("PlayerGui")
-		:WaitForChild("TravelingMerchantShop_UI")
-		:WaitForChild("Frame")
-		:WaitForChild("ScrollingFrame")
-	local TravelShopData = {}
-
-	for _, item in ipairs(TravelShop:GetChildren()) do
-		local frame = item:FindFirstChild("Frame")
-		if frame then
-			local stockChild = frame:FindFirstChild("Value")
-			if stockChild and stockChild.Value > 0 then
-				TravelShopData[item.Name] = {
-					Stock = stockChild.Value,
-				}
-			end
-		end
-	end
-
-	if not isTableEmpty(TravelShopData) then
-		ProcessBuy(ShopKey.Travel, TravelShopData)
-	end
-end
-task.wait(5)
-ManualBuy()
 --[[ Anti-AFK ]]
 
 LocalPlayer.Idled:Connect(function()
 	VirtualUser:CaptureController()
 	VirtualUser:ClickButton2(Vector2.new())
+end)
+
+--task.wait(5)
+--CollectFruitAll(Options.tglCollectFruitAll.Value)
+
+local AllowList = { "Elder Strawberry", "Apple", "Carrot" }
+
+FindFruitInv = function()
+	local GetData_result = DataService:GetData()
+	local InventoryData = GetData_result.InventoryData or {}
+	for uuid, Item in pairs(InventoryData) do
+		if Item.ItemData and Item.ItemData.ItemName then
+			local FruitInv = Item.ItemData.ItemName
+			for _, Fruit in pairs(AllowList) do
+				if FruitInv == Fruit then
+					--AddLog("Found Fruit : "..FruitInv.." UUID: "..uuid)
+					return uuid
+				end
+			end
+		end
+	end
+	return nil
+end
+
+FeedPet = function()
+	local petUUID = GetEquippedPetsUUID()
+	if #petUUID == 0 then
+		return
+	end
+	for i, uuid in pairs(petUUID) do
+		local hunger = tonumber(GetPetHunger(uuid))
+		--AddLog("Hunger:" .. tostring(hunger))
+		if hunger <= 1000 then
+			local FruitInvUUID = FindFruitInv()
+			if FruitInvUUID then
+				if heldItemUUID(FruitInvUUID) then
+					local args = {
+						"Feed",
+						uuid,
+					}
+					game:GetService("ReplicatedStorage")
+						:WaitForChild("GameEvents")
+						:WaitForChild("ActivePetService")
+						:FireServer(unpack(args))
+					AddLog("Feed : " .. uuid)
+					task.wait(1)
+				end
+			else
+				break
+			end
+		end
+	end
+	--GetPetHunger
+end
+
+-- [[ ส่วน Loop การทำงาน ]] --
+local isAutoFeeding = true -- ตัวแปรคุมเปิด/ปิด
+
+task.spawn(function()
+	while isAutoFeeding do -- ใช้ While Loop เพื่อให้ทำงานวนไปเรื่อยๆ
+		--pcall(function() -- ใส่ pcall กัน Error แล้วสคริปต์หลุด
+		FeedPet()
+		--end)
+		task.wait(10) -- เช็คความหิวทุกๆ 2 วินาที (ไม่ต้องถี่มาก)
+	end
 end)

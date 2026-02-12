@@ -399,3 +399,1006 @@
       [MutationType] : A
     [PetType] : Echo Frog
 [Counter] : 0
+
+
+
+  [UUID] : {43b37b63-a15b-4ad9-839f-e71d4d2fdf48}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Amica
+    [LevelProgress] : 0
+    [BaseWeight] : 3.537570299332283
+    [Level] : 100
+    [Hunger] : 13832.278995745755
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{475819a6-9974-4040-ac3f-d477fb0f9a6c}] : (Table)
+  [UUID] : {475819a6-9974-4040-ac3f-d477fb0f9a6c}
+  [PetData] : (Table)
+    [HatchedFrom] : Gourmet Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Simon
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5295310341125483
+    [Level] : 100
+    [Hunger] : 15449.220386707053
+    [MutationType] : A
+  [PetType] : French Fry Ferret
+[{ff3f887a-84e0-4457-9af9-69eae8426c69}] : (Table)
+  [UUID] : {ff3f887a-84e0-4457-9af9-69eae8426c69}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [LevelProgress] : 0
+    [Name] : Joe
+    [Level] : 100
+    [BaseWeight] : 3.559439545809996
+    [Boosts] : (Table)
+    [Hunger] : 91312.15661264528
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{d7d41326-4bcd-4128-a0e5-896e75160cca}] : (Table)
+  [UUID] : {d7d41326-4bcd-4128-a0e5-896e75160cca}
+  [PetData] : (Table)
+    [HatchedFrom] : Gourmet Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Dumi
+    [LevelProgress] : 0
+    [BaseWeight] : 3.535611651284658
+    [Level] : 100
+    [Hunger] : 15444.800711935895
+    [MutationType] : A
+  [PetType] : French Fry Ferret
+[{088da428-e41d-4e25-a354-82ad0f999b2d}] : (Table)
+  [UUID] : {088da428-e41d-4e25-a354-82ad0f999b2d}
+  [PetData] : (Table)
+    [HatchedFrom] : Gourmet Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Simon
+    [LevelProgress] : 0
+    [BaseWeight] : 3.549799899238058
+    [Level] : 100
+    [Hunger] : 15443.059165950479
+    [MutationType] : A
+  [PetType] : French Fry Ferret
+[{ce43dbec-ae1d-4ff5-822c-f999239ea0f9}] : (Table)
+  [UUID] : {ce43dbec-ae1d-4ff5-822c-f999239ea0f9}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Fawny
+    [LevelProgress] : 0
+    [BaseWeight] : 5.566574662558366
+    [Level] : 115
+    [Hunger] : 14650.416301591456
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{de7cce05-9609-42ae-924a-850549c9b2da}] : (Table)
+  [UUID] : {de7cce05-9609-42ae-924a-850549c9b2da}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Calix
+    [LevelProgress] : 0
+    [BaseWeight] : 5.57837735670207
+    [Level] : 118
+    [Hunger] : 19355.92720576675
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{91675034-3e93-4437-ada8-8f4ae54791a2}] : (Table)
+  [UUID] : {91675034-3e93-4437-ada8-8f4ae54791a2}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Jaeda
+    [LevelProgress] : 0
+    [BaseWeight] : 5.594057935194645
+    [Level] : 115
+    [Hunger] : 19294.211274123238
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{a093bd25-738d-48af-b7d5-f8ec6ad9cd3d}] : (Table)
+  [UUID] : {a093bd25-738d-48af-b7d5-f8ec6ad9cd3d}
+  [PetData] : (Table)
+    [HatchedFrom] : Fake Egg
+    [Name] : Gus
+    [Boosts] : (Table)
+    [Hunger] : 1500
+    [LevelProgress] : 0
+    [BaseWeight] : 1.1848823459480706
+    [Level] : 1
+  [PetType] : Snow Bunny
+[{b55c81e5-e702-4fce-83a7-96e76c3e7ebe}] : (Table)
+  [UUID] : {b55c81e5-e702-4fce-83a7-96e76c3e7ebe}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [LevelProgress] : 0
+    [Name] : Kairo
+    [Level] : 100
+    [BaseWeight] : 3.5374278121123366
+    [Boosts] : (Table)
+    [Hunger] : 65597.05250980346
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{a1d3cc20-9f5b-4e99-9d3e-b3307c63d80a}] : (Table)
+  [UUID] : {a1d3cc20-9f5b-4e99-9d3e-b3307c63d80a}
+  [PetData] : (Table)
+    [HatchedFrom] : Gourmet Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Mimi
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5193767945556833
+    [Level] : 100
+    [Hunger] : 15440.460144382661
+    [MutationType] : A
+  [PetType] : French Fry Ferret
+[{74ae9eb3-7515-43a2-bbb9-8d81c452a01d}] : (Table)
+  [UUID] : {74ae9eb3-7515-43a2-bbb9-8d81c452a01d}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Bibi
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5006622332508064
+    [Level] : 100
+    [Hunger] : 30034.136101278178
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{cc034702-a88a-4348-9596-b687224f2521}] : (Table)
+  [UUID] : {cc034702-a88a-4348-9596-b687224f2521}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Keeko
+    [LevelProgress] : 0
+    [BaseWeight] : 7.137720011393008
+    [Level] : 100
+    [Hunger] : 16500.456978036338
+    [MutationType] : A
+  [PetType] : Peacock
+[{37c7f844-a18f-4299-beae-9e8050ad60d8}] : (Table)
+  [UUID] : {37c7f844-a18f-4299-beae-9e8050ad60d8}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [LevelProgress] : 0
+    [Name] : Lea
+    [Level] : 100
+    [BaseWeight] : 3.521678267678757
+    [Boosts] : (Table)
+    [Hunger] : 0
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{f5cec645-01c5-461b-ac75-c35d4512b9fe}] : (Table)
+  [UUID] : {f5cec645-01c5-461b-ac75-c35d4512b9fe}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Keeko
+    [LevelProgress] : 0
+    [BaseWeight] : 8.065250347248115
+    [Level] : 100
+    [Hunger] : 16499.116195747014
+    [MutationType] : A
+  [PetType] : Peacock
+[{85bcc83d-43b1-4c47-8536-2d04477f87f2}] : (Table)
+  [UUID] : {85bcc83d-43b1-4c47-8536-2d04477f87f2}
+  [PetData] : (Table)
+    [HatchedFrom] : Night Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Juno
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5330731078827955
+    [Level] : 100
+    [Hunger] : 32082.596812545176
+    [MutationType] : A
+  [PetType] : Echo Frog
+⚠️ Check Peacock
+[{36f26533-6a21-4a82-9fb6-1da42f58069b}] : (Table)
+  [UUID] : {36f26533-6a21-4a82-9fb6-1da42f58069b}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Callie
+    [LevelProgress] : 0
+    [BaseWeight] : 3.565499388869293
+    [Level] : 100
+    [Hunger] : 136293.79557450218
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{2944e2be-6b30-430e-8d41-ac4334543d28}] : (Table)
+  [UUID] : {2944e2be-6b30-430e-8d41-ac4334543d28}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Colleen
+    [LevelProgress] : 0
+    [BaseWeight] : 5.579401517845455
+    [Level] : 115
+    [Hunger] : 19214.78410582752
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{fbcb8661-672d-4766-a5c1-b6dfb30f0877}] : (Table)
+  [UUID] : {fbcb8661-672d-4766-a5c1-b6dfb30f0877}
+  [PetData] : (Table)
+    [HatchedFrom] : Fake Egg
+    [Boosts] : (Table)
+    [LevelProgress] : 0
+    [Name] : Ollie
+    [BaseWeight] : 1.084340471011995
+    [EggName] : Common
+    [Level] : 100
+    [Hunger] : 9467.46056372083
+    [MutationType] : l
+  [PetType] : Bald Eagle
+[{3781441c-cfb7-4be3-a5b4-b61619693b06}] : (Table)
+  [UUID] : {3781441c-cfb7-4be3-a5b4-b61619693b06}
+  [PetData] : (Table)
+    [HatchedFrom] : Safari Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Shano
+    [LevelProgress] : 0
+    [BaseWeight] : 2.4583771323600216
+    [Level] : 100
+    [Hunger] : 85543.90575270263
+    [MutationType] : A
+  [PetType] : Elephant
+[{830069ed-e58a-4d3e-b36a-423e57d22910}] : (Table)
+  [UUID] : {830069ed-e58a-4d3e-b36a-423e57d22910}
+  [PetData] : (Table)
+    [HatchedFrom] : New Year's Egg
+    [LevelProgress] : 301.0552054151663
+    [Name] : Zephy
+    [Level] : 35
+    [BaseWeight] : 8.30260876656268
+    [Boosts] : (Table)
+    [Hunger] : 1972.5844875836
+    [MutationType] : i
+  [PetType] : Celebration Puppy
+[{3ec593d5-2a7b-42c9-99c2-d9afc023e261}] : (Table)
+  [UUID] : {3ec593d5-2a7b-42c9-99c2-d9afc023e261}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Rya
+    [LevelProgress] : 0
+    [BaseWeight] : 5.587182377177483
+    [Level] : 115
+    [Hunger] : 19258.863232083302
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{c8a44481-3fae-4524-8b6c-24de0477ba06}] : (Table)
+  [PetType] : Penguin
+  [PetData] : (Table)
+    [HatchedFrom] : Fake Egg
+    [Boosts] : (Table)
+    [Level] : 1
+    [Name] : Ceri
+    [BaseWeight] : 1.1533346249798133
+    [EggName] : Common
+    [LevelProgress] : 0
+    [Hunger] : 12000
+    [MutationType] : d
+  [UUID] : {c8a44481-3fae-4524-8b6c-24de0477ba06}
+[{dea73ed7-30d4-44c0-b09f-715e365cdc1d}] : (Table)
+  [UUID] : {dea73ed7-30d4-44c0-b09f-715e365cdc1d}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Paya
+    [LevelProgress] : 0
+    [BaseWeight] : 3.535085230022658
+    [Level] : 100
+    [Hunger] : 0
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{b6f4c444-b554-45d0-af33-0e77d08ff105}] : (Table)
+  [UUID] : {b6f4c444-b554-45d0-af33-0e77d08ff105}
+  [PetData] : (Table)
+    [HatchedFrom] : Spooky Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Jiji
+    [LevelProgress] : 0
+    [BaseWeight] : 3.50744680311075
+    [Level] : 100
+    [Hunger] : 0
+    [MutationType] : A
+  [PetType] : Headless Horseman
+[{2da08204-fa9e-4fa3-b331-bd781f30f875}] : (Table)
+  [UUID] : {2da08204-fa9e-4fa3-b331-bd781f30f875}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Daizy
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5522768509891454
+    [Level] : 100
+    [Hunger] : 0
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{c18388f6-a312-4299-8728-64d29825779d}] : (Table)
+  [UUID] : {c18388f6-a312-4299-8728-64d29825779d}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Vix
+    [LevelProgress] : 0
+    [BaseWeight] : 5.67138080686856
+    [Level] : 125
+    [Hunger] : 16079.861809433394
+    [MutationType] : A
+  [PetType] : Peacock
+[{cbcc066b-ac40-421d-b531-e04ce030dfba}] : (Table)
+  [UUID] : {cbcc066b-ac40-421d-b531-e04ce030dfba}
+  [PetData] : (Table)
+    [HatchedFrom] : Sprout Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Mali
+    [LevelProgress] : 0
+    [BaseWeight] : 5.572406237250993
+    [Level] : 100
+    [Hunger] : 23617.81882879037
+    [MutationType] : A
+  [PetType] : Golem
+[{fad8830a-de37-4459-aff5-a8ce6d7a7cbe}] : (Table)
+  [UUID] : {fad8830a-de37-4459-aff5-a8ce6d7a7cbe}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Gus
+    [LevelProgress] : 0
+    [BaseWeight] : 5.548630680420888
+    [Level] : 115
+    [Hunger] : 19291.222589120345
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{941b71a0-8b3a-463e-bf1a-8bb5140b6920}] : (Table)
+  [PetType] : Penguin
+  [PetData] : (Table)
+    [HatchedFrom] : Fake Egg
+    [Boosts] : (Table)
+    [Level] : 2
+    [Name] : Zyra
+    [BaseWeight] : 1.1782948096437826
+    [EggName] : Common
+    [LevelProgress] : 21.118067618500618
+    [Hunger] : 11977.156629100826
+    [MutationType] : e
+  [UUID] : {941b71a0-8b3a-463e-bf1a-8bb5140b6920}
+[{72d9bb8f-f86e-4d26-ac00-fef9409c1808}] : (Table)
+  [UUID] : {72d9bb8f-f86e-4d26-ac00-fef9409c1808}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [OldName] : Daizy
+    [Name] : Hugo
+    [LevelProgress] : 0
+    [MutationType] : P
+    [Level] : 116
+    [Hunger] : 19197.138452934
+    [BaseWeight] : 5.499183503021201
+  [PetType] : Mimic Octopus
+[{43b37b63-a15b-4ad9-839f-e71d4d2fdf48}] : (Table)
+  [UUID] : {43b37b63-a15b-4ad9-839f-e71d4d2fdf48}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Amica
+    [LevelProgress] : 0
+    [BaseWeight] : 3.537570299332283
+    [Level] : 100
+    [Hunger] : 13832.278995745755
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{475819a6-9974-4040-ac3f-d477fb0f9a6c}] : (Table)
+  [UUID] : {475819a6-9974-4040-ac3f-d477fb0f9a6c}
+  [PetData] : (Table)
+    [HatchedFrom] : Gourmet Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Simon
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5295310341125483
+    [Level] : 100
+    [Hunger] : 15449.220386707053
+    [MutationType] : A
+  [PetType] : French Fry Ferret
+[{ff3f887a-84e0-4457-9af9-69eae8426c69}] : (Table)
+  [UUID] : {ff3f887a-84e0-4457-9af9-69eae8426c69}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [LevelProgress] : 0
+    [Name] : Joe
+    [Level] : 100
+    [BaseWeight] : 3.559439545809996
+    [Boosts] : (Table)
+    [Hunger] : 91312.15661264528
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{d7d41326-4bcd-4128-a0e5-896e75160cca}] : (Table)
+  [UUID] : {d7d41326-4bcd-4128-a0e5-896e75160cca}
+  [PetData] : (Table)
+    [HatchedFrom] : Gourmet Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Dumi
+    [LevelProgress] : 0
+    [BaseWeight] : 3.535611651284658
+    [Level] : 100
+    [Hunger] : 15444.800711935895
+    [MutationType] : A
+  [PetType] : French Fry Ferret
+[{088da428-e41d-4e25-a354-82ad0f999b2d}] : (Table)
+  [UUID] : {088da428-e41d-4e25-a354-82ad0f999b2d}
+  [PetData] : (Table)
+    [HatchedFrom] : Gourmet Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Simon
+    [LevelProgress] : 0
+    [BaseWeight] : 3.549799899238058
+    [Level] : 100
+    [Hunger] : 15443.059165950479
+    [MutationType] : A
+  [PetType] : French Fry Ferret
+[{ce43dbec-ae1d-4ff5-822c-f999239ea0f9}] : (Table)
+  [UUID] : {ce43dbec-ae1d-4ff5-822c-f999239ea0f9}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Fawny
+    [LevelProgress] : 0
+    [BaseWeight] : 5.566574662558366
+    [Level] : 115
+    [Hunger] : 14650.416301591456
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{de7cce05-9609-42ae-924a-850549c9b2da}] : (Table)
+  [UUID] : {de7cce05-9609-42ae-924a-850549c9b2da}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Calix
+    [LevelProgress] : 0
+    [BaseWeight] : 5.57837735670207
+    [Level] : 118
+    [Hunger] : 19355.92720576675
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{91675034-3e93-4437-ada8-8f4ae54791a2}] : (Table)
+  [UUID] : {91675034-3e93-4437-ada8-8f4ae54791a2}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Jaeda
+    [LevelProgress] : 0
+    [BaseWeight] : 5.594057935194645
+    [Level] : 115
+    [Hunger] : 19294.211274123238
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{a093bd25-738d-48af-b7d5-f8ec6ad9cd3d}] : (Table)
+  [UUID] : {a093bd25-738d-48af-b7d5-f8ec6ad9cd3d}
+  [PetData] : (Table)
+    [HatchedFrom] : Fake Egg
+    [Name] : Gus
+    [Boosts] : (Table)
+    [Hunger] : 1500
+    [LevelProgress] : 0
+    [BaseWeight] : 1.1848823459480706
+    [Level] : 1
+  [PetType] : Snow Bunny
+[{b55c81e5-e702-4fce-83a7-96e76c3e7ebe}] : (Table)
+  [UUID] : {b55c81e5-e702-4fce-83a7-96e76c3e7ebe}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [LevelProgress] : 0
+    [Name] : Kairo
+    [Level] : 100
+    [BaseWeight] : 3.5374278121123366
+    [Boosts] : (Table)
+    [Hunger] : 65597.05250980346
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{a1d3cc20-9f5b-4e99-9d3e-b3307c63d80a}] : (Table)
+  [UUID] : {a1d3cc20-9f5b-4e99-9d3e-b3307c63d80a}
+  [PetData] : (Table)
+    [HatchedFrom] : Gourmet Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Mimi
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5193767945556833
+    [Level] : 100
+    [Hunger] : 15440.460144382661
+    [MutationType] : A
+  [PetType] : French Fry Ferret
+[{74ae9eb3-7515-43a2-bbb9-8d81c452a01d}] : (Table)
+  [UUID] : {74ae9eb3-7515-43a2-bbb9-8d81c452a01d}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Bibi
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5006622332508064
+    [Level] : 100
+    [Hunger] : 30034.136101278178
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{cc034702-a88a-4348-9596-b687224f2521}] : (Table)
+  [UUID] : {cc034702-a88a-4348-9596-b687224f2521}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Keeko
+    [LevelProgress] : 0
+    [BaseWeight] : 7.137720011393008
+    [Level] : 100
+    [Hunger] : 16500.456978036338
+    [MutationType] : A
+  [PetType] : Peacock
+[{37c7f844-a18f-4299-beae-9e8050ad60d8}] : (Table)
+  [UUID] : {37c7f844-a18f-4299-beae-9e8050ad60d8}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [LevelProgress] : 0
+    [Name] : Lea
+    [Level] : 100
+    [BaseWeight] : 3.521678267678757
+    [Boosts] : (Table)
+    [Hunger] : 0
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{f5cec645-01c5-461b-ac75-c35d4512b9fe}] : (Table)
+  [UUID] : {f5cec645-01c5-461b-ac75-c35d4512b9fe}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Keeko
+    [LevelProgress] : 0
+    [BaseWeight] : 8.065250347248115
+    [Level] : 100
+    [Hunger] : 16499.116195747014
+    [MutationType] : A
+  [PetType] : Peacock
+[{85bcc83d-43b1-4c47-8536-2d04477f87f2}] : (Table)
+  [UUID] : {85bcc83d-43b1-4c47-8536-2d04477f87f2}
+  [PetData] : (Table)
+    [HatchedFrom] : Night Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Juno
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5330731078827955
+    [Level] : 100
+    [Hunger] : 32082.596812545176
+    [MutationType] : A
+  [PetType] : Echo Frog
+⚠️ Check Echo Frog
+[{36f26533-6a21-4a82-9fb6-1da42f58069b}] : (Table)
+  [UUID] : {36f26533-6a21-4a82-9fb6-1da42f58069b}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Callie
+    [LevelProgress] : 0
+    [BaseWeight] : 3.565499388869293
+    [Level] : 100
+    [Hunger] : 136293.79557450218
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{2944e2be-6b30-430e-8d41-ac4334543d28}] : (Table)
+  [UUID] : {2944e2be-6b30-430e-8d41-ac4334543d28}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Colleen
+    [LevelProgress] : 0
+    [BaseWeight] : 5.579401517845455
+    [Level] : 115
+    [Hunger] : 19214.78410582752
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{fbcb8661-672d-4766-a5c1-b6dfb30f0877}] : (Table)
+  [UUID] : {fbcb8661-672d-4766-a5c1-b6dfb30f0877}
+  [PetData] : (Table)
+    [HatchedFrom] : Fake Egg
+    [Boosts] : (Table)
+    [LevelProgress] : 0
+    [Name] : Ollie
+    [BaseWeight] : 1.084340471011995
+    [EggName] : Common
+    [Level] : 100
+    [Hunger] : 9467.46056372083
+    [MutationType] : l
+  [PetType] : Bald Eagle
+[{3781441c-cfb7-4be3-a5b4-b61619693b06}] : (Table)
+  [UUID] : {3781441c-cfb7-4be3-a5b4-b61619693b06}
+  [PetData] : (Table)
+    [HatchedFrom] : Safari Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Shano
+    [LevelProgress] : 0
+    [BaseWeight] : 2.4583771323600216
+    [Level] : 100
+    [Hunger] : 85543.90575270263
+    [MutationType] : A
+  [PetType] : Elephant
+[{830069ed-e58a-4d3e-b36a-423e57d22910}] : (Table)
+  [UUID] : {830069ed-e58a-4d3e-b36a-423e57d22910}
+  [PetData] : (Table)
+    [HatchedFrom] : New Year's Egg
+    [LevelProgress] : 301.0552054151663
+    [Name] : Zephy
+    [Level] : 35
+    [BaseWeight] : 8.30260876656268
+    [Boosts] : (Table)
+    [Hunger] : 1972.5844875836
+    [MutationType] : i
+  [PetType] : Celebration Puppy
+[{3ec593d5-2a7b-42c9-99c2-d9afc023e261}] : (Table)
+  [UUID] : {3ec593d5-2a7b-42c9-99c2-d9afc023e261}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Rya
+    [LevelProgress] : 0
+    [BaseWeight] : 5.587182377177483
+    [Level] : 115
+    [Hunger] : 19258.863232083302
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{c8a44481-3fae-4524-8b6c-24de0477ba06}] : (Table)
+  [PetType] : Penguin
+  [PetData] : (Table)
+    [HatchedFrom] : Fake Egg
+    [Boosts] : (Table)
+    [Level] : 1
+    [Name] : Ceri
+    [BaseWeight] : 1.1533346249798133
+    [EggName] : Common
+    [LevelProgress] : 0
+    [Hunger] : 12000
+    [MutationType] : d
+  [UUID] : {c8a44481-3fae-4524-8b6c-24de0477ba06}
+[{dea73ed7-30d4-44c0-b09f-715e365cdc1d}] : (Table)
+  [UUID] : {dea73ed7-30d4-44c0-b09f-715e365cdc1d}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Paya
+    [LevelProgress] : 0
+    [BaseWeight] : 3.535085230022658
+    [Level] : 100
+    [Hunger] : 0
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{b6f4c444-b554-45d0-af33-0e77d08ff105}] : (Table)
+  [UUID] : {b6f4c444-b554-45d0-af33-0e77d08ff105}
+  [PetData] : (Table)
+    [HatchedFrom] : Spooky Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Jiji
+    [LevelProgress] : 0
+    [BaseWeight] : 3.50744680311075
+    [Level] : 100
+    [Hunger] : 0
+    [MutationType] : A
+  [PetType] : Headless Horseman
+[{2da08204-fa9e-4fa3-b331-bd781f30f875}] : (Table)
+  [UUID] : {2da08204-fa9e-4fa3-b331-bd781f30f875}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Daizy
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5522768509891454
+    [Level] : 100
+    [Hunger] : 0
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{c18388f6-a312-4299-8728-64d29825779d}] : (Table)
+  [UUID] : {c18388f6-a312-4299-8728-64d29825779d}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Vix
+    [LevelProgress] : 0
+    [BaseWeight] : 5.67138080686856
+    [Level] : 125
+    [Hunger] : 16079.861809433394
+    [MutationType] : A
+  [PetType] : Peacock
+[{cbcc066b-ac40-421d-b531-e04ce030dfba}] : (Table)
+  [UUID] : {cbcc066b-ac40-421d-b531-e04ce030dfba}
+  [PetData] : (Table)
+    [HatchedFrom] : Sprout Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Mali
+    [LevelProgress] : 0
+    [BaseWeight] : 5.572406237250993
+    [Level] : 100
+    [Hunger] : 23617.81882879037
+    [MutationType] : A
+  [PetType] : Golem
+[{fad8830a-de37-4459-aff5-a8ce6d7a7cbe}] : (Table)
+  [UUID] : {fad8830a-de37-4459-aff5-a8ce6d7a7cbe}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Gus
+    [LevelProgress] : 0
+    [BaseWeight] : 5.548630680420888
+    [Level] : 115
+    [Hunger] : 19291.222589120345
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{941b71a0-8b3a-463e-bf1a-8bb5140b6920}] : (Table)
+  [PetType] : Penguin
+  [PetData] : (Table)
+    [HatchedFrom] : Fake Egg
+    [Boosts] : (Table)
+    [Level] : 2
+    [Name] : Zyra
+    [BaseWeight] : 1.1782948096437826
+    [EggName] : Common
+    [LevelProgress] : 21.118067618500618
+    [Hunger] : 11977.156629100826
+    [MutationType] : e
+  [UUID] : {941b71a0-8b3a-463e-bf1a-8bb5140b6920}
+[{72d9bb8f-f86e-4d26-ac00-fef9409c1808}] : (Table)
+  [UUID] : {72d9bb8f-f86e-4d26-ac00-fef9409c1808}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [OldName] : Daizy
+    [Name] : Hugo
+    [LevelProgress] : 0
+    [MutationType] : P
+    [Level] : 116
+    [Hunger] : 19197.138452934
+    [BaseWeight] : 5.499183503021201
+  [PetType] : Mimic Octopus
+[{43b37b63-a15b-4ad9-839f-e71d4d2fdf48}] : (Table)
+  [UUID] : {43b37b63-a15b-4ad9-839f-e71d4d2fdf48}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Amica
+    [LevelProgress] : 0
+    [BaseWeight] : 3.537570299332283
+    [Level] : 100
+    [Hunger] : 13832.278995745755
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{475819a6-9974-4040-ac3f-d477fb0f9a6c}] : (Table)
+  [UUID] : {475819a6-9974-4040-ac3f-d477fb0f9a6c}
+  [PetData] : (Table)
+    [HatchedFrom] : Gourmet Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Simon
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5295310341125483
+    [Level] : 100
+    [Hunger] : 15449.220386707053
+    [MutationType] : A
+  [PetType] : French Fry Ferret
+[{ff3f887a-84e0-4457-9af9-69eae8426c69}] : (Table)
+  [UUID] : {ff3f887a-84e0-4457-9af9-69eae8426c69}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [LevelProgress] : 0
+    [Name] : Joe
+    [Level] : 100
+    [BaseWeight] : 3.559439545809996
+    [Boosts] : (Table)
+    [Hunger] : 91312.15661264528
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{d7d41326-4bcd-4128-a0e5-896e75160cca}] : (Table)
+  [UUID] : {d7d41326-4bcd-4128-a0e5-896e75160cca}
+  [PetData] : (Table)
+    [HatchedFrom] : Gourmet Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Dumi
+    [LevelProgress] : 0
+    [BaseWeight] : 3.535611651284658
+    [Level] : 100
+    [Hunger] : 15444.800711935895
+    [MutationType] : A
+  [PetType] : French Fry Ferret
+[{088da428-e41d-4e25-a354-82ad0f999b2d}] : (Table)
+  [UUID] : {088da428-e41d-4e25-a354-82ad0f999b2d}
+  [PetData] : (Table)
+    [HatchedFrom] : Gourmet Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Simon
+    [LevelProgress] : 0
+    [BaseWeight] : 3.549799899238058
+    [Level] : 100
+    [Hunger] : 15443.059165950479
+    [MutationType] : A
+  [PetType] : French Fry Ferret
+[{ce43dbec-ae1d-4ff5-822c-f999239ea0f9}] : (Table)
+  [UUID] : {ce43dbec-ae1d-4ff5-822c-f999239ea0f9}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Fawny
+    [LevelProgress] : 0
+    [BaseWeight] : 5.566574662558366
+    [Level] : 115
+    [Hunger] : 14650.416301591456
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{de7cce05-9609-42ae-924a-850549c9b2da}] : (Table)
+  [UUID] : {de7cce05-9609-42ae-924a-850549c9b2da}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Calix
+    [LevelProgress] : 0
+    [BaseWeight] : 5.57837735670207
+    [Level] : 118
+    [Hunger] : 19355.92720576675
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{91675034-3e93-4437-ada8-8f4ae54791a2}] : (Table)
+  [UUID] : {91675034-3e93-4437-ada8-8f4ae54791a2}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Jaeda
+    [LevelProgress] : 0
+    [BaseWeight] : 5.594057935194645
+    [Level] : 115
+    [Hunger] : 19294.211274123238
+    [MutationType] : P
+  [PetType] : Mimic Octopus
+[{a093bd25-738d-48af-b7d5-f8ec6ad9cd3d}] : (Table)
+  [UUID] : {a093bd25-738d-48af-b7d5-f8ec6ad9cd3d}
+  [PetData] : (Table)
+    [HatchedFrom] : Fake Egg
+    [Name] : Gus
+    [Boosts] : (Table)
+    [Hunger] : 1500
+    [LevelProgress] : 0
+    [BaseWeight] : 1.1848823459480706
+    [Level] : 1
+  [PetType] : Snow Bunny
+[{b55c81e5-e702-4fce-83a7-96e76c3e7ebe}] : (Table)
+  [UUID] : {b55c81e5-e702-4fce-83a7-96e76c3e7ebe}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [LevelProgress] : 0
+    [Name] : Kairo
+    [Level] : 100
+    [BaseWeight] : 3.5374278121123366
+    [Boosts] : (Table)
+    [Hunger] : 65597.05250980346
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{a1d3cc20-9f5b-4e99-9d3e-b3307c63d80a}] : (Table)
+  [UUID] : {a1d3cc20-9f5b-4e99-9d3e-b3307c63d80a}
+  [PetData] : (Table)
+    [HatchedFrom] : Gourmet Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Mimi
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5193767945556833
+    [Level] : 100
+    [Hunger] : 15440.460144382661
+    [MutationType] : A
+  [PetType] : French Fry Ferret
+[{74ae9eb3-7515-43a2-bbb9-8d81c452a01d}] : (Table)
+  [UUID] : {74ae9eb3-7515-43a2-bbb9-8d81c452a01d}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Bibi
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5006622332508064
+    [Level] : 100
+    [Hunger] : 30034.136101278178
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{cc034702-a88a-4348-9596-b687224f2521}] : (Table)
+  [UUID] : {cc034702-a88a-4348-9596-b687224f2521}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Keeko
+    [LevelProgress] : 0
+    [BaseWeight] : 7.137720011393008
+    [Level] : 100
+    [Hunger] : 16500.456978036338
+    [MutationType] : A
+  [PetType] : Peacock
+[{37c7f844-a18f-4299-beae-9e8050ad60d8}] : (Table)
+  [UUID] : {37c7f844-a18f-4299-beae-9e8050ad60d8}
+  [PetData] : (Table)
+    [HatchedFrom] : Christmas Egg
+    [LevelProgress] : 0
+    [Name] : Lea
+    [Level] : 100
+    [BaseWeight] : 3.521678267678757
+    [Boosts] : (Table)
+    [Hunger] : 0
+    [MutationType] : A
+  [PetType] : Ice Golem
+[{f5cec645-01c5-461b-ac75-c35d4512b9fe}] : (Table)
+  [UUID] : {f5cec645-01c5-461b-ac75-c35d4512b9fe}
+  [PetData] : (Table)
+    [HatchedFrom] : Paradise Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Keeko
+    [LevelProgress] : 0
+    [BaseWeight] : 8.065250347248115
+    [Level] : 100
+    [Hunger] : 16499.116195747014
+    [MutationType] : A
+  [PetType] : Peacock
+[{85bcc83d-43b1-4c47-8536-2d04477f87f2}] : (Table)
+  [UUID] : {85bcc83d-43b1-4c47-8536-2d04477f87f2}
+  [PetData] : (Table)
+    [HatchedFrom] : Night Egg
+    [IsFavorite] : false
+    [Boosts] : (Table)
+    [Name] : Juno
+    [LevelProgress] : 0
+    [BaseWeight] : 3.5330731078827955
+    [Level] : 100
+    [Hunger] : 32082.596812545176
+    [MutationType] : A
+  [PetType] : Echo Frog
