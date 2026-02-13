@@ -1,0 +1,1000 @@
+    [Rarity] : Common
+    [Icon] : rbxassetid://98399905797582
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Swan] : (Table)
+    [Description] : Swan Song: Occasionally goes to another player's pet and befriends it and performs its ability & Bird of Grace: Occasionally applies Graceful mutation
+    [MovementSpeed] : 8
+    [Passives] : (Table)
+      [1] : Swan Song
+      [2] : Bird of Grace
+    [SellPrice] : 18000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 56000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Sing] : Sing
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.1
+    [Rarity] : Divine
+    [Icon] : rbxassetid://99524799826321
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Elephant] : (Table)
+    [Description] : Jumbo Blessing: Occasionally resets a pet's age back to 1 but increases its base weight by 0.1KG if its base weight is less than a certain value!
+    [MovementSpeed] : 6
+    [Passives] : (Table)
+      [1] : Jumbo Blessing
+    [SellPrice] : 25000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 111000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Trumpet] : Trumpet
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.01
+    [Rarity] : Divine
+    [Icon] : rbxassetid://95885952486477
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Praying Mantis] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Pray] : Pray
+      [Idle] : Idle
+      [Walk] : Walk
+    [Description] : Zen Zone: Prays, then gives plants in AOE Buff that increases the chance of fruit variants from plants
+    [YHeightScaler] : 0.1
+    [MovementSpeed] : 8
+    [Passives] : (Table)
+      [1] : Zen Zone
+    [SellPrice] : 60000000
+    [Rarity] : Mythical
+    [MovementType] : Grounded
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 4.37113883e-08, -3.82137093e-15, 1, -8.74227766e-08, -1, 0, 1, -8.74227766e-08, -4.37113883e-08
+    [HungerFruitMultipliers] : (Table)
+    [Icon] : rbxassetid://121485029406440
+    [Actions] : (Table)
+    [DefaultHunger] : 55000
+  [Kappa] : (Table)
+    [Description] : Water Spirit: Occasionally sprays water on all nearby fruits, mutating them to wet, and has a chance to convert Wet mutations already on fruit to Bloodlit
+    [MovementSpeed] : 10
+    [Passives] : (Table)
+      [1] : Water Spirit
+    [SellPrice] : 25000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 40000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [Icon] : rbxassetid://139605839925044
+    [Animations] : (Table)
+      [Magic] : Magic
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 1.1
+    [Rarity] : Mythical
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Caterpillar] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Idle] : Idle
+      [Walk] : Walk
+    [Description] : Leaf Lover Passive: Boost nearby Leafy plants growth rate
+    [YHeightScaler] : -0.55
+    [MovementSpeed] : 6
+    [Passives] : (Table)
+      [1] : Leaf Lover
+    [SellPrice] : 50000000
+    [Rarity] : Legendary
+    [MovementType] : Grounded
+    [ModelScalePerLevel] : 0.0065
+    [WeldOffset] : 0, 0, 0, 1.91068547e-15, 4.37113883e-08, -1, 1, -4.37113883e-08, 0, -4.37113883e-08, -1, -4.37113883e-08
+    [HungerFruitMultipliers] : (Table)
+    [Icon] : rbxassetid://119651461526366
+    [Actions] : (Table)
+    [DefaultHunger] : 25000
+  [Rainbow Carnival Elephant] : (Table)
+    [Description] : Rainbow The Show Must Go On: When a pet finishes their ability: There is a small chance the ability is activated again. You cannot have two pets of the same type for this passive to activate. (Except Carnival Elephants)
+    [MovementSpeed] : 6
+    [Passives] : (Table)
+      [1] : Rainbow The Show Must Go On
+    [SellPrice] : 25000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 133000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Trumpet] : Trumpet
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.01
+    [Rarity] : Divine
+    [Icon] : rbxassetid://98882725382547
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Stag Beetle] : (Table)
+    [Description] : Beetle Duel: Occasionally initiates a battle with another player's Beetle. If your beetle wins you get a reward! The higher level and heavier the beetle the more likely it is to win.
+    [MovementSpeed] : 7
+    [Passives] : (Table)
+      [1] : Beetle Duel
+    [SellPrice] : 1000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 25000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [Icon] : rbxassetid://78810117838833
+    [Animations] : (Table)
+      [Fight] : Fight
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.59
+    [Rarity] : Legendary
+    [SeasonPassIcon] : rbxassetid://120428407868609
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Scarab] : (Table)
+    [Description] : Spooky Scarab: Nearby Spooky type plants have increased growth size!
+    [MovementSpeed] : 8
+    [Passives] : (Table)
+      [1] : Spooky Scarab
+    [SellPrice] : 500000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 2000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : false
+    [Animations] : (Table)
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 1
+    [Rarity] : Uncommon
+    [Icon] : rbxassetid://136076341712984
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Luminous Sprite] : (Table)
+    [Description] : Illuminate: Occasionally flies to a random fruit and applies the Luminous mutation
+    [MovementSpeed] : 10
+    [Passives] : (Table)
+      [1] : Illuminate
+    [SellPrice] : 10000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 25000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Glimmer] : Glimmer
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 1
+    [Rarity] : Divine
+    [Icon] : rbxassetid://93050542576309
+    [MovementType] : Flight
+    [States] : (Table)
+  [Badger] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Dig] : Dig
+      [Idle] : Idle
+      [Walk] : Walk
+    [HungerFruitMultipliers] : (Table)
+    [YHeightScaler] : 1
+    [MovementSpeed] : 7
+    [Passives] : (Table)
+      [1] : Earthquake Excavator
+    [SellPrice] : 550000
+    [ToolWeldOffset] : true
+    [Description] : Earthquake Excavator: Occasionally digs around and spreads mud has a chance to mutate nearby fruits with Cracked
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Rarity] : Rare
+    [MovementType] : Grounded
+    [Icon] : rbxassetid://82559063839388
+    [Actions] : (Table)
+    [DefaultHunger] : 15000
+  [Glimmering Sprite] : (Table)
+    [Description] : Glimmer: Occasionally flies to a random fruit and applies the Glimmering mutation
+    [MovementSpeed] : 10
+    [Passives] : (Table)
+      [1] : Glimmer
+    [SellPrice] : 10000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 25000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Glimmer] : Glimmer
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 1
+    [Rarity] : Mythical
+    [Icon] : rbxassetid://92219508074359
+    [MovementType] : Flight
+    [States] : (Table)
+  [Pixie] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Dust] : Dust
+      [Idle] : Idle
+      [Walk] : Walk
+    [HungerFruitMultipliers] : (Table)
+    [YHeightScaler] : 1
+    [MovementSpeed] : 14
+    [Passives] : (Table)
+      [1] : Pixie Dust
+    [SellPrice] : 1500000
+    [ToolWeldOffset] : true
+    [Description] : Pixie Dust: Occasionally spreads pixie dust for a duration, all plants within range will advance growth an extra 30 seconds every second. Also makes nearby players levitate 
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Rarity] : Rare
+    [MovementType] : Flight
+    [Icon] : rbxassetid://80171506933019
+    [Actions] : (Table)
+    [DefaultHunger] : 500
+  [Bagel Bunny] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Chomp] : Chomp
+      [Idle] : Idle
+      [Walk] : Walk
+    [Description] : Bagel and Carrots: Runs to carrots, eats them, and grants bonus sheckles multiplier
+    [YHeightScaler] : 0.4
+    [MovementSpeed] : 9
+    [Passives] : (Table)
+      [1] : Bagel and Carrots
+    [SellPrice] : 55000
+    [Rarity] : Common
+    [MovementType] : Grounded
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1.91068547e-15, 4.37113883e-08, -1, 1, -4.37113883e-08, 0, -4.37113883e-08, -1, -4.37113883e-08
+    [HungerFruitMultipliers] : (Table)
+    [Icon] : rbxassetid://83878222838385
+    [Actions] : (Table)
+    [DefaultHunger] : 1200
+  [Ladybug] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Idle] : Idle
+      [Walk] : Walk
+    [HungerFruitMultipliers] : (Table)
+    [YHeightScaler] : 0
+    [MovementSpeed] : 6
+    [Passives] : (Table)
+      [1] : Flower Fortune
+    [SellPrice] : 250000
+    [ToolWeldOffset] : true
+    [Description] : Flower Fortune: All flower type plants grow faster
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Rarity] : Common
+    [MovementType] : Grounded
+    [Icon] : rbxassetid://71662166827211
+    [Actions] : (Table)
+    [DefaultHunger] : 1200
+  [Griffin] : (Table)
+    [Description] : Glorious Wings: Flaunts its wings releasing a cyclone in a random directions. Pets struck have cooldown advanced and fruits struck get Cyclonic mutation
+    [MovementSpeed] : 8
+    [Passives] : (Table)
+      [1] : Movement Variation
+      [2] : Glorious Wings
+    [SellPrice] : 30000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 65000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Idle] : Idle
+      [FlyDown] : FlyDown
+      [Fly] : Fly
+      [FlyUp] : FlyUp
+      [Flaunt] : Flaunt
+      [Walk] : Walk
+    [YHeightScaler] : 1
+    [Rarity] : Divine
+    [Icon] : rbxassetid://95812299319372
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Mandrake] : (Table)
+    [Description] : Mandrake Essence: Harvesting Mandrake crops have a chance to mutate a random fruit in your garden with Rot mutation
+    [MovementSpeed] : 6
+    [Passives] : (Table)
+      [1] : Mandrake Essence
+    [SellPrice] : 5500000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 10000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [Icon] : rbxassetid://119966585905991
+    [Animations] : (Table)
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 1.72
+    [Rarity] : Legendary
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Cockatrice] : (Table)
+    [Description] : Silver Screech: Occasionally lets out a screech that has a chance to convert nearby fruit to Silver or Gold & Venom Spit: Spits venom at different fruit/egg/pets which apply bonuses
+    [MovementSpeed] : 8
+    [Passives] : (Table)
+      [1] : Silver Screech
+      [2] : Venom Spit
+    [SellPrice] : 25000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 66000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Spit] : Spit
+      [Screech] : Screech
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0
+    [Rarity] : Divine
+    [Icon] : rbxassetid://82549803808662
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Rainbow Lobster Thermidor] : (Table)
+    [Description] : Rainbow Boiling Point: Chance a nearby fruit becomes Molten! Chance a nearby fruit becomes Meteoric!
+    [MovementSpeed] : 8
+    [Passives] : (Table)
+      [1] : Rainbow Molten Boiling Point
+      [2] : Rainbow Meteoric Boiling Point
+    [SellPrice] : 70000000
+    [ModelScalePerLevel] : 0.008
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 50505
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Boil] : Boil
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0
+    [Rarity] : Divine
+    [Icon] : rbxassetid://120857500058999
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Rainbow Parasaurolophus] : (Table)
+    [Description] : Crowbar Head: Occasionally, goes to the cosmetic crate with the highest time and reduces time to open!
+    [MovementSpeed] : 9
+    [Passives] : (Table)
+      [1] : Rainbow Crowbar Head
+    [SellPrice] : 10000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 40000
+    [HungerFruitMultipliers] : (Table)
+    [TwoHanded] : true
+    [ToolWeldOffset] : true
+    [Animations] : (Table)
+      [Crowbar] : Crowbar
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.05
+    [Rarity] : Legendary
+    [Icon] : rbxassetid://116062422658499
+    [OddsIcon] : rbxassetid://125458280085952
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Peach Wasp] : (Table)
+    [Description] : Peach Pollinator: Occasionally applies Plasma to fruit & Peach Stinger: Stings a random pet to advance ability cooldown
+    [MovementSpeed] : 10
+    [Passives] : (Table)
+      [1] : Peach Pollinator
+      [2] : Peach Stinger
+    [SellPrice] : 10000000
+    [ModelScalePerLevel] : 0.009
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 2500
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [Icon] : rbxassetid://112368163015890
+    [Animations] : (Table)
+      [Sting] : Sting
+      [Pollinate] : Pollinate
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.2
+    [Rarity] : Mythical
+    [MovementType] : Flight
+    [States] : (Table)
+  [Rainbow Spinosaurus] : (Table)
+    [Description] : Occasionally, devours a random mutation from random fruits in your garden each, roars and applies it to 1 other random fruit in your garden!
+    [MovementSpeed] : 9
+    [Passives] : (Table)
+      [1] : Rainbow Food Chain
+    [SellPrice] : 80000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 25000
+    [HungerFruitMultipliers] : (Table)
+    [TwoHanded] : true
+    [ToolWeldOffset] : true
+    [Animations] : (Table)
+      [Eat] : Eat
+      [Roar] : Roar
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.05
+    [Rarity] : Divine
+    [Icon] : rbxassetid://98134533729834
+    [OddsIcon] : rbxassetid://132599364727436
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Green Bean] : (Table)
+    [Description] : Bean for the Bean God: Occasionally sacrifices a random Beanstalk fruit in your garden to instantly grow a random plant in your garden with a fruit size bonus
+    [MovementSpeed] : 6
+    [Passives] : (Table)
+      [1] : Bean for the Bean God
+    [SellPrice] : 10000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 23825
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Sacrifice] : Sacrifice
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.05
+    [Rarity] : Divine
+    [Icon] : rbxassetid://135399291806752
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Carnival Elephant] : (Table)
+    [Description] : The Show Must Go On: When a pet finishes their ability: There is a small chance the ability is activated again. You cannot have two pets of the same type for this passive to activate. (Except Carnival Elephants)
+    [MovementSpeed] : 6
+    [Passives] : (Table)
+      [1] : The Show Must Go On
+    [SellPrice] : 25000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 133000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Trumpet] : Trumpet
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.01
+    [Rarity] : Divine
+    [Icon] : rbxassetid://119026145129863
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Bacon Pig] : (Table)
+    [Description] : Bacon Frenzy: Emits an aura granting chance for new fruit to grow as variants
+    [MovementSpeed] : 8
+    [Passives] : (Table)
+      [1] : Bacon Frenzy
+    [SellPrice] : 650000
+    [ModelScalePerLevel] : 0.008
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 5000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [Icon] : rbxassetid://133632938597101
+    [Animations] : (Table)
+      [Frenzy] : Frenzy
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.6
+    [Rarity] : Uncommon
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Sushi Bear] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Roar] : Roar
+      [Idle] : Idle
+      [Walk] : Walk
+    [Description] : Sushi Express: Occasionally sets a random nearby fruit cold, turning it Chilled or rarely Frozen & Sushi Time: Occasionally throws sushi towards a pet, feeding it
+    [YHeightScaler] : 0.35
+    [MovementSpeed] : 8
+    [Passives] : (Table)
+      [1] : Sushi Express
+      [2] : Sushi Time
+    [SellPrice] : 3300000
+    [Rarity] : Legendary
+    [MovementType] : Grounded
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1.91068547e-15, 4.37113883e-08, -1, 1, -4.37113883e-08, 0, -4.37113883e-08, -1, -4.37113883e-08
+    [HungerFruitMultipliers] : (Table)
+    [Icon] : rbxassetid://101808352881529
+    [Actions] : (Table)
+    [DefaultHunger] : 20000
+  [Raiju] : (Table)
+    [Description] : Lightning Beast: Occasionally devours a fruit with Shocked for bonus value, spits a chain lightning that mutates fruit with Static or Shocked if its a Thunderstorm
+    [MovementSpeed] : 9
+    [Passives] : (Table)
+      [1] : Lightning Beast
+    [SellPrice] : 10000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 42000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Eat] : Eat
+      [Spit] : Spit
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.01
+    [Rarity] : Divine
+    [Icon] : rbxassetid://111087166681850
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Black Bunny] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Chomp] : Chomp
+      [Idle] : Idle
+      [Walk] : Walk
+    [Description] : Carrot Devourer: Runs to carrots, eats them, and grants bonus sheckles (more than normal value)
+    [YHeightScaler] : 0.4
+    [MovementSpeed] : 9
+    [Passives] : (Table)
+      [1] : Carrot Chomper
+    [SellPrice] : 165000
+    [Rarity] : Uncommon
+    [MovementType] : Grounded
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1.91068547e-15, 4.37113883e-08, -1, 1, -4.37113883e-08, 0, -4.37113883e-08, -1, -4.37113883e-08
+    [HungerFruitMultipliers] : (Table)
+    [Icon] : rbxassetid://86614624778104
+    [Actions] : (Table)
+    [DefaultHunger] : 1300
+  [Birb] : (Table)
+    [Description] : Occassionally greatly speeds up your egg hatch times.
+    [MovementSpeed] : 3
+    [Passives] : (Table)
+      [1] : Birbegg
+    [SellPrice] : 99999999
+    [ModelScalePerLevel] : 0.007
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 49999
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.1
+    [Rarity] : Prismatic
+    [Icon] : rbxassetid://134498368665412
+    [MovementType] : Flight
+    [States] : (Table)
+  [Mantis Shrimp] : (Table)
+    [Description] : Shrimpunch!!!: Occasionally punches different things in your garden for different effects!
+    [MovementSpeed] : 7.2
+    [Passives] : (Table)
+      [1] : Shrimpunch!!!
+    [SellPrice] : 10000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 40000
+    [HungerFruitMultipliers] : (Table)
+    [TwoHanded] : false
+    [ToolWeldOffset] : true
+    [Animations] : (Table)
+      [Punch] : Punch
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.448
+    [Rarity] : Mythical
+    [Icon] : rbxassetid://128264798159216
+    [SeasonPassIcon] : rbxassetid://92459393222304
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Spinosaurus] : (Table)
+    [Description] : Occasionally, devours a random mutation from random fruits in your garden each, roars and applies it to 1 other random fruit in your garden!
+    [MovementSpeed] : 9
+    [Passives] : (Table)
+      [1] : Food Chain
+    [SellPrice] : 40000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 25000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Eat] : Eat
+      [Roar] : Roar
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.05
+    [Rarity] : Divine
+    [Icon] : rbxassetid://78132119445447
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Pachycephalosaurus] : (Table)
+    [Description] : Crafty Dome: Grants a small chance to duplicate the crafted item.
+    [MovementSpeed] : 9
+    [Passives] : (Table)
+      [1] : Crafty Dome
+    [SellPrice] : 5000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 40000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.05
+    [Rarity] : Legendary
+    [Icon] : rbxassetid://98967783170808
+    [MovementType] : Grounded
+    [States] : (Table)
+  [GIANT Barn Owl] : (Table)
+    [Description] : Giant Wise Shopper: Pets bought from shops directly have a chance to get an extra base weight & Giant Prince of Fall: All Fall type pets gain bonus XP per second
+    [MovementSpeed] : 8
+    [Passives] : (Table)
+      [1] : Giant Wise Shopper
+      [2] : Giant Prince of Fall
+      [3] : Movement Variation
+    [SellPrice] : 550000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 50000
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [TwoHanded] : true
+    [Animations] : (Table)
+      [Idle] : Idle
+      [FlyDown] : FlyDown
+      [Fly] : Fly
+      [FlyUp] : FlyUp
+      [Walk] : Walk
+    [YHeightScaler] : 0.1
+    [Rarity] : Mythical
+    [Icon] : rbxassetid://127621730946839
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Spider] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Weave] : Weave
+      [Idle] : Idle
+      [Walk] : Walk
+    [HungerFruitMultipliers] : (Table)
+    [YHeightScaler] : 0.65
+    [MovementSpeed] : 6
+    [Passives] : (Table)
+      [1] : Web Weave
+    [SellPrice] : 2500000
+    [ToolWeldOffset] : true
+    [Description] : Web Weave: Occasionally weaves a web for a duration. All Pets on the web advance cooldown faster and all plants on the web grow faster.
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+    [Rarity] : Legendary
+    [MovementType] : Grounded
+    [Icon] : rbxassetid://125091376615804
+    [Actions] : (Table)
+    [DefaultHunger] : 35000
+  [Sand Snake] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Idle] : Idle
+      [Walk] : Walk
+    [HungerFruitMultipliers] : (Table)
+    [YHeightScaler] : 0.1
+    [MovementSpeed] : 6
+    [Passives] : (Table)
+      [1] : Coiled Commerce
+    [SellPrice] : 1100000
+    [ToolWeldOffset] : true
+    [Description] : Coiled Commerce: Buying from the seed/gear shop has a small chance to duplicate the bought item!
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Rarity] : Legendary
+    [MovementType] : Grounded
+    [Icon] : rbxassetid://110203289397199
+    [Actions] : (Table)
+    [DefaultHunger] : 28000
+  [Rainbow Black Bird] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Idle] : Idle
+      [Walk] : Walk
+    [HungerFruitMultipliers] : (Table)
+    [YHeightScaler] : 2.4
+    [MovementSpeed] : 13
+    [Passives] : (Table)
+      [1] : Rainbow Dark Chirp
+    [SellPrice] : 20000000
+    [ToolWeldOffset] : true
+    [Description] : Rainbow Dark Chirp: Grants pets hatched from eggs an increased age bonus
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Rarity] : Legendary
+    [MovementType] : Flight
+    [Icon] : rbxassetid://136868842872711
+    [Actions] : (Table)
+    [DefaultHunger] : 20000
+  [Black Bird] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Idle] : Idle
+      [Walk] : Walk
+    [HungerFruitMultipliers] : (Table)
+    [YHeightScaler] : 2.4
+    [MovementSpeed] : 13
+    [Passives] : (Table)
+      [1] : Dark Chirp
+    [SellPrice] : 10000000
+    [ToolWeldOffset] : true
+    [Description] : Dark Chirp: Grants pets hatched from eggs an age bonus
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Rarity] : Common
+    [MovementType] : Flight
+    [Icon] : rbxassetid://99505677375702
+    [Actions] : (Table)
+    [DefaultHunger] : 20000
+  [Rainbow Cuckoo] : (Table)
+    [Description] : Rainbow Cuckoo Luck: Grants to get quintuple the seeds when getting a Lucky Harvest
+    [MovementSpeed] : 17
+    [Passives] : (Table)
+      [1] : Rainbow Cuckoo Luck
+    [SellPrice] : 200000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 3500
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [Icon] : rbxassetid://116224746950823
+    [Animations] : (Table)
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.1
+    [Rarity] : Common
+    [MovementType] : Flight
+    [States] : (Table)
+  [Cuckoo] : (Table)
+    [Description] : Cuckoo Luck: Grants to get triple the seeds when getting a Lucky Harvest
+    [MovementSpeed] : 17
+    [Passives] : (Table)
+      [1] : Cuckoo Luck
+    [SellPrice] : 100000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 3500
+    [HungerFruitMultipliers] : (Table)
+    [ToolWeldOffset] : true
+    [Icon] : rbxassetid://77179595684693
+    [Animations] : (Table)
+      [Idle] : Idle
+      [Walk] : Walk
+    [YHeightScaler] : 0.1
+    [Rarity] : Legendary
+    [MovementType] : Flight
+    [States] : (Table)
+  [Butterfly] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Flutter] : Flutter
+      [Idle] : Idle
+      [Walk] : Walk
+    [HungerFruitMultipliers] : (Table)
+    [YHeightScaler] : 0.2
+    [MovementSpeed] : 8
+    [Passives] : (Table)
+      [1] : Rainbow Flutter
+    [SellPrice] : 8000000
+    [ToolWeldOffset] : true
+    [Description] : Rainbow Flutter: Occasionally flies to a fruit with 4+ mutations, removes all mutations from it and converts it into rainbow. Ignores favorited fruit
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Rarity] : Mythical
+    [MovementType] : Flight
+    [Icon] : rbxassetid://119048229505161
+    [Actions] : (Table)
+    [DefaultHunger] : 26000
+  [Tarantula Hawk] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Sting] : Sting
+      [Pollinate] : Pollinate
+      [Idle] : Idle
+      [Walk] : Walk
+    [HungerFruitMultipliers] : (Table)
+    [YHeightScaler] : 0.2
+    [MovementSpeed] : 12
+    [Passives] : (Table)
+      [1] : Pollinator
+      [2] : Tarantula Stinger
+    [SellPrice] : 2000000
+    [ToolWeldOffset] : true
+    [Description] : Wasp Pollinator: Occasionally pollinates fruit & Tarantula Stinger: Occasionally stings pet with highest cooldown advancing cooldown
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1
+    [Rarity] : Rare
+    [MovementType] : Flight
+    [Icon] : rbxassetid://126203792467378
+    [Actions] : (Table)
+    [DefaultHunger] : 28000
+  [Rainbow Brown Owl] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Idle] : Idle
+      [Walk] : Walk
+    [Description] : Rainbow Big Eyes: Grants increased bonus experience per second gain to all active pets.
+    [YHeightScaler] : 0.01
+    [MovementSpeed] : 7
+    [Passives] : (Table)
+      [1] : Rainbow Big Eyes
+    [SellPrice] : 30000000
+    [Rarity] : Mythical
+    [MovementType] : Flight
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1.91068547e-15, 4.37113883e-08, -1, 1, -4.37113883e-08, 0, -4.37113883e-08, -1, -4.37113883e-08
+    [HungerFruitMultipliers] : (Table)
+    [Icon] : rbxassetid://90230829697431
+    [Actions] : (Table)
+    [DefaultHunger] : 50000
+  [Moon Cat] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Nap] : Nap
+      [Idle] : Idle
+      [Walk] : Walk
+    [Description] : Moon Nap: Moon cat naps in a random spot in your farm, and boosts nearby fruit size & Moon Harvest: Grants chance for Night type plants to replant when harvested 
+    [YHeightScaler] : 0.4
+    [MovementSpeed] : 10
+    [Passives] : (Table)
+      [1] : Moon Nap
+      [2] : Moon Harvest
+    [SellPrice] : 25000000
+    [Rarity] : Legendary
+    [MovementType] : Grounded
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1.91068547e-15, 4.37113883e-08, -1, 1, -4.37113883e-08, 0, -4.37113883e-08, -1, -4.37113883e-08
+    [HungerFruitMultipliers] : (Table)
+    [Icon] : rbxassetid://72392850111255
+    [Actions] : (Table)
+    [DefaultHunger] : 2400
+  [Rainbow Frost Dragon] : (Table)
+    [Description] : Rainbow Glacial Dragon: Occasionally converts all nearby Frozen mutations within 30 studs to Glacial mutation. For every mutation converted: XP is granted to all other pets in your garden! & Frost Diety: When selling fruits with Glacial mutation: There is a chance a random mutation from that fruit will be applied to a fruit in your garden!
+    [MovementSpeed] : 8
+    [Passives] : (Table)
+      [1] : Rainbow Glacial Dragon
+      [2] : Rainbow Frost Diety
+      [3] : Movement Variation
+    [SellPrice] : 30000000
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+    [Actions] : (Table)
+    [DefaultHunger] : 300000
+    [HungerFruitMultipliers] : (Table)
+    [TwoHanded] : true
+    [ToolWeldOffset] : true
+    [Animations] : (Table)
+      [Idle] : Idle
+      [FlyDown] : FlyDown
+      [Fly] : Fly
+      [Breathe] : Breathe
+      [FlyUp] : FlyUp
+      [Walk] : Walk
+    [YHeightScaler] : 0.01
+    [Rarity] : Divine
+    [Icon] : rbxassetid://133940663844353
+    [SeasonPassIcon] : rbxassetid://133940663844353
+    [MovementType] : Grounded
+    [States] : (Table)
+  [Red Fox] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Steal] : Steal
+      [Idle] : Idle
+      [Walk] : Walk
+    [Description] : Scoundrel: Occasionally goes to another player's plot and tries to steal a seed from a random plant. The rarer the plant, the harder it is to succeed
+    [YHeightScaler] : 0.1
+    [MovementSpeed] : 16
+    [Passives] : (Table)
+      [1] : Scoundrel
+    [SellPrice] : 20500000
+    [Rarity] : Divine
+    [MovementType] : Grounded
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1.91068547e-15, 4.37113883e-08, -1, 1, -4.37113883e-08, 0, -4.37113883e-08, -1, -4.37113883e-08
+    [HungerFruitMultipliers] : (Table)
+    [Icon] : rbxassetid://116662854190616
+    [Actions] : (Table)
+    [DefaultHunger] : 35000
+  [Grey Mouse] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Think] : Think
+      [Idle] : Idle
+      [Walk] : Walk
+    [Description] : Whisker Wisdom: Occasionally gains bonus experience & Scamper: Increase player movement speed
+    [YHeightScaler] : 0.4
+    [MovementSpeed] : 10
+    [Passives] : (Table)
+      [1] : Whisker Wisdom
+      [2] : Scamper
+    [SellPrice] : 5500000
+    [Rarity] : Legendary
+    [MovementType] : Grounded
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1.91068547e-15, 4.37113883e-08, -1, 1, -4.37113883e-08, 0, -4.37113883e-08, -1, -4.37113883e-08
+    [HungerFruitMultipliers] : (Table)
+    [Icon] : rbxassetid://116310390398341
+    [Actions] : (Table)
+    [DefaultHunger] : 15000
+  [Sea Otter] : (Table)
+    [States] : (Table)
+    [Animations] : (Table)
+      [Spray] : Spray
+      [Idle] : Idle
+      [Walk] : Walk
+    [Description] : Water Spray: Water's plants randomly like a watering can
+    [YHeightScaler] : -0.25
+    [MovementSpeed] : 9
+    [Passives] : (Table)
+      [1] : Water Spray
+    [SellPrice] : 3300000
+    [Rarity] : Legendary
+    [MovementType] : Grounded
+    [ModelScalePerLevel] : 0.005
+    [WeldOffset] : 0, 0, 0, 1.91068547e-15, 4.37113883e-08, -1, 1, -4.37113883e-08, 0, -4.37113883e-08, -1, -4.37113883e-08
+    [HungerFruitMultipliers] : (Table)
+    [Icon] : rbxassetid://94422445572440
+    [Actions] : (Table)
+    [DefaultHunger] : 30000

@@ -141,30 +141,9 @@ task.wait(0.5)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataService = require(ReplicatedStorage.Modules.DataService)
 local GetData_result = DataService:GetData()
-local PetInventory = GetData_result.PetsData.PetInventory
-
-
-
-local TargetPet = "Golem"
-
-if PetInventory then
-	for k, v in pairs(PetInventory) do
-		if type(v) == "table" then
-			for _, Data in pairs(v) do
-				local petType = Data.PetType
-				local uuid = Data.UUID
-				if petType == TargetPet then
-					AddLog("เจอสัตว์เลี้ยง: " .. tostring(petType).." "..uuid)
-					--return uuid
-					break
-				end
-			end
-		end
-	end
-end
-
-
-
+--local PetInventory = GetData_result.PetsData.PetInventory
+--GetData_result.CropMastery.PlantData
+local EquippedPets = GetData_result.PetsData.EquippedPets
 
 local function ShowData(tbl, indent)
 	local lclIndent = indent or 0
@@ -179,36 +158,5 @@ local function ShowData(tbl, indent)
 		--return
 	end
 end
-ShowData(PetInventory, 0)
 
-local LocalPlayer = game:GetService("Players").LocalPlayer
-local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
-local PetLoadouts = GetData_result.PetsData.PetLoadouts
-local EquippedPets = GetData_result.PetsData.EquippedPets
-local function GetEquippedPetsUUID()
-	local UUIDtbl = {}
-	for _, uuid in pairs(EquippedPets) do
-		if uuid then
-			table.insert(UUIDtbl, uuid)
-		end
-	end
-	return UUIDtbl
-end
-
-local function findpet()
-	local UUIDs = GetEquippedPetsUUID()
-	for _, uuid in pairs(UUIDs) do
-		local petData = ActivePetsService:GetPetData(LocalPlayer.Name, uuid)
-		if petData and petData.PetType == "Golem" then
-			return uuid
-		end
-	end
-end
-AddLog(findpet())
-
-
-local GetData_result = DataService:GetData()
-local NewYearStocks = GetData_result.EventShopStock["New Years Shop"].Stocks
-
-
-
+ShowData(EquippedPets, 1)
