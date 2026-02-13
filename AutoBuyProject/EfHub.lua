@@ -1694,7 +1694,7 @@ FeedPet = function()
 	end
 	for i, uuid in pairs(petUUID) do
 		local hunger = tonumber(GetPetHungerPercent(uuid))
-		AddLog("Hunger:" .. tostring(hunger))
+		--AddLog("Hunger:" .. tostring(hunger))
 		if hunger <= 80 then
 			local FruitInvUUID = FindFruitInv()
 			if FruitInvUUID then
@@ -1791,7 +1791,7 @@ end
 
 CollectFruit = function()
 	if InventoryService.IsMaxInventory() then --
-		DevNoti("กระเป๋าเต็มแล้วครับ! หยุดเก็บ")
+		--DevNoti("กระเป๋าเต็มแล้วครับ! หยุดเก็บ")
 		return -- สั่งจบฟังก์ชันตรงนี้เลย
 	end
 
@@ -1819,7 +1819,7 @@ CollectFruit = function()
 									-- 2. เรียกใช้ฟังก์ชัน CheckFruit (จากขั้นตอนที่แล้ว)
 									if CheckFruit(fruit) then
 										-- ย้าย Log มาตรงนี้: จะโชว์เฉพาะตัวที่ "ผ่าน" เงื่อนไขและถูกเก็บจริง
-										AddLog("Auto Collect: " .. fruit.Name)
+										--AddLog("Auto Collect: " .. fruit.Name)
 
 										-- ส่งข้อมูลไป Server
 										CollectEvent:FireServer({ fruit })
