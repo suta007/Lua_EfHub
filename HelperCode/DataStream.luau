@@ -111,7 +111,7 @@ end
 ------------------------------------------------------
 -- 5. [NEW] ฟังก์ชันเสริม (Wrapper Functions) ที่พี่เอฟต้องการ
 ------------------------------------------------------
-local function InfoLog(message)
+--[[ local function InfoLog(message)
 	AddLog("📋 " .. message)
 end
 
@@ -125,7 +125,7 @@ end
 
 local function SuccessLog(message)
 	AddLog("✅ " .. message)
-end
+end ]]
 
 local function TimeLog(message)
 	local timestamp = os.date("%X")
@@ -135,35 +135,12 @@ end
 ------------------------------------------------------
 -- 6. Test Loop (ทดสอบดูความสวยงาม)
 ------------------------------------------------------
-InfoLog("Script initialized successfully.")
+AddLog("Script initialized successfully.")
 task.wait(0.5)
-
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local DataService = require(ReplicatedStorage.Modules.DataService)
-local GetData_result = DataService:GetData()
-local PetInventory = GetData_result.PetsData.PetInventory
-
-
-
-local TargetPet = "Golem"
-
-if PetInventory then
-	for k, v in pairs(PetInventory) do
-		if type(v) == "table" then
-			for _, Data in pairs(v) do
-				local petType = Data.PetType
-				local uuid = Data.UUID
-				if petType == TargetPet then
-					AddLog("เจอสัตว์เลี้ยง: " .. tostring(petType).." "..uuid)
-					--return uuid
-					break
-				end
-			end
-		end
-	end
-end
-
-
+local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
+local DataStream = GameEvents:WaitForChild("DataStream")
+local LocalPlayer = game:GetService("Players").LocalPlayer
 
 
 local function ShowData(tbl, indent)
@@ -179,36 +156,25 @@ local function ShowData(tbl, indent)
 		--return
 	end
 end
-ShowData(PetInventory, 0)
 
-local LocalPlayer = game:GetService("Players").LocalPlayer
-local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
-local PetLoadouts = GetData_result.PetsData.PetLoadouts
-local EquippedPets = GetData_result.PetsData.EquippedPets
-local function GetEquippedPetsUUID()
-	local UUIDtbl = {}
-	for _, uuid in pairs(EquippedPets) do
-		if uuid then
-			table.insert(UUIDtbl, uuid)
+DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
+	if Type ~= "UpdateData" then
+		return
+	end
+	if not string.find(Profile, LocalPlayer.Name) then
+		return
+	end
+	if not Data or type(Data) ~= "table" then
+		return
+	end
+
+	for _, Packet in ipairs(Data) do
+		local Key = Packet[1]
+		local Content = Packet[2]
+
+		if string.find(Key:lower(), "daily") and string.find(Key:lower(), "stocks") then  --daily
+			TimeLog(Key)
+			ShowData(Content,1)
 		end
 	end
-	return UUIDtbl
-end
-
-local function findpet()
-	local UUIDs = GetEquippedPetsUUID()
-	for _, uuid in pairs(UUIDs) do
-		local petData = ActivePetsService:GetPetData(LocalPlayer.Name, uuid)
-		if petData and petData.PetType == "Golem" then
-			return uuid
-		end
-	end
-end
-AddLog(findpet())
-
-
-local GetData_result = DataService:GetData()
-local NewYearStocks = GetData_result.EventShopStock["New Years Shop"].Stocks
-
-
-
+end)

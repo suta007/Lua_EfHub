@@ -25,19 +25,10 @@ local Humanoid = Character:WaitForChild("Humanoid")
 local VirtualUser = game:GetService("VirtualUser")
 local Lighting = game:GetService("Lighting")
 local Terrain = workspace.Terrain
-local MyName = LocalPlayer.Name
 local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
 local PetMutationRegistry = require(ReplicatedStorage.Data.PetRegistry.PetMutationRegistry)
 
 local DataService = require(ReplicatedStorage.Modules.DataService)
-local GetData_result = DataService:GetData()
-local SeedStocks = GetData_result.SeedStocks.Shop.Stocks
-local DailyStocks = GetData_result.SeedStocks["Daily Deals"].Stocks
-local NewYearStocks = GetData_result.EventShopStock["New Years Shop"].Stocks
-local SantaStocks = GetData_result.EventShopStock["Santa's Stash"].Stocks
-local GearStock = GetData_result.GearStock.Stocks
-local EggStock = GetData_result.PetEggStock.Stocks
-local TravelingStock = GetData_result.TravelingMerchantShopStock.Stocks
 
 local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
@@ -69,7 +60,7 @@ local DevLog
 local ProcessBuy, ManualBuy, GetMyFarm, CollectFruit, CollectFruitAll
 local AutoCollectFruitAll = false
 
-local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType
+local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType, GetPetFavorite
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
 
 local ShopKey = {
@@ -309,20 +300,24 @@ Tabs.Main:AddButton({
 
 local BuySeedSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Seeds", false)
 
-local buySeedEnable = BuySeedSection:AddToggle("buySeedEnable", {
+BuySeedSection:AddToggle("buySeedEnable", {
 	Title = "Buy Seeds",
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Seed].Enabled = Value
-		if not isTableEmpty(SeedStocks) then
-			ProcessBuy(ShopKey.Seed, SeedStocks)
+		if Value then
+			local GetData_result = DataService:GetData()
+			local SeedStocks = GetData_result.SeedStocks.Shop.Stocks
+			if not isTableEmpty(SeedStocks) then
+				ProcessBuy(ShopKey.Seed, SeedStocks)
+			end
 		end
 		if QuickSave then
 			QuickSave()
 		end
 	end,
 })
-local buySeedAll = BuySeedSection:AddToggle("buySeedAll", {
+BuySeedSection:AddToggle("buySeedAll", {
 	Title = "Buy All Seeds",
 	Default = false,
 	Callback = function(Value)
@@ -339,7 +334,7 @@ for seedName, seedInfo in pairs(SeedData) do
 	table.insert(SeedTable, seedName)
 end
 table.sort(SeedTable)
-local SeedList = BuySeedSection:AddDropdown("SeedList", {
+BuySeedSection:AddDropdown("SeedList", {
 	Title = "Seeds",
 	Description = "Select seeds to buy",
 	Values = SeedTable,
@@ -356,20 +351,24 @@ local SeedList = BuySeedSection:AddDropdown("SeedList", {
 
 --[[ Buy Daily Deal Section ]]
 local BuyDailySection = Tabs.Buy:AddCollapsibleSection("Auto Buy Daily Seed", false)
-local buyDailyEnable = BuyDailySection:AddToggle("buyDailyEnable", {
+BuyDailySection:AddToggle("buyDailyEnable", {
 	Title = "Buy Daily Seed",
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Daily].Enabled = Value
-		if not isTableEmpty(DailyStock) then
-			ProcessBuy(ShopKey.Daily, DailyStock)
+		if Value then
+			local GetData_result = DataService:GetData()
+			local DailyStocks = GetData_result.SeedStocks["Daily Deals"].Stocks
+			if not isTableEmpty(DailyStocks) then
+				ProcessBuy(ShopKey.Daily, DailyStocks)
+			end
 		end
 		if QuickSave then
 			QuickSave()
 		end
 	end,
 })
-local buyDailyAll = BuyDailySection:AddToggle("buyDailyAll", {
+BuyDailySection:AddToggle("buyDailyAll", {
 	Title = "Buy All Daily Seed",
 	Default = false,
 	Callback = function(Value)
@@ -384,20 +383,24 @@ local buyDailyAll = BuyDailySection:AddToggle("buyDailyAll", {
  Buy Gear Section
 ]]
 local buyGearSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Gear", false)
-local buyGearEnable = buyGearSection:AddToggle("buyGearEnable", {
+buyGearSection:AddToggle("buyGearEnable", {
 	Title = "Buy Gear",
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Gear].Enabled = Value
-		if not isTableEmpty(GearStock) then
-			ProcessBuy(ShopKey.Gear, GearStock)
+		if Value then
+			local GetData_result = DataService:GetData()
+			local GearStock = GetData_result.GearStock.Stocks
+			if not isTableEmpty(GearStock) then
+				ProcessBuy(ShopKey.Gear, GearStock)
+			end
 		end
 		if QuickSave then
 			QuickSave()
 		end
 	end,
 })
-local buyGearAll = buyGearSection:AddToggle("buyGearAll", {
+buyGearSection:AddToggle("buyGearAll", {
 	Title = "Buy All Gear",
 	Default = false,
 	Callback = function(Value)
@@ -413,7 +416,7 @@ for gearName, gearInfo in pairs(GearData["Gear"]) do
 	table.insert(GearTable, gearName)
 end
 table.sort(GearTable)
-local GearList = buyGearSection:AddDropdown("GearList", {
+buyGearSection:AddDropdown("GearList", {
 	Title = "Gear",
 	Description = "Select gear to buy",
 	Values = GearTable,
@@ -432,20 +435,24 @@ local GearList = buyGearSection:AddDropdown("GearList", {
  Buy Pet Eggs Section
 ]]
 local buyEggSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Pet Eggs", false)
-local buyEggEnable = buyEggSection:AddToggle("buyEggEnable", {
+buyEggSection:AddToggle("buyEggEnable", {
 	Title = "Buy Pet Eggs",
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Egg].Enabled = Value
-		if not isTableEmpty(EggStock) then
-			ProcessBuy(ShopKey.Egg, EggStock)
+		if Value then
+			local GetData_result = DataService:GetData()
+			local EggStock = GetData_result.PetEggStock.Stocks
+			if not isTableEmpty(EggStock) then
+				ProcessBuy(ShopKey.Egg, EggStock)
+			end
 		end
 		if QuickSave then
 			QuickSave()
 		end
 	end,
 })
-local buyEggAll = buyEggSection:AddToggle("buyEggAll", {
+buyEggSection:AddToggle("buyEggAll", {
 	Title = "Buy All Pet Eggs",
 	Default = false,
 	Callback = function(Value)
@@ -461,7 +468,7 @@ for eggName, eggInfo in pairs(EggData) do
 	table.insert(EggTable, eggName)
 end
 table.sort(EggTable)
-local EggList = buyEggSection:AddDropdown("EggList", {
+buyEggSection:AddDropdown("EggList", {
 	Title = "Pet Eggs",
 	Description = "Select pet eggs to buy",
 	Values = EggTable,
@@ -480,20 +487,24 @@ local EggList = buyEggSection:AddDropdown("EggList", {
  Buy Traveling Merchant Items Section
 ]]
 local BuyTravelingSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Traveling Merchant Items", false)
-local buyTravelingEnable = BuyTravelingSection:AddToggle("buyTravelingEnable", {
+BuyTravelingSection:AddToggle("buyTravelingEnable", {
 	Title = "Buy Traveling Merchant Items",
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Traveling].Enabled = Value
-		if not isTableEmpty(TravelingStock) then
-			ProcessBuy(ShopKey.Travel, TravelingStock)
+		if Value then
+			local GetData_result = DataService:GetData()
+			local TravelingStock = GetData_result.TravelingMerchantShopStock.Stocks
+			if not isTableEmpty(TravelingStock) then
+				ProcessBuy(ShopKey.Traveling, TravelingStock)
+			end
 		end
 		if QuickSave then
 			QuickSave()
 		end
 	end,
 })
-local buyTravelingAll = BuyTravelingSection:AddToggle("buyTravelingAll", {
+BuyTravelingSection:AddToggle("buyTravelingAll", {
 	Title = "Buy All Traveling Merchant Items",
 	Default = false,
 	Callback = function(Value)
@@ -552,20 +563,24 @@ end
  Buy Santa's Stash Section
 ]]
 local BuySantaSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Santa's Stash Items", false)
-local buySantaEnable = BuySantaSection:AddToggle("buySantaEnable", {
+BuySantaSection:AddToggle("buySantaEnable", {
 	Title = "Buy Santa's Stash Items",
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.Santa].Enabled = Value
-		if not isTableEmpty(SantaStocks) then
-			ProcessBuy(ShopKey.Santa, SantaStocks)
+		if Value then
+			local GetData_result = DataService:GetData()
+			local SantaStocks = GetData_result.EventShopStock["Santa's Stash"].Stocks
+			if not isTableEmpty(SantaStocks) then
+				ProcessBuy(ShopKey.Santa, SantaStocks)
+			end
 		end
 		if QuickSave then
 			QuickSave()
 		end
 	end,
 })
-local buySantaAll = BuySantaSection:AddToggle("buySantaAll", {
+BuySantaSection:AddToggle("buySantaAll", {
 	Title = "Buy All Santa's Stash Items",
 	Default = false,
 	Callback = function(Value)
@@ -582,7 +597,7 @@ for itemName, itemInfo in pairs(EventData["Santa's Stash"]) do
 	table.insert(SantaTable, itemName)
 end
 table.sort(SantaTable)
-local SantaList = BuySantaSection:AddDropdown("SantaList", {
+BuySantaSection:AddDropdown("SantaList", {
 	Title = "Santa's Stash Items",
 	Description = "Select items to buy",
 	Values = SantaTable,
@@ -601,20 +616,24 @@ local SantaList = BuySantaSection:AddDropdown("SantaList", {
  Buy New Years Shop Items Section
 ]]
 local BuyNewYearSection = Tabs.Buy:AddCollapsibleSection("Auto Buy New Years Shop Items", false)
-local buyNewYearEnable = BuyNewYearSection:AddToggle("buyNewYearEnable", {
+BuyNewYearSection:AddToggle("buyNewYearEnable", {
 	Title = "Buy New Years Shop Items",
 	Default = false,
 	Callback = function(Value)
 		BuyList[ShopKey.NewYear].Enabled = Value
-		if not isTableEmpty(NewYearStocks) then
-			ProcessBuy(ShopKey.NewYear, NewYearStocks)
+		if Value then
+			local GetData_result = DataService:GetData()
+			local NewYearStocks = GetData_result.EventShopStock["New Years Shop"].Stocks
+			if not isTableEmpty(NewYearStocks) then
+				ProcessBuy(ShopKey.NewYear, NewYearStocks)
+			end
 		end
 		if QuickSave then
 			QuickSave()
 		end
 	end,
 })
-local buyNewYearAll = BuyNewYearSection:AddToggle("buyNewYearAll", {
+BuyNewYearSection:AddToggle("buyNewYearAll", {
 	Title = "Buy All New Years Shop Items",
 	Default = false,
 	Callback = function(Value)
@@ -629,7 +648,7 @@ for itemName, itemInfo in pairs(EventData["New Years Shop"]) do
 	table.insert(NewYearTable, itemName)
 end
 table.sort(NewYearTable)
-local NewYearList = BuyNewYearSection:AddDropdown("NewYearList", {
+BuyNewYearSection:AddDropdown("NewYearList", {
 	Title = "New Years Shop Items",
 	Description = "Select items to buy",
 	Values = NewYearTable,
@@ -651,15 +670,15 @@ local PetSetting = {
 		TargetMutant = "GiantGolem",
 		TargetPet = "Tiger",
 		LevelSlots = 1,
-		TimeSlot = 3,
-		MutantSlot = 2,
+		TimeSlot = 2,
+		MutantSlot = 3,
 		AgeLimit = 50,
 	},
 }
 
 --[[ Auto Pet Tab]]
 local PetWorkSection = Tabs.Pet:AddCollapsibleSection("Pet Farming", false)
-local PetMode = PetWorkSection:AddDropdown("PetMode", {
+PetWorkSection:AddDropdown("PetMode", {
 	Title = "Pet Mode",
 	Description = "Select Pet Mode",
 	Values = { "Nightmare", "Elephant", "Mutant", "Level" },
@@ -673,7 +692,7 @@ local PetMode = PetWorkSection:AddDropdown("PetMode", {
 		end
 	end,
 })
-local PetModeEnable = PetWorkSection:AddToggle("PetModeEnable", {
+PetWorkSection:AddToggle("PetModeEnable", {
 	Title = "Enable Pet Farm",
 	Default = false,
 	Callback = function(Value)
@@ -702,7 +721,7 @@ for petName, petInfo in pairs(PetData) do
 	table.insert(PetTable, petName)
 end
 table.sort(PetTable)
-local TargetPetDropdown = PetWorkSection:AddDropdown("TargetPetDropdown", {
+PetWorkSection:AddDropdown("TargetPetDropdown", {
 	Title = "Target Pet",
 	Description = "Select Target Pet for Farming",
 	Values = PetTable,
@@ -728,7 +747,7 @@ for mutantName, mutantInfo in pairs(MutantData["PetMutationRegistry"]) do
 end
 
 table.sort(MutantTable)
-local TargetMutantDropdown = PetWorkSection:AddDropdown("TargetMutantDropdown", {
+PetWorkSection:AddDropdown("TargetMutantDropdown", {
 	Title = "Target Mutant",
 	Description = "Select Target Mutant for Farming",
 	Values = MutantTable,
@@ -744,7 +763,7 @@ local TargetMutantDropdown = PetWorkSection:AddDropdown("TargetMutantDropdown", 
 })
 
 -- make input for age limit just integer only bestween 0 - 100
-local AgeLimitInput = PetWorkSection:AddInput("AgeLimitInput", {
+PetWorkSection:AddInput("AgeLimitInput", {
 	Title = "Age Limit",
 	Description = "Enter age limit (0-100)",
 	Placeholder = "Enter age limit",
@@ -754,7 +773,7 @@ local AgeLimitInput = PetWorkSection:AddInput("AgeLimitInput", {
 		local numValue = tonumber(Value)
 		if numValue < 0 or numValue > 100 then
 			numValue = 50
-			AgeLimitInput:SetValue(numValue)
+			Options.AgeLimitInput:SetValue(numValue)
 		end
 		-- PetSetting["PetMode"].AgeLimit = numValue
 		if QuickSave then
@@ -763,53 +782,49 @@ local AgeLimitInput = PetWorkSection:AddInput("AgeLimitInput", {
 	end,
 })
 
-local LoadOutDelay = PetWorkSection:AddInput("LoadOutDelay", {
+PetWorkSection:AddInput("LoadOutDelay", {
 	Title = "Loadout Switch Delay time",
 	Description = "Enter delay time in seconds",
 	Placeholder = "Enter delay time",
 	Filter = "Number",
 	Default = 10,
 	Callback = function(Value)
-		-- PetSetting["PetMode"].LoadOutDelay = tonumber(Value)
 		if QuickSave then
 			QuickSave()
 		end
 	end,
 })
 
-local LevelSlots = PetWorkSection:AddDropdown("LevelSlots", {
+PetWorkSection:AddDropdown("LevelSlots", {
 	Title = "Select Loadout",
 	Values = { 1, 2, 3, 4, 5, 6 },
 	Default = 1,
 	Multi = false,
 	Callback = function(Value)
-		-- PetSetting["PetMode"].LevelSlots = Value
 		if QuickSave then
 			QuickSave()
 		end
 	end,
 })
 
-local TimeSlots = PetWorkSection:AddDropdown("TimeSlots", {
+PetWorkSection:AddDropdown("TimeSlots", {
 	Title = "Select Time Slot",
 	Values = { 1, 2, 3, 4, 5, 6 },
 	Default = 2,
 	Multi = false,
 	Callback = function(Value)
-		-- PetSetting["PetMode"].TimeSlot = Value
 		if QuickSave then
 			QuickSave()
 		end
 	end,
 })
 
-local MutantSlots = PetWorkSection:AddDropdown("MutantSlots", {
+PetWorkSection:AddDropdown("MutantSlots", {
 	Title = "Select Mutant Slot",
 	Values = { 1, 2, 3, 4, 5, 6 },
 	Default = 3,
 	Multi = false,
 	Callback = function(Value)
-		-- PetSetting["PetMode"].MutantSlot = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -818,7 +833,7 @@ local MutantSlots = PetWorkSection:AddDropdown("MutantSlots", {
 
 --[[ Farm Section]]
 local CollectSection = Tabs.Farm:AddCollapsibleSection("Collect Fruit", false)
-local CollectFruitAllEnabled = CollectSection:AddToggle("tglCollectFruitAll", {
+CollectSection:AddToggle("tglCollectFruitAll", {
 	Title = "Auto Collect All Fruit ",
 	Default = false,
 	Callback = function(Value)
@@ -1065,6 +1080,17 @@ RawName = function(Name)
 	return Name
 end
 
+GetPetFavorite = function(uuid)
+	local data = GetRawPetData(uuid)
+	if data and data.PetData then
+		local Favorited = data.PetData.IsFavorite
+		if Favorited then
+			return Favorited
+		end
+	end
+	return nil
+end
+
 GetPetUUID = function(petName)
 	local TargetPet = petName -- PetSetting["PetMode"].TargetPet
 	local name
@@ -1307,8 +1333,8 @@ Mutation = function(uuid)
 end
 
 DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
-	local TargetLevel = tonumber(Options.AgeLimitInput.Value)
-	local TargetPet = Options.TargetPetDropdown.Value
+	local TargetLevel = tonumber(Options.AgeLimitInput.Value) or 50
+	local TargetPet = Options.TargetPetDropdown.Value or "None"
 
 	if Type ~= "UpdateData" then
 		return
@@ -1316,7 +1342,9 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 	if not string.find(Profile, LocalPlayer.Name) then
 		return
 	end
-
+	if not Data or type(Data) ~= "table" then
+		return
+	end
 	for _, Packet in ipairs(Data) do
 		local Key = Packet[1]
 		local Content = Packet[2]
@@ -1328,32 +1356,42 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 			end)
 		end
 
-		-- Process Pet Mutation
-		if string.find(Key, "ROOT/GardenGuide/PetData") then
-			local age = tonumber(Content) or GetPetLevel(targetUUID)
-			DevNoti("Key 1 :  " .. TargetPet .. " Age : " .. tostring(age))
-			if age >= TargetLevel then
-				DevInfoLogNoti(TargetPet .. " has reached level " .. TargetLevel)
-				UnequipPet(targetUUID)
-				task.wait(0.3)
-				MakeMutant(targetUUID)
-			end
-		end
-		if Key == "ROOT/BadgeData/PetMaster" then
-			local age = GetPetLevel(targetUUID)
-			task.wait(1)
-			DevNoti("Key 2 :  " .. TargetPet .. " Age : " .. tostring(age))
-			if age >= TargetLevel then
-				InfoLog(TargetPet .. " has reached level " .. TargetLevel)
-				UnequipPet(targetUUID)
-				task.wait(0.3)
-				MakeMutant(targetUUID)
-			end
-		end
-		if Key == "ROOT/PetMutationMachine/PetReady" then
-			if Mutanting then
-				ClaimMutantPet(targetUUID)
-			end
+		if Options.PetModeEnable.Value then
+			-- Process Pet Mutation
+			task.spawn(function()
+				if string.find(Key, "ROOT/GardenGuide/PetData") then
+					local age = tonumber(Content) or (targetUUID and GetPetLevel(targetUUID))
+					if not age then
+						return
+					end
+					task.wait(0.3)
+					DevNoti("Key 1 :  " .. TargetPet .. " Age : " .. tostring(age))
+					if age >= TargetLevel then
+						DevInfoLogNoti(TargetPet .. " has reached level " .. TargetLevel)
+						UnequipPet(targetUUID)
+						task.wait(0.3)
+						MakeMutant(targetUUID)
+					end
+				elseif Key == "ROOT/BadgeData/PetMaster" then
+					local age = (targetUUID and GetPetLevel(targetUUID))
+					if not age then
+						return
+					end
+					task.wait(0.3)
+					DevNoti("Key 2 :  " .. TargetPet .. " Age : " .. tostring(age))
+					if age >= TargetLevel then
+						InfoLog(TargetPet .. " has reached level " .. TargetLevel)
+						UnequipPet(targetUUID)
+						task.wait(0.3)
+						MakeMutant(targetUUID)
+					end
+				elseif Key == "ROOT/PetMutationMachine/PetReady" then
+					if Mutanting then
+						ClaimMutantPet(targetUUID)
+					end
+					task.wait(0.3)
+				end
+			end)
 		end
 	end
 end)

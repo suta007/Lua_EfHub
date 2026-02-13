@@ -1,0 +1,5 @@
+# EfHub Rules
+- การตั้งชื่อตัวแปรใน Lua ให้ใช้แบบ camelCase
+- ทุกสคริปต์ใน Roblox ต้องมีการจัดการ Task Scheduler (task.wait, task.spawn) อย่างเหมาะสม
+- การเชื่อมต่อ Database ด้วย PHP ต้องใช้ PDO และป้องกัน SQL Injection 100%
+- ไฟล์ Python GUI ต้องรองรับ High DPI สำหรับจอโน้ตบุ๊ก Windows 11
