@@ -141,9 +141,15 @@ task.wait(0.5)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataService = require(ReplicatedStorage.Modules.DataService)
 local GetData_result = DataService:GetData()
---local PetInventory = GetData_result.PetsData.PetInventory
---GetData_result.CropMastery.PlantData
-local EquippedPets = GetData_result.PetsData.EquippedPets
+local PetData = require(game:GetService("ReplicatedStorage").Data.PetRegistry.PetList)
+
+local function MakeData(tbl)
+	for k, v in pairs(tbl) do
+		AddLog(tostring(k) .. "=" .. tostring(v["DefaultHunger"]))
+	end
+end
+
+MakeData(PetData)
 
 local function ShowData(tbl, indent)
 	local lclIndent = indent or 0
@@ -159,4 +165,4 @@ local function ShowData(tbl, indent)
 	end
 end
 
-ShowData(EquippedPets, 1)
+ShowData(PetData, 1)
