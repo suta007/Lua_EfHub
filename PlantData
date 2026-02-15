@@ -1,0 +1,314 @@
+📋 Script initialized successfully.
+  [Bamboo] : (Table)
+    [SoldCount] : 136
+    [HarvestCount] : 148
+    [PlantedCount] : 72
+  [Coconut] : (Table)
+    [SoldCount] : 127
+    [HarvestCount] : 13456
+    [PlantedCount] : 25
+  [Bone Blossom] : (Table)
+    [SoldCount] : 238
+  [Zebrazinkle] : (Table)
+    [SoldCount] : 4
+    [HarvestCount] : 4
+    [PlantedCount] : 1
+  [Black Bat Flower] : (Table)
+    [HarvestCount] : 2
+    [PlantedCount] : 3
+  [Apple] : (Table)
+    [SoldCount] : 61
+    [HarvestCount] : 8032
+    [PlantedCount] : 13
+  [Urchin Plant] : (Table)
+    [SoldCount] : 1
+    [HarvestCount] : 2
+    [PlantedCount] : 1
+  [Giant Pinecone] : (Table)
+    [SoldCount] : 294
+    [HarvestCount] : 815
+    [PlantedCount] : 7
+  [Raspberry] : (Table)
+    [HarvestCount] : 717
+    [PlantedCount] : 2
+  [Ackee] : (Table)
+    [PlantedCount] : 1
+  [Corpse Flower] : (Table)
+    [SoldCount] : 1
+    [HarvestCount] : 10
+    [PlantedCount] : 2
+  [Horsetail] : (Table)
+    [HarvestCount] : 1
+    [PlantedCount] : 1
+  [Evo Blueberry I] : (Table)
+    [HarvestCount] : 5
+    [PlantedCount] : 5
+  [Loquat] : (Table)
+    [SoldCount] : 4
+    [HarvestCount] : 4
+    [PlantedCount] : 1
+  [Pineapple] : (Table)
+    [SoldCount] : 4
+    [HarvestCount] : 5
+    [PlantedCount] : 1
+  [Evo Beetroot III] : (Table)
+    [SoldCount] : 1
+    [HarvestCount] : 15
+    [PlantedCount] : 15
+  [Foxglove] : (Table)
+    [HarvestCount] : 54
+    [PlantedCount] : 2
+  [Evo Blueberry II] : (Table)
+    [HarvestCount] : 4
+    [PlantedCount] : 4
+  [Pumpkin] : (Table)
+    [SoldCount] : 1
+    [HarvestCount] : 1
+    [PlantedCount] : 3
+  [Pepper] : (Table)
+    [SoldCount] : 1
+    [HarvestCount] : 118
+    [PlantedCount] : 2
+  [Cacao] : (Table)
+    [HarvestCount] : 1
+    [PlantedCount] : 4
+  [Evo Blueberry III] : (Table)
+    [SoldCount] : 1
+    [HarvestCount] : 4
+    [PlantedCount] : 4
+  [Evo Pumpkin III] : (Table)
+    [HarvestCount] : 2
+    [PlantedCount] : 2
+  [Ember Lily] : (Table)
+    [HarvestCount] : 2
+    [SoldCount] : 1
+  [Carrot] : (Table)
+    [SoldCount] : 217
+    [HarvestCount] : 5319
+    [PlantedCount] : 5317
+  [Mango] : (Table)
+    [SoldCount] : 309
+    [HarvestCount] : 9894
+    [PlantedCount] : 88
+  [Turnip] : (Table)
+    [HarvestCount] : 21
+    [SoldCount] : 9
+  [Green Apple] : (Table)
+    [SoldCount] : 12
+    [HarvestCount] : 92
+    [PlantedCount] : 2
+  [Evo Blueberry IV] : (Table)
+    [SoldCount] : 8
+    [HarvestCount] : 23
+    [PlantedCount] : 3
+  [Cocomango] : (Table)
+    [SoldCount] : 4
+    [HarvestCount] : 68
+    [PlantedCount] : 1
+  [Avocado] : (Table)
+    [SoldCount] : 23
+    [HarvestCount] : 107
+    [PlantedCount] : 3
+  [Evo Pumpkin IV] : (Table)
+    [SoldCount] : 10
+    [HarvestCount] : 24
+    [PlantedCount] : 2
+  [Glowthorn] : (Table)
+    [HarvestCount] : 20
+    [SoldCount] : 19
+  [Tomato] : (Table)
+    [SoldCount] : 15957
+    [HarvestCount] : 64991
+    [PlantedCount] : 335
+  [Evo Pumpkin II] : (Table)
+    [SoldCount] : 1
+    [HarvestCount] : 3
+    [PlantedCount] : 3
+  [Candy Blossom] : (Table)
+    [SoldCount] : 5
+  [Maple Resin] : (Table)
+    [SoldCount] : 11
+    [HarvestCount] : 10
+    [PlantedCount] : 5
+  [Grape] : (Table)
+    [SoldCount] : 17
+    [HarvestCount] : 90
+    [PlantedCount] : 4
+  [Evo Mushroom IV] : (Table)
+    [SoldCount] : 1
+    [HarvestCount] : 1
+    [PlantedCount] : 1
+  [Sunflower] : (Table)
+    [SoldCount] : 1
+    [HarvestCount] : 1
+    [PlantedCount] : 1
+  [Evo Mushroom I] : (Table)
+    [HarvestCount] : 1
+    [PlantedCount] : 1
+  [Radish] : (Table)
+    [HarvestCount] : 8
+    [PlantedCount] : 8
+  [Horned Melon] : (Table)
+    [SoldCount] : 3
+    [HarvestCount] : 94
+    [PlantedCount] : 2
+  [Sunbulb] : (Table)
+    [HarvestCount] : 24
+    [SoldCount] : 20
+  [Evo Pumpkin I] : (Table)
+    [HarvestCount] : 3
+    [PlantedCount] : 3
+  [Blueberry] : (Table)
+    [SoldCount] : 9798
+    [HarvestCount] : 11627
+    [PlantedCount] : 283
+  [Elder Strawberry] : (Table)
+    [SoldCount] : 12
+    [HarvestCount] : 109
+    [PlantedCount] : 5
+  [Sundew] : (Table)
+    [SoldCount] : 4
+    [HarvestCount] : 15
+    [PlantedCount] : 2
+  [Crimson Thorn] : (Table)
+    [PlantedCount] : 1
+  [Strawberry] : (Table)
+    [SoldCount] : 12223
+    [HarvestCount] : 153145
+    [PlantedCount] : 543
+  [Evo Beetroot I] : (Table)
+    [SoldCount] : 1
+    [HarvestCount] : 17
+    [PlantedCount] : 17
+  [Evo Mushroom III] : (Table)
+    [HarvestCount] : 1
+    [PlantedCount] : 1
+  [Potato] : (Table)
+    [SoldCount] : 7
+    [HarvestCount] : 50
+    [PlantedCount] : 1
+  [Banana] : (Table)
+    [SoldCount] : 11
+    [HarvestCount] : 181
+    [PlantedCount] : 2
+  [Rose] : (Table)
+    [HarvestCount] : 358
+    [PlantedCount] : 3
+  [Peach] : (Table)
+    [SoldCount] : 112
+    [HarvestCount] : 882
+    [PlantedCount] : 3
+  [Orange Delight] : (Table)
+    [HarvestCount] : 1839
+    [PlantedCount] : 31
+  [Lilac] : (Table)
+    [HarvestCount] : 191
+    [PlantedCount] : 2
+  [Sugar Apple] : (Table)
+    [SoldCount] : 60
+    [HarvestCount] : 462
+    [PlantedCount] : 6
+  [Evo Mushroom II] : (Table)
+    [HarvestCount] : 1
+    [PlantedCount] : 1
+  [Wisp Flower] : (Table)
+    [PlantedCount] : 1
+  [Speargrass] : (Table)
+    [SoldCount] : 7
+    [HarvestCount] : 132
+    [PlantedCount] : 3
+  [Evo Beetroot IV] : (Table)
+    [SoldCount] : 6
+    [HarvestCount] : 12
+    [PlantedCount] : 7
+  [Beanstalk] : (Table)
+    [SoldCount] : 64
+    [HarvestCount] : 489
+    [PlantedCount] : 3
+  [Evo Beetroot II] : (Table)
+    [SoldCount] : 1
+    [HarvestCount] : 16
+    [PlantedCount] : 16
+  [Daffodil] : (Table)
+    [SoldCount] : 79
+    [HarvestCount] : 86
+    [PlantedCount] : 80
+  [Buttercup] : (Table)
+    [SoldCount] : 286
+    [HarvestCount] : 952
+    [PlantedCount] : 953
+  [Orange Tulip] : (Table)
+    [SoldCount] : 54
+    [HarvestCount] : 324
+    [PlantedCount] : 306
+  [Jack O Lantern] : (Table)
+    [SoldCount] : 4
+    [HarvestCount] : 41
+    [PlantedCount] : 3
+  [Romanesco] : (Table)
+    [SoldCount] : 3
+    [HarvestCount] : 5
+    [PlantedCount] : 2
+  [Prickly Pear] : (Table)
+    [SoldCount] : 9
+    [HarvestCount] : 101
+    [PlantedCount] : 1
+  [Corn] : (Table)
+    [SoldCount] : 2484
+    [HarvestCount] : 3702
+    [PlantedCount] : 182
+  [Mushroom] : (Table)
+    [SoldCount] : 40
+    [HarvestCount] : 40
+    [PlantedCount] : 30
+  [Kiwi] : (Table)
+    [SoldCount] : 5
+    [HarvestCount] : 65
+    [PlantedCount] : 1
+  [Dragon Fruit] : (Table)
+    [SoldCount] : 51
+    [HarvestCount] : 475
+    [PlantedCount] : 16
+  [Cauliflower] : (Table)
+    [SoldCount] : 9
+    [HarvestCount] : 108
+    [PlantedCount] : 5
+  [Bloodred Mushroom] : (Table)
+    [SoldCount] : 14
+    [HarvestCount] : 19
+    [PlantedCount] : 7
+  [Kniphofia] : (Table)
+    [SoldCount] : 2
+    [HarvestCount] : 31
+    [PlantedCount] : 1
+  [Watermelon] : (Table)
+    [SoldCount] : 18
+    [HarvestCount] : 18
+    [PlantedCount] : 13
+  [Octobloom] : (Table)
+    [SoldCount] : 8
+    [HarvestCount] : 8
+    [PlantedCount] : 1
+  [Cactus] : (Table)
+    [SoldCount] : 8
+    [HarvestCount] : 1464
+    [PlantedCount] : 45
+  [Candy Cornflower] : (Table)
+    [HarvestCount] : 523
+    [PlantedCount] : 3
+  [Auburn Pine] : (Table)
+    [SoldCount] : 3
+    [HarvestCount] : 3
+    [PlantedCount] : 1
+  [Brussels Sprout] : (Table)
+    [SoldCount] : 1
+    [HarvestCount] : 171
+    [PlantedCount] : 1
+  [Rafflesia] : (Table)
+    [SoldCount] : 5
+    [HarvestCount] : 5
+    [PlantedCount] : 6
+  [Burning Bud] : (Table)
+    [SoldCount] : 11
+    [HarvestCount] : 36
+    [PlantedCount] : 8

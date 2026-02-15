@@ -142,9 +142,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataService = require(ReplicatedStorage.Modules.DataService)
 local GetData_result = DataService:GetData()
 
---local currentCoins = DataService:GetPath("SpecialCurrency/HeartCoins")
-local currentCoins = GetData_result.SpecialCurrency.HeartCoins
-local ValentinesEvent = GetData_result.ValentinesEvent.Completed
+local PlantData = GetData_result.CropMastery.PlantData
 local function ShowData(tbl, indent)
 	local lclIndent = indent or 0
 	local spacing = string.rep("  ", lclIndent)
@@ -158,21 +156,5 @@ local function ShowData(tbl, indent)
 		--return
 	end
 end
-AddLog("Test 1 : " .. tostring(ValentinesEvent[1]))
-AddLog("Test 2 : " .. tostring(ValentinesEvent[2]))
-if type(ValentinesEvent) == "table" then
-	ShowData(ValentinesEvent, 1)
-else
-	AddLog("Coin:" .. ValentinesEvent)
-end
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local DataService = require(ReplicatedStorage.Modules.DataService)
-
-local currentCoins = DataService:GetData().SpecialCurrency.HeartCoins
-Rewards = { 30, 200, 700, 2000, 10000 }
-for i = 1, 5 do
-	if currentCoins > Rewards[i] then
-		print(Rewards[i])
-	end
-end
+ShowData(PlantData, 1)
