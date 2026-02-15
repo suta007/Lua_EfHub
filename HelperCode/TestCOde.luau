@@ -165,3 +165,14 @@ if type(ValentinesEvent) == "table" then
 else
 	AddLog("Coin:" .. ValentinesEvent)
 end
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local DataService = require(ReplicatedStorage.Modules.DataService)
+
+local currentCoins = DataService:GetData().SpecialCurrency.HeartCoins
+Rewards = { 30, 200, 700, 2000, 10000 }
+for i = 1, 5 do
+	if currentCoins > Rewards[i] then
+		print(Rewards[i])
+	end
+end
