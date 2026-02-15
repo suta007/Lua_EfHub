@@ -1605,7 +1605,7 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 			-- Process Pet Mutation
 			task.spawn(function()
 				if string.find(Key, "ROOT/GardenGuide/PetData") then
-					local age = tonumber(Content) or (targetUUID and GetPetLevel(targetUUID))
+					local age = (targetUUID and GetPetLevel(targetUUID))
 					if not age then
 						return
 					end
@@ -1996,9 +1996,10 @@ local function ValentinesEvent()
 			:InvokeServer()
 		task.wait(1)
 		--if result then
-		local currentCoins = GetData_result.SpecialCurrency.HeartCoins
+		local currentCoins = tonumber(GetData_result.SpecialCurrency.HeartCoins)
 		local ValentinesCompleted = GetData_result.ValentinesEvent.Completed
-		Rewards = { 30, 100, 250, 600, 2000 }
+		Rewards = { 30, 200, 700, 200, 10000 }
+		--Rewards = { 30, 100, 250, 600, 2000 }
 		for i = 1, 5 do
 			if currentCoins >= Rewards[i] and not ValentinesCompleted[i] then
 				game:GetService("ReplicatedStorage")
