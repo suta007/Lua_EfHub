@@ -1998,7 +1998,7 @@ local function ValentinesEvent()
 		--if result then
 		local currentCoins = DataService:GetData().SpecialCurrency.HeartCoins
 		local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed
-		Rewards = { 30, 200, 700, 200, 10000 }
+		Rewards = { 30, 200, 700, 2000, 10000 }
 		--Rewards = { 30, 100, 250, 600, 2000 }
 		for i = 1, 5 do
 			if currentCoins >= Rewards[i] and not ValentinesCompleted[i] then
