@@ -1,4 +1,3 @@
---workspace.Farm.Farm.Important.Plants_Physical["Elder Strawberry"].Fruits:GetChildren()[2]["2"].ProximityPrompt
 local Fluent = loadstring(
 	game:HttpGet("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau")
 )()
@@ -133,6 +132,10 @@ local function TimeLog(message)
 	local entry = string.format("[%s] %s", timestamp, message)
 	AddLog(entry)
 end
+
+local function DevNoti(message)
+	AddLog("💻 " .. message)
+end
 ------------------------------------------------------
 -- 6. Test Loop (ทดสอบดูความสวยงาม)
 ------------------------------------------------------
@@ -150,15 +153,15 @@ local CheckFruit
 
 local CollectFruitEnable = true
 
-local CheckFruitType = true
-local FruitType = { "Apple", "Elder Strawberry" }
+local CheckFruitType = false
+local FruitType = {}
 local ExceptFruitType = false
 
-local CheckMutant = true
-local MutantType = { "Firework", "Wet" }
+local CheckMutant = false
+local MutantType = {}
 local ExceptMutant = false
 
-local CheckVariant = true
+local CheckVariant = false
 local VariantType = "Normal" -- ใส่ชื่อ Variant ที่
 local ExceptVariant = false
 
@@ -182,6 +185,21 @@ GetMyFarm = function()
 	end
 	return nil
 end
+
+local function ShowData(tbl, indent)
+	local lclIndent = indent or 0
+	local spacing = string.rep("  ", lclIndent)
+	for k, v in pairs(tbl) do
+		if type(v) == "table" then
+			AddLog(spacing .. "[" .. tostring(k) .. "] : (Table)")
+			ShowData(v, lclIndent + 1)
+		else
+			AddLog(spacing .. "[" .. tostring(k) .. "] : " .. tostring(v))
+		end
+		--return
+	end
+end
+
 --Collect Fruits
 
 CheckFruit = function(model)
@@ -255,6 +273,83 @@ CheckFruit = function(model)
 	-- หากผ่านการตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
 	return true
 end
+local MyFarm = GetMyFarm()
+local function FindPlants()
+	--local Plants = {}
+	if MyFarm then
+		local Farm_Important = MyFarm:FindFirstChild("Important")
+		local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+		if Plants_Physical then
+			-- วนลูปต้นไม้ทุกต้น
+			for _, plant in pairs(Plants_Physical:GetChildren()) do
+				if plant:IsA("Model") then
+					--DevNoti("Found Plant : " .. plant.Name)
+					--table.insert(Plants, plant)
+					--task.wait(0.1)
+					return plant
+				end
+			end
+		end
+	end
+	return nil
+end
+
+local function findCrops()
+	DevNoti("Start findCrops")
+	local Prompt
+	--local Crops = {}
+	local Plant = FindPlants()
+	if not Plant then
+		return nil
+	end
+	--for _, plant in pairs(Plants) do
+	local Fruits = Plant:FindFirstChild("Fruits")
+	if Fruits then
+		for _, fruit in pairs(Fruits:GetChildren()) do
+			if fruit:IsA("Model") then
+				Prompt = fruit:FindFirstChild("ProximityPrompt", true)
+				if Prompt and Prompt.Enabled then
+					--DevNoti("Found Fruit : " .. fruit.Name)
+					--table.insert(Crops, fruit)
+					--task.wait(0.1)
+					return fruit
+				end
+			end
+		end
+	else
+		if Plant:IsA("Model") then
+			Prompt = Plant:FindFirstChild("ProximityPrompt", true)
+
+			if Prompt and Prompt.Enabled then
+				--DevNoti("Found Crop : " .. plant.Name)
+				--table.insert(Crops, plant)
+				--task.wait(0.1)
+				return Plant
+			end
+		end
+	end
+	--end
+	return nil
+end
+
+local function HartVestCrop()
+	--DevNoti("Start HartVestCrop")
+	local Crop = findCrops()
+	if not Crop then
+		return
+	end
+	--for _, crop in pairs(Crops) do
+	--if crop:IsA("Model") then
+	--if CheckFruit(crop) then
+	DevNoti("Collecting : " .. Crop.Name)
+	--CollectEvent:FireServer({ crop })
+	task.wait(0.3)
+	--end
+	--end
+	--end
+end
+
+HartVestCrop()
 
 CollectFruit = function()
 	if not CollectFruitEnable then
@@ -270,19 +365,37 @@ CollectFruit = function()
 			local Fruits = plant:FindFirstChild("Fruits")
 			if Fruits then
 				for _, fruit in pairs(Fruits:GetChildren()) do
+					--ShowData(Fruits:GetChildren(), 1)
+
 					if fruit:IsA("Model") then
-						local Prompt_Part = fruit:FindFirstChild("2")
+						--local Prompt_Part = fruit:FindFirstChild("2")
+						local Prompt = fruit:FindFirstChild("ProximityPrompt", true)
+						--if Prompt_Part then
+						--local Prompt = Prompt_Part:FindFirstChild("ProximityPrompt", true)
 
-						if Prompt_Part then
-							local Prompt = Prompt_Part:FindFirstChild("ProximityPrompt")
-							if Prompt and Prompt.Enabled then
-								AddLog("Auto Collect: " .. fruit.Name)
+						if Prompt and Prompt.Enabled then
+							AddLog("Auto Collect: " .. fruit.Name)
 
-								if CheckFruit(fruit) then
-									AddLog("Collect: " .. fruit.Name)
-									CollectEvent:FireServer({ fruit })
-								end
+							if CheckFruit(fruit) then
+								AddLog("Collect: " .. fruit.Name)
+								CollectEvent:FireServer({ fruit })
 							end
+						end
+						--end
+					end
+				end
+			else
+				if plant:IsA("Model") then
+					local Prompt = plant:FindFirstChild("ProximityPrompt", true)
+					--if Prompt_Part then
+					--local Prompt = Prompt_Part:FindFirstChild("ProximityPrompt", true)
+
+					if Prompt and Prompt.Enabled then
+						AddLog("Auto Collect: " .. plant.Name)
+
+						if CheckFruit(plant) then
+							AddLog("Collect: " .. plant.Name)
+							CollectEvent:FireServer({ plant })
 						end
 					end
 				end

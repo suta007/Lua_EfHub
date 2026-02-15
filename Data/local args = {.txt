@@ -64,3 +64,17 @@ local args = {
 	"New Years Shop"
 }
 game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyEventShopStock"):FireServer(unpack(args))
+
+
+
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("ValentinesEvent"):WaitForChild("GiveHeartstruckFruits"):InvokeServer()
+
+
+local args = {
+	1
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward"):FireServer(unpack(args))
+
+
+-- game:GetService("ReplicatedStorage").GameEvents.ValentinesEvent.GiveHeartstruckFruits
+-- game:GetService("ReplicatedStorage").GameEvents.ValentinesEvent.ClaimValentineReward

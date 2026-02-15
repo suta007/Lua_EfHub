@@ -141,16 +141,10 @@ task.wait(0.5)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataService = require(ReplicatedStorage.Modules.DataService)
 local GetData_result = DataService:GetData()
-local PetData = require(game:GetService("ReplicatedStorage").Data.PetRegistry.PetList)
 
-local function MakeData(tbl)
-	for k, v in pairs(tbl) do
-		AddLog(tostring(k) .. "=" .. tostring(v["DefaultHunger"]))
-	end
-end
-
-MakeData(PetData)
-
+--local currentCoins = DataService:GetPath("SpecialCurrency/HeartCoins")
+local currentCoins = GetData_result.SpecialCurrency.HeartCoins
+local ValentinesEvent = GetData_result.ValentinesEvent.Completed
 local function ShowData(tbl, indent)
 	local lclIndent = indent or 0
 	local spacing = string.rep("  ", lclIndent)
@@ -164,5 +158,10 @@ local function ShowData(tbl, indent)
 		--return
 	end
 end
-
-ShowData(PetData, 1)
+AddLog("Test 1 : " .. tostring(ValentinesEvent[1]))
+AddLog("Test 2 : " .. tostring(ValentinesEvent[2]))
+if type(ValentinesEvent) == "table" then
+	ShowData(ValentinesEvent, 1)
+else
+	AddLog("Coin:" .. ValentinesEvent)
+end
