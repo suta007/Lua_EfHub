@@ -56,7 +56,7 @@ local IsActivePet = false
 local ApplyAntiLag
 local DevLog
 local ProcessBuy, GetMyFarm, CollectFruit, CheckFruit, AutoPlant, GetPosition
-local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType, GetPetFavorite, GetPetHungerPercent
+local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType, GetPetFavorite, GetPetHungerPercent, CheckMakeMutant, PetNightmare
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
 
 local ShopKey = {
@@ -686,16 +686,16 @@ PetWorkSection:AddToggle("PetModeEnable", {
 		end
 		if Value then
 			task.wait(1)
-			local mode = Options.PetMode.Value
-			if mode == "Nightmare" then
-				-- Mutation = "Nightmare"
-			elseif mode == "Mutant" then
-				if Mutation then
-					Mutation()
-				end
-			else
-				-- Mutation = "EfHub"
-			end
+			--local mode = Options.PetMode.Value
+			--if mode == "Nightmare" then
+			-- Mutation = "Nightmare"
+			--elseif mode == "Mutant" then
+			--	if Mutation then
+			Mutation()
+			--	end
+			--else
+			-- Mutation = "EfHub"
+			--end
 		end
 	end,
 })
@@ -1542,6 +1542,11 @@ ClaimMutantPet = function(uuid)
 	TargetMutant = Options.TargetMutantDropdown.Value
 	task.wait(10)
 	if TargetMutant == GetPetMutation(uuid) then
+		for _, item in ipairs(Backpack:GetChildren()) do
+			if item:GetAttribute("PET_UUID") == uuid then
+				item:SetAttribute("d", true)
+			end
+		end
 		Mutation()
 	else
 		Mutation(uuid)
@@ -1551,13 +1556,14 @@ end
 Mutation = function(uuid)
 	-- if PetSetting["PetMode"].Enabled then
 	if Options.PetModeEnable.Value then
+		local TargetLevel = tonumber(Options.AgeLimitInput.Value) or 50
 		local TargetPet = Options.TargetPetDropdown.Value
 		targetUUID = uuid or GetPetUUID(TargetPet)
 		if targetUUID then
 			-- InfoLog("Found target pet: " .. TargetPet .. " (UUID: " .. targetUUID .. ")")
 			local age = GetPetLevel(targetUUID)
 			InfoLog("Current age of " .. TargetPet .. ": " .. tostring(age))
-			if age < 50 then
+			if age < TargetLevel then
 				Character:PivotTo(CFrame.new(FarmPoint.X, FarmPoint.Y, FarmPoint.Z))
 				task.wait(0.3)
 				InfoLog("Swapping to loadout " .. Options.LevelSlots.Value .. " to equip pet...")
@@ -1604,32 +1610,18 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 		if Options.PetModeEnable.Value then
 			-- Process Pet Mutation
 			task.spawn(function()
-				if string.find(Key, "ROOT/GardenGuide/PetData") then
-					local age = (targetUUID and GetPetLevel(targetUUID))
-					if not age then
-						return
-					end
-					task.wait(0.3)
-					DevNoti("Key 1 :  " .. TargetPet .. " Age : " .. tostring(age))
-					if age >= TargetLevel then
-						DevNoti(TargetPet .. " has reached level " .. TargetLevel)
-						UnequipPet(targetUUID)
-						task.wait(0.3)
-						MakeMutant(targetUUID)
-					end
-				elseif Key == "ROOT/BadgeData/PetMaster" then
-					local age = (targetUUID and GetPetLevel(targetUUID))
-					if not age then
-						return
-					end
-					task.wait(0.3)
-					DevNoti("Key 2 :  " .. TargetPet .. " Age : " .. tostring(age))
-					if age >= TargetLevel then
-						InfoLog(TargetPet .. " has reached level " .. TargetLevel)
-						UnequipPet(targetUUID)
-						task.wait(0.3)
-						MakeMutant(targetUUID)
-					end
+				if string.find(Key, "ROOT/GardenGuide/PetData") or Key == "ROOT/BadgeData/PetMaster" then
+					if Options.PetMode.Value == "Nightmare" then
+						PetNightmare(targetUUID)
+					elseif Options.PetMode.Value == "Mutant" then
+						CheckMakeMutant(targetUUID)
+					else
+						if GetPetLevel(targetUUID) == 100 then
+							UnequipPet(targetUUID)
+							task.wait(1)
+							Mutation()
+						end
+					end --Elephant
 				elseif Key == "ROOT/PetMutationMachine/PetReady" then
 					if Mutanting then
 						ClaimMutantPet(targetUUID)
@@ -1908,6 +1900,53 @@ AutoPlant = function()
 			:WaitForChild("GameEvents")
 			:WaitForChild("Plant_RE")
 			:FireServer(unpack(args))
+	end
+end
+
+CheckMakeMutant = function(uuid)
+	local TargetLevel = tonumber(Options.AgeLimitInput.Value) or 50
+	local age = GetPetLevel(uuid)
+	if not age then
+		return
+	end
+	task.wait(0.3)
+	--DevNoti("Key 1 :  " .. TargetPet .. " Age : " .. tostring(age))
+	if age >= TargetLevel then
+		--DevNoti(TargetPet .. " has reached level " .. TargetLevel)
+		UnequipPet(uuid)
+		task.wait(0.3)
+		MakeMutant(uuid)
+	end
+end
+
+PetNightmare = function(uuid)
+	local mutant = GetPetMutation(uuid)
+	if mutant and GetPetMutation(uuid) ~= "Nightmare" then
+		local petsPhysical = game.Workspace:WaitForChild("PetsPhysical")
+		for _, container in ipairs(petsPhysical:GetChildren()) do
+			local PetModel = container:FindFirstChild(uuid)
+			if PetModel then
+				if heldItemName("Cleansing Pet Shard") then
+					local args = {
+						"ApplyShard",
+						PetModel,
+					}
+					game:GetService("ReplicatedStorage")
+						:WaitForChild("GameEvents")
+						:WaitForChild("PetShardService_RE")
+						:FireServer(unpack(args))
+				end
+			end
+		end
+	elseif mutant and GetPetMutation(uuid) == "Nightmare" then
+		UnequipPet(uuid)
+		task.wait(1)
+		for _, item in ipairs(Backpack:GetChildren()) do
+			if item:GetAttribute("PET_UUID") == uuid then
+				item:SetAttribute("d", true)
+			end
+		end
+		Mutation()
 	end
 end
 

@@ -1,0 +1,81 @@
+workspace.Pn_Pat09["Cleansing Pet Shard x1133"].Handle["Cleansing Pet Shard"]
+
+
+workspace.Pn_Pat09["Cleansing Pet Shard x1133"].Handle
+
+
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+
+local Plr = Players.LocalPlayer
+local Char = Plr.Character or Plr.CharacterAdded:Wait()
+local HRP = Char:WaitForChild("HumanoidRootPart")
+
+-- 1. ตั้งค่า Config
+local ShardName = "Pet Shard" -- ใส่ชื่อไอเทมให้ตรงเป๊ะๆ
+local PetUUID = "{80a423fb-d9bd-4cc7-90ff-fd4d61105b42}" -- UUID เป้าหมาย
+
+-- หา Remote (ตัวเดิมของพี่เอฟ)
+local Remote = ReplicatedStorage:WaitForChild("GameEvents"):WaitForChild("PetShardService_RE")
+
+-- หาตัวสัตว์เลี้ยงใน Workspace
+local PetModel = Workspace:FindFirstChild("PetsPhysical") 
+    and Workspace.PetsPhysical:FindFirstChild("PetMover") 
+    and Workspace.PetsPhysical.PetMover:FindFirstChild(PetUUID)
+
+if not PetModel then
+    warn("❌ หาตัวสัตว์เลี้ยงไม่เจอใน Map ครับพี่เอฟ (เช็ก UUID หรือยัง?)")
+    return
+end
+
+-- 2. ฟังก์ชันถือของ (Equip)
+local function EquipShard()
+    local backpackTool = Plr.Backpack:FindFirstChild(ShardName)
+    local charTool = Char:FindFirstChild(ShardName)
+    
+    if charTool then
+        return charTool -- ถืออยู่แล้ว
+    elseif backpackTool then
+        backpackTool.Parent = Char -- สั่งถือ
+        return backpackTool
+    else
+        return nil
+    end
+end
+
+-- 3. เริ่มการทำงาน
+local tool = EquipShard()
+if tool then
+    print("1. ถือของเรียบร้อย: " .. tool.Name)
+    
+    -- [สำคัญ] วาร์ปไปหาสัตว์เลี้ยงก่อน (แก้เรื่อง Distance Check)
+    -- วาร์ปไปเหนือสัตว์เลี้ยงนิดหน่อยจะได้ไม่ติดบัค
+    if PetModel:IsA("Model") and PetModel.PrimaryPart then
+        HRP.CFrame = PetModel.PrimaryPart.CFrame * CFrame.new(0, 3, 0)
+    elseif PetModel:IsA("BasePart") then
+        HRP.CFrame = PetModel.CFrame * CFrame.new(0, 3, 0)
+    end
+    
+    print("2. วาร์ปไปถึงตัวแล้ว...")
+    task.wait(0.2) -- รอให้ Server เห็นว่าเรายืนอยู่ตรงนั้นจริงๆ
+    
+    -- [สำคัญ] ลองใช้ Tool:Activate() เพื่อจำลองการคลิก (ทางเลือกที่ 1)
+    tool:Activate() 
+    print("3. ลองสั่ง Activate (คลิกเทียม)")
+    
+    task.wait(0.2)
+
+    -- ยิง Remote ซ้ำเพื่อความชัวร์ (ทางเลือกที่ 2 - แบบที่พี่เอฟทำ)
+    local args = {
+        "ApplyShard",
+        PetModel, -- ลองส่งเป็น Model (ถ้าไม่ได้ให้เปลี่ยนเป็น UUID String)
+        tool
+    }
+    Remote:FireServer(unpack(args))
+    print("4. ยิง Remote Manual ซ้ำเพื่อความชัวร์")
+    
+else
+    warn("❌ พี่เอฟไม่มี " .. ShardName .. " ในกระเป๋าครับ!")
+end
