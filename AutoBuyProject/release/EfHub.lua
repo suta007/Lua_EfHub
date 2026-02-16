@@ -1941,11 +1941,11 @@ PetNightmare = function(uuid)
 	elseif mutant and GetPetMutation(uuid) == "Nightmare" then
 		UnequipPet(uuid)
 		task.wait(1)
-		for _, item in ipairs(Backpack:GetChildren()) do
+--[[ 		for _, item in ipairs(Backpack:GetChildren()) do
 			if item:GetAttribute("PET_UUID") == uuid then
 				item:SetAttribute("d", true)
 			end
-		end
+		end ]]
 		Mutation()
 	end
 end
