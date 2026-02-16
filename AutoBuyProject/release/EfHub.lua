@@ -1926,7 +1926,8 @@ PetNightmare = function(uuid)
 		for _, container in ipairs(petsPhysical:GetChildren()) do
 			local PetModel = container:FindFirstChild(uuid)
 			if PetModel then
-				if heldItemName("Cleansing Pet Shard") then
+				heldItemName("Cleansing Pet Shard") 
+				--if heldItemName("Cleansing Pet Shard") then
 					local args = {
 						"ApplyShard",
 						PetModel,
@@ -1935,7 +1936,7 @@ PetNightmare = function(uuid)
 						:WaitForChild("GameEvents")
 						:WaitForChild("PetShardService_RE")
 						:FireServer(unpack(args))
-				end
+				--end
 			end
 		end
 	elseif mutant and GetPetMutation(uuid) == "Nightmare" then
