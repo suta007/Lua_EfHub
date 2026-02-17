@@ -78,3 +78,42 @@ game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("Va
 
 -- game:GetService("ReplicatedStorage").GameEvents.ValentinesEvent.GiveHeartstruckFruits
 -- game:GetService("ReplicatedStorage").GameEvents.ValentinesEvent.ClaimValentineReward
+
+
+
+local args = {
+	"Sell Shop"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PlayerTeleportTriggered"):FireServer(unpack(args))
+
+local args = {
+	"Farm"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("PlayerTeleportTriggered"):FireServer(unpack(args))
+
+
+
+
+local args = {
+	"{4aea2ff4-dfbc-4b0e-89fd-155305fe1d7e}",
+	10
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("InventorySortingServiceEvents"):WaitForChild("MoveEntry"):FireServer(unpack(args))
+
+ขายผลไม้ทั้งหมด
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("Sell_Inventory"):FireServer()
+
+ขายผลไม้ 1 ลูก ถือไว้
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("Sell_Item"):FireServer()
+
+ขายสัตว์เลี้ยง 1 ตัว ถือไว้
+local args = {
+	Instance.new("Tool", nil)
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("SellPet_RE"):FireServer(unpack(args))
+
+
+local args = {
+	Instance.new("Tool", nil)
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("SellPetShopSelected"):FireServer(unpack(args))

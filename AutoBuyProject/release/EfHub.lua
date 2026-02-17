@@ -55,7 +55,7 @@ local Mutanting = false
 local IsActivePet = false
 local ApplyAntiLag
 local DevLog
-local ProcessBuy, GetMyFarm, CollectFruit, CheckFruit, AutoPlant, GetPosition
+local ProcessBuy, GetMyFarm, CheckFruit, AutoPlant, GetPosition, ScanFarmTask
 local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType, GetPetFavorite, GetPetHungerPercent, CheckMakeMutant, PetNightmare
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
 
@@ -722,6 +722,17 @@ PetWorkSection:AddDropdown("TargetPetDropdown", {
 	end,
 })
 
+PetWorkSection:AddToggle("UseFavoriteOnly", {
+	Title = "Use Favorite Pet Only",
+	Description = "Use Favorite Pet Only",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
 local MutantData = require(game:GetService("ReplicatedStorage").Data.PetRegistry.PetMutationRegistry)
 local MutantTable = {}
 local EnumToNameCache = {}
@@ -870,6 +881,26 @@ PetFeedSection:AddSlider("PetHungerPercent", {
 	end,
 })
 --[[ Farm Section]]
+
+local SellFruitSection = Tabs.Farm:AddCollapsibleSection("Sell Fruit", false)
+SellFruitSection:AddToggle("AutoSellALL", {
+	Title = "Auto Sell ALL",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+SellFruitSection:AddToggle("AutoSellFruit", {
+	Title = "Auto Sell Fruit",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
 
 --[[ สร้าง gui สำหรับตั้งค่าพวกนี้ ]]
 
@@ -1382,7 +1413,7 @@ GetPetUUID = function(petName)
 		for _, uuid in pairs(UUIDs) do
 			local PetType = GetPetType(uuid)
 			if PetType and PetType == TargetPet then
-				if GetPetMutation(uuid) ~= TargetMutant and not GetPetFavorite(uuid) then
+				if GetPetMutation(uuid) ~= TargetMutant and GetPetFavorite(uuid) == Options.UseFavoriteOnly.Value then
 					InfoLog("Found pet in ActivePetUI: " .. PetType .. " (UUID: " .. uuid .. ")")
 					return uuid
 				end
@@ -1397,7 +1428,10 @@ GetPetUUID = function(petName)
 						local PetType = Data.PetType
 						local uuid = Data.UUID
 						if PetType and PetType == TargetPet then
-							if GetPetMutation(uuid) ~= TargetMutant and not GetPetFavorite(uuid) then
+							if
+								GetPetMutation(uuid) ~= TargetMutant
+								and GetPetFavorite(uuid) == Options.UseFavoriteOnly.Value
+							then
 								InfoLog("Found pet in Backpack: " .. PetType .. " (UUID: " .. uuid .. ")")
 								return uuid
 							end
@@ -1736,18 +1770,6 @@ CheckFruit = function(model)
 	if not model or not model:IsA("Model") then
 		return false
 	end
-	--[[ 	CheckFruitType = Options.tgCheckFruitType.Value
-	FruitType = GetSelectedItems(Options.ddFruitType.Value)
-	ExcludeFruitType = Options.tgExcludeFruitType.Value
-	CheckMutant = Options.tgCheckMutant.Value
-	MutantType = GetSelectedItems(Options.ddMutantType.Value)
-	ExceptMutant = Options.tgExceptMutant.Value
-	CheckVariant = Options.tgCheckVariant.Value
-	VariantType = Options.ddVariantType.Value
-	ExceptVariant = Options.tgExceptVariant.Value
-	CheckWeight = Options.tgCheckWeight.Value
-	WeightType = Options.ddWeightType.Value
-	WeightValue = tonumber(Options.ipWeightValue.Value) *]]
 	-- 2. ตรวจสอบชนิดผลไม้ (Fruit Type)
 	if CheckFruitType then
 		local tFruitType = model.Name
@@ -1813,65 +1835,63 @@ CheckFruit = function(model)
 	return true
 end
 
-CollectFruit = function()
-	if InventoryService.IsMaxInventory() then
-		--AddLog("Inventory is full. Stopping collection.")
+ScanFarmTask = function()
+	if IsScanning then
+		print("Wait")
 		return
 	end
-	--	local MyFarm = GetMyFarm()
+	IsScanning = true
 
-	local Farm_Important = MyFarm:FindFirstChild("Important")
-	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+	task.spawn(function()
+		-- เคลียร์คิวเก่าทิ้งก่อนเริ่มรอบใหม่ เพื่อความสดใหม่ของข้อมูล
+		table.clear(FruitQueue)
 
-	if Plants_Physical then
-		for _, plant in pairs(Plants_Physical:GetChildren()) do
-			if not Options.tgCollectFruitEnable.Value then
-				--AddLog("Auto Collect Fruit Disabled")
-				return
-			end
+		local MyFarm = GetMyFarm()
+		if not MyFarm then
+			IsScanning = false
+			return
+		end
+		print("Start Scan")
+		local Farm_Important = MyFarm:FindFirstChild("Important")
+		local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
 
-			local Fruits = plant:FindFirstChild("Fruits")
-			if Fruits then
-				for _, fruit in pairs(Fruits:GetChildren()) do
-					--ShowData(Fruits:GetChildren(), 1)
+		if Plants_Physical then
+			local count = 0
 
-					if fruit:IsA("Model") then
-						--local Prompt_Part = fruit:FindFirstChild("2")
-						local Prompt = fruit:FindFirstChild("ProximityPrompt", true)
-						--if Prompt_Part then
-						--local Prompt = Prompt_Part:FindFirstChild("ProximityPrompt", true)
+			-- ใช้ ipairs เพื่อความเร็วในการวนลูป Array
+			for _, plant in ipairs(Plants_Physical:GetChildren()) do
+				-- หยุดสแกนทันทีถ้าผู้ใช้ปิด Function
+				if not Options.tgCollectFruitEnable.Value then
+					break
+				end
+
+				-- ตรวจสอบว่าในต้นไม้นั้นมี Folder Fruits หรือไม่ (บางทีผลไม้อยู่ใน plant เลย)
+				local FruitsContainer = plant:FindFirstChild("Fruits")
+				local itemsToCheck = FruitsContainer and FruitsContainer:GetChildren() or { plant }
+
+				for _, item in ipairs(itemsToCheck) do
+					if item:IsA("Model") then
+						-- Optimization: เช็ค ProximityPrompt ก่อนเรียก CheckFruit
+						-- (เพราะ CheckFruit กินทรัพยากรเยอะกว่า)
+						local Prompt = item:FindFirstChild("ProximityPrompt", true)
 
 						if Prompt and Prompt.Enabled then
-							--AddLog("Auto Collect: " .. fruit.Name)
-
-							if CheckFruit(fruit) then
-								--AddLog("Collect: " .. fruit.Name)
-								CollectEvent:FireServer({ fruit })
-								task.wait(CollectDelay)
+							if CheckFruit(item) then
+								table.insert(FruitQueue, item)
 							end
 						end
-						--end
 					end
 				end
-			else
-				if plant:IsA("Model") then
-					local Prompt = plant:FindFirstChild("ProximityPrompt", true)
-					--if Prompt_Part then
-					--local Prompt = Prompt_Part:FindFirstChild("ProximityPrompt", true)
 
-					if Prompt and Prompt.Enabled then
-						--AddLog("Auto Collect: " .. plant.Name)
-
-						if CheckFruit(plant) then
-							--AddLog("Collect: " .. plant.Name)
-							CollectEvent:FireServer({ plant })
-							task.wait(CollectDelay)
-						end
-					end
+				-- Optimization: พักหายใจทุกๆ 50 ต้นไม้ ป้องกันเกมค้าง (Lag)
+				count = count + 1
+				if count % 50 == 0 then
+					task.wait()
 				end
 			end
 		end
-	end
+		IsScanning = false
+	end)
 end
 
 GetPosition = function()
@@ -1926,8 +1946,7 @@ PetNightmare = function(uuid)
 		for _, container in ipairs(petsPhysical:GetChildren()) do
 			local PetModel = container:FindFirstChild(uuid)
 			if PetModel then
-				heldItemName("Cleansing Pet Shard") 
-				--if heldItemName("Cleansing Pet Shard") then
+				if heldItemName("Cleansing Pet Shard") then
 					local args = {
 						"ApplyShard",
 						PetModel,
@@ -1936,17 +1955,17 @@ PetNightmare = function(uuid)
 						:WaitForChild("GameEvents")
 						:WaitForChild("PetShardService_RE")
 						:FireServer(unpack(args))
-				--end
+				end
 			end
 		end
 	elseif mutant and GetPetMutation(uuid) == "Nightmare" then
 		UnequipPet(uuid)
 		task.wait(1)
---[[ 		for _, item in ipairs(Backpack:GetChildren()) do
+		for _, item in ipairs(Backpack:GetChildren()) do
 			if item:GetAttribute("PET_UUID") == uuid then
 				item:SetAttribute("d", true)
 			end
-		end ]]
+		end
 		Mutation()
 	end
 end
@@ -1964,17 +1983,6 @@ end)
 
 task.spawn(function()
 	while true do -- ใช้ While Loop เพื่อให้ทำงานวนไปเรื่อยๆ
-		if Options.tgCollectFruitEnable.Value then
-			pcall(function() -- ใส่ pcall กัน Error แล้วสคริปต์หลุด
-				CollectFruit()
-			end)
-		end
-		task.wait(0.1)
-	end
-end)
-
-task.spawn(function()
-	while true do -- ใช้ While Loop เพื่อให้ทำงานวนไปเรื่อยๆ
 		if Options.tgPlantFruitEnable.Value then
 			--pcall(function() -- ใส่ pcall กัน Error แล้วสคริปต์หลุด
 			AutoPlant()
@@ -1985,72 +1993,58 @@ task.spawn(function()
 end)
 
 local function CollectValentines()
-	if InventoryService.IsMaxInventory() then
-		return
-	end
-	--local MyFarm = GetMyFarm()
 	local flag = false
 	local Farm_Important = MyFarm:FindFirstChild("Important")
 	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
 
 	if Plants_Physical then
 		for _, plant in pairs(Plants_Physical:GetChildren()) do
-			local Fruits = plant:FindFirstChild("Fruits")
-			if Fruits then
-				for _, fruit in pairs(Fruits:GetChildren()) do
-					if fruit:IsA("Model") then
-						local Prompt = fruit:FindFirstChild("ProximityPrompt", true)
-						if Prompt and Prompt.Enabled then
-							if fruit:GetAttribute("Heartstruck") == true then
-								CollectEvent:FireServer({ fruit })
-								flag = true
-								task.wait(CollectDelay)
-							end
-						end
-					end
-				end
-			else
-				if plant:IsA("Model") then
-					local Prompt = plant:FindFirstChild("ProximityPrompt", true)
+			local FruitsContainer = plant:FindFirstChild("Fruits")
+			local Fruits = FruitsContainer and FruitsContainer:GetChildren() or { plant }
+			for _, fruit in pairs(Fruits:GetChildren()) do
+				if fruit:IsA("Model") then
+					local Prompt = fruit:FindFirstChild("ProximityPrompt", true)
 					if Prompt and Prompt.Enabled then
-						if plant:GetAttribute("Heartstruck") == true then
-							CollectEvent:FireServer({ plant })
+						if
+							(fruit:GetAttribute("Heartstruck") or fruit:GetAttribute("Cute"))
+							and not InventoryService.IsMaxInventory()
+						then
+							CollectEvent:FireServer({ fruit })
 							flag = true
-							task.wait(CollectDelay)
+							task.wait()
 						end
 					end
 				end
 			end
+			task.wait()
 		end
 		return flag
 	end
 	return nil
 end
 
-local function ValentinesEvent()
-	if CollectValentines() then
-		local result = game:GetService("ReplicatedStorage")
-			:WaitForChild("GameEvents")
-			:WaitForChild("ValentinesEvent")
-			:WaitForChild("GiveHeartstruckFruits")
-			:InvokeServer()
-		task.wait(1)
-		--if result then
-		local currentCoins = DataService:GetData().SpecialCurrency.HeartCoins
-		local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed
-		Rewards = { 30, 200, 700, 2000, 10000 }
-		--Rewards = { 30, 100, 250, 600, 2000 }
-		for i = 1, 5 do
-			if currentCoins >= Rewards[i] and not ValentinesCompleted[i] then
-				game:GetService("ReplicatedStorage")
-					:WaitForChild("GameEvents")
-					:WaitForChild("ValentinesEvent")
-					:WaitForChild("ClaimValentineReward")
-					:FireServer(i)
-			end
-			task.wait(0.3)
+local function HasHeartstruck()
+	for _, v in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+		if v:GetAttribute("Heartstruck") or v:GetAttribute("Cute") then
+			return true
 		end
-		--end
+	end
+	return false
+end
+
+local function ValentinesEvent()
+	local currentCoins = DataService:GetData().SpecialCurrency.HeartCoins
+	local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed
+	Rewards = { 30, 200, 700, 2000, 10000 }
+	for i = 1, 5 do
+		if currentCoins >= Rewards[i] and not ValentinesCompleted[i] then
+			game:GetService("ReplicatedStorage")
+				:WaitForChild("GameEvents")
+				:WaitForChild("ValentinesEvent")
+				:WaitForChild("ClaimValentineReward")
+				:FireServer(i)
+		end
+		task.wait(0.3)
 	end
 end
 
@@ -2064,4 +2058,96 @@ task.spawn(function()
 		end
 		task.wait(60)
 	end
+end)
+task.spawn(function()
+	while true do
+		if ValentinesEnable then
+			pcall(function()
+				CollectValentines()
+				if HasHeartstruck() then
+					local result = game:GetService("ReplicatedStorage")
+						:WaitForChild("GameEvents")
+						:WaitForChild("ValentinesEvent")
+						:WaitForChild("GiveHeartstruckFruits")
+						:InvokeServer()
+					task.wait(0.3)
+				end
+			end)
+		end
+		task.wait(0.1)
+	end
+end)
+
+-- เริ่มการทำงานทันที (แยก Thread ออกมา)
+task.spawn(function()
+	while true do
+		-- 1. เช็คว่าเปิดใช้งานบอทหรือไม่
+		if not Options.tgCollectFruitEnable.Value then
+			table.clear(FruitQueue) -- ล้างคิวทิ้งถ้าปิดบอท
+			task.wait(1)
+			continue
+		end
+
+		-- 2. เช็คกระเป๋าเต็ม (สำคัญที่สุด!)
+		-- เช็คก่อนที่จะเริ่มหยิบของออกจากคิว
+		local success, isFull = pcall(function()
+			return InventoryService.IsMaxInventory(LocalPlayer)
+		end)
+
+		if success and isFull then
+			-- ถ้ากระเป๋าเต็ม: ล้างคิวทิ้ง เพื่อไม่ให้เก็บต่อ และรอ 1 วินาที
+			table.clear(FruitQueue)
+			-- print("Inventory Full - Paused")
+			task.wait(1)
+			continue
+		end
+
+		-- 3. การทำงานเมื่อมีของในคิว (Queue Processing)
+		if #FruitQueue > 0 then
+			-- ดึงผลไม้ชิ้นแรกออกจากคิว (FIFO)
+			local itemToCollect = table.remove(FruitQueue, 1)
+
+			-- เช็คซ้ำอีกครั้งว่าของยังอยู่จริงไหม (เผื่อโดนเก็บไปแล้ว หรือหลุดโหลด)
+			if itemToCollect and itemToCollect.Parent and itemToCollect:FindFirstChild("ProximityPrompt", true) then
+				-- ส่งคำสั่งเก็บ
+				CollectEvent:FireServer({ itemToCollect })
+
+				-- รอตาม Delay ที่ตั้งไว้
+				task.wait(CollectDelay)
+			end
+		else
+			-- 4. ถ้าคิวว่าง (ไม่มีของให้เก็บ)
+			-- สั่งให้ Producer เริ่มสแกนหารอบใหม่
+			if not IsScanning then
+				ScanFarmTask()
+			end
+			-- รอสักพักก่อนวนลูปเช็คใหม่ เพื่อลดการกิน CPU ตอนว่างงาน
+			task.wait(0.5)
+		end
+
+		-- Safety Yield (ป้องกัน Script Crash)
+		task.wait()
+	end
+end)
+
+---local AutoSellALL = true
+
+task.spawn(function()
+	pcall(function()
+		while Options.AutoSellALL.Value do
+			local success, isFull = pcall(function()
+				return InventoryService.IsMaxInventory(LocalPlayer)
+			end)
+
+			if success and isFull then
+				local Previous = Character:GetPivot()
+				Character:PivotTo(CFrame.new(36.58, 4.50, 0.43))
+				task.wait(0.3)
+				GameEvents.Sell_Inventory:FireServer()
+				task.wait(0.5)
+				Character:PivotTo(Previous)
+			end
+			task.wait(0.5)
+		end
+	end)
 end)
