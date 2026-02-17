@@ -59,6 +59,8 @@ local ProcessBuy, GetMyFarm, CheckFruit, AutoPlant, GetPosition, ScanFarmTask
 local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType, GetPetFavorite, GetPetHungerPercent, CheckMakeMutant, PetNightmare
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
 
+local IsScanning = false
+local FruitQueue = {}
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
 	Daily = "ROOT/SeedStocks/Daily Deals/Stocks",
@@ -1837,7 +1839,6 @@ end
 
 ScanFarmTask = function()
 	if IsScanning then
-		print("Wait")
 		return
 	end
 	IsScanning = true
@@ -1851,7 +1852,6 @@ ScanFarmTask = function()
 			IsScanning = false
 			return
 		end
-		print("Start Scan")
 		local Farm_Important = MyFarm:FindFirstChild("Important")
 		local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
 
