@@ -1413,7 +1413,7 @@ GetPetUUID = function(petName)
 		for _, uuid in pairs(UUIDs) do
 			local PetType = GetPetType(uuid)
 			if PetType and PetType == TargetPet then
-				if GetPetMutation(uuid) ~= TargetMutant and GetPetFavorite(uuid) == Options.UseFavoriteOnly.Value then
+				if GetPetMutation(uuid) ~= TargetMutant and (GetPetFavorite(uuid) or false) == Options.UseFavoriteOnly.Value then
 					InfoLog("Found pet in ActivePetUI: " .. PetType .. " (UUID: " .. uuid .. ")")
 					return uuid
 				end
@@ -1430,7 +1430,7 @@ GetPetUUID = function(petName)
 						if PetType and PetType == TargetPet then
 							if
 								GetPetMutation(uuid) ~= TargetMutant
-								and GetPetFavorite(uuid) == Options.UseFavoriteOnly.Value
+								and (GetPetFavorite(uuid) or false)== Options.UseFavoriteOnly.Value
 							then
 								InfoLog("Found pet in Backpack: " .. PetType .. " (UUID: " .. uuid .. ")")
 								return uuid
@@ -1946,7 +1946,7 @@ PetNightmare = function(uuid)
 		for _, container in ipairs(petsPhysical:GetChildren()) do
 			local PetModel = container:FindFirstChild(uuid)
 			if PetModel then
-				if heldItemName("Cleansing Pet Shard") then
+				heldItemName("Cleansing Pet Shard")
 					local args = {
 						"ApplyShard",
 						PetModel,
@@ -1955,7 +1955,7 @@ PetNightmare = function(uuid)
 						:WaitForChild("GameEvents")
 						:WaitForChild("PetShardService_RE")
 						:FireServer(unpack(args))
-				end
+				
 			end
 		end
 	elseif mutant and GetPetMutation(uuid) == "Nightmare" then
