@@ -1413,7 +1413,7 @@ GetPetUUID = function(petName)
 		for _, uuid in pairs(UUIDs) do
 			local PetType = GetPetType(uuid)
 			if PetType and PetType == TargetPet then
-				if GetPetMutation(uuid) ~= TargetMutant and GetPetFavorite(uuid) == Options.UseFavoriteOnly.Value then
+				if GetPetMutation(uuid) ~= TargetMutant and (GetPetFavorite(uuid) or false) == Options.UseFavoriteOnly.Value then
 					InfoLog("Found pet in ActivePetUI: " .. PetType .. " (UUID: " .. uuid .. ")")
 					return uuid
 				end
@@ -1430,7 +1430,7 @@ GetPetUUID = function(petName)
 						if PetType and PetType == TargetPet then
 							if
 								GetPetMutation(uuid) ~= TargetMutant
-								and GetPetFavorite(uuid) == Options.UseFavoriteOnly.Value
+								and (GetPetFavorite(uuid) or false) == Options.UseFavoriteOnly.Value
 							then
 								InfoLog("Found pet in Backpack: " .. PetType .. " (UUID: " .. uuid .. ")")
 								return uuid
