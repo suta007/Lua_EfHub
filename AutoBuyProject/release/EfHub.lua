@@ -1608,35 +1608,58 @@ ClaimMutantPet = function(uuid)
 end
 
 Mutation = function(uuid)
-	if Options.PetMode.Value ~= "Mutant" then
-		return
-	end
-	if Options.PetModeEnable.Value then
-		local TargetLevel = tonumber(Options.AgeLimitInput.Value) or 50
-		local TargetPet = Options.TargetPetDropdown.Value
-		targetUUID = uuid or GetPetUUID(TargetPet)
-		if targetUUID then
-			-- InfoLog("Found target pet: " .. TargetPet .. " (UUID: " .. targetUUID .. ")")
-			local age = GetPetLevel(targetUUID)
-			InfoLog("Current age of " .. TargetPet .. ": " .. tostring(age))
-			if age < TargetLevel then
-				Character:PivotTo(CFrame.new(FarmPoint.X, FarmPoint.Y, FarmPoint.Z))
-				task.wait(0.3)
-				InfoLog("Swapping to loadout " .. Options.LevelSlots.Value .. " to equip pet...")
-				SwapPetLoadout(Options.LevelSlots.Value)
-				task.wait(Options.LoadOutDelay.Value)
-				InfoLog("Equipping pet...")
-				pcall(function()
-					EquipPet(targetUUID)
-				end)
-			else
-				InfoLog("Send " .. TargetPet .. " to the Mutant Machine")
-				MakeMutant(targetUUID)
-			end
-		else
-			ErrorLog("Target pet '" .. TargetPet .. "' not found in backpack.")
-		end
-	end
+    if Options.PetModeEnable.Value then
+        local petMode = Options.PetMode.Value
+        local TargetLimit = tonumber(Options.AgeLimitInput.Value) or 50
+        local TargetPet = Options.TargetPetDropdown.Value
+        
+        -- ใช้ตัวแปร Global ตามที่พี่เอฟต้องการ
+        targetUUID = uuid 
+
+        if targetUUID then
+            local age = GetPetLevel(targetUUID)
+            -- InfoLog("Current level of " .. TargetPet .. ": " .. tostring(age))
+
+            local function IsEquipPet()
+                -- [แก้] ใช้ >= เพื่อให้หยุดเมื่อ "ถึง" เลเวลเป้าหมายพอดี (ไม่ต้องรอให้เกิน)
+                if petMode == "Mutant" and age >= TargetLimit then return false end
+                
+                -- เงื่อนไขหยุดของ Level และ Elephant (หยุดเมื่อถึงเป้า)
+                if (petMode == "Level" or petMode == "Elephant") and age >= TargetLimit then return false end
+                
+                -- เงื่อนไขหยุดของ Nightmare
+                if petMode == "Nightmare" and GetPetMutation(targetUUID) == "Nightmare" then return false end
+                
+                return true
+            end
+
+            if IsEquipPet() then
+                -- สั่งวาร์ปทันที (ไม่ต้องเช็ค Character เพราะพี่เอฟยืนยันว่าไม่มีตาย)
+                Character:PivotTo(CFrame.new(FarmPoint.X, FarmPoint.Y, FarmPoint.Z))
+                task.wait(0.3)
+                
+                InfoLog("Swapping to loadout " .. Options.LevelSlots.Value .. " to equip pet...")
+                SwapPetLoadout(Options.LevelSlots.Value)
+                task.wait(Options.LoadOutDelay.Value)
+                
+                InfoLog("Equipping pet...")
+                pcall(function()
+                    EquipPet(targetUUID)
+                end)
+
+            elseif petMode == "Mutant" then
+                -- ถ้าหลุดจาก IsEquipPet และเป็นโหมด Mutant แสดงว่าเลเวลถึงเป้าแล้ว -> ส่งไปต้ม
+                InfoLog("Send " .. TargetPet .. " to the Mutant Machine")
+                MakeMutant(targetUUID)
+                
+            else
+                -- ถ้าเป็นโหมดอื่นที่ถึงเป้าแล้ว ก็จบการทำงาน (Return)
+                return
+            end
+        else
+            ErrorLog("Target pet '" .. TargetPet .. "' not found in backpack.")
+        end
+    end
 end
 
 DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
