@@ -1683,7 +1683,7 @@ end
 
 DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 	local TargetLevel = tonumber(Options.AgeLimitInput.Value) or 50
-	local TargetPet = Options.TargetPetDropdown.Value or "None"
+	--local TargetPet = Options.TargetPetDropdown.Value or "None"
 
 	if Type ~= "UpdateData" then
 		return
@@ -1714,8 +1714,8 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 					elseif Options.PetMode.Value == "Mutant" then
 						CheckMakeMutant(targetUUID)
 					else
-						if GetPetLevel(targetUUID) == 100 then
-							UnequipPet(targetUUID)
+						if GetPetLevel(targetUUID) >= TargetLevel then
+							pcall(function() UnequipPet(targetUUID) end)
 							task.wait(1)
 							Mutation()
 						end
