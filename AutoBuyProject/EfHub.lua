@@ -56,7 +56,7 @@ local IsActivePet = false
 local ApplyAntiLag
 local DevLog
 local ProcessBuy, GetMyFarm, CheckFruit, AutoPlant, GetPosition, ScanFarmTask
-local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType, GetPetFavorite, GetPetHungerPercent, CheckMakeMutant, PetNightmare
+local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType, GetPetFavorite, GetPetHungerPercent, CheckMakeMutant, PetNightmare, GetPetBaseWeight
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
 
 local IsScanning = false
@@ -1432,6 +1432,7 @@ GetPetUUID = function(petName)
 			return false
 		end
 		-- เงื่อนไขเพิ่มเติมที่พี่เอฟต้องการ
+		--print("Weight : ".. tostring(GetPetBaseWeight(uuid)))
 		if petMode == "Elephant" and GetPetBaseWeight(uuid) > 3.8 then
 			return false
 		end
