@@ -1715,7 +1715,9 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 						CheckMakeMutant(targetUUID)
 					else
 						if GetPetLevel(targetUUID) >= TargetLevel then
-							pcall(function() UnequipPet(targetUUID) end)
+							pcall(function()
+								UnequipPet(targetUUID)
+							end)
 							task.wait(1)
 							Mutation()
 						end
@@ -2198,20 +2200,41 @@ end)
 
 task.spawn(function()
 	pcall(function()
-		while Options.AutoSellALL.Value do
-			local success, isFull = pcall(function()
-				return InventoryService.IsMaxInventory(LocalPlayer)
-			end)
+		while true do
+			if Options.AutoSellALL.Value then
+				local success, isFull = pcall(function()
+					return InventoryService.IsMaxInventory(LocalPlayer)
+				end)
 
-			if success and isFull then
-				local Previous = Character:GetPivot()
-				Character:PivotTo(CFrame.new(36.58, 4.50, 0.43))
-				task.wait(0.3)
-				GameEvents.Sell_Inventory:FireServer()
-				task.wait(0.5)
-				Character:PivotTo(Previous)
+				if success and isFull then
+					local Previous = Character:GetPivot()
+					Character:PivotTo(CFrame.new(36.58, 4.50, 0.43))
+					task.wait(0.3)
+					GameEvents.Sell_Inventory:FireServer()
+					task.wait(0.5)
+					Character:PivotTo(Previous)
+				end
 			end
-			task.wait(0.5)
+			task.wait()
+		end
+	end)
+end)
+
+
+task.spawn(function()
+	pcall(function()
+		while true do
+			local petMode = Options.PetMode.Value
+			if Options.PetModeEnable.Value and (petMode == "Elephant" or petMode == "Level")  then
+				if GetPetLevel(targetUUID) >= Options.AgeLimitInput.Value then
+							pcall(function()
+								UnequipPet(targetUUID)
+							end)
+							task.wait(1)
+							Mutation()
+						end
+			end
+			task.wait(10)
 		end
 	end)
 end)
