@@ -61,7 +61,7 @@ local GetPetHungerPercent, CheckMakeMutant, PetNightmare, GetPetBaseWeight
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
 
 local ViewportSize = workspace.CurrentCamera.ViewportSize
-local targetWidth = math.min(ViewportSize.X - 50, 550) 
+local targetWidth = math.min(ViewportSize.X - 50, 550)
 local targetHeight = math.min(ViewportSize.Y - 50, 350)
 
 local IsScanning = false
@@ -2226,21 +2226,19 @@ task.spawn(function()
 	end)
 end)
 
-
 task.spawn(function()
-	pcall(function()
-		while true do
-			local petMode = Options.PetMode.Value
-			if Options.PetModeEnable.Value and (petMode == "Elephant" or petMode == "Level")  then
-				if GetPetLevel(targetUUID) >= Options.AgeLimitInput.Value then
-							pcall(function()
-								UnequipPet(targetUUID)
-							end)
-							task.wait(1)
-							Mutation()
-						end
+	--pcall(function()
+	while true do
+		local petMode = Options.PetMode.Value
+		ErrorLog("Mode:" .. petMode .. "Level:" .. GetPetLevel(targetUUID) .. ":" .. Options.AgeLimitInput.Value)
+		if Options.PetModeEnable.Value and (petMode == "Elephant" or petMode == "Level") then
+			if GetPetLevel(targetUUID) >= tonumber(Options.AgeLimitInput.Value) then
+				UnequipPet(targetUUID)
+				task.wait(1)
+				Mutation()
 			end
-			task.wait(10)
 		end
-	end)
+		task.wait(10)
+	end
+	--end)
 end)

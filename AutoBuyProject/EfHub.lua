@@ -2228,11 +2228,12 @@ end)
 
 
 task.spawn(function()
-	pcall(function()
+	--pcall(function()
 		while true do
 			local petMode = Options.PetMode.Value
+			ErrorLog("Mode:"..petMode..'Level:'..GetPetLevel(targetUUID)..':'..Options.AgeLimitInput.Value)
 			if Options.PetModeEnable.Value and (petMode == "Elephant" or petMode == "Level")  then
-				if GetPetLevel(targetUUID) >= Options.AgeLimitInput.Value then
+				if GetPetLevel(targetUUID) >= tonumber(Options.AgeLimitInput.Value) then
 							pcall(function()
 								UnequipPet(targetUUID)
 							end)
@@ -2242,5 +2243,5 @@ task.spawn(function()
 			end
 			task.wait(10)
 		end
-	end)
+	--end)
 end)
