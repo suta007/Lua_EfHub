@@ -2230,10 +2230,11 @@ end)
 task.spawn(function()
 	--pcall(function()
 	while true do
-		local petMode = Options.PetMode.Value
-		ErrorLog("Mode:" .. petMode .. "Level:" .. GetPetLevel(targetUUID) .. ":" .. Options.AgeLimitInput.Value)
-		if Options.PetModeEnable.Value and (petMode == "Elephant" or petMode == "Level") then
+		local tPetMode = Options.PetMode.Value
+		--ErrorLog("Mode:" .. petMode .. "Level:" .. GetPetLevel(targetUUID) .. ":" .. Options.AgeLimitInput.Value)
+		if Options.PetModeEnable.Value and (tPetMode == "Elephant" or tPetMode == "Level") then
 			if GetPetLevel(targetUUID) >= tonumber(Options.AgeLimitInput.Value) then
+				SuccessLog("UnequipPet")
 				UnequipPet(targetUUID)
 				task.wait(1)
 				Mutation()

@@ -61,8 +61,9 @@ local GetPetHungerPercent, CheckMakeMutant, PetNightmare, GetPetBaseWeight
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
 
 local ViewportSize = workspace.CurrentCamera.ViewportSize
-local targetWidth = math.min(ViewportSize.X - 50, 550) 
-local targetHeight = math.min(ViewportSize.Y - 50, 350)
+local multiple = 1.75
+local targetWidth = (ViewportSize.X * multiple)
+local targetHeight = (ViewportSize.Y * multiple)+350
 
 local IsScanning = false
 local FruitQueue = {}
@@ -191,7 +192,7 @@ local Window = Fluent:CreateWindow({
 	Title = "Grow a Garden",
 	SubTitle = "by EfHub",
 	TabWidth = 100,
-	Size = UDim2.fromOffset(580, 460),
+	Size = UDim2.fromOffset(targetWidth, targetHeight), 
 	Resize = true,
 	MinSize = Vector2.new(580, 460),
 	Acrylic = true,
@@ -2226,22 +2227,20 @@ task.spawn(function()
 	end)
 end)
 
-
 task.spawn(function()
 	--pcall(function()
-		while true do
-			local petMode = Options.PetMode.Value
-			ErrorLog("Mode:"..petMode..'Level:'..GetPetLevel(targetUUID)..':'..Options.AgeLimitInput.Value)
-			if Options.PetModeEnable.Value and (petMode == "Elephant" or petMode == "Level")  then
-				if GetPetLevel(targetUUID) >= tonumber(Options.AgeLimitInput.Value) then
-							pcall(function()
-								UnequipPet(targetUUID)
-							end)
-							task.wait(1)
-							Mutation()
-						end
+	while true do
+		local tPetMode = Options.PetMode.Value
+		--ErrorLog("Mode:" .. petMode .. "Level:" .. GetPetLevel(targetUUID) .. ":" .. Options.AgeLimitInput.Value)
+		if Options.PetModeEnable.Value and (tPetMode == "Elephant" or tPetMode == "Level") then
+			if GetPetLevel(targetUUID) >= tonumber(Options.AgeLimitInput.Value) then
+				SuccessLog("UnequipPet")
+				UnequipPet(targetUUID)
+				task.wait(1)
+				Mutation()
 			end
-			task.wait(10)
 		end
+		task.wait(10)
+	end
 	--end)
 end)
