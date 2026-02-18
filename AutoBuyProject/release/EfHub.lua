@@ -60,6 +60,10 @@ local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType, GetP
 local GetPetHungerPercent, CheckMakeMutant, PetNightmare, GetPetBaseWeight
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
 
+local ViewportSize = workspace.CurrentCamera.ViewportSize
+local targetWidth = math.min(ViewportSize.X - 50, 550) 
+local targetHeight = math.min(ViewportSize.Y - 50, 350)
+
 local IsScanning = false
 local FruitQueue = {}
 local ShopKey = {
@@ -187,9 +191,8 @@ local Window = Fluent:CreateWindow({
 	Title = "Grow a Garden",
 	SubTitle = "by EfHub",
 	TabWidth = 100,
-	Size = UDim2.fromOffset(1200, 768),
+	Size = UDim2.fromOffset(targetWidth, targetHeight),
 	Resize = true,
-	-- MinSize = Vector2.new(470, 380),
 	Acrylic = true,
 	Theme = "Darker",
 	MinimizeKey = Enum.KeyCode.RightControl,
