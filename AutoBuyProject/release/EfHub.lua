@@ -1398,53 +1398,68 @@ GetPetFavorite = function(uuid)
 	return nil
 end
 
-GetPetUUID = function(petName)
-	local TargetPet = petName -- PetSetting["PetMode"].TargetPet
-	local name
-	local TargetMutant = "EfHub"
-
-	if Options.PetMode.Value == "Nightmare" then
-		TargetMutant = "Nightmare"
-	elseif Options.PetMode.Value == "Mutant" then
-		TargetMutant = Options.TargetMutantDropdown.Value
+GetPetBaseWeight = function(uuid)
+	local data = GetRawPetData(uuid)
+	if data and data.PetData then
+		local BaseWeight = data.PetData.BaseWeight
+		if BaseWeight then
+			return BaseWeight
+		end
 	end
-	local timeout = 10
-	local startTime = tick()
-	repeat
-		local UUIDs = GetEquippedPetsUUID()
-		for _, uuid in pairs(UUIDs) do
-			local PetType = GetPetType(uuid)
-			if PetType and PetType == TargetPet then
-				if GetPetMutation(uuid) ~= TargetMutant and (GetPetFavorite(uuid) or false) == Options.UseFavoriteOnly.Value then
-					InfoLog("Found pet in ActivePetUI: " .. PetType .. " (UUID: " .. uuid .. ")")
-					return uuid
-				end
-			end
-		end
-		local GetData_result = DataService:GetData()
-		local PetInventory = GetData_result.PetsData.PetInventory
-		if PetInventory then
-			for k, v in pairs(PetInventory) do
-				if type(v) == "table" then
-					for _, Data in pairs(v) do
-						local PetType = Data.PetType
-						local uuid = Data.UUID
-						if PetType and PetType == TargetPet then
-							if
-								GetPetMutation(uuid) ~= TargetMutant
-								and (GetPetFavorite(uuid) or false) == Options.UseFavoriteOnly.Value
-							then
-								InfoLog("Found pet in Backpack: " .. PetType .. " (UUID: " .. uuid .. ")")
-								return uuid
-							end
-						end
-					end
-				end
-			end
-		end
-		task.wait(0.5)
-	until tick() - startTime > timeout
 	return nil
+end
+
+GetPetUUID = function(petName)
+    local petMode = Options.PetMode.Value
+    local useFavOnly = Options.UseFavoriteOnly.Value
+    local targetMutant = "EfHub"
+    
+    if petMode == "Nightmare" then targetMutant = "Nightmare"
+    elseif petMode == "Mutant" then targetMutant = Options.TargetMutantDropdown.Value end
+
+    -- ฟังก์ชันเช็คเงื่อนไข (เพื่อลดความซ้ำซ้อนและเพิ่มความเร็ว)
+    local function IsValidPet(uuid, pType)
+        if pType ~= petName then return false end
+        if GetPetMutation(uuid) == targetMutant then return false end
+        if (GetPetFavorite(uuid) or false) ~= useFavOnly then return false end
+
+        -- เงื่อนไขเพิ่มเติมที่พี่เอฟต้องการ
+        if petMode == "Elephant" and GetPetBaseWeight(uuid) > 3.8 then return false end
+        if petMode == "Level" and GetPetLevel(uuid) >= 100 then return false end
+
+        return true
+    end
+
+    local startTime = tick()
+    repeat
+        -- 1. เช็คจากสัตว์เลี้ยงที่สวมใส่อยู่ (เร็วกว่า)
+        for _, uuid in pairs(GetEquippedPetsUUID()) do
+            local pType = GetPetType(uuid)
+            if IsValidPet(uuid, pType) then
+                InfoLog("Found pet (Equipped): " .. pType .. " [" .. uuid .. "]")
+                return uuid
+            end
+        end
+
+        -- 2. เช็คจาก Inventory
+        local data = DataService:GetData()
+        local inventory = data and data.PetsData and data.PetsData.PetInventory
+        if inventory then
+            for _, v in pairs(inventory) do
+                if type(v) == "table" then
+                    for _, petData in pairs(v) do
+                        if IsValidPet(petData.UUID, petData.PetType) then
+                            InfoLog("Found pet (Backpack): " .. petData.PetType .. " [" .. petData.UUID .. "]")
+                            return petData.UUID
+                        end
+                    end
+                end
+            end
+        end
+
+        task.wait(0.5)
+    until tick() - startTime > 10
+    return nil
 end
 
 EquipPet = function(uuid)
@@ -1522,6 +1537,9 @@ IsActivePet = function(uuid)
 end
 
 MakeMutant = function(uuid)
+    if Options.PetMode.Value ~= "Mutant" then
+		return
+	end
 	SwapPetLoadout(Options.TimeSlots.Value)
 	task.wait(Options.LoadOutDelay.Value)
 	Character:PivotTo(CFrame.new(-236.17, 4.50, 14.36))
@@ -1590,7 +1608,9 @@ ClaimMutantPet = function(uuid)
 end
 
 Mutation = function(uuid)
-	-- if PetSetting["PetMode"].Enabled then
+	if Options.PetMode.Value ~= "Mutant" then
+		return
+	end
 	if Options.PetModeEnable.Value then
 		local TargetLevel = tonumber(Options.AgeLimitInput.Value) or 50
 		local TargetPet = Options.TargetPetDropdown.Value
@@ -1659,7 +1679,7 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 						end
 					end --Elephant
 				elseif Key == "ROOT/PetMutationMachine/PetReady" then
-					if Mutanting then
+					if Mutanting and Options.PetMode.Value == "Mutant" then
 						ClaimMutantPet(targetUUID)
 					end
 					task.wait(0.3)
@@ -1924,6 +1944,9 @@ AutoPlant = function()
 end
 
 CheckMakeMutant = function(uuid)
+    if Options.PetMode.Value ~= "Mutant" then
+		return false
+	end
 	local TargetLevel = tonumber(Options.AgeLimitInput.Value) or 50
 	local age = GetPetLevel(uuid)
 	if not age then
