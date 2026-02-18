@@ -1401,7 +1401,7 @@ end
 GetPetBaseWeight = function(uuid)
 	local data = GetRawPetData(uuid)
 	if data and data.PetData then
-		local BaseWeight = data.PetData.BaseWeight
+		local BaseWeight = tonumber(data.PetData.BaseWeight)
 		if BaseWeight then
 			return BaseWeight
 		end
@@ -1420,12 +1420,17 @@ GetPetUUID = function(petName)
     -- ฟังก์ชันเช็คเงื่อนไข (เพื่อลดความซ้ำซ้อนและเพิ่มความเร็ว)
     local function IsValidPet(uuid, pType)
         if pType ~= petName then return false end
-        if GetPetMutation(uuid) == targetMutant then return false end
+		print("Type Pass")
+        if (petMode == "Mutant" or petMode == "Nightmare") and GetPetMutation(uuid) == targetMutant then return false end
+		print("Mutant pass")
         if (GetPetFavorite(uuid) or false) ~= useFavOnly then return false end
-
+		print("Favorite pass")
         -- เงื่อนไขเพิ่มเติมที่พี่เอฟต้องการ
         if petMode == "Elephant" and GetPetBaseWeight(uuid) > 3.8 then return false end
+		print("Elephant pass")
         if petMode == "Level" and GetPetLevel(uuid) >= 100 then return false end
+		print("Level pass")
+		print("All pass")
 
         return true
     end
@@ -1614,7 +1619,7 @@ Mutation = function(uuid)
         local TargetPet = Options.TargetPetDropdown.Value
         
         -- ใช้ตัวแปร Global ตามที่พี่เอฟต้องการ
-        targetUUID = uuid 
+        targetUUID = uuid or GetPetUUID(TargetPet)
 
         if targetUUID then
             local age = GetPetLevel(targetUUID)
@@ -1625,8 +1630,9 @@ Mutation = function(uuid)
                 if petMode == "Mutant" and age >= TargetLimit then return false end
                 
                 -- เงื่อนไขหยุดของ Level และ Elephant (หยุดเมื่อถึงเป้า)
-                if (petMode == "Level" or petMode == "Elephant") and age >= TargetLimit then return false end
+                if petMode == "Level" and age >= TargetLimit then return false end
                 
+				if petMode == "Elephant" and age >= TargetLimit and GetPetBaseWeight(targetUUID) > 3.8 then return false end
                 -- เงื่อนไขหยุดของ Nightmare
                 if petMode == "Nightmare" and GetPetMutation(targetUUID) == "Nightmare" then return false end
                 
