@@ -1433,8 +1433,8 @@ GetPetUUID = function(petName)
 			return false
 		end
 		-- เงื่อนไขเพิ่มเติมที่พี่เอฟต้องการ
-		print("Weight : ".. tostring(GetPetBaseWeight(uuid)))
-		if petMode == "Elephant" and GetPetBaseWeight(uuid) > 3.8 then
+		--InfoLog("Weight : ".. tostring(GetPetBaseWeight(uuid)))
+		if petMode == "Elephant" and GetPetBaseWeight(uuid) > 3.5 then
 			return false
 		end
 		if petMode == "Level" and GetPetLevel(uuid) >= 100 then
@@ -1645,7 +1645,7 @@ Mutation = function(uuid)
 					return false
 				end
 
-				if petMode == "Elephant" and age >= TargetLimit and GetPetBaseWeight(targetUUID) > 3.8 then
+				if petMode == "Elephant" and age >= TargetLimit and GetPetBaseWeight(targetUUID) > 3.5 then
 					return false
 				end
 				-- เงื่อนไขหยุดของ Nightmare
