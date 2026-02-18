@@ -35,3 +35,117 @@ if item:GetAttribute("PET_UUID") == "{8434e935-332f-473c-b0b1-19d7c54565c1}" the
 end
 end
 
+
+
+	if Options.PetMode.Value ~= "Mutant" then
+		return false
+	end
+
+
+
+	ช่วยทำ code นี้ให้ สั้นลงหน่อย และ ทำให้เร็วขึ้นได้ก็ยิ่งดี
+
+
+
+GetPetUUID = function(petName)
+
+    local TargetPet = petName -- PetSetting["PetMode"].TargetPet
+
+    local name
+
+    local TargetMutant = "EfHub"
+
+
+
+    if Options.PetMode.Value == "Nightmare" then
+
+        TargetMutant = "Nightmare"
+
+    elseif Options.PetMode.Value == "Mutant" then
+
+        TargetMutant = Options.TargetMutantDropdown.Value
+
+    end
+
+    local timeout = 10
+
+    local startTime = tick()
+
+    repeat
+
+        local UUIDs = GetEquippedPetsUUID()
+
+        for _, uuid in pairs(UUIDs) do
+
+            local PetType = GetPetType(uuid)
+
+            if PetType and PetType == TargetPet then
+
+                if GetPetMutation(uuid) ~= TargetMutant and (GetPetFavorite(uuid) or false) == Options.UseFavoriteOnly.Value then
+
+                    InfoLog("Found pet in ActivePetUI: " .. PetType .. " (UUID: " .. uuid .. ")")
+
+                    return uuid
+
+                end
+
+            end
+
+        end
+
+        local GetData_result = DataService:GetData()
+
+        local PetInventory = GetData_result.PetsData.PetInventory
+
+        if PetInventory then
+
+            for k, v in pairs(PetInventory) do
+
+                if type(v) == "table" then
+
+                    for _, Data in pairs(v) do
+
+                        local PetType = Data.PetType
+
+                        local uuid = Data.UUID
+
+                        if PetType and PetType == TargetPet then
+
+                            if
+
+                                GetPetMutation(uuid) ~= TargetMutant
+
+                                and (GetPetFavorite(uuid) or false) == Options.UseFavoriteOnly.Value
+
+                            then
+
+                                InfoLog("Found pet in Backpack: " .. PetType .. " (UUID: " .. uuid .. ")")
+
+                                return uuid
+
+                            end
+
+                        end
+
+                    end
+
+                end
+
+            end
+
+        end
+
+        task.wait(0.5)
+
+    until tick() - startTime > timeout
+
+    return nil
+
+end
+
+และ ในส่วนนี้
+if GetPetMutation(uuid) ~= TargetMutant and (GetPetFavorite(uuid) or false) == Options.UseFavoriteOnly.Value then
+
+	อยากเพิ่มเงื่อนไข 
+	1. ถ้า Options.PetMode.Value == "Elephant" ให้เช็ค GetPetBaseWeight(uuid) <= 3.8
+	2. ถ้า Options.PetMode.Value == "Level" ใช้เช็ค GetPetLevel < 100
