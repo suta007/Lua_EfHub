@@ -1433,7 +1433,7 @@ GetPetUUID = function(petName)
 			return false
 		end
 		-- เงื่อนไขเพิ่มเติมที่พี่เอฟต้องการ
-		--print("Weight : ".. tostring(GetPetBaseWeight(uuid)))
+		print("Weight : ".. tostring(GetPetBaseWeight(uuid)))
 		if petMode == "Elephant" and GetPetBaseWeight(uuid) > 3.8 then
 			return false
 		end
