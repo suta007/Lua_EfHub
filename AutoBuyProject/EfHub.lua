@@ -1410,61 +1410,68 @@ GetPetBaseWeight = function(uuid)
 end
 
 GetPetUUID = function(petName)
-    local petMode = Options.PetMode.Value
-    local useFavOnly = Options.UseFavoriteOnly.Value
-    local targetMutant = "EfHub"
-    
-    if petMode == "Nightmare" then targetMutant = "Nightmare"
-    elseif petMode == "Mutant" then targetMutant = Options.TargetMutantDropdown.Value end
+	local petMode = Options.PetMode.Value
+	local useFavOnly = Options.UseFavoriteOnly.Value
+	local targetMutant = "EfHub"
 
-    -- ฟังก์ชันเช็คเงื่อนไข (เพื่อลดความซ้ำซ้อนและเพิ่มความเร็ว)
-    local function IsValidPet(uuid, pType)
-        if pType ~= petName then return false end
-		print("Type Pass")
-        if (petMode == "Mutant" or petMode == "Nightmare") and GetPetMutation(uuid) == targetMutant then return false end
-		print("Mutant pass")
-        if (GetPetFavorite(uuid) or false) ~= useFavOnly then return false end
-		print("Favorite pass")
-        -- เงื่อนไขเพิ่มเติมที่พี่เอฟต้องการ
-        if petMode == "Elephant" and GetPetBaseWeight(uuid) > 3.8 then return false end
-		print("Elephant pass")
-        if petMode == "Level" and GetPetLevel(uuid) >= 100 then return false end
-		print("Level pass")
-		print("All pass")
+	if petMode == "Nightmare" then
+		targetMutant = "Nightmare"
+	elseif petMode == "Mutant" then
+		targetMutant = Options.TargetMutantDropdown.Value
+	end
 
-        return true
-    end
+	-- ฟังก์ชันเช็คเงื่อนไข (เพื่อลดความซ้ำซ้อนและเพิ่มความเร็ว)
+	local function IsValidPet(uuid, pType)
+		if pType ~= petName then
+			return false
+		end
+		if (petMode == "Mutant" or petMode == "Nightmare") and GetPetMutation(uuid) == targetMutant then
+			return false
+		end
+		if (GetPetFavorite(uuid) or false) ~= useFavOnly then
+			return false
+		end
+		-- เงื่อนไขเพิ่มเติมที่พี่เอฟต้องการ
+		if petMode == "Elephant" and GetPetBaseWeight(uuid) > 3.8 then
+			return false
+		end
+		if petMode == "Level" and GetPetLevel(uuid) >= 100 then
+			return false
+		end
 
-    local startTime = tick()
-    repeat
-        -- 1. เช็คจากสัตว์เลี้ยงที่สวมใส่อยู่ (เร็วกว่า)
-        for _, uuid in pairs(GetEquippedPetsUUID()) do
-            local pType = GetPetType(uuid)
-            if IsValidPet(uuid, pType) then
-                InfoLog("Found pet (Equipped): " .. pType .. " [" .. uuid .. "]")
-                return uuid
-            end
-        end
+		return true
+	end
 
-        -- 2. เช็คจาก Inventory
-        local data = DataService:GetData()
-        local inventory = data and data.PetsData and data.PetsData.PetInventory
-        if inventory then
-            for _, v in pairs(inventory) do
-                if type(v) == "table" then
-                    for _, petData in pairs(v) do
-                        if IsValidPet(petData.UUID, petData.PetType) then
-                            InfoLog("Found pet (Backpack): " .. petData.PetType .. " [" .. petData.UUID .. "]")
-                            return petData.UUID
-                        end
-                    end
-                end
-            end
-        end
+	local startTime = tick()
+	repeat
+		-- 1. เช็คจากสัตว์เลี้ยงที่สวมใส่อยู่ (เร็วกว่า)
+		for _, uuid in pairs(GetEquippedPetsUUID()) do
+			local pType = GetPetType(uuid)
+			if IsValidPet(uuid, pType) then
+				InfoLog("Found pet (Equipped): " .. pType .. " [" .. uuid .. "]")
+				return uuid
+			end
+		end
 
-        task.wait(0.5)
-    until tick() - startTime > 10
-    return nil
+		-- 2. เช็คจาก Inventory
+		local data = DataService:GetData()
+		local inventory = data and data.PetsData and data.PetsData.PetInventory
+		if inventory then
+			for _, v in pairs(inventory) do
+				if type(v) == "table" then
+					for _, petData in pairs(v) do
+						if IsValidPet(petData.UUID, petData.PetType) then
+							InfoLog("Found pet (Backpack): " .. petData.PetType .. " [" .. petData.UUID .. "]")
+							return petData.UUID
+						end
+					end
+				end
+			end
+		end
+
+		task.wait(0.5)
+	until tick() - startTime > 10
+	return nil
 end
 
 EquipPet = function(uuid)
@@ -1542,7 +1549,7 @@ IsActivePet = function(uuid)
 end
 
 MakeMutant = function(uuid)
-    if Options.PetMode.Value ~= "Mutant" then
+	if Options.PetMode.Value ~= "Mutant" then
 		return
 	end
 	SwapPetLoadout(Options.TimeSlots.Value)
@@ -1613,59 +1620,65 @@ ClaimMutantPet = function(uuid)
 end
 
 Mutation = function(uuid)
-    if Options.PetModeEnable.Value then
-        local petMode = Options.PetMode.Value
-        local TargetLimit = tonumber(Options.AgeLimitInput.Value) or 50
-        local TargetPet = Options.TargetPetDropdown.Value
-        
-        -- ใช้ตัวแปร Global ตามที่พี่เอฟต้องการ
-        targetUUID = uuid or GetPetUUID(TargetPet)
+	if Options.PetModeEnable.Value then
+		local petMode = Options.PetMode.Value
+		local TargetLimit = tonumber(Options.AgeLimitInput.Value) or 50
+		local TargetPet = Options.TargetPetDropdown.Value
 
-        if targetUUID then
-            local age = GetPetLevel(targetUUID)
-            -- InfoLog("Current level of " .. TargetPet .. ": " .. tostring(age))
+		-- ใช้ตัวแปร Global ตามที่พี่เอฟต้องการ
+		targetUUID = uuid or GetPetUUID(TargetPet)
 
-            local function IsEquipPet()
-                -- [แก้] ใช้ >= เพื่อให้หยุดเมื่อ "ถึง" เลเวลเป้าหมายพอดี (ไม่ต้องรอให้เกิน)
-                if petMode == "Mutant" and age >= TargetLimit then return false end
-                
-                -- เงื่อนไขหยุดของ Level และ Elephant (หยุดเมื่อถึงเป้า)
-                if petMode == "Level" and age >= TargetLimit then return false end
-                
-				if petMode == "Elephant" and age >= TargetLimit and GetPetBaseWeight(targetUUID) > 3.8 then return false end
-                -- เงื่อนไขหยุดของ Nightmare
-                if petMode == "Nightmare" and GetPetMutation(targetUUID) == "Nightmare" then return false end
-                
-                return true
-            end
+		if targetUUID then
+			local age = GetPetLevel(targetUUID)
+			-- InfoLog("Current level of " .. TargetPet .. ": " .. tostring(age))
 
-            if IsEquipPet() then
-                -- สั่งวาร์ปทันที (ไม่ต้องเช็ค Character เพราะพี่เอฟยืนยันว่าไม่มีตาย)
-                Character:PivotTo(CFrame.new(FarmPoint.X, FarmPoint.Y, FarmPoint.Z))
-                task.wait(0.3)
-                
-                InfoLog("Swapping to loadout " .. Options.LevelSlots.Value .. " to equip pet...")
-                SwapPetLoadout(Options.LevelSlots.Value)
-                task.wait(Options.LoadOutDelay.Value)
-                
-                InfoLog("Equipping pet...")
-                pcall(function()
-                    EquipPet(targetUUID)
-                end)
+			local function IsEquipPet()
+				-- [แก้] ใช้ >= เพื่อให้หยุดเมื่อ "ถึง" เลเวลเป้าหมายพอดี (ไม่ต้องรอให้เกิน)
+				if petMode == "Mutant" and age >= TargetLimit then
+					return false
+				end
 
-            elseif petMode == "Mutant" then
-                -- ถ้าหลุดจาก IsEquipPet และเป็นโหมด Mutant แสดงว่าเลเวลถึงเป้าแล้ว -> ส่งไปต้ม
-                InfoLog("Send " .. TargetPet .. " to the Mutant Machine")
-                MakeMutant(targetUUID)
-                
-            else
-                -- ถ้าเป็นโหมดอื่นที่ถึงเป้าแล้ว ก็จบการทำงาน (Return)
-                return
-            end
-        else
-            ErrorLog("Target pet '" .. TargetPet .. "' not found in backpack.")
-        end
-    end
+				-- เงื่อนไขหยุดของ Level และ Elephant (หยุดเมื่อถึงเป้า)
+				if petMode == "Level" and age >= TargetLimit then
+					return false
+				end
+
+				if petMode == "Elephant" and age >= TargetLimit and GetPetBaseWeight(targetUUID) > 3.8 then
+					return false
+				end
+				-- เงื่อนไขหยุดของ Nightmare
+				if petMode == "Nightmare" and GetPetMutation(targetUUID) == "Nightmare" then
+					return false
+				end
+
+				return true
+			end
+
+			if IsEquipPet() then
+				-- สั่งวาร์ปทันที (ไม่ต้องเช็ค Character เพราะพี่เอฟยืนยันว่าไม่มีตาย)
+				Character:PivotTo(CFrame.new(FarmPoint.X, FarmPoint.Y, FarmPoint.Z))
+				task.wait(0.3)
+
+				InfoLog("Swapping to loadout " .. Options.LevelSlots.Value .. " to equip pet...")
+				SwapPetLoadout(Options.LevelSlots.Value)
+				task.wait(Options.LoadOutDelay.Value)
+
+				InfoLog("Equipping pet...")
+				pcall(function()
+					EquipPet(targetUUID)
+				end)
+			elseif petMode == "Mutant" then
+				-- ถ้าหลุดจาก IsEquipPet และเป็นโหมด Mutant แสดงว่าเลเวลถึงเป้าแล้ว -> ส่งไปต้ม
+				InfoLog("Send " .. TargetPet .. " to the Mutant Machine")
+				MakeMutant(targetUUID)
+			else
+				-- ถ้าเป็นโหมดอื่นที่ถึงเป้าแล้ว ก็จบการทำงาน (Return)
+				return
+			end
+		else
+			ErrorLog("Target pet '" .. TargetPet .. "' not found in backpack.")
+		end
+	end
 end
 
 DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
@@ -1973,7 +1986,7 @@ AutoPlant = function()
 end
 
 CheckMakeMutant = function(uuid)
-    if Options.PetMode.Value ~= "Mutant" then
+	if Options.PetMode.Value ~= "Mutant" then
 		return false
 	end
 	local TargetLevel = tonumber(Options.AgeLimitInput.Value) or 50
@@ -1999,15 +2012,14 @@ PetNightmare = function(uuid)
 			local PetModel = container:FindFirstChild(uuid)
 			if PetModel then
 				heldItemName("Cleansing Pet Shard")
-					local args = {
-						"ApplyShard",
-						PetModel,
-					}
-					game:GetService("ReplicatedStorage")
-						:WaitForChild("GameEvents")
-						:WaitForChild("PetShardService_RE")
-						:FireServer(unpack(args))
-				
+				local args = {
+					"ApplyShard",
+					PetModel,
+				}
+				game:GetService("ReplicatedStorage")
+					:WaitForChild("GameEvents")
+					:WaitForChild("PetShardService_RE")
+					:FireServer(unpack(args))
 			end
 		end
 	elseif mutant and GetPetMutation(uuid) == "Nightmare" then
