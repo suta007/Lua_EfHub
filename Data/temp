@@ -158,19 +158,6 @@ local Fluent = loadstring(
 )()
 
 
-local Window = Fluent:CreateWindow({
-    Title = "Grow a Garden",
-    SubTitle = "by EfHub",
-    TabWidth = 100, -- ลดความกว้าง Tab ลงเล็กน้อยเพื่อให้เหมาะกับจอมือถือ
-Size = UDim2.fromOffset(830, 525),
-    Resize = true, -- Resize this ^ Size according to a 1920x1080 screen, good for mobile users but may look weird on some devices
-    MinSize = Vector2.new(470, 380),
-    Acrylic = true,
-    Theme = "Darker",
-    MinimizeKey = Enum.KeyCode.RightControl,
-})
-
-
 local ViewportSize = workspace.CurrentCamera.ViewportSize
 local multiple = 1.75
 local targetWidth = (ViewportSize.X * multiple)

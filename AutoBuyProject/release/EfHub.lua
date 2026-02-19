@@ -1467,9 +1467,11 @@ GetPetUUID = function(petName)
 			for _, v in pairs(inventory) do
 				if type(v) == "table" then
 					for _, petData in pairs(v) do
-						if IsValidPet(petData.UUID, petData.PetType) then
-							InfoLog("Found pet (Backpack): " .. petData.PetType .. " [" .. petData.UUID .. "]")
-							return petData.UUID
+						local uuid = petData.UUID
+						local tPetType = petData.PetType
+						if type(uuid)=="string" and type(tPetType)=="string" and IsValidPet(uuid, tPetType) then
+							InfoLog("Found pet (Backpack): " .. tPetType .. " : " .. uuid ..)
+							return uuid
 						end
 					end
 				end
