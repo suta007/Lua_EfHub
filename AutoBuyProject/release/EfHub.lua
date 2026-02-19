@@ -1,4 +1,4 @@
-local Fluent = = loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau", true))()
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau", true))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"))()
 local CollapsibleAddon = loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua"))()
@@ -1460,7 +1460,7 @@ GetPetUUID = function(petName)
 						local uuid = petData.UUID
 						local tPetType = petData.PetType
 						if type(uuid)=="string" and type(tPetType)=="string" and IsValidPet(uuid, tPetType) then
-							InfoLog("Found pet (Backpack): " .. tPetType .. " : " .. uuid ..)
+							InfoLog("Found pet (Backpack): " .. tPetType .. " : " .. uuid)
 							return uuid
 						end
 					end

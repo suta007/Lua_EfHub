@@ -7,3 +7,6 @@ for _, v in ipairs(data) do
     end)
     task.wait()
 end
+
+
+https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau

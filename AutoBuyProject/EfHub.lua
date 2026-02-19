@@ -1,4 +1,4 @@
-local Fluent = loadstring(game:HttpGet("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau"))()
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau", true))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"))()
 local CollapsibleAddon = loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua"))()
@@ -52,8 +52,8 @@ local GetEquippedPetsUUID, FindFruitInv, FeedPet
 
 local ViewportSize = workspace.CurrentCamera.ViewportSize
 local multiple = 1.75
-local targetWidth = (ViewportSize.X * multiple)
-local targetHeight = (ViewportSize.Y * multiple)+350
+local targetWidth = 1280 --(ViewportSize.X * multiple)
+local targetHeight = 768-- (ViewportSize.Y * multiple)+350
 
 local IsScanning = false
 local FruitQueue = {}
@@ -1460,7 +1460,7 @@ GetPetUUID = function(petName)
 						local uuid = petData.UUID
 						local tPetType = petData.PetType
 						if type(uuid)=="string" and type(tPetType)=="string" and IsValidPet(uuid, tPetType) then
-							InfoLog("Found pet (Backpack): " .. tPetType .. " : " .. uuid ..)
+							InfoLog("Found pet (Backpack): " .. tPetType .. " : " .. uuid)
 							return uuid
 						end
 					end
