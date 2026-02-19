@@ -24,6 +24,7 @@ local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
+local fVersion = "2569.02.19-10.36"
 local DevMode = false
 local DevNoti
 local IsLoading = true
@@ -52,8 +53,8 @@ local GetEquippedPetsUUID, FindFruitInv, FeedPet
 
 local ViewportSize = workspace.CurrentCamera.ViewportSize
 local multiple = 1.75
-local targetWidth = (ViewportSize.X * multiple)
-local targetHeight = (ViewportSize.Y * multiple)+350
+local targetWidth = 1280 --(ViewportSize.X * multiple)
+local targetHeight = 768-- (ViewportSize.Y * multiple)+350
 
 local IsScanning = false
 local FruitQueue = {}
@@ -179,7 +180,7 @@ ProcessBuy = function(ShopKey, StockData)
 end
 
 local Window = Fluent:CreateWindow({
-	Title = "Grow a Garden",
+	Title = "Grow a Garden "..fVersion,
 	SubTitle = "by EfHub",
 	TabWidth = 100,
 	Size = UDim2.fromOffset(targetWidth, targetHeight), 

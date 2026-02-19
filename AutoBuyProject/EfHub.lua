@@ -24,6 +24,7 @@ local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
+local fVersion = "2569.02.19-10.36"
 local DevMode = false
 local DevNoti
 local IsLoading = true
@@ -179,7 +180,7 @@ ProcessBuy = function(ShopKey, StockData)
 end
 
 local Window = Fluent:CreateWindow({
-	Title = "Grow a Garden",
+	Title = "Grow a Garden "..fVersion,
 	SubTitle = "by EfHub",
 	TabWidth = 100,
 	Size = UDim2.fromOffset(targetWidth, targetHeight), 
