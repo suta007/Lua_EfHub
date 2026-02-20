@@ -1,7 +1,20 @@
-local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau", true))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"))()
-local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"))()
-local CollapsibleAddon = loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua"))()
+local Fluent = loadstring(
+	game:HttpGet(
+		"https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau",
+		true
+	)
+)()
+local SaveManager = loadstring(
+	game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau")
+)()
+local InterfaceManager = loadstring(
+	game:HttpGet(
+		"https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"
+	)
+)()
+local CollapsibleAddon = loadstring(
+	game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua")
+)()
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
@@ -24,7 +37,7 @@ local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
-local fVersion = "2569.02.19-10.36"
+local fVersion = "2569.02.20-09.55"
 local DevMode = false
 local DevNoti
 local IsLoading = true
@@ -47,14 +60,15 @@ local IsActivePet = false
 local ApplyAntiLag
 local DevLog
 local ProcessBuy, GetMyFarm, CheckFruit, AutoPlant, GetPosition, ScanFarmTask
-local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType, GetPetFavorite
+local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType
 local GetPetHungerPercent, CheckMakeMutant, PetNightmare, GetPetBaseWeight
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
+local MakePetFavorite, MakePetUnfavorite, GetPetFavorite
 
 local ViewportSize = workspace.CurrentCamera.ViewportSize
 local multiple = 1.75
 local targetWidth = 1280 --(ViewportSize.X * multiple)
-local targetHeight = 768-- (ViewportSize.Y * multiple)+350
+local targetHeight = 768 -- (ViewportSize.Y * multiple)+350
 
 local IsScanning = false
 local FruitQueue = {}
@@ -180,10 +194,10 @@ ProcessBuy = function(ShopKey, StockData)
 end
 
 local Window = Fluent:CreateWindow({
-	Title = "Grow a Garden "..fVersion,
+	Title = "Grow a Garden " .. fVersion,
 	SubTitle = "by EfHub",
 	TabWidth = 100,
-	Size = UDim2.fromOffset(targetWidth, targetHeight), 
+	Size = UDim2.fromOffset(targetWidth, targetHeight),
 	Resize = true,
 	MinSize = Vector2.new(580, 460),
 	Acrylic = true,
@@ -1395,6 +1409,49 @@ GetPetFavorite = function(uuid)
 	return nil
 end
 
+MakePetFavorite = function(uuid)
+	local timeout = 3 -- รอสูงสุด 3 วินาที
+	local startTime = tick()
+	if not GetPetFavorite(uuid) then
+		repeat
+			for _, item in ipairs(Backpack:GetChildren()) do
+				if item:GetAttribute("ItemType") == "Pet" and item:GetAttribute("PET_UUID") == uuid then
+					local args = {
+						item,
+					}
+					GameEvents:WaitForChild("Favorite_Item"):FireServer(unpack(args))
+
+					task.wait(0.3) -- รอให้ถือติด
+					return true
+				end
+			end
+			task.wait(0.2)
+		until tick() - startTime > timeout
+	end
+	return false
+end
+
+MakePetUnfavorite = function(uuid)
+	local timeout = 3 -- รอสูงสุด 3 วินาที
+	local startTime = tick()
+	if GetPetFavorite(uuid) then
+		repeat
+			for _, item in ipairs(Backpack:GetChildren()) do
+				if item:GetAttribute("ItemType") == "Pet" and item:GetAttribute("PET_UUID") == uuid then
+					local args = {
+						item,
+					}
+					GameEvents:WaitForChild("Favorite_Item"):FireServer(unpack(args))
+					task.wait(0.3) -- รอให้ถือติด
+					return true
+				end
+			end
+			task.wait(0.2)
+		until tick() - startTime > timeout
+	end
+	return false
+end
+
 GetPetBaseWeight = function(uuid)
 	local data = GetRawPetData(uuid)
 	if data and data.PetData then
@@ -1460,7 +1517,7 @@ GetPetUUID = function(petName)
 					for _, petData in pairs(v) do
 						local uuid = petData.UUID
 						local tPetType = petData.PetType
-						if type(uuid)=="string" and type(tPetType)=="string" and IsValidPet(uuid, tPetType) then
+						if type(uuid) == "string" and type(tPetType) == "string" and IsValidPet(uuid, tPetType) then
 							InfoLog("Found pet (Backpack): " .. tPetType .. " : " .. uuid)
 							return uuid
 						end
@@ -1565,22 +1622,13 @@ MakeMutant = function(uuid)
 		-- local args = {"MakeMutant", uuid}
 		-- GameEvents:WaitForChild("PetsService"):FireServer(unpack(args))
 		local args = { "SubmitHeldPet" }
-		game:GetService("ReplicatedStorage")
-			:WaitForChild("GameEvents")
-			:WaitForChild("PetMutationMachineService_RE")
-			:FireServer(unpack(args))
+		GameEvents:WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args))
 		task.wait(0.5)
 		local args = { "PetAssets", Options.TargetPetDropdown.Value }
-		game:GetService("ReplicatedStorage")
-			:WaitForChild("GameEvents")
-			:WaitForChild("ReplicationChannel")
-			:FireServer(unpack(args))
+		GameEvents:WaitForChild("ReplicationChannel"):FireServer(unpack(args))
 		task.wait(1)
 		local args = { "StartMachine" }
-		game:GetService("ReplicatedStorage")
-			:WaitForChild("GameEvents")
-			:WaitForChild("PetMutationMachineService_RE")
-			:FireServer(unpack(args))
+		GameEvents:WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args))
 		Mutanting = true
 	end
 end
@@ -1591,10 +1639,7 @@ ClaimMutantPet = function(uuid)
 	task.wait(Options.LoadOutDelay.Value)
 	task.wait(Options.LoadOutDelay.Value)
 	local args = { "ClaimMutatedPet" }
-	game:GetService("ReplicatedStorage")
-		:WaitForChild("GameEvents")
-		:WaitForChild("PetMutationMachineService_RE")
-		:FireServer(unpack(args))
+	GameEvents:WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args))
 	-- print("Mutant pet claimed successfully!")
 	task.wait(3)
 	if Character and Humanoid then
@@ -1608,11 +1653,7 @@ ClaimMutantPet = function(uuid)
 	TargetMutant = Options.TargetMutantDropdown.Value
 	task.wait(10)
 	if TargetMutant == GetPetMutation(uuid) then
-		for _, item in ipairs(Backpack:GetChildren()) do
-			if item:GetAttribute("PET_UUID") == uuid then
-				item:SetAttribute("d", true)
-			end
-		end
+		MakePetFavorite(uuid)
 		Mutation()
 	else
 		Mutation(uuid)
@@ -1812,14 +1853,8 @@ FeedPet = function()
 			local FruitInvUUID = FindFruitInv()
 			if FruitInvUUID then
 				if heldItemUUID(FruitInvUUID) then
-					local args = {
-						"Feed",
-						uuid,
-					}
-					game:GetService("ReplicatedStorage")
-						:WaitForChild("GameEvents")
-						:WaitForChild("ActivePetService")
-						:FireServer(unpack(args))
+					local args = {"Feed",uuid}
+					GameEvents:WaitForChild("ActivePetService"):FireServer(unpack(args))
 					--AddLog("Feed : " .. uuid)
 					task.wait(1)
 				end
@@ -1976,14 +2011,8 @@ AutoPlant = function()
 	local tSeed = tPlant .. " Seed"
 	heldItemName(tSeed)
 	if pos then
-		local args = {
-			vector.create(pos.X, pos.Y, pos.Z),
-			tPlant,
-		}
-		game:GetService("ReplicatedStorage")
-			:WaitForChild("GameEvents")
-			:WaitForChild("Plant_RE")
-			:FireServer(unpack(args))
+		local args = {vector.create(pos.X, pos.Y, pos.Z),tPlant}
+		GameEvents:WaitForChild("Plant_RE"):FireServer(unpack(args))
 	end
 end
 
@@ -2014,24 +2043,14 @@ PetNightmare = function(uuid)
 			local PetModel = container:FindFirstChild(uuid)
 			if PetModel then
 				heldItemName("Cleansing Pet Shard")
-				local args = {
-					"ApplyShard",
-					PetModel,
-				}
-				game:GetService("ReplicatedStorage")
-					:WaitForChild("GameEvents")
-					:WaitForChild("PetShardService_RE")
-					:FireServer(unpack(args))
+				local args = {"ApplyShard", PetModel}
+				GameEvents:WaitForChild("PetShardService_RE"):FireServer(unpack(args))
 			end
 		end
 	elseif mutant and GetPetMutation(uuid) == "Nightmare" then
 		UnequipPet(uuid)
 		task.wait(1)
-		for _, item in ipairs(Backpack:GetChildren()) do
-			if item:GetAttribute("PET_UUID") == uuid then
-				item:SetAttribute("d", true)
-			end
-		end
+		MakePetFavorite(uuid)
 		Mutation()
 	end
 end
@@ -2066,15 +2085,16 @@ local function CollectValentines()
 	if Plants_Physical then
 		for _, plant in pairs(Plants_Physical:GetChildren()) do
 			local FruitsContainer = plant:FindFirstChild("Fruits")
-			local Fruits = FruitsContainer and FruitsContainer:GetChildren() or { plant }
+			local Fruits = FruitsContainer or { plant }
 			for _, fruit in pairs(Fruits:GetChildren()) do
+				if InventoryService.IsMaxInventory() then
+					InfoLog("Inventory Full")
+					return false
+				end
 				if fruit:IsA("Model") then
 					local Prompt = fruit:FindFirstChild("ProximityPrompt", true)
 					if Prompt and Prompt.Enabled then
-						if
-							(fruit:GetAttribute("Heartstruck") or fruit:GetAttribute("Cute"))
-							and not InventoryService.IsMaxInventory()
-						then
+						if fruit:GetAttribute("Heartstruck") or fruit:GetAttribute("Cute") then
 							CollectEvent:FireServer({ fruit })
 							flag = true
 							task.wait()
@@ -2084,13 +2104,12 @@ local function CollectValentines()
 			end
 			task.wait()
 		end
-		return flag
 	end
-	return nil
+	return flag
 end
 
 local function HasHeartstruck()
-	for _, v in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+	for _, v in ipairs(Backpack:GetChildren()) do
 		if v:GetAttribute("Heartstruck") or v:GetAttribute("Cute") then
 			return true
 		end
@@ -2101,14 +2120,10 @@ end
 local function ValentinesEvent()
 	local currentCoins = DataService:GetData().SpecialCurrency.HeartCoins
 	local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed
-	Rewards = { 30, 200, 700, 2000, 10000 }
-	for i = 1, 5 do
+	local Rewards = { 30, 200, 700, 2000, 10000 }
+	for i = 1, #Rewards do
 		if currentCoins >= Rewards[i] and not ValentinesCompleted[i] then
-			game:GetService("ReplicatedStorage")
-				:WaitForChild("GameEvents")
-				:WaitForChild("ValentinesEvent")
-				:WaitForChild("ClaimValentineReward")
-				:FireServer(i)
+			GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward"):FireServer(i)
 		end
 		task.wait(0.3)
 	end
@@ -2131,16 +2146,11 @@ task.spawn(function()
 			pcall(function()
 				CollectValentines()
 				if HasHeartstruck() then
-					local result = game:GetService("ReplicatedStorage")
-						:WaitForChild("GameEvents")
-						:WaitForChild("ValentinesEvent")
-						:WaitForChild("GiveHeartstruckFruits")
-						:InvokeServer()
-					task.wait(0.3)
+					GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("GiveHeartstruckFruits"):InvokeServer()
 				end
 			end)
 		end
-		task.wait(0.1)
+		task.wait(0.3)
 	end
 end)
 
@@ -2215,7 +2225,7 @@ task.spawn(function()
 					Character:PivotTo(Previous)
 				end
 			end
-			task.wait()
+			task.wait(1)
 		end
 	end)
 end)

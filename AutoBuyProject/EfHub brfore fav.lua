@@ -1,17 +1,7 @@
-local Fluent = loadstring(
-	game:HttpGet("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau")
-)()
-local SaveManager = loadstring(
-	game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau")
-)()
-local InterfaceManager = loadstring(
-	game:HttpGet(
-		"https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"
-	)
-)()
-local CollapsibleAddon = loadstring(
-	game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua")
-)()
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau", true))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"))()
+local CollapsibleAddon = loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua"))()
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
@@ -34,7 +24,8 @@ local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
-local DevMode = true
+local fVersion = "2569.02.19-10.36"
+local DevMode = false
 local DevNoti
 local IsLoading = true
 local QuickSave
@@ -55,11 +46,19 @@ local Mutanting = false
 local IsActivePet = false
 local ApplyAntiLag
 local DevLog
-local ProcessBuy, GetMyFarm, CollectFruit, CheckFruit
-
-local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType, GetPetFavorite, GetPetHungerPercent
+local ProcessBuy, GetMyFarm, CheckFruit, AutoPlant, GetPosition, ScanFarmTask
+local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType, GetPetFavorite
+local GetPetHungerPercent, CheckMakeMutant, PetNightmare, GetPetBaseWeight
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
+local MakeFavorite, MakeUnfavorite
 
+local ViewportSize = workspace.CurrentCamera.ViewportSize
+local multiple = 1.75
+local targetWidth = 1280 --(ViewportSize.X * multiple)
+local targetHeight = 768-- (ViewportSize.Y * multiple)+350
+
+local IsScanning = false
+local FruitQueue = {}
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
 	Daily = "ROOT/SeedStocks/Daily Deals/Stocks",
@@ -182,12 +181,12 @@ ProcessBuy = function(ShopKey, StockData)
 end
 
 local Window = Fluent:CreateWindow({
-	Title = "Grow a Garden",
+	Title = "Grow a Garden "..fVersion,
 	SubTitle = "by EfHub",
 	TabWidth = 100,
-	Size = UDim2.fromOffset(1200, 768),
+	Size = UDim2.fromOffset(targetWidth, targetHeight), 
 	Resize = true,
-	-- MinSize = Vector2.new(470, 380),
+	MinSize = Vector2.new(580, 460),
 	Acrylic = true,
 	Theme = "Darker",
 	MinimizeKey = Enum.KeyCode.RightControl,
@@ -687,16 +686,16 @@ PetWorkSection:AddToggle("PetModeEnable", {
 		end
 		if Value then
 			task.wait(1)
-			local mode = Options.PetMode.Value
-			if mode == "Nightmare" then
-				-- Mutation = "Nightmare"
-			elseif mode == "Mutant" then
-				if Mutation then
-					Mutation()
-				end
-			else
-				-- Mutation = "EfHub"
-			end
+			--local mode = Options.PetMode.Value
+			--if mode == "Nightmare" then
+			-- Mutation = "Nightmare"
+			--elseif mode == "Mutant" then
+			--	if Mutation then
+			Mutation()
+			--	end
+			--else
+			-- Mutation = "EfHub"
+			--end
 		end
 	end,
 })
@@ -717,6 +716,17 @@ PetWorkSection:AddDropdown("TargetPetDropdown", {
 	Searchable = true,
 	Callback = function(Value)
 		PetSetting["PetMode"].TargetPet = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+PetWorkSection:AddToggle("UseFavoriteOnly", {
+	Title = "Use Favorite Pet Only",
+	Description = "Use Favorite Pet Only",
+	Default = false,
+	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
 		end
@@ -839,6 +849,12 @@ PetFeedSection:AddToggle("AllowAllFood", {
 		end
 	end,
 })
+local FruitData = require(game:GetService("ReplicatedStorage").Data.SeedData) -- This is table data of seeds
+local FruitTable = {}
+for FruitName, FruitInfo in pairs(FruitData) do
+	table.insert(FruitTable, FruitName)
+end
+table.sort(FruitTable)
 
 PetFeedSection:AddDropdown("AllowFoodType", {
 	Title = "Allow Food Type",
@@ -852,8 +868,39 @@ PetFeedSection:AddDropdown("AllowFoodType", {
 		end
 	end,
 })
-
+PetFeedSection:AddSlider("PetHungerPercent", {
+	Title = "Pet Hunger Percent",
+	Min = 1,
+	Max = 100,
+	Default = 80,
+	Rounding = 1,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
 --[[ Farm Section]]
+
+local SellFruitSection = Tabs.Farm:AddCollapsibleSection("Sell Fruit", false)
+SellFruitSection:AddToggle("AutoSellALL", {
+	Title = "Auto Sell ALL",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+SellFruitSection:AddToggle("AutoSellFruit", {
+	Title = "Auto Sell Fruit",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
 
 --[[ สร้าง gui สำหรับตั้งค่าพวกนี้ ]]
 
@@ -882,7 +929,7 @@ local WeightValue = 100 --input
 
 local CollectSection = Tabs.Farm:AddCollapsibleSection("Collect Fruit", false)
 CollectSection:AddToggle("tgCollectFruitEnable", {
-	Title = "Auto Collect All Fruit ",
+	Title = "Enable Auto Collect Fruit ",
 	Default = false,
 	Callback = function(Value)
 		if QuickSave then
@@ -897,7 +944,7 @@ CollectSection:AddInput("inCollectDelay", {
 	Min = 0.1,
 	Max = 3600,
 	Callback = function(Value)
-		CollectDelay = Value
+		CollectDelay = tonumber(Value)
 		if QuickSave then
 			QuickSave()
 		end
@@ -916,12 +963,6 @@ CollectSection:AddToggle("tgCheckFruitType", {
 	end,
 })
 
-local FruitData = require(game:GetService("ReplicatedStorage").Data.SeedData) -- This is table data of seeds
-local FruitTable = {}
-for FruitName, FruitInfo in pairs(FruitData) do
-	table.insert(FruitTable, FruitName)
-end
-table.sort(FruitTable)
 CollectSection:AddDropdown("ddFruitType", {
 	Title = "Fruit Type",
 	Values = FruitTable,
@@ -1062,6 +1103,54 @@ CollectSection:AddInput("ipWeightValue", {
 	Finished = false,
 	Callback = function(Value)
 		WeightValue = tonumber(Value) or 100
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+local PlantSection = Tabs.Farm:AddCollapsibleSection("Plant Fruit", false)
+PlantSection:AddToggle("tgPlantFruitEnable", {
+	Title = "Plant Fruit",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+PlantSection:AddDropdown("ddPlantFruitType", {
+	Title = "Seed to Plant",
+	Values = FruitTable,
+	Multi = false,
+	Default = "",
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+PlantSection:AddDropdown("ddPlantPosition", {
+	Title = "Plant Position",
+	Values = { "User Position" },
+	Multi = false,
+	Default = "",
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+--delay
+PlantSection:AddInput("inPlantDelay", {
+	Title = "Plant Delay (ms)",
+	Default = "0.3",
+	Numeric = true,
+	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
 		end
@@ -1307,49 +1396,82 @@ GetPetFavorite = function(uuid)
 	return nil
 end
 
-GetPetUUID = function(petName)
-	local TargetPet = petName -- PetSetting["PetMode"].TargetPet
-	local name
-	local TargetMutant = "EfHub"
-
-	if Options.PetMode.Value == "Nightmare" then
-		TargetMutant = "Nightmare"
-	elseif Options.PetMode.Value == "Mutant" then
-		TargetMutant = Options.TargetMutantDropdown.Value
+GetPetBaseWeight = function(uuid)
+	local data = GetRawPetData(uuid)
+	if data and data.PetData then
+		local BaseWeight = tonumber(data.PetData.BaseWeight)
+		if BaseWeight then
+			return BaseWeight
+		end
 	end
-	local timeout = 10
+	return nil
+end
+
+GetPetUUID = function(petName)
+	local petMode = Options.PetMode.Value
+	local useFavOnly = Options.UseFavoriteOnly.Value
+	local targetMutant = "EfHub"
+
+	if petMode == "Nightmare" then
+		targetMutant = "Nightmare"
+	elseif petMode == "Mutant" then
+		targetMutant = Options.TargetMutantDropdown.Value
+	end
+
+	-- ฟังก์ชันเช็คเงื่อนไข (เพื่อลดความซ้ำซ้อนและเพิ่มความเร็ว)
+	local function IsValidPet(uuid, pType)
+		if pType ~= petName then
+			return false
+		end
+		if (petMode == "Mutant" or petMode == "Nightmare") and GetPetMutation(uuid) == targetMutant then
+			return false
+		end
+		if (GetPetFavorite(uuid) or false) ~= useFavOnly then
+			return false
+		end
+		-- เงื่อนไขเพิ่มเติมที่พี่เอฟต้องการ
+		--InfoLog("Weight : ".. tostring(GetPetBaseWeight(uuid)))
+		if petMode == "Elephant" and GetPetBaseWeight(uuid) > 3.5 then
+			return false
+		end
+		if petMode == "Level" and GetPetLevel(uuid) >= 100 then
+			return false
+		end
+
+		return true
+	end
+
 	local startTime = tick()
 	repeat
-		local UUIDs = GetEquippedPetsUUID()
-		for _, uuid in pairs(UUIDs) do
-			local PetType = GetPetType(uuid)
-			if PetType and PetType == TargetPet then
-				if GetPetMutation(uuid) ~= TargetMutant and not GetPetFavorite(uuid) then
-					InfoLog("Found pet in ActivePetUI: " .. PetType .. " (UUID: " .. uuid .. ")")
-					return uuid
-				end
+		-- 1. เช็คจากสัตว์เลี้ยงที่สวมใส่อยู่ (เร็วกว่า)
+		for _, uuid in pairs(GetEquippedPetsUUID()) do
+			local pType = GetPetType(uuid)
+			if IsValidPet(uuid, pType) then
+				InfoLog("Found pet (Equipped): " .. pType .. " [" .. uuid .. "]")
+				return uuid
 			end
 		end
-		local GetData_result = DataService:GetData()
-		local PetInventory = GetData_result.PetsData.PetInventory
-		if PetInventory then
-			for k, v in pairs(PetInventory) do
+
+		-- 2. เช็คจาก Inventory
+		local data = DataService:GetData()
+		local inventory = data and data.PetsData and data.PetsData.PetInventory
+		if inventory then
+			for _, v in pairs(inventory) do
 				if type(v) == "table" then
-					for _, Data in pairs(v) do
-						local PetType = Data.PetType
-						local uuid = Data.UUID
-						if PetType and PetType == TargetPet then
-							if GetPetMutation(uuid) ~= TargetMutant and not GetPetFavorite(uuid) then
-								InfoLog("Found pet in Backpack: " .. PetType .. " (UUID: " .. uuid .. ")")
-								return uuid
-							end
+					for _, petData in pairs(v) do
+						local uuid = petData.UUID
+						local tPetType = petData.PetType
+						if type(uuid)=="string" and type(tPetType)=="string" and IsValidPet(uuid, tPetType) then
+							InfoLog("Found pet (Backpack): " .. tPetType .. " : " .. uuid)
+							return uuid
 						end
 					end
 				end
 			end
 		end
+
 		task.wait(0.5)
-	until tick() - startTime > timeout
+	until tick() - startTime > 10
 	return nil
 end
 
@@ -1405,9 +1527,12 @@ end
 heldItemName = function(itemName) -- find item in backpack and select it
 	for _, item in ipairs(Backpack:GetChildren()) do
 		local name = string.match(item.Name, "^(.-)%s*%[") or string.match(item.Name, "^(.-)%s*[xX]%d+") or item.Name
-		name = string.trim(name)
+		name = string.gsub(name, "^%s*(.-)%s*$", "%1")
+		--name = string.trim(name)
 		if name == itemName then
-			Humanoid:EquipTool(item)
+			pcall(function()
+				Humanoid:EquipTool(item)
+			end)
 			return true
 		end
 	end
@@ -1425,6 +1550,9 @@ IsActivePet = function(uuid)
 end
 
 MakeMutant = function(uuid)
+	if Options.PetMode.Value ~= "Mutant" then
+		return
+	end
 	SwapPetLoadout(Options.TimeSlots.Value)
 	task.wait(Options.LoadOutDelay.Value)
 	Character:PivotTo(CFrame.new(-236.17, 4.50, 14.36))
@@ -1481,6 +1609,11 @@ ClaimMutantPet = function(uuid)
 	TargetMutant = Options.TargetMutantDropdown.Value
 	task.wait(10)
 	if TargetMutant == GetPetMutation(uuid) then
+		for _, item in ipairs(Backpack:GetChildren()) do
+			if item:GetAttribute("PET_UUID") == uuid then
+				item:SetAttribute("d", true)
+			end
+		end
 		Mutation()
 	else
 		Mutation(uuid)
@@ -1488,27 +1621,60 @@ ClaimMutantPet = function(uuid)
 end
 
 Mutation = function(uuid)
-	-- if PetSetting["PetMode"].Enabled then
 	if Options.PetModeEnable.Value then
+		local petMode = Options.PetMode.Value
+		local TargetLimit = tonumber(Options.AgeLimitInput.Value) or 50
 		local TargetPet = Options.TargetPetDropdown.Value
+
+		-- ใช้ตัวแปร Global ตามที่พี่เอฟต้องการ
 		targetUUID = uuid or GetPetUUID(TargetPet)
+
 		if targetUUID then
-			-- InfoLog("Found target pet: " .. TargetPet .. " (UUID: " .. targetUUID .. ")")
 			local age = GetPetLevel(targetUUID)
-			InfoLog("Current age of " .. TargetPet .. ": " .. tostring(age))
-			if age < 50 then
+			-- InfoLog("Current level of " .. TargetPet .. ": " .. tostring(age))
+
+			local function IsEquipPet()
+				-- [แก้] ใช้ >= เพื่อให้หยุดเมื่อ "ถึง" เลเวลเป้าหมายพอดี (ไม่ต้องรอให้เกิน)
+				if petMode == "Mutant" and age >= TargetLimit then
+					return false
+				end
+
+				-- เงื่อนไขหยุดของ Level และ Elephant (หยุดเมื่อถึงเป้า)
+				if petMode == "Level" and age >= TargetLimit then
+					return false
+				end
+
+				if petMode == "Elephant" and age >= TargetLimit and GetPetBaseWeight(targetUUID) > 3.5 then
+					return false
+				end
+				-- เงื่อนไขหยุดของ Nightmare
+				if petMode == "Nightmare" and GetPetMutation(targetUUID) == "Nightmare" then
+					return false
+				end
+
+				return true
+			end
+
+			if IsEquipPet() then
+				-- สั่งวาร์ปทันที (ไม่ต้องเช็ค Character เพราะพี่เอฟยืนยันว่าไม่มีตาย)
 				Character:PivotTo(CFrame.new(FarmPoint.X, FarmPoint.Y, FarmPoint.Z))
 				task.wait(0.3)
+
 				InfoLog("Swapping to loadout " .. Options.LevelSlots.Value .. " to equip pet...")
 				SwapPetLoadout(Options.LevelSlots.Value)
 				task.wait(Options.LoadOutDelay.Value)
+
 				InfoLog("Equipping pet...")
 				pcall(function()
 					EquipPet(targetUUID)
 				end)
-			else
+			elseif petMode == "Mutant" then
+				-- ถ้าหลุดจาก IsEquipPet และเป็นโหมด Mutant แสดงว่าเลเวลถึงเป้าแล้ว -> ส่งไปต้ม
 				InfoLog("Send " .. TargetPet .. " to the Mutant Machine")
 				MakeMutant(targetUUID)
+			else
+				-- ถ้าเป็นโหมดอื่นที่ถึงเป้าแล้ว ก็จบการทำงาน (Return)
+				return
 			end
 		else
 			ErrorLog("Target pet '" .. TargetPet .. "' not found in backpack.")
@@ -1518,7 +1684,7 @@ end
 
 DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 	local TargetLevel = tonumber(Options.AgeLimitInput.Value) or 50
-	local TargetPet = Options.TargetPetDropdown.Value or "None"
+	--local TargetPet = Options.TargetPetDropdown.Value or "None"
 
 	if Type ~= "UpdateData" then
 		return
@@ -1543,34 +1709,22 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 		if Options.PetModeEnable.Value then
 			-- Process Pet Mutation
 			task.spawn(function()
-				if string.find(Key, "ROOT/GardenGuide/PetData") then
-					local age = tonumber(Content) or (targetUUID and GetPetLevel(targetUUID))
-					if not age then
-						return
-					end
-					task.wait(0.3)
-					DevNoti("Key 1 :  " .. TargetPet .. " Age : " .. tostring(age))
-					if age >= TargetLevel then
-						DevNoti(TargetPet .. " has reached level " .. TargetLevel)
-						UnequipPet(targetUUID)
-						task.wait(0.3)
-						MakeMutant(targetUUID)
-					end
-				elseif Key == "ROOT/BadgeData/PetMaster" then
-					local age = (targetUUID and GetPetLevel(targetUUID))
-					if not age then
-						return
-					end
-					task.wait(0.3)
-					DevNoti("Key 2 :  " .. TargetPet .. " Age : " .. tostring(age))
-					if age >= TargetLevel then
-						InfoLog(TargetPet .. " has reached level " .. TargetLevel)
-						UnequipPet(targetUUID)
-						task.wait(0.3)
-						MakeMutant(targetUUID)
-					end
+				if string.find(Key, "ROOT/GardenGuide/PetData") or Key == "ROOT/BadgeData/PetMaster" then
+					if Options.PetMode.Value == "Nightmare" then
+						PetNightmare(targetUUID)
+					elseif Options.PetMode.Value == "Mutant" then
+						CheckMakeMutant(targetUUID)
+					else
+						if GetPetLevel(targetUUID) >= TargetLevel then
+							pcall(function()
+								UnequipPet(targetUUID)
+							end)
+							task.wait(1)
+							Mutation()
+						end
+					end --Elephant
 				elseif Key == "ROOT/PetMutationMachine/PetReady" then
-					if Mutanting then
+					if Mutanting and Options.PetMode.Value == "Mutant" then
 						ClaimMutantPet(targetUUID)
 					end
 					task.wait(0.3)
@@ -1655,7 +1809,7 @@ FeedPet = function()
 	for i, uuid in pairs(petUUID) do
 		local hunger = tonumber(GetPetHungerPercent(uuid))
 		--AddLog("Hunger:" .. tostring(hunger))
-		if hunger <= 80 then
+		if hunger <= Options.PetHungerPercent.Value then
 			local FruitInvUUID = FindFruitInv()
 			if FruitInvUUID then
 				if heldItemUUID(FruitInvUUID) then
@@ -1667,7 +1821,7 @@ FeedPet = function()
 						:WaitForChild("GameEvents")
 						:WaitForChild("ActivePetService")
 						:FireServer(unpack(args))
-					AddLog("Feed : " .. uuid)
+					--AddLog("Feed : " .. uuid)
 					task.wait(1)
 				end
 			else
@@ -1683,7 +1837,6 @@ CheckFruit = function(model)
 	if not model or not model:IsA("Model") then
 		return false
 	end
-
 	-- 2. ตรวจสอบชนิดผลไม้ (Fruit Type)
 	if CheckFruitType then
 		local tFruitType = model.Name
@@ -1749,74 +1902,339 @@ CheckFruit = function(model)
 	return true
 end
 
-CollectFruit = function()
-	if InventoryService.IsMaxInventory() then --
+ScanFarmTask = function()
+	if IsScanning then
 		return
 	end
-	local MyFarm = GetMyFarm()
+	IsScanning = true
 
+	task.spawn(function()
+		-- เคลียร์คิวเก่าทิ้งก่อนเริ่มรอบใหม่ เพื่อความสดใหม่ของข้อมูล
+		table.clear(FruitQueue)
+
+		local MyFarm = GetMyFarm()
+		if not MyFarm then
+			IsScanning = false
+			return
+		end
+		local Farm_Important = MyFarm:FindFirstChild("Important")
+		local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+
+		if Plants_Physical then
+			local count = 0
+
+			-- ใช้ ipairs เพื่อความเร็วในการวนลูป Array
+			for _, plant in ipairs(Plants_Physical:GetChildren()) do
+				-- หยุดสแกนทันทีถ้าผู้ใช้ปิด Function
+				if not Options.tgCollectFruitEnable.Value then
+					break
+				end
+
+				-- ตรวจสอบว่าในต้นไม้นั้นมี Folder Fruits หรือไม่ (บางทีผลไม้อยู่ใน plant เลย)
+				local FruitsContainer = plant:FindFirstChild("Fruits")
+				local itemsToCheck = FruitsContainer and FruitsContainer:GetChildren() or { plant }
+
+				for _, item in ipairs(itemsToCheck) do
+					if item:IsA("Model") then
+						-- Optimization: เช็ค ProximityPrompt ก่อนเรียก CheckFruit
+						-- (เพราะ CheckFruit กินทรัพยากรเยอะกว่า)
+						local Prompt = item:FindFirstChild("ProximityPrompt", true)
+
+						if Prompt and Prompt.Enabled then
+							if CheckFruit(item) then
+								table.insert(FruitQueue, item)
+							end
+						end
+					end
+				end
+
+				-- Optimization: พักหายใจทุกๆ 50 ต้นไม้ ป้องกันเกมค้าง (Lag)
+				count = count + 1
+				if count % 50 == 0 then
+					task.wait()
+				end
+			end
+		end
+		IsScanning = false
+	end)
+end
+
+GetPosition = function()
+	local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+	if HumanoidRootPart then
+		local pivot = Character:GetPivot()
+		return pivot.Position
+	end
+	return nil
+end
+
+AutoPlant = function()
+	local pos = nil
+	if Options.ddPlantPosition.Value == "User Position" then
+		pos = GetPosition()
+	end
+	local tPlant = Options.ddPlantFruitType.Value
+	local tSeed = tPlant .. " Seed"
+	heldItemName(tSeed)
+	if pos then
+		local args = {
+			vector.create(pos.X, pos.Y, pos.Z),
+			tPlant,
+		}
+		game:GetService("ReplicatedStorage")
+			:WaitForChild("GameEvents")
+			:WaitForChild("Plant_RE")
+			:FireServer(unpack(args))
+	end
+end
+
+CheckMakeMutant = function(uuid)
+	if Options.PetMode.Value ~= "Mutant" then
+		return false
+	end
+	local TargetLevel = tonumber(Options.AgeLimitInput.Value) or 50
+	local age = GetPetLevel(uuid)
+	if not age then
+		return
+	end
+	task.wait(0.3)
+	--DevNoti("Key 1 :  " .. TargetPet .. " Age : " .. tostring(age))
+	if age >= TargetLevel then
+		--DevNoti(TargetPet .. " has reached level " .. TargetLevel)
+		UnequipPet(uuid)
+		task.wait(0.3)
+		MakeMutant(uuid)
+	end
+end
+
+PetNightmare = function(uuid)
+	local mutant = GetPetMutation(uuid)
+	if mutant and GetPetMutation(uuid) ~= "Nightmare" then
+		local petsPhysical = game.Workspace:WaitForChild("PetsPhysical")
+		for _, container in ipairs(petsPhysical:GetChildren()) do
+			local PetModel = container:FindFirstChild(uuid)
+			if PetModel then
+				heldItemName("Cleansing Pet Shard")
+				local args = {
+					"ApplyShard",
+					PetModel,
+				}
+				game:GetService("ReplicatedStorage")
+					:WaitForChild("GameEvents")
+					:WaitForChild("PetShardService_RE")
+					:FireServer(unpack(args))
+			end
+		end
+	elseif mutant and GetPetMutation(uuid) == "Nightmare" then
+		UnequipPet(uuid)
+		task.wait(1)
+		for _, item in ipairs(Backpack:GetChildren()) do
+			if item:GetAttribute("PET_UUID") == uuid then
+				item:SetAttribute("d", true)
+			end
+		end
+		Mutation()
+	end
+end
+
+task.spawn(function()
+	while true do -- ใช้ While Loop เพื่อให้ทำงานวนไปเรื่อยๆ
+		if Options.AutoFeedPet.Value then
+			pcall(function() -- ใส่ pcall กัน Error แล้วสคริปต์หลุด
+				FeedPet()
+			end)
+		end
+		task.wait(10)
+	end
+end)
+
+task.spawn(function()
+	while true do -- ใช้ While Loop เพื่อให้ทำงานวนไปเรื่อยๆ
+		if Options.tgPlantFruitEnable.Value then
+			--pcall(function() -- ใส่ pcall กัน Error แล้วสคริปต์หลุด
+			AutoPlant()
+			--end)
+		end
+		task.wait(tonumber(Options.inPlantDelay.Value))
+	end
+end)
+
+local function CollectValentines()
+	local flag = false
 	local Farm_Important = MyFarm:FindFirstChild("Important")
 	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
 
 	if Plants_Physical then
 		for _, plant in pairs(Plants_Physical:GetChildren()) do
-			local Fruits = plant:FindFirstChild("Fruits")
-			if Fruits then
-				for _, fruit in pairs(Fruits:GetChildren()) do
-					--ShowData(Fruits:GetChildren(), 1)
-
-					if fruit:IsA("Model") then
-						--local Prompt_Part = fruit:FindFirstChild("2")
-						local Prompt = fruit:FindFirstChild("ProximityPrompt", true)
-						--if Prompt_Part then
-						--local Prompt = Prompt_Part:FindFirstChild("ProximityPrompt", true)
-
-						if Prompt and Prompt.Enabled then
-							AddLog("Auto Collect: " .. fruit.Name)
-
-							if CheckFruit(fruit) then
-								AddLog("Collect: " .. fruit.Name)
-								CollectEvent:FireServer({ fruit })
-							end
-						end
-						--end
-					end
-				end
-			else
-				if plant:IsA("Model") then
-					local Prompt = plant:FindFirstChild("ProximityPrompt", true)
-					--if Prompt_Part then
-					--local Prompt = Prompt_Part:FindFirstChild("ProximityPrompt", true)
-
+			local FruitsContainer = plant:FindFirstChild("Fruits")
+			local Fruits = FruitsContainer and FruitsContainer:GetChildren() or { plant }
+			for _, fruit in pairs(Fruits:GetChildren()) do
+				if fruit:IsA("Model") then
+					local Prompt = fruit:FindFirstChild("ProximityPrompt", true)
 					if Prompt and Prompt.Enabled then
-						AddLog("Auto Collect: " .. plant.Name)
-
-						if CheckFruit(plant) then
-							AddLog("Collect: " .. plant.Name)
-							CollectEvent:FireServer({ plant })
+						if
+							(fruit:GetAttribute("Heartstruck") or fruit:GetAttribute("Cute"))
+							and not InventoryService.IsMaxInventory()
+						then
+							CollectEvent:FireServer({ fruit })
+							flag = true
+							task.wait()
 						end
 					end
 				end
 			end
+			task.wait()
 		end
+		return flag
+	end
+	return nil
+end
+
+local function HasHeartstruck()
+	for _, v in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+		if v:GetAttribute("Heartstruck") or v:GetAttribute("Cute") then
+			return true
+		end
+	end
+	return false
+end
+
+local function ValentinesEvent()
+	local currentCoins = DataService:GetData().SpecialCurrency.HeartCoins
+	local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed
+	Rewards = { 30, 200, 700, 2000, 10000 }
+	for i = 1, 5 do
+		if currentCoins >= Rewards[i] and not ValentinesCompleted[i] then
+			game:GetService("ReplicatedStorage")
+				:WaitForChild("GameEvents")
+				:WaitForChild("ValentinesEvent")
+				:WaitForChild("ClaimValentineReward")
+				:FireServer(i)
+		end
+		task.wait(0.3)
 	end
 end
 
+local ValentinesEnable = true
 task.spawn(function()
-	while Options.AutoFeedPet.Value do -- ใช้ While Loop เพื่อให้ทำงานวนไปเรื่อยๆ
-		pcall(function() -- ใส่ pcall กัน Error แล้วสคริปต์หลุด
-			FeedPet()
-		end)
-		task.wait(10) -- เช็คความหิวทุกๆ 2 วินาที (ไม่ต้องถี่มาก)
+	while true do
+		if ValentinesEnable then
+			pcall(function()
+				ValentinesEvent()
+			end)
+		end
+		task.wait(60)
+	end
+end)
+task.spawn(function()
+	while true do
+		if ValentinesEnable then
+			pcall(function()
+				CollectValentines()
+				if HasHeartstruck() then
+					local result = game:GetService("ReplicatedStorage")
+						:WaitForChild("GameEvents")
+						:WaitForChild("ValentinesEvent")
+						:WaitForChild("GiveHeartstruckFruits")
+						:InvokeServer()
+					task.wait(0.3)
+				end
+			end)
+		end
+		task.wait(0.1)
 	end
 end)
 
+-- เริ่มการทำงานทันที (แยก Thread ออกมา)
 task.spawn(function()
-	while Options.tgCollectFruitEnable.Value do -- ใช้ While Loop เพื่อให้ทำงานวนไปเรื่อยๆ
-		--pcall(function() -- ใส่ pcall กัน Error แล้วสคริปต์หลุด
-		--CollectFruit()
-		CollectFruit()
-		--end)
-		task.wait(0.1)
+	while true do
+		-- 1. เช็คว่าเปิดใช้งานบอทหรือไม่
+		if not Options.tgCollectFruitEnable.Value then
+			table.clear(FruitQueue) -- ล้างคิวทิ้งถ้าปิดบอท
+			task.wait(1)
+			continue
+		end
+
+		-- 2. เช็คกระเป๋าเต็ม (สำคัญที่สุด!)
+		-- เช็คก่อนที่จะเริ่มหยิบของออกจากคิว
+		local success, isFull = pcall(function()
+			return InventoryService.IsMaxInventory(LocalPlayer)
+		end)
+
+		if success and isFull then
+			-- ถ้ากระเป๋าเต็ม: ล้างคิวทิ้ง เพื่อไม่ให้เก็บต่อ และรอ 1 วินาที
+			table.clear(FruitQueue)
+			-- print("Inventory Full - Paused")
+			task.wait(1)
+			continue
+		end
+
+		-- 3. การทำงานเมื่อมีของในคิว (Queue Processing)
+		if #FruitQueue > 0 then
+			-- ดึงผลไม้ชิ้นแรกออกจากคิว (FIFO)
+			local itemToCollect = table.remove(FruitQueue, 1)
+
+			-- เช็คซ้ำอีกครั้งว่าของยังอยู่จริงไหม (เผื่อโดนเก็บไปแล้ว หรือหลุดโหลด)
+			if itemToCollect and itemToCollect.Parent and itemToCollect:FindFirstChild("ProximityPrompt", true) then
+				-- ส่งคำสั่งเก็บ
+				CollectEvent:FireServer({ itemToCollect })
+
+				-- รอตาม Delay ที่ตั้งไว้
+				task.wait(CollectDelay)
+			end
+		else
+			-- 4. ถ้าคิวว่าง (ไม่มีของให้เก็บ)
+			-- สั่งให้ Producer เริ่มสแกนหารอบใหม่
+			if not IsScanning then
+				ScanFarmTask()
+			end
+			-- รอสักพักก่อนวนลูปเช็คใหม่ เพื่อลดการกิน CPU ตอนว่างงาน
+			task.wait(0.5)
+		end
+
+		-- Safety Yield (ป้องกัน Script Crash)
+		task.wait()
 	end
+end)
+
+---local AutoSellALL = true
+
+task.spawn(function()
+	pcall(function()
+		while true do
+			if Options.AutoSellALL.Value then
+				local success, isFull = pcall(function()
+					return InventoryService.IsMaxInventory(LocalPlayer)
+				end)
+
+				if success and isFull then
+					local Previous = Character:GetPivot()
+					Character:PivotTo(CFrame.new(36.58, 4.50, 0.43))
+					task.wait(0.3)
+					GameEvents.Sell_Inventory:FireServer()
+					task.wait(0.5)
+					Character:PivotTo(Previous)
+				end
+			end
+			task.wait()
+		end
+	end)
+end)
+
+task.spawn(function()
+	--pcall(function()
+	while true do
+		local tPetMode = Options.PetMode.Value
+		--ErrorLog("Mode:" .. petMode .. "Level:" .. GetPetLevel(targetUUID) .. ":" .. Options.AgeLimitInput.Value)
+		if Options.PetModeEnable.Value and (tPetMode == "Elephant" or tPetMode == "Level") then
+			if GetPetLevel(targetUUID) >= tonumber(Options.AgeLimitInput.Value) then
+				SuccessLog("UnequipPet")
+				UnequipPet(targetUUID)
+				task.wait(1)
+				Mutation()
+			end
+		end
+		task.wait(10)
+	end
+	--end)
 end)
