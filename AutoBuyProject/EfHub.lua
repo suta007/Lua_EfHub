@@ -37,7 +37,7 @@ local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
-local fVersion = "2569.02.20-09.55"
+local fVersion = "2569.02.20-10.33"
 local DevMode = false
 local DevNoti
 local IsLoading = true
@@ -2088,7 +2088,7 @@ local function CollectValentines()
 			local Fruits = FruitsContainer or { plant }
 			for _, fruit in pairs(Fruits:GetChildren()) do
 				if InventoryService.IsMaxInventory() then
-					InfoLog("Inventory Full")
+					--InfoLog("Inventory Full")
 					return false
 				end
 				if fruit:IsA("Model") then
