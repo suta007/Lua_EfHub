@@ -28,8 +28,11 @@ local Humanoid = Character:WaitForChild("Humanoid")
 local VirtualUser = game:GetService("VirtualUser")
 local Lighting = game:GetService("Lighting")
 local Terrain = workspace.Terrain
+local giftEvent = ReplicatedStorage:WaitForChild("GameEvents"):WaitForChild("GiftPet")
+local giftNotificationFrame =
+	LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification"):WaitForChild("Frame")
+
 local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
-local PetMutationRegistry = require(ReplicatedStorage.Data.PetRegistry.PetMutationRegistry)
 
 local DataService = require(ReplicatedStorage.Modules.DataService)
 
@@ -37,12 +40,21 @@ local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
-local fVersion = "2569.02.20-10.33"
+
+local fVersion = "2569.02.22-00.11"
+local ActiveTasks = {}
+local LogDisplay
 local DevMode = false
 local DevNoti
 local IsLoading = true
 local QuickSave
 local GetSelectedItems
+local CollectFruitWorker
+local CollectValentines
+local HasHeartstruck
+local ValentinesEvent
+local ToggleTask
+local SyncBackgroundTasks
 
 local targetUUID
 local GetPetUUID
@@ -59,19 +71,20 @@ local Mutanting = false
 local IsActivePet = false
 local ApplyAntiLag
 local DevLog
-local ProcessBuy, GetMyFarm, CheckFruit, AutoPlant, GetPosition, ScanFarmTask
+local ProcessBuy, GetMyFarm, AutoPlant, GetPosition, ScanFarmTask
 local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType
 local GetPetHungerPercent, CheckMakeMutant, PetNightmare, GetPetBaseWeight
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
 local MakePetFavorite, MakePetUnfavorite, GetPetFavorite
+local AutoSellAll, PickFinishPet
 
-local ViewportSize = workspace.CurrentCamera.ViewportSize
-local multiple = 1.75
-local targetWidth = 1280 --(ViewportSize.X * multiple)
-local targetHeight = 768 -- (ViewportSize.Y * multiple)+350
+local targetWidth = 1280
+local targetHeight = 768
 
-local IsScanning = false
-local FruitQueue = {}
+local IsScanning1, IsScanning2 = false, false
+local FruitQueue1, FruitQueue2 = {}, {}
+local CheckFruit, CheckFruit1, CheckFruit2
+
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
 	Daily = "ROOT/SeedStocks/Daily Deals/Stocks",
@@ -206,30 +219,13 @@ local Window = Fluent:CreateWindow({
 })
 
 local Tabs = {
-	Main = Window:AddTab({
-		Title = "Main",
-		Icon = "home",
-	}),
-	Buy = Window:AddTab({
-		Title = "Buy",
-		Icon = "shopping-cart",
-	}),
-	Pet = Window:AddTab({
-		Title = "Pet",
-		Icon = "bone",
-	}),
-	Farm = Window:AddTab({
-		Title = "Farm",
-		Icon = "tree-pine",
-	}),
-	Log = Window:AddTab({
-		Title = "Console",
-		Icon = "terminal",
-	}),
-	Settings = Window:AddTab({
-		Title = "Settings",
-		Icon = "settings",
-	}),
+	Main = Window:AddTab({ Title = "Main", Icon = "house" }),
+	Buy = Window:AddTab({ Title = "Buy", Icon = "shopping-cart" }),
+	Pet = Window:AddTab({ Title = "Pet", Icon = "bone" }),
+	Farm = Window:AddTab({ Title = "Farm", Icon = "tree-pine" }),
+	Event = Window:AddTab({ Title = "Event", Icon = "calendar" }),
+	Log = Window:AddTab({ Title = "Console", Icon = "terminal" }),
+	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" }),
 }
 local Options = Fluent.Options
 
@@ -429,7 +425,7 @@ buyGearSection:AddDropdown("GearList", {
 })
 
 --[[
- Buy Pet Eggs Section
+ Buy Pet Section
 ]]
 local buyEggSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Pet Eggs", false)
 buyEggSection:AddToggle("buyEggEnable", {
@@ -697,18 +693,12 @@ PetWorkSection:AddToggle("PetModeEnable", {
 		if QuickSave then
 			QuickSave()
 		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
 		if Value then
 			task.wait(1)
-			--local mode = Options.PetMode.Value
-			--if mode == "Nightmare" then
-			-- Mutation = "Nightmare"
-			--elseif mode == "Mutant" then
-			--	if Mutation then
 			Mutation()
-			--	end
-			--else
-			-- Mutation = "EfHub"
-			--end
 		end
 	end,
 })
@@ -850,6 +840,9 @@ PetFeedSection:AddToggle("AutoFeedPet", {
 		if QuickSave then
 			QuickSave()
 		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
 	end,
 })
 -- Toggle Allow All Food
@@ -891,17 +884,52 @@ PetFeedSection:AddSlider("PetHungerPercent", {
 		if QuickSave then
 			QuickSave()
 		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
 	end,
 })
+
+-- Auto Accept Pet gift
+local PetGiftSection = Tabs.Pet:AddCollapsibleSection("Auto Accept Pet gift", false)
+
+PetGiftSection:AddToggle("tgAcceptPetGift", {
+	Title = "Enable Auto Accept",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+PetGiftSection:AddInput("inPetGiftDelay", {
+	Title = "Accept Delay (s)",
+	Description = "Delay between accept checks",
+	Filter = "Number",
+	Default = 0.1,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
 --[[ Farm Section]]
 
 local SellFruitSection = Tabs.Farm:AddCollapsibleSection("Sell Fruit", false)
-SellFruitSection:AddToggle("AutoSellALL", {
+SellFruitSection:AddToggle("tgAutoSellALL", {
 	Title = "Auto Sell ALL",
 	Default = false,
 	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
 		end
 	end,
 })
@@ -911,6 +939,9 @@ SellFruitSection:AddToggle("AutoSellFruit", {
 	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
 		end
 	end,
 })
@@ -934,6 +965,7 @@ local ExceptVariant = false -- toggle
 local CheckWeight = false --toggle
 local WeightType = "Below" -- "Above" or "Below" --dropdown single
 local WeightValue = 100 --input
+
 --[[
 ใน CollectSection
 
@@ -947,6 +979,9 @@ CollectSection:AddToggle("tgCollectFruitEnable", {
 	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
 		end
 	end,
 })
@@ -1121,6 +1156,210 @@ CollectSection:AddInput("ipWeightValue", {
 		end
 	end,
 })
+-- Collect2
+
+local CollectDelay2 = 0.3
+
+local CheckFruitType2 = false --toggle
+local FruitType2 = {} -- dropdown multi
+local ExcludeFruitType2 = false --toggle
+
+local CheckMutant2 = false --toggle
+local MutantType2 = {} --dropdown multi
+local ExceptMutant2 = false --toggle
+
+local CheckVariant2 = false --toggle
+local VariantType2 = "Normal" -- dropdown gingle
+local ExceptVariant2 = false -- toggle
+
+local CheckWeight2 = false --toggle
+local WeightType2 = "Below" -- "Above" or "Below" --dropdown single
+local WeightValue2 = 100 --input
+
+local CollectSection2 = Tabs.Farm:AddCollapsibleSection("Collect Fruit 2", false)
+CollectSection2:AddToggle("tgCollectFruitEnable2", {
+	Title = "Enable Auto Collect Fruit ",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+--local CollectDelay = 0.3
+CollectSection2:AddInput("inCollectDelay2", {
+	Title = "Collect Delay",
+	Default = 0.3,
+	Min = 0.1,
+	Max = 3600,
+	Callback = function(Value)
+		CollectDelay2 = tonumber(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddDivider()
+CollectSection2:AddToggle("tgCheckFruitType2", {
+	Title = "Check Fruit Type",
+	Default = false,
+	Callback = function(Value)
+		CheckFruitType2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddDropdown("ddFruitType2", {
+	Title = "Fruit Type",
+	Values = FruitTable,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		FruitType2 = GetSelectedItems(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddToggle("tgExcludeFruitType2", {
+	Title = "Exclude Fruit Type",
+	Default = false,
+	Callback = function(Value)
+		ExcludeFruitType2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddDivider()
+--CheckMutant
+CollectSection2:AddToggle("tgCheckMutant2", {
+	Title = "Check Mutant",
+	Default = false,
+	Callback = function(Value)
+		CheckMutant2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+--MutantType
+--local MutationData = DataService:GetData().GardenGuide.MutationData
+--local MutationTable = {}
+--for MutationName, MutationInfo in pairs(MutationData) do
+--	table.insert(MutationTable, MutationName)
+--end
+
+CollectSection2:AddDropdown("ddMutantType2", {
+	Title = "Mutant Type",
+	Values = MutationTable,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		MutantType2 = GetSelectedItems(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+-- ExceptMutant
+CollectSection2:AddToggle("tgExceptMutant2", {
+	Title = "Except Mutant",
+	Default = false,
+	Callback = function(Value)
+		ExceptMutant2 = Value
+		if QuickSave then
+		end
+	end,
+})
+CollectSection2:AddDivider()
+
+CollectSection2:AddToggle("tgCheckVariant2", {
+	Title = "Check Variant",
+	Default = false,
+	Callback = function(Value)
+		CheckVariant2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddDropdown("ddVariantType2", {
+	Title = "Variant Type",
+	Values = { "Normal", "Silver", "Gold", "Rainbow", "Diamond" },
+	Multi = false,
+	Default = "Normal",
+	Callback = function(Value)
+		VariantType2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddToggle("tgExceptVariant2", {
+	Title = "Except Variant",
+	Default = false,
+	Callback = function(Value)
+		ExceptVariant2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddDivider()
+
+-- local CheckWeight = false --toggle
+-- local WeightType = "Below" -- "Above", "Below"--dropdown single
+-- local WeightValue = 100 --input
+
+CollectSection2:AddToggle("tgCheckWeight2", {
+	Title = "Check Weight",
+	Default = false,
+	Callback = function(Value)
+		CheckWeight2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+CollectSection2:AddDropdown("ddWeightType2", {
+	Title = "Weight Type",
+	Values = { "Above", "Below" },
+	Multi = false,
+	Default = "Below",
+	Callback = function(Value)
+		WeightType2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+CollectSection2:AddInput("ipWeightValue2", {
+	Title = "Weight Value",
+	Default = "100",
+	Numeric = true,
+	Finished = false,
+	Callback = function(Value)
+		WeightValue2 = tonumber(Value) or 100
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
 
 local PlantSection = Tabs.Farm:AddCollapsibleSection("Plant Fruit", false)
 PlantSection:AddToggle("tgPlantFruitEnable", {
@@ -1129,6 +1368,9 @@ PlantSection:AddToggle("tgPlantFruitEnable", {
 	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
 		end
 	end,
 })
@@ -1169,7 +1411,82 @@ PlantSection:AddInput("inPlantDelay", {
 		end
 	end,
 })
+--[[ Event Section ]]
+local ValentinesSection = Tabs.Event:AddCollapsibleSection("Valentines Event", false)
 
+ValentinesSection:AddToggle("tgCollectValentines", {
+	Title = "Auto Collect Heartstruck Fruits",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+ValentinesSection:AddToggle("tgGiveHeartstruck", {
+	Title = "Auto Give Heartstruck Fruits",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+ValentinesSection:AddToggle("tgValentinesReward", {
+	Title = "Auto Claim Rewards",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+local ValentinesSection2 = Tabs.Event:AddCollapsibleSection("Valentines Event 2", false)
+ValentinesSection2:AddToggle("tgCollectValentines2", {
+	Title = "Auto Collect Heartstruck Fruits",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+ValentinesSection2:AddToggle("tgGiveHeartstruck2", {
+	Title = "Auto Give Heartstruck Fruits",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+ValentinesSection2:AddToggle("tgValentinesReward2", {
+	Title = "Auto Claim Rewards",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
 --[[ Log Section ]]
 --
 local MaxLines = 100 -- จำนวนบรรทัดที่จะโชว์
@@ -1186,7 +1503,7 @@ Tabs.Log:AddButton({
 	end,
 })
 
-local LogDisplay = Tabs.Log:CreateParagraph("MyConsole", {
+LogDisplay = Tabs.Log:CreateParagraph("MyConsole", {
 	Title = "Recent Logs",
 	Content = "System initialized...",
 })
@@ -1271,14 +1588,16 @@ task.spawn(function()
 	end
 	SaveManager.Options.SaveManager_ConfigList:SetValue("EfHub")
 	SaveManager:Load("EfHub")
-	IsLoading = false
+	task.wait(1)
+	if SyncBackgroundTasks then
+		SyncBackgroundTasks()
+	end
 	Fluent:Notify({
 		Title = "EfHub",
 		Content = "Settings loaded automatically",
 		Duration = 3,
 	})
 end)
-IsLoading = false
 
 --[[
  Auto Buy System
@@ -1306,16 +1625,6 @@ local FarmPoint
 if MyFarm then
 	if MyFarm:FindFirstChild("Spawn_Point") then
 		FarmPoint = MyFarm.Spawn_Point.CFrame
-	end
-end
-
-local function BuildMutationCache()
-	local mutations = PetMutationRegistry.PetMutationRegistry or PetMutationRegistry
-
-	for name, info in pairs(mutations) do
-		if type(info) == "table" and info.EnumId then
-			EnumToNameCache[info.EnumId] = name
-		end
 	end
 end
 
@@ -1621,14 +1930,14 @@ MakeMutant = function(uuid)
 		task.wait(0.5)
 		-- local args = {"MakeMutant", uuid}
 		-- GameEvents:WaitForChild("PetsService"):FireServer(unpack(args))
-		local args = { "SubmitHeldPet" }
-		GameEvents:WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args))
+		local args1 = { "SubmitHeldPet" }
+		GameEvents:WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args1))
 		task.wait(0.5)
-		local args = { "PetAssets", Options.TargetPetDropdown.Value }
-		GameEvents:WaitForChild("ReplicationChannel"):FireServer(unpack(args))
+		local args2 = { "PetAssets", Options.TargetPetDropdown.Value }
+		GameEvents:WaitForChild("ReplicationChannel"):FireServer(unpack(args2))
 		task.wait(1)
-		local args = { "StartMachine" }
-		GameEvents:WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args))
+		local args3 = { "StartMachine" }
+		GameEvents:WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args3))
 		Mutanting = true
 	end
 end
@@ -1650,13 +1959,15 @@ ClaimMutantPet = function(uuid)
 	-- local mutantPetname = GetPetMutation(uuid)
 	SuccessLog("Successfully claimed " .. GetPetType(uuid) .. " Mutant : " .. GetPetMutation(uuid))
 	Mutanting = false
-	TargetMutant = Options.TargetMutantDropdown.Value
+	local TargetMutant = Options.TargetMutantDropdown.Value
 	task.wait(10)
-	if TargetMutant == GetPetMutation(uuid) then
-		MakePetFavorite(uuid)
-		Mutation()
-	else
-		Mutation(uuid)
+	if Options.PetModeEnable.Value then
+		if TargetMutant == GetPetMutation(uuid) then
+			MakePetFavorite(uuid)
+			Mutation()
+		else
+			Mutation(uuid)
+		end
 	end
 end
 
@@ -1853,7 +2164,7 @@ FeedPet = function()
 			local FruitInvUUID = FindFruitInv()
 			if FruitInvUUID then
 				if heldItemUUID(FruitInvUUID) then
-					local args = {"Feed",uuid}
+					local args = { "Feed", uuid }
 					GameEvents:WaitForChild("ActivePetService"):FireServer(unpack(args))
 					--AddLog("Feed : " .. uuid)
 					task.wait(1)
@@ -1935,20 +2246,89 @@ CheckFruit = function(model)
 	-- หากผ่านการตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
 	return true
 end
+--[[
+ local CollectDelay = 0.3
+ 
+ local CheckFruitType = false --toggle
+ local FruitType = {} -- dropdown multi
+ local ExcludeFruitType = false --toggle
+ 
+ local CheckMutant = false --toggle
+ local MutantType = {} --dropdown multi
+ local ExceptMutant = false --toggle
+ 
+ local CheckVariant = false --toggle
+ local VariantType = "Normal" -- dropdown gingle
+ local ExceptVariant = false -- toggle
+ 
+ local CheckWeight = false --toggle
+ local WeightType = "Below" -- "Above" or "Below" --dropdown single
+ local WeightValue = 100 --input
+ ]]
 
-ScanFarmTask = function()
-	if IsScanning then
+CheckFruit1 = function(Fruit)
+	CheckFruitType = Options.tgCheckFruitType.Value
+	FruitType = GetSelectedItems(Options.ddFruitType.Value)
+	ExcludeFruitType = Options.tgExcludeFruitType.Value
+	CheckMutant = Options.tgCheckMutant.Value
+	MutantType = GetSelectedItems(Options.ddMutantType.Value)
+	ExceptMutant = Options.tgExceptMutant.Value
+	CheckVariant = Options.tgCheckVariant.Value
+	VariantType = Options.ddVariantType.Value
+	ExceptVariant = Options.tgExceptVariant.Value
+	CheckWeight = Options.tgCheckWeight.Value
+	WeightType = Options.ddWeightType.Value
+	WeightValue = tonumber(Options.ipWeightValue.Value)
+	return CheckFruit(Fruit)
+end
+
+CheckFruit2 = function(Fruit)
+	CheckFruitType = Options.tgCheckFruitType2.Value
+	FruitType = GetSelectedItems(Options.ddFruitType2.Value)
+	ExcludeFruitType = Options.tgExcludeFruitType2.Value
+	CheckMutant = Options.tgCheckMutant2.Value
+	MutantType = GetSelectedItems(Options.ddMutantType2.Value)
+	ExceptMutant = Options.tgExceptMutant2.Value
+	CheckVariant = Options.tgCheckVariant2.Value
+	VariantType = Options.ddVariantType2.Value
+	ExceptVariant = Options.tgExceptVariant2.Value
+	CheckWeight = Options.tgCheckWeight2.Value
+	WeightType = Options.ddWeightType2.Value
+	WeightValue = tonumber(Options.ipWeightValue2.Value)
+	return CheckFruit(Fruit)
+end
+
+ScanFarmTask = function(mode)
+	local sMode = mode or 1
+	local sIsScanning
+	local sFruitQueue
+	local sCheckFruit
+	local sEnable
+	if sMode == 1 then
+		sIsScanning = IsScanning1
+		sFruitQueue = FruitQueue1
+		sCheckFruit = CheckFruit1
+		sEnable = Options.tgCollectFruitEnable.Value
+	elseif sMode == 2 then
+		sIsScanning = IsScanning2
+		sFruitQueue = FruitQueue2
+		sCheckFruit = CheckFruit2
+		sEnable = Options.tgCollectFruitEnable2.Value
+	end
+	if sIsScanning then
 		return
 	end
-	IsScanning = true
+	sIsScanning = true
 
 	task.spawn(function()
 		-- เคลียร์คิวเก่าทิ้งก่อนเริ่มรอบใหม่ เพื่อความสดใหม่ของข้อมูล
-		table.clear(FruitQueue)
+		table.clear(sFruitQueue)
 
 		local MyFarm = GetMyFarm()
 		if not MyFarm then
-			IsScanning = false
+			sIsScanning = false
+			IsScanning1 = false
+			IsScanning2 = false
 			return
 		end
 		local Farm_Important = MyFarm:FindFirstChild("Important")
@@ -1960,7 +2340,7 @@ ScanFarmTask = function()
 			-- ใช้ ipairs เพื่อความเร็วในการวนลูป Array
 			for _, plant in ipairs(Plants_Physical:GetChildren()) do
 				-- หยุดสแกนทันทีถ้าผู้ใช้ปิด Function
-				if not Options.tgCollectFruitEnable.Value then
+				if not sEnable then
 					break
 				end
 
@@ -1975,8 +2355,8 @@ ScanFarmTask = function()
 						local Prompt = item:FindFirstChild("ProximityPrompt", true)
 
 						if Prompt and Prompt.Enabled then
-							if CheckFruit(item) then
-								table.insert(FruitQueue, item)
+							if sCheckFruit(item) then
+								table.insert(sFruitQueue, item)
 							end
 						end
 					end
@@ -1989,8 +2369,86 @@ ScanFarmTask = function()
 				end
 			end
 		end
-		IsScanning = false
+		sIsScanning = false
+		if sMode == 1 then
+			IsScanning1 = sIsScanning
+			FruitQueue1 = sFruitQueue
+		elseif sMode == 2 then
+			IsScanning2 = sIsScanning
+			FruitQueue2 = sFruitQueue
+		end
 	end)
+end
+
+-- CollectFruit worker (ToggleTask-managed) - grouped with functions, not UI
+CollectFruitWorker1 = function()
+	if not Options.tgCollectFruitEnable.Value then
+		table.clear(FruitQueue1)
+		task.wait(1)
+		return
+	end
+
+	local success, isFull = pcall(function()
+		return InventoryService.IsMaxInventory(LocalPlayer)
+	end)
+
+	if success and isFull then
+		table.clear(FruitQueue1)
+		task.wait(1)
+		return
+	end
+
+	if #FruitQueue1 > 0 then
+		local itemToCollect = table.remove(FruitQueue1, 1)
+		if itemToCollect and itemToCollect.Parent and itemToCollect:FindFirstChild("ProximityPrompt", true) then
+			CollectEvent:FireServer({ itemToCollect })
+			task.wait(CollectDelay)
+			return
+		end
+	else
+		if not IsScanning1 then
+			ScanFarmTask(1)
+		end
+		task.wait(0.5)
+		return
+	end
+
+	task.wait()
+end
+
+CollectFruitWorker2 = function()
+	if not Options.tgCollectFruitEnable2.Value then
+		table.clear(FruitQueue2)
+		task.wait(1)
+		return
+	end
+
+	local success, isFull = pcall(function()
+		return InventoryService.IsMaxInventory(LocalPlayer)
+	end)
+
+	if success and isFull then
+		table.clear(FruitQueue2)
+		task.wait(1)
+		return
+	end
+
+	if #FruitQueue2 > 0 then
+		local itemToCollect = table.remove(FruitQueue2, 1)
+		if itemToCollect and itemToCollect.Parent and itemToCollect:FindFirstChild("ProximityPrompt", true) then
+			CollectEvent:FireServer({ itemToCollect })
+			task.wait(CollectDelay)
+			return
+		end
+	else
+		if not IsScanning2 then
+			ScanFarmTask(2)
+		end
+		task.wait(0.5)
+		return
+	end
+
+	task.wait()
 end
 
 GetPosition = function()
@@ -2011,7 +2469,7 @@ AutoPlant = function()
 	local tSeed = tPlant .. " Seed"
 	heldItemName(tSeed)
 	if pos then
-		local args = {vector.create(pos.X, pos.Y, pos.Z),tPlant}
+		local args = { vector.create(pos.X, pos.Y, pos.Z), tPlant }
 		GameEvents:WaitForChild("Plant_RE"):FireServer(unpack(args))
 	end
 end
@@ -2033,6 +2491,7 @@ CheckMakeMutant = function(uuid)
 		task.wait(0.3)
 		MakeMutant(uuid)
 	end
+	return true
 end
 
 PetNightmare = function(uuid)
@@ -2043,7 +2502,7 @@ PetNightmare = function(uuid)
 			local PetModel = container:FindFirstChild(uuid)
 			if PetModel then
 				heldItemName("Cleansing Pet Shard")
-				local args = {"ApplyShard", PetModel}
+				local args = { "ApplyShard", PetModel }
 				GameEvents:WaitForChild("PetShardService_RE"):FireServer(unpack(args))
 			end
 		end
@@ -2055,29 +2514,79 @@ PetNightmare = function(uuid)
 	end
 end
 
-task.spawn(function()
-	while true do -- ใช้ While Loop เพื่อให้ทำงานวนไปเรื่อยๆ
-		if Options.AutoFeedPet.Value then
-			pcall(function() -- ใส่ pcall กัน Error แล้วสคริปต์หลุด
-				FeedPet()
-			end)
+AutoSellAll = function()
+	if Options.tgAutoSellALL.Value then
+		local success, isFull = pcall(function()
+			return InventoryService.IsMaxInventory(LocalPlayer)
+		end)
+
+		if success and isFull then
+			local Previous = Character:GetPivot()
+			Character:PivotTo(CFrame.new(36.58, 4.50, 0.43))
+			task.wait(0.3)
+			GameEvents.Sell_Inventory:FireServer()
+			task.wait(0.5)
+			Character:PivotTo(Previous)
 		end
-		task.wait(10)
+	end
+	task.wait(1)
+end
+
+PickFinishPet = function()
+	local tPetMode = Options.PetMode.Value
+	if Options.PetModeEnable.Value and (tPetMode == "Elephant" or tPetMode == "Level") then
+		if GetPetLevel(targetUUID) >= tonumber(Options.AgeLimitInput.Value) then
+			SuccessLog("UnequipPet")
+			UnequipPet(targetUUID)
+			task.wait(1)
+			Mutation()
+		end
+	end
+	task.wait(10)
+end
+
+AutoAcceptPetGift = function()
+	if Options.tgAcceptPetGift.Value then
+	end
+end
+
+giftEvent.OnClientEvent:Connect(function(arg1, arg2, arg3)
+	-- 1. หน่วงเวลาเล็กน้อย (0.5 วินาที) ให้เกมสร้าง UI บนหน้าจอให้เสร็จก่อน
+	task.wait(0.5)
+	if not Options.tgAcceptPetGift.Value then
+		return
+	end
+	-- 2. วนลูปเช็ค UI ทั้งหมดที่อยู่ใน Frame (เผื่อมีคนส่งมาพร้อมกันหลายคน)
+	for _, uiElement in pairs(giftNotificationFrame:GetChildren()) do
+		-- 3. ตรวจสอบโครงสร้างว่าเป็น UI แจ้งเตือนของขวัญจริงๆ (ต้องมี Holder > Frame > Accept)
+		if uiElement:FindFirstChild("Holder") and uiElement.Holder:FindFirstChild("Frame") then
+			local acceptButton = uiElement.Holder.Frame:FindFirstChild("Accept")
+
+			-- 4. ถ้าเจอปุ่ม Accept ให้ใช้คำสั่งของ Delta Executor เพื่อจำลองการคลิก
+			if acceptButton then
+				for _, connection in pairs(getconnections(acceptButton.MouseButton1Click)) do
+					connection:Fire() -- สั่งทำงานเหมือนมีคนเอานิ้วไปกดปุ่มจริงๆ
+				end
+				-- หน่วงเวลาสั้นๆ ก่อนกดอันถัดไป (ถ้ามี) ป้องกันเ��มรวน
+				task.wait(tonumber(Options.inPetGiftDelay.Value))
+			end
+		end
 	end
 end)
 
-task.spawn(function()
-	while true do -- ใช้ While Loop เพื่อให้ทำงานวนไปเรื่อยๆ
-		if Options.tgPlantFruitEnable.Value then
-			--pcall(function() -- ใส่ pcall กัน Error แล้วสคริปต์หลุด
-			AutoPlant()
-			--end)
+isLoveFruit = function(fruit)
+	local ValentinesType = { "Heartstruck", "Cute", "Heartbound" }
+	if fruit and fruit:IsA("Model") then
+		for _, v in pairs(ValentinesType) do
+			if fruit:GetAttribute(v) == true then
+				return true
+			end
 		end
-		task.wait(tonumber(Options.inPlantDelay.Value))
 	end
-end)
+	return false
+end
 
-local function CollectValentines()
+CollectValentines = function()
 	local flag = false
 	local Farm_Important = MyFarm:FindFirstChild("Important")
 	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
@@ -2085,8 +2594,8 @@ local function CollectValentines()
 	if Plants_Physical then
 		for _, plant in pairs(Plants_Physical:GetChildren()) do
 			local FruitsContainer = plant:FindFirstChild("Fruits")
-			local Fruits = FruitsContainer or { plant }
-			for _, fruit in pairs(Fruits:GetChildren()) do
+			local Fruits = FruitsContainer and FruitsContainer:GetChildren() or { plant }
+			for _, fruit in ipairs(Fruits) do
 				if InventoryService.IsMaxInventory() then
 					--InfoLog("Inventory Full")
 					return false
@@ -2094,7 +2603,7 @@ local function CollectValentines()
 				if fruit:IsA("Model") then
 					local Prompt = fruit:FindFirstChild("ProximityPrompt", true)
 					if Prompt and Prompt.Enabled then
-						if fruit:GetAttribute("Heartstruck") or fruit:GetAttribute("Cute") then
+						if isLoveFruit(fruit) then
 							CollectEvent:FireServer({ fruit })
 							flag = true
 							task.wait()
@@ -2108,7 +2617,7 @@ local function CollectValentines()
 	return flag
 end
 
-local function HasHeartstruck()
+HasHeartstruck = function()
 	for _, v in ipairs(Backpack:GetChildren()) do
 		if v:GetAttribute("Heartstruck") or v:GetAttribute("Cute") then
 			return true
@@ -2117,7 +2626,7 @@ local function HasHeartstruck()
 	return false
 end
 
-local function ValentinesEvent()
+ValentinesEvent = function()
 	local currentCoins = DataService:GetData().SpecialCurrency.HeartCoins
 	local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed
 	local Rewards = { 30, 200, 700, 2000, 10000 }
@@ -2128,122 +2637,124 @@ local function ValentinesEvent()
 		task.wait(0.3)
 	end
 end
+local _ItemName = {
+	"Angel Arrow Statue",
+	"Heart String Light",
+	"Heart Stepping Stone",
+	"Heart Bridge",
+	"Love Walkway",
+	"Heart Fountain",
+	"Heart Shaped Gate",
+	"Heart Signs",
+	"Red Rose Fox Statue",
+	"Heart Blossom",
+}
 
-local ValentinesEnable = true
-task.spawn(function()
-	while true do
-		if ValentinesEnable then
-			pcall(function()
-				ValentinesEvent()
-			end)
-		end
-		task.wait(60)
-	end
-end)
-task.spawn(function()
-	while true do
-		if ValentinesEnable then
-			pcall(function()
-				CollectValentines()
-				if HasHeartstruck() then
-					GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("GiveHeartstruckFruits"):InvokeServer()
-				end
-			end)
+local Price = {
+	1000000000000000,
+	5000000000000000,
+	10000000000000000,
+	25000000000000000,
+	50000000000000000,
+	100000000000000000,
+	250000000000000000,
+	250000000000000000,
+	500000000000000000,
+	1000000000000000000,
+}
+ValentinesEvent2 = function()
+	local currentSheckles = DataService:GetData().Sheckles
+	local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed2
+	for i = 1, 10 do
+		if currentSheckles >= Price[i] and ValentinesCompleted[i] then
+			GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward2"):FireServer(i)
 		end
 		task.wait(0.3)
 	end
-end)
+end
 
--- เริ่มการทำงานทันที (แยก Thread ออกมา)
-task.spawn(function()
-	while true do
-		-- 1. เช็คว่าเปิดใช้งานบอทหรือไม่
-		if not Options.tgCollectFruitEnable.Value then
-			table.clear(FruitQueue) -- ล้างคิวทิ้งถ้าปิดบอท
-			task.wait(1)
-			continue
+-- Background task controller (toggle-driven)
+ToggleTask = function(taskName, enabled, funcBody)
+	if enabled then
+		if ActiveTasks[taskName] then
+			return
 		end
-
-		-- 2. เช็คกระเป๋าเต็ม (สำคัญที่สุด!)
-		-- เช็คก่อนที่จะเริ่มหยิบของออกจากคิว
-		local success, isFull = pcall(function()
-			return InventoryService.IsMaxInventory(LocalPlayer)
-		end)
-
-		if success and isFull then
-			-- ถ้ากระเป๋าเต็ม: ล้างคิวทิ้ง เพื่อไม่ให้เก็บต่อ และรอ 1 วินาที
-			table.clear(FruitQueue)
-			-- print("Inventory Full - Paused")
-			task.wait(1)
-			continue
-		end
-
-		-- 3. การทำงานเมื่อมีของในคิว (Queue Processing)
-		if #FruitQueue > 0 then
-			-- ดึงผลไม้ชิ้นแรกออกจากคิว (FIFO)
-			local itemToCollect = table.remove(FruitQueue, 1)
-
-			-- เช็คซ้ำอีกครั้งว่าของยังอยู่จริงไหม (เผื่อโดนเก็บไปแล้ว หรือหลุดโหลด)
-			if itemToCollect and itemToCollect.Parent and itemToCollect:FindFirstChild("ProximityPrompt", true) then
-				-- ส่งคำสั่งเก็บ
-				CollectEvent:FireServer({ itemToCollect })
-
-				-- รอตาม Delay ที่ตั้งไว้
-				task.wait(CollectDelay)
-			end
-		else
-			-- 4. ถ้าคิวว่าง (ไม่มีของให้เก็บ)
-			-- สั่งให้ Producer เริ่มสแกนหารอบใหม่
-			if not IsScanning then
-				ScanFarmTask()
-			end
-			-- รอสักพักก่อนวนลูปเช็คใหม่ เพื่อลดการกิน CPU ตอนว่างงาน
-			task.wait(0.5)
-		end
-
-		-- Safety Yield (ป้องกัน Script Crash)
-		task.wait()
-	end
-end)
-
----local AutoSellALL = true
-
-task.spawn(function()
-	pcall(function()
-		while true do
-			if Options.AutoSellALL.Value then
-				local success, isFull = pcall(function()
-					return InventoryService.IsMaxInventory(LocalPlayer)
-				end)
-
-				if success and isFull then
-					local Previous = Character:GetPivot()
-					Character:PivotTo(CFrame.new(36.58, 4.50, 0.43))
-					task.wait(0.3)
-					GameEvents.Sell_Inventory:FireServer()
-					task.wait(0.5)
-					Character:PivotTo(Previous)
+		ActiveTasks[taskName] = task.spawn(function()
+			while true do
+				local ok, err = pcall(funcBody)
+				if not ok then
+					WarnLog("Task '" .. taskName .. "' error: " .. tostring(err))
 				end
+				task.wait()
 			end
-			task.wait(1)
+		end)
+	else
+		if ActiveTasks[taskName] then
+			task.cancel(ActiveTasks[taskName])
+			ActiveTasks[taskName] = nil
+		end
+	end
+end
+
+SyncBackgroundTasks = function()
+	ToggleTask("AutoFeedPet", Options.AutoFeedPet.Value, function()
+		if Options.AutoFeedPet.Value then
+			pcall(FeedPet)
+			task.wait(10)
 		end
 	end)
-end)
 
-task.spawn(function()
-	--pcall(function()
-	while true do
-		local tPetMode = Options.PetMode.Value
-		--ErrorLog("Mode:" .. petMode .. "Level:" .. GetPetLevel(targetUUID) .. ":" .. Options.AgeLimitInput.Value)
-		if Options.PetModeEnable.Value and (tPetMode == "Elephant" or tPetMode == "Level") then
-			if GetPetLevel(targetUUID) >= tonumber(Options.AgeLimitInput.Value) then
-				SuccessLog("UnequipPet")
-				UnequipPet(targetUUID)
-				task.wait(1)
-				Mutation()
-			end
+	ToggleTask("AutoPlant", Options.tgPlantFruitEnable.Value, function()
+		pcall(AutoPlant)
+		task.wait(tonumber(Options.inPlantDelay.Value) or 0.3)
+	end)
+
+	ToggleTask("CollectFruit1", Options.tgCollectFruitEnable.Value, CollectFruitWorker1)
+
+	ToggleTask("CollectFruit2", Options.tgCollectFruitEnable2.Value, CollectFruitWorker2)
+
+	ToggleTask("AutoSellALL", Options.tgAutoSellALL.Value, AutoSellAll)
+
+	ToggleTask("PetModeEleLevel", Options.PetModeEnable.Value, PickFinishPet)
+
+	-- Valentines Event
+
+	ToggleTask("CollectValentines", Options.tgCollectValentines.Value, function()
+		pcall(CollectValentines)
+		task.wait(0.5)
+	end)
+
+	ToggleTask("GiveHeartstruck", Options.tgGiveHeartstruck.Value, function()
+		if Options.tgGiveHeartstruck.Value and HasHeartstruck() then
+			pcall(function()
+				GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("GiveHeartstruckFruits"):InvokeServer()
+			end)
 		end
-		task.wait(10)
-	end
-	--end)
-end)
+		task.wait(0.3)
+	end)
+
+	ToggleTask("ValentinesReward", Options.tgValentinesReward.Value, function()
+		pcall(ValentinesEvent)
+		task.wait(60)
+	end)
+
+	-- Valentines Event 2
+	ToggleTask("CollectValentines2", Options.tgCollectValentines2.Value, function()
+		pcall(CollectValentines)
+		task.wait(0.5)
+	end)
+
+	ToggleTask("GiveHeartstruck2", Options.tgGiveHeartstruck2.Value, function()
+		if Options.tgGiveHeartstruck.Value and HasHeartstruck() then
+			pcall(function()
+				GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("GiveHeartstruckFruits"):InvokeServer()
+			end)
+		end
+		task.wait(0.3)
+	end)
+
+	ToggleTask("ValentinesReward2", Options.tgValentinesReward2.Value, function()
+		pcall(ValentinesEvent2)
+		task.wait(60)
+	end)
+end
