@@ -2705,7 +2705,7 @@ ValentinesEvent2 = function()
 	--if currentSheckles >= Price[i] and ValentinesCompleted[i] then
 	GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward2"):FireServer()
 	--end
-	task.wait(0.3)
+	task.wait(1)
 	--end
 end
 
