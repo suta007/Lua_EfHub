@@ -1207,18 +1207,7 @@ PlantSection:AddInput("inPlantDelay", {
 })
 --[[ Event Section ]]
 local ValentinesSection = Tabs.Event:AddCollapsibleSection("Valentines Event", false)
-ValentinesSection:AddToggle("tgValentinesReward", {
-	Title = "Auto Claim Rewards",
-	Default = false,
-	Callback = function(Value)
-		if QuickSave then
-			QuickSave()
-		end
-		if SyncBackgroundTasks then
-			SyncBackgroundTasks()
-		end
-	end,
-})
+
 ValentinesSection:AddToggle("tgCollectValentines", {
 	Title = "Auto Collect Heartstruck Fruits",
 	Default = false,
@@ -1243,7 +1232,55 @@ ValentinesSection:AddToggle("tgGiveHeartstruck", {
 		end
 	end,
 })
-
+ValentinesSection:AddToggle("tgValentinesReward", {
+	Title = "Auto Claim Rewards",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+local ValentinesSection2 = Tabs.Event:AddCollapsibleSection("Valentines Event 2", false)
+ValentinesSection:AddToggle("tgCollectValentines2", {
+	Title = "Auto Collect Heartstruck Fruits",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+ValentinesSection:AddToggle("tgGiveHeartstruck2", {
+	Title = "Auto Give Heartstruck Fruits",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+ValentinesSection:AddToggle("tgValentinesReward2", {
+	Title = "Auto Claim Rewards",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
 --[[ Log Section ]]
 --
 local MaxLines = 100 -- จำนวนบรรทัดที่จะโชว์
@@ -2220,6 +2257,18 @@ giftEvent.OnClientEvent:Connect(function(arg1, arg2, arg3)
 	end
 end)
 
+isLoveFruit = function(fruit)
+	local ValentinesType = { "Heartstruck", "Cute", "Heartbound" }
+	if fruit and fruit:IsA("Model") then
+		for _, v in pairs(ValentinesType) do
+			if fruit:GetAttribute(v) == true then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 CollectValentines = function()
 	local flag = false
 	local Farm_Important = MyFarm:FindFirstChild("Important")
@@ -2237,7 +2286,7 @@ CollectValentines = function()
 				if fruit:IsA("Model") then
 					local Prompt = fruit:FindFirstChild("ProximityPrompt", true)
 					if Prompt and Prompt.Enabled then
-						if fruit:GetAttribute("Heartstruck") or fruit:GetAttribute("Cute") then
+						if isLoveFruit(fruit) then
 							CollectEvent:FireServer({ fruit })
 							flag = true
 							task.wait()
@@ -2267,6 +2316,16 @@ ValentinesEvent = function()
 	for i = 1, #Rewards do
 		if currentCoins >= Rewards[i] and not ValentinesCompleted[i] then
 			GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward"):FireServer(i)
+		end
+		task.wait(0.3)
+	end
+end
+
+ValentinesEvent2 = function()
+	local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed2
+	for i = 1, 10 do
+		if ValentinesCompleted[i] then
+			GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward2"):FireServer(i)
 		end
 		task.wait(0.3)
 	end
@@ -2314,10 +2373,7 @@ SyncBackgroundTasks = function()
 
 	ToggleTask("PetModeEleLevel", Options.PetModeEnable.Value, PickFinishPet)
 
-	ToggleTask("ValentinesReward", Options.tgValentinesReward.Value, function()
-		pcall(ValentinesEvent)
-		task.wait(60)
-	end)
+	-- Valentines Event
 
 	ToggleTask("CollectValentines", Options.tgCollectValentines.Value, function()
 		pcall(CollectValentines)
@@ -2331,5 +2387,30 @@ SyncBackgroundTasks = function()
 			end)
 		end
 		task.wait(0.3)
+	end)
+
+	ToggleTask("ValentinesReward", Options.tgValentinesReward.Value, function()
+		pcall(ValentinesEvent)
+		task.wait(60)
+	end)
+
+	-- Valentines Event 2
+	ToggleTask("CollectValentines2", Options.tgCollectValentines2.Value, function()
+		pcall(CollectValentines)
+		task.wait(0.5)
+	end)
+
+	ToggleTask("GiveHeartstruck2", Options.tgGiveHeartstruck2.Value, function()
+		if Options.tgGiveHeartstruck.Value and HasHeartstruck() then
+			pcall(function()
+				GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("GiveHeartstruckFruits"):InvokeServer()
+			end)
+		end
+		task.wait(0.3)
+	end)
+
+	ToggleTask("ValentinesReward2", Options.tgValentinesReward2.Value, function()
+		pcall(ValentinesEvent2)
+		task.wait(60)
 	end)
 end
