@@ -71,7 +71,7 @@ local Mutanting = false
 local IsActivePet = false
 local ApplyAntiLag
 local DevLog
-local ProcessBuy, GetMyFarm, CheckFruit, AutoPlant, GetPosition, ScanFarmTask
+local ProcessBuy, GetMyFarm, AutoPlant, GetPosition, ScanFarmTask
 local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType
 local GetPetHungerPercent, CheckMakeMutant, PetNightmare, GetPetBaseWeight
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
@@ -81,8 +81,10 @@ local AutoSellAll, PickFinishPet
 local targetWidth = 1280
 local targetHeight = 768
 
-local IsScanning = false
-local FruitQueue = {}
+local IsScanning1, IsScanning2 = false, false
+local FruitQueue1, FruitQueue2 = {}, {}
+local CheckFruit, CheckFruit1, CheckFruit2
+
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
 	Daily = "ROOT/SeedStocks/Daily Deals/Stocks",
@@ -1154,6 +1156,210 @@ CollectSection:AddInput("ipWeightValue", {
 		end
 	end,
 })
+-- Collect2
+
+local CollectDelay2 = 0.3
+
+local CheckFruitType2 = false --toggle
+local FruitType2 = {} -- dropdown multi
+local ExcludeFruitType2 = false --toggle
+
+local CheckMutant2 = false --toggle
+local MutantType2 = {} --dropdown multi
+local ExceptMutant2 = false --toggle
+
+local CheckVariant2 = false --toggle
+local VariantType2 = "Normal" -- dropdown gingle
+local ExceptVariant2 = false -- toggle
+
+local CheckWeight2 = false --toggle
+local WeightType2 = "Below" -- "Above" or "Below" --dropdown single
+local WeightValue2 = 100 --input
+
+local CollectSection2 = Tabs.Farm:AddCollapsibleSection("Collect Fruit 2", false)
+CollectSection2:AddToggle("tgCollectFruitEnable2", {
+	Title = "Enable Auto Collect Fruit ",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+--local CollectDelay = 0.3
+CollectSection2:AddInput("inCollectDelay2", {
+	Title = "Collect Delay",
+	Default = 0.3,
+	Min = 0.1,
+	Max = 3600,
+	Callback = function(Value)
+		CollectDelay2 = tonumber(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddDivider()
+CollectSection2:AddToggle("tgCheckFruitType2", {
+	Title = "Check Fruit Type",
+	Default = false,
+	Callback = function(Value)
+		CheckFruitType2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddDropdown("ddFruitType2", {
+	Title = "Fruit Type",
+	Values = FruitTable,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		FruitType2 = GetSelectedItems(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddToggle("tgExcludeFruitType2", {
+	Title = "Exclude Fruit Type",
+	Default = false,
+	Callback = function(Value)
+		ExcludeFruitType2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddDivider()
+--CheckMutant
+CollectSection2:AddToggle("tgCheckMutant2", {
+	Title = "Check Mutant",
+	Default = false,
+	Callback = function(Value)
+		CheckMutant2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+--MutantType
+--local MutationData = DataService:GetData().GardenGuide.MutationData
+--local MutationTable = {}
+--for MutationName, MutationInfo in pairs(MutationData) do
+--	table.insert(MutationTable, MutationName)
+--end
+
+CollectSection2:AddDropdown("ddMutantType2", {
+	Title = "Mutant Type",
+	Values = MutationTable,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		MutantType2 = GetSelectedItems(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+-- ExceptMutant
+CollectSection2:AddToggle("tgExceptMutant2", {
+	Title = "Except Mutant",
+	Default = false,
+	Callback = function(Value)
+		ExceptMutant2 = Value
+		if QuickSave then
+		end
+	end,
+})
+CollectSection2:AddDivider()
+
+CollectSection2:AddToggle("tgCheckVariant2", {
+	Title = "Check Variant",
+	Default = false,
+	Callback = function(Value)
+		CheckVariant2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddDropdown("ddVariantType2", {
+	Title = "Variant Type",
+	Values = { "Normal", "Silver", "Gold", "Rainbow", "Diamond" },
+	Multi = false,
+	Default = "Normal",
+	Callback = function(Value)
+		VariantType2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddToggle("tgExceptVariant2", {
+	Title = "Except Variant",
+	Default = false,
+	Callback = function(Value)
+		ExceptVariant2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+CollectSection2:AddDivider()
+
+-- local CheckWeight = false --toggle
+-- local WeightType = "Below" -- "Above", "Below"--dropdown single
+-- local WeightValue = 100 --input
+
+CollectSection2:AddToggle("tgCheckWeight2", {
+	Title = "Check Weight",
+	Default = false,
+	Callback = function(Value)
+		CheckWeight2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+CollectSection2:AddDropdown("ddWeightType2", {
+	Title = "Weight Type",
+	Values = { "Above", "Below" },
+	Multi = false,
+	Default = "Below",
+	Callback = function(Value)
+		WeightType2 = Value
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+CollectSection2:AddInput("ipWeightValue2", {
+	Title = "Weight Value",
+	Default = "100",
+	Numeric = true,
+	Finished = false,
+	Callback = function(Value)
+		WeightValue2 = tonumber(Value) or 100
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
 
 local PlantSection = Tabs.Farm:AddCollapsibleSection("Plant Fruit", false)
 PlantSection:AddToggle("tgPlantFruitEnable", {
@@ -1245,7 +1451,7 @@ ValentinesSection:AddToggle("tgValentinesReward", {
 	end,
 })
 local ValentinesSection2 = Tabs.Event:AddCollapsibleSection("Valentines Event 2", false)
-ValentinesSection:AddToggle("tgCollectValentines2", {
+ValentinesSection2:AddToggle("tgCollectValentines2", {
 	Title = "Auto Collect Heartstruck Fruits",
 	Default = false,
 	Callback = function(Value)
@@ -1257,7 +1463,7 @@ ValentinesSection:AddToggle("tgCollectValentines2", {
 		end
 	end,
 })
-ValentinesSection:AddToggle("tgGiveHeartstruck2", {
+ValentinesSection2:AddToggle("tgGiveHeartstruck2", {
 	Title = "Auto Give Heartstruck Fruits",
 	Default = false,
 	Callback = function(Value)
@@ -1269,7 +1475,7 @@ ValentinesSection:AddToggle("tgGiveHeartstruck2", {
 		end
 	end,
 })
-ValentinesSection:AddToggle("tgValentinesReward2", {
+ValentinesSection2:AddToggle("tgValentinesReward2", {
 	Title = "Auto Claim Rewards",
 	Default = false,
 	Callback = function(Value)
@@ -2040,20 +2246,89 @@ CheckFruit = function(model)
 	-- หากผ่านการตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
 	return true
 end
+--[[
+ local CollectDelay = 0.3
+ 
+ local CheckFruitType = false --toggle
+ local FruitType = {} -- dropdown multi
+ local ExcludeFruitType = false --toggle
+ 
+ local CheckMutant = false --toggle
+ local MutantType = {} --dropdown multi
+ local ExceptMutant = false --toggle
+ 
+ local CheckVariant = false --toggle
+ local VariantType = "Normal" -- dropdown gingle
+ local ExceptVariant = false -- toggle
+ 
+ local CheckWeight = false --toggle
+ local WeightType = "Below" -- "Above" or "Below" --dropdown single
+ local WeightValue = 100 --input
+ ]]
 
-ScanFarmTask = function()
-	if IsScanning then
+CheckFruit1 = function(Fruit)
+	CheckFruitType = Options.tgCheckFruitType.Value
+	FruitType = GetSelectedItems(Options.ddFruitType.Value)
+	ExcludeFruitType = Options.tgExcludeFruitType.Value
+	CheckMutant = Options.tgCheckMutant.Value
+	MutantType = GetSelectedItems(Options.ddMutantType.Value)
+	ExceptMutant = Options.tgExceptMutant.Value
+	CheckVariant = Options.tgCheckVariant.Value
+	VariantType = Options.ddVariantType.Value
+	ExceptVariant = Options.tgExceptVariant.Value
+	CheckWeight = Options.tgCheckWeight.Value
+	WeightType = Options.ddWeightType.Value
+	WeightValue = tonumber(Options.ipWeightValue.Value)
+	return CheckFruit(Fruit)
+end
+
+CheckFruit2 = function(Fruit)
+	CheckFruitType = Options.tgCheckFruitType2.Value
+	FruitType = GetSelectedItems(Options.ddFruitType2.Value)
+	ExcludeFruitType = Options.tgExcludeFruitType2.Value
+	CheckMutant = Options.tgCheckMutant2.Value
+	MutantType = GetSelectedItems(Options.ddMutantType2.Value)
+	ExceptMutant = Options.tgExceptMutant2.Value
+	CheckVariant = Options.tgCheckVariant2.Value
+	VariantType = Options.ddVariantType2.Value
+	ExceptVariant = Options.tgExceptVariant2.Value
+	CheckWeight = Options.tgCheckWeight2.Value
+	WeightType = Options.ddWeightType2.Value
+	WeightValue = tonumber(Options.ipWeightValue2.Value)
+	return CheckFruit(Fruit)
+end
+
+ScanFarmTask = function(mode)
+	local sMode = mode or 1
+	local sIsScanning
+	local sFruitQueue
+	local sCheckFruit
+	local sEnable
+	if sMode == 1 then
+		sIsScanning = IsScanning1
+		sFruitQueue = FruitQueue1
+		sCheckFruit = CheckFruit1
+		sEnable = Options.tgCollectFruitEnable.Value
+	elseif sMode == 2 then
+		sIsScanning = IsScanning2
+		sFruitQueue = FruitQueue2
+		sCheckFruit = CheckFruit2
+		sEnable = Options.tgCollectFruitEnable2.Value
+	end
+	if sIsScanning then
 		return
 	end
-	IsScanning = true
+	sIsScanning = true
 
 	task.spawn(function()
 		-- เคลียร์คิวเก่าทิ้งก่อนเริ่มรอบใหม่ เพื่อความสดใหม่ของข้อมูล
-		table.clear(FruitQueue)
+		table.clear(sFruitQueue)
 
 		local MyFarm = GetMyFarm()
 		if not MyFarm then
-			IsScanning = false
+			sIsScanning = false
+			IsScanning1 = false
+			IsScanning2 = false
 			return
 		end
 		local Farm_Important = MyFarm:FindFirstChild("Important")
@@ -2065,7 +2340,7 @@ ScanFarmTask = function()
 			-- ใช้ ipairs เพื่อความเร็วในการวนลูป Array
 			for _, plant in ipairs(Plants_Physical:GetChildren()) do
 				-- หยุดสแกนทันทีถ้าผู้ใช้ปิด Function
-				if not Options.tgCollectFruitEnable.Value then
+				if not sEnable then
 					break
 				end
 
@@ -2080,8 +2355,8 @@ ScanFarmTask = function()
 						local Prompt = item:FindFirstChild("ProximityPrompt", true)
 
 						if Prompt and Prompt.Enabled then
-							if CheckFruit(item) then
-								table.insert(FruitQueue, item)
+							if sCheckFruit(item) then
+								table.insert(sFruitQueue, item)
 							end
 						end
 					end
@@ -2094,14 +2369,21 @@ ScanFarmTask = function()
 				end
 			end
 		end
-		IsScanning = false
+		sIsScanning = false
+		if sMode == 1 then
+			IsScanning1 = sIsScanning
+			FruitQueue1 = sFruitQueue
+		elseif sMode == 2 then
+			IsScanning2 = sIsScanning
+			FruitQueue2 = sFruitQueue
+		end
 	end)
 end
 
 -- CollectFruit worker (ToggleTask-managed) - grouped with functions, not UI
-CollectFruitWorker = function()
+CollectFruitWorker1 = function()
 	if not Options.tgCollectFruitEnable.Value then
-		table.clear(FruitQueue)
+		table.clear(FruitQueue1)
 		task.wait(1)
 		return
 	end
@@ -2111,21 +2393,56 @@ CollectFruitWorker = function()
 	end)
 
 	if success and isFull then
-		table.clear(FruitQueue)
+		table.clear(FruitQueue1)
 		task.wait(1)
 		return
 	end
 
-	if #FruitQueue > 0 then
-		local itemToCollect = table.remove(FruitQueue, 1)
+	if #FruitQueue1 > 0 then
+		local itemToCollect = table.remove(FruitQueue1, 1)
 		if itemToCollect and itemToCollect.Parent and itemToCollect:FindFirstChild("ProximityPrompt", true) then
 			CollectEvent:FireServer({ itemToCollect })
 			task.wait(CollectDelay)
 			return
 		end
 	else
-		if not IsScanning then
-			ScanFarmTask()
+		if not IsScanning1 then
+			ScanFarmTask(1)
+		end
+		task.wait(0.5)
+		return
+	end
+
+	task.wait()
+end
+
+CollectFruitWorker2 = function()
+	if not Options.tgCollectFruitEnable2.Value then
+		table.clear(FruitQueue2)
+		task.wait(1)
+		return
+	end
+
+	local success, isFull = pcall(function()
+		return InventoryService.IsMaxInventory(LocalPlayer)
+	end)
+
+	if success and isFull then
+		table.clear(FruitQueue2)
+		task.wait(1)
+		return
+	end
+
+	if #FruitQueue2 > 0 then
+		local itemToCollect = table.remove(FruitQueue2, 1)
+		if itemToCollect and itemToCollect.Parent and itemToCollect:FindFirstChild("ProximityPrompt", true) then
+			CollectEvent:FireServer({ itemToCollect })
+			task.wait(CollectDelay)
+			return
+		end
+	else
+		if not IsScanning2 then
+			ScanFarmTask(2)
 		end
 		task.wait(0.5)
 		return
@@ -2250,7 +2567,7 @@ giftEvent.OnClientEvent:Connect(function(arg1, arg2, arg3)
 				for _, connection in pairs(getconnections(acceptButton.MouseButton1Click)) do
 					connection:Fire() -- สั่งทำงานเหมือนมีคนเอานิ้วไปกดปุ่มจริงๆ
 				end
-				-- หน่วงเวลาสั้นๆ ก่อนกดอันถัดไป (ถ้ามี) ป้องกันเกมรวน
+				-- หน่วงเวลาสั้นๆ ก่อนกดอันถัดไป (ถ้ามี) ป้องกันเ��มรวน
 				task.wait(tonumber(Options.inPetGiftDelay.Value))
 			end
 		end
@@ -2392,7 +2709,9 @@ SyncBackgroundTasks = function()
 		task.wait(tonumber(Options.inPlantDelay.Value) or 0.3)
 	end)
 
-	ToggleTask("CollectFruit", Options.tgCollectFruitEnable.Value, CollectFruitWorker)
+	ToggleTask("CollectFruit1", Options.tgCollectFruitEnable.Value, CollectFruitWorker1)
+
+	ToggleTask("CollectFruit2", Options.tgCollectFruitEnable2.Value, CollectFruitWorker2)
 
 	ToggleTask("AutoSellALL", Options.tgAutoSellALL.Value, AutoSellAll)
 
