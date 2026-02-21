@@ -2701,12 +2701,12 @@ local Price = {
 ValentinesEvent2 = function()
 	local currentSheckles = DataService:GetData().Sheckles
 	local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed2
-	--for i = 1, 10 do
-	--if currentSheckles >= Price[i] and ValentinesCompleted[i] then
-	GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward2"):FireServer()
-	--end
-	task.wait(5)
-	--end
+	for i = 1, 10 do
+		if currentSheckles >= Price[i] and ValentinesCompleted[i] then
+			GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward2"):FireServer()
+		end
+		task.wait(1)
+	end
 end
 
 -- Background task controller (toggle-driven)
