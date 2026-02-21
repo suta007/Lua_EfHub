@@ -73,3 +73,30 @@ return {
 		},
 	},
 }
+
+
+local ItemName = {
+    "Angel Arrow Statue",
+    "Heart String Light",
+    "Heart Stepping Stone",
+    "Heart Bridge",
+    "Love Walkway",
+    "Heart Fountain",
+    "Heart Shaped Gate",
+    "Heart Signs",
+    "Red Rose Fox Statue",
+    "Heart Blossom"
+}
+
+local Price = {
+    1000000000000000,
+    5000000000000000,
+    10000000000000000,
+    25000000000000000,
+    50000000000000000,
+    100000000000000000,
+    250000000000000000,
+    250000000000000000,
+    500000000000000000,
+    1000000000000000000
+}
