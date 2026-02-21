@@ -1610,6 +1610,7 @@ task.spawn(function()
 	SaveManager.Options.SaveManager_ConfigList:SetValue("EfHub")
 	SaveManager:Load("EfHub")
 	task.wait(1)
+	IsLoading = false
 	if SyncBackgroundTasks then
 		SyncBackgroundTasks()
 	end
