@@ -41,7 +41,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.22-00.11"
+local fVersion = "2569.02.22-01.11"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -2703,7 +2703,7 @@ ValentinesEvent2 = function()
 	local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed2
 	for i = 1, 10 do
 		if currentSheckles >= Price[i] and ValentinesCompleted[i] then
-			GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward2"):FireServer(i)
+			GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward2"):FireServer()
 		end
 		task.wait(0.3)
 	end
