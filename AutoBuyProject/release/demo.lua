@@ -41,7 +41,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.20-10.33"
+local fVersion = "2569.02.22-00.11"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -77,6 +77,7 @@ local GetPetHungerPercent, CheckMakeMutant, PetNightmare, GetPetBaseWeight
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
 local MakePetFavorite, MakePetUnfavorite, GetPetFavorite
 local AutoSellAll, PickFinishPet
+local HardCoreBuy
 
 local targetWidth = 1280
 local targetHeight = 768
@@ -288,6 +289,26 @@ Tabs.Main:AddButton({
 		pcall(function()
 			ApplyAntiLag()
 		end)
+	end,
+})
+
+local HardCoreSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Hardcore", false)
+HardCoreSection:AddToggle("HardCoreBuyEnable", {
+	Title = "Buy Hardcore",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+HardCoreSection:AddInput("HardCoreDelay", {
+	Title = "Delay (Seconds)",
+	Default = 0.3,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
 	end,
 })
 
@@ -2545,13 +2566,27 @@ PickFinishPet = function()
 	task.wait(10)
 end
 
-AutoAcceptPetGift = function()
-	if Options.tgAcceptPetGift.Value then
+HardCoreBuy = function()
+	if Options.HardCoreBuyEnable.Value then
+		local GetData_result = DataService:GetData()
+		local SeedStocks = GetData_result.SeedStocks.Shop.Stocks
+		local GearStock = GetData_result.GearStock.Stocks
+		local EggStock = GetData_result.PetEggStock.Stocks
+		if not isTableEmpty(SeedStocks) then
+			ProcessBuy(ShopKey.Seed, SeedStocks)
+		end
+		if not isTableEmpty(GearStock) then
+			ProcessBuy(ShopKey.Gear, GearStock)
+		end
+		if not isTableEmpty(EggStock) then
+			ProcessBuy(ShopKey.Egg, EggStock)
+		end
+		task.wait(tonumber(Options.HardCoreDelay.Value))
 	end
 end
 
 giftEvent.OnClientEvent:Connect(function(arg1, arg2, arg3)
-	-- 1. หน่วงเวลาเล็กน้อย (0.5 วินาที) ให้เกมสร้าง UI บนหน้าจอให้เสร็จก่อน
+	-- 1. หน่วงเวลาเล็กน้อย (0.5 วินาที) ให้เกมสร้าง UI บนหน้าจอให้เสร็จก่�����น
 	task.wait(0.5)
 	if not Options.tgAcceptPetGift.Value then
 		return
@@ -2715,8 +2750,9 @@ SyncBackgroundTasks = function()
 
 	ToggleTask("AutoSellALL", Options.tgAutoSellALL.Value, AutoSellAll)
 
-	ToggleTask("PetModeEleLevel", Options.PetModeEnable.Value, PickFinishPet)
+	ToggleTask("PickFinishPet", Options.PetModeEnable.Value, PickFinishPet)
 
+	ToggleTask("HardCoreBuy", Options.HardCoreBuyEnable.Value, HardCoreBuy)
 	-- Valentines Event
 
 	ToggleTask("CollectValentines", Options.tgCollectValentines.Value, function()
