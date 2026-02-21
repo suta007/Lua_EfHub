@@ -1345,6 +1345,7 @@ task.spawn(function()
 	end
 	SaveManager.Options.SaveManager_ConfigList:SetValue("EfHub")
 	SaveManager:Load("EfHub")
+	task.wait(1)
 	if SyncBackgroundTasks then
 		SyncBackgroundTasks()
 	end
@@ -2227,8 +2228,8 @@ CollectValentines = function()
 	if Plants_Physical then
 		for _, plant in pairs(Plants_Physical:GetChildren()) do
 			local FruitsContainer = plant:FindFirstChild("Fruits")
-			local Fruits = FruitsContainer or { plant }
-			for _, fruit in pairs(Fruits:GetChildren()) do
+			local Fruits = FruitsContainer and FruitsContainer:GetChildren() or { plant }
+			for _, fruit in ipairs(Fruits) do
 				if InventoryService.IsMaxInventory() then
 					--InfoLog("Inventory Full")
 					return false
