@@ -696,16 +696,7 @@ PetWorkSection:AddToggle("PetModeEnable", {
 		end
 		if Value then
 			task.wait(1)
-			--local mode = Options.PetMode.Value
-			--if mode == "Nightmare" then
-			-- Mutation = "Nightmare"
-			--elseif mode == "Mutant" then
-			--	if Mutation then
 			Mutation()
-			--	end
-			--else
-			-- Mutation = "EfHub"
-			--end
 		end
 	end,
 })
@@ -906,6 +897,9 @@ PetGiftSection:AddToggle("tgAcceptPetGift", {
 	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
 		end
 	end,
 })
@@ -1169,6 +1163,9 @@ PlantSection:AddToggle("tgPlantFruitEnable", {
 		if QuickSave then
 			QuickSave()
 		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
 	end,
 })
 
@@ -1217,6 +1214,9 @@ ValentinesSection:AddToggle("tgValentinesReward", {
 		if QuickSave then
 			QuickSave()
 		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
 	end,
 })
 ValentinesSection:AddToggle("tgCollectValentines", {
@@ -1226,6 +1226,9 @@ ValentinesSection:AddToggle("tgCollectValentines", {
 		if QuickSave then
 			QuickSave()
 		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
 	end,
 })
 ValentinesSection:AddToggle("tgGiveHeartstruck", {
@@ -1234,6 +1237,9 @@ ValentinesSection:AddToggle("tgGiveHeartstruck", {
 	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
 		end
 	end,
 })
