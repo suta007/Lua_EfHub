@@ -44,7 +44,7 @@ local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
 local IsLoading = true
-local AgeBreakRuning = false
+local AgeBreakRunning = false
 
 local targetUUID
 local Mutanting = false
@@ -2828,7 +2828,7 @@ end
 
 -- ลอจิกหลักของตู้ Age Break
 -- ประกาศตัวแปรล็อคไว้ด้านนอก
-local AgeBreakRunning = false
+--local AgeBreakRunning = false
 
 processAgeBreakMachine = function()
 	-- ถ้ากำลังทำงานอยู่ให้เด้งออกทันที
