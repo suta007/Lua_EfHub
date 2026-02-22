@@ -143,19 +143,29 @@ local DataService = require(ReplicatedStorage.Modules.DataService)
 local GetData_result = DataService:GetData()
 
 local fData = GetData_result.PetAgeBreakMachine
+
+local targetType = fData.SubmittedPet.PetType
+local inMachineUUID = fData.SubmittedPet.UUID
+
+SuccessLog(targetType)
+SuccessLog(inMachineUUID)
 --local fData = GetData_result.Sheckles
 
 local function ShowData(tbl, indent)
 	local lclIndent = indent or 0
 	local spacing = string.rep("  ", lclIndent)
-	for k, v in pairs(tbl) do
-		if type(v) == "table" then
-			AddLog(spacing .. "[" .. tostring(k) .. "] : (Table)")
-			ShowData(v, lclIndent + 1)
-		else
-			AddLog(spacing .. "[" .. tostring(k) .. "] : " .. tostring(v))
+	if type(tbl) == "table" then
+		for k, v in pairs(tbl) do
+			if type(v) == "table" then
+				AddLog(spacing .. "[" .. tostring(k) .. "] : (Table)")
+				ShowData(v, lclIndent + 1)
+			else
+				AddLog(spacing .. "[" .. tostring(k) .. "] : " .. tostring(v))
+			end
+			--return
 		end
-		--return
+	else
+		AddLog(spacing .. tostring(tbl))
 	end
 end
 --[[ task.spawn(function()
@@ -165,4 +175,3 @@ end
 	end
 end) ]]
 ShowData(fData, 1)
---InfoLog(fData)

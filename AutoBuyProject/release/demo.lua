@@ -39,7 +39,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "Check Dupe 5"
+local fVersion = "Check Dupe 6"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -2889,7 +2889,7 @@ processAgeBreakMachine = function()
 	elseif machineData.SubmittedPet and not machineData.IsRunning then
 		--InfoLog("เข้าเงื่อนไข")
 		local targetType = machineData.SubmittedPet.PetType
-		local inMachineUUID = machineData.submittedPet.UUID
+		local inMachineUUID = machineData.SubmittedPet.UUID
 		InfoLog(targetType .. ":" .. inMachineUUID)
 		local dupeUUID = findDupePet(inMachineUUID, targetType)
 		InfoLog("Dupe:" .. dupeUUID)
