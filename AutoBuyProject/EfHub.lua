@@ -2788,10 +2788,10 @@ findDupePet = function(mainUUID, targetType)
 				for _, petData in pairs(v) do
 					local uuid = petData.UUID
 					local tPetType = petData.PetType
-
+					InfoLog("Check:" .. tPetType .. ":" .. uuid)
 					if uuid ~= mainUUID and tPetType == targetType and not GetPetFavorite(uuid) then
 						local petAge = GetPetLevel(uuid) or 0
-
+						InfoLog("Found:" .. tPetType .. ":" .. uuid)
 						-- ป้องกันการดึงสัตว์ที่อายุ 100+ ไปเป็น Dupe เด็ดขาด
 						if petAge >= 100 then
 							continue
@@ -2819,6 +2819,7 @@ findDupePet = function(mainUUID, targetType)
 						end
 
 						if isValid then
+							InfoLog("Found Dupe:" .. tPetType .. ":" .. uuid)
 							return uuid
 						end
 					end
@@ -2891,6 +2892,7 @@ processAgeBreakMachine = function()
 
 		local dupeUUID = findDupePet(inMachineUUID, targetType)
 		if dupeUUID then
+			SuccessLog("จับทำ Dupe แล้ว : " .. dupeUUID)
 			GameEvents.PetAgeLimitBreak_Submit:FireServer({ dupeUUID })
 			task.wait(1.5)
 		end
