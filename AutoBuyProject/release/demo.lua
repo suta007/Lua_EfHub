@@ -39,11 +39,12 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "Check Dupe 7"
+local fVersion = "Check Dupe 8"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
 local IsLoading = true
+local AgeBreakRuning = false
 
 local targetUUID
 local Mutanting = false
@@ -2783,13 +2784,14 @@ findDupePet = function(mainUUID, targetType)
 	local inventory = getInventoryList()
 
 	if inventory then
+		InfoLog("Checking")
 		for _, v in pairs(inventory) do
 			if type(v) == "table" then
 				for _, petData in pairs(v) do
 					local uuid = petData.UUID
 					local tPetType = petData.PetType
-					InfoLog("Check:" .. tPetType .. ":" .. targetType)
-					InfoLog("Check:" .. mainUUID .. ":" .. uuid)
+					--InfoLog("Check:" .. tPetType .. ":" .. targetType)
+					--InfoLog("Check:" .. mainUUID .. ":" .. uuid)
 					if uuid ~= mainUUID and tPetType == targetType and not GetPetFavorite(uuid) then
 						local petAge = GetPetLevel(uuid) or 0
 						InfoLog("Found:" .. tPetType .. ":" .. uuid)
@@ -2833,6 +2835,10 @@ end
 
 -- ลอจิกหลักของตู้ Age Break
 processAgeBreakMachine = function()
+	if AgeBreakRuning then
+		return
+	end
+	AgeBreakRuning = true
 	local playerData = DataService:GetData()
 	if not playerData then
 		return
@@ -2902,6 +2908,7 @@ processAgeBreakMachine = function()
 	else
 		ErrorLog("ไม่เข้าสักเงื่อนไง")
 	end
+	AgeBreakRuning = false
 end
 
 giftEvent.OnClientEvent:Connect(function(arg1, arg2, arg3)
