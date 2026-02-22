@@ -39,7 +39,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "Check Dupe 8"
+local fVersion = "2569.02.22-13.56"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -2772,7 +2772,6 @@ end
 
 -- ฟังก์ชันหาสัตว์ตัวซ้ำ (Dupe)
 findDupePet = function(mainUUID, targetType)
-	WarnLog("Start Dupe Check")
 	local checkWeight = Options.AAB_CheckWeight.Value
 	local weightCond = Options.AAB_WeightCond.Value
 	local weightVal = tonumber(Options.AAB_WeightVal.Value) or 0
@@ -2784,18 +2783,13 @@ findDupePet = function(mainUUID, targetType)
 	local inventory = getInventoryList()
 
 	if inventory then
-		InfoLog("Checking")
 		for _, v in pairs(inventory) do
 			if type(v) == "table" then
 				for _, petData in pairs(v) do
 					local uuid = petData.UUID
 					local tPetType = petData.PetType
-					--InfoLog("Check:" .. tPetType .. ":" .. targetType)
-					--InfoLog("Check:" .. mainUUID .. ":" .. uuid)
 					if uuid ~= mainUUID and tPetType == targetType and not GetPetFavorite(uuid) then
 						local petAge = GetPetLevel(uuid) or 0
-						InfoLog("Found:" .. tPetType .. ":" .. uuid)
-						-- ป้องกันการดึงสัตว์ที่อายุ 100+ ไปเป็น Dupe เด็ดขาด
 						if petAge >= 100 then
 							continue
 						end
@@ -2822,7 +2816,6 @@ findDupePet = function(mainUUID, targetType)
 						end
 
 						if isValid then
-							InfoLog("Found Dupe:" .. tPetType .. ":" .. uuid)
 							return uuid
 						end
 					end
@@ -2834,11 +2827,15 @@ findDupePet = function(mainUUID, targetType)
 end
 
 -- ลอจิกหลักของตู้ Age Break
+-- ประกาศตัวแปรล็อคไว้ด้านนอก
+local AgeBreakRunning = false
+
 processAgeBreakMachine = function()
-	if AgeBreakRuning then
+	-- ถ้ากำลังทำงานอยู่ให้เด้งออกทันที
+	if AgeBreakRunning then
 		return
 	end
-	AgeBreakRuning = true
+
 	local playerData = DataService:GetData()
 	if not playerData then
 		return
@@ -2849,66 +2846,77 @@ processAgeBreakMachine = function()
 		return
 	end
 
-	local character = LocalPlayer.Character
-	local humanoid = character and character:FindFirstChild("Humanoid")
+	-- เริ่มทำงาน: ล็อคประตู!
+	AgeBreakRunning = true
 
-	-- 1. ถ้าระบบพร้อม Claim
-	if machineData.PetReady then
-		GameEvents.PetAgeLimitBreak_Claim:FireServer()
-		task.wait(1.5)
-		return
-	end
+	-- ใช้ pcall ครอบการทำงานหลัก ป้องกัน Error กลางคันแล้วสคริปต์ค้าง
+	local success, err = pcall(function()
+		local character = LocalPlayer.Character
+		local humanoid = character and character:FindFirstChild("Humanoid")
 
-	-- 2. ถ้าตู้กำลังรันเวลาอยู่ให้รอ
-	if machineData.IsRunning then
-		return
-	end
-
-	-- 3. ถ้าตู้ว่าง
-	if not machineData.SubmittedPet then
-		local targetAge = tonumber(Options.AAB_TargetAge.Value) or 125
-
-		if currentMainPetUUID then
-			local petAge = GetPetLevel(currentMainPetUUID)
-			if not petAge or petAge >= targetAge then
-				currentMainPetUUID = nil
-			end
-		end
-
-		if not currentMainPetUUID then
-			currentMainPetUUID = findMainPet()
-		end
-
-		if currentMainPetUUID then
-			if humanoid then
-				humanoid:UnequipTools()
-			end
-			task.wait(0.3)
-
-			heldPet(currentMainPetUUID)
-			task.wait(0.5)
-
-			GameEvents.PetAgeLimitBreak_SubmitHeld:FireServer()
-			task.wait(1)
-		end
-
-	-- 4. ถ้าส่งตัวหลักไปแล้ว รอส่ง Dupe
-	elseif machineData.SubmittedPet and not machineData.IsRunning then
-		--InfoLog("เข้าเงื่อนไข")
-		local targetType = machineData.SubmittedPet.PetType
-		local inMachineUUID = machineData.SubmittedPet.UUID
-		InfoLog(targetType .. ":" .. inMachineUUID)
-		local dupeUUID = findDupePet(inMachineUUID, targetType)
-		InfoLog("Dupe:" .. dupeUUID)
-		if dupeUUID then
-			SuccessLog("จับทำ Dupe แล้ว : " .. dupeUUID)
-			GameEvents.PetAgeLimitBreak_Submit:FireServer({ dupeUUID })
+		-- 1. ถ้าระบบพร้อม Claim
+		if machineData.PetReady then
+			GameEvents.PetAgeLimitBreak_Claim:FireServer()
 			task.wait(1.5)
+			return -- เด้งออกจาก pcall
 		end
-	else
-		ErrorLog("ไม่เข้าสักเงื่อนไง")
+
+		-- 2. ถ้าตู้กำลังรันเวลาอยู่ให้รอ
+		if machineData.IsRunning then
+			return -- เด้งออกจาก pcall
+		end
+
+		local submittedPet = machineData.SubmittedPet
+		local hasPetInMachine = submittedPet and type(submittedPet) == "table" and submittedPet.UUID ~= nil
+
+		-- 3. ถ้าตู้ว่าง
+		if not hasPetInMachine then
+			local targetAge = tonumber(Options.AAB_TargetAge.Value) or 125
+
+			if currentMainPetUUID then
+				local petAge = GetPetLevel(currentMainPetUUID)
+				if not petAge or petAge >= targetAge then
+					currentMainPetUUID = nil
+				end
+			end
+
+			if not currentMainPetUUID then
+				currentMainPetUUID = findMainPet()
+			end
+
+			if currentMainPetUUID then
+				if humanoid then
+					humanoid:UnequipTools()
+				end
+				task.wait(0.3)
+
+				heldPet(currentMainPetUUID)
+				task.wait(0.5)
+
+				GameEvents.PetAgeLimitBreak_SubmitHeld:FireServer()
+				task.wait(2) -- เพิ่มเวลาเผื่อเซิร์ฟเวอร์หน่วง
+			end
+
+		-- 4. ถ้าส่งตัวหลักไปแล้ว รอส่ง Dupe
+		elseif hasPetInMachine and not machineData.IsRunning then
+			local targetType = submittedPet.PetType
+			local inMachineUUID = submittedPet.UUID
+
+			local dupeUUID = findDupePet(inMachineUUID, targetType)
+			if dupeUUID then
+				GameEvents.PetAgeLimitBreak_Submit:FireServer({ dupeUUID })
+				task.wait(2) -- เพิ่มเวลาเผื่อเซิร์ฟเวอร์รับคำสั่งไม่ทัน
+			end
+		end
+	end)
+
+	-- ถ้าเกิด Error ให้แจ้งเตือน
+	if not success then
+		WarnLog("EfHub - Age Break Task Error: " .. err)
 	end
-	AgeBreakRuning = false
+
+	-- จบการทำงาน: ปลดล็อคประตูเสมอ! (ไม่ว่าจะ return ตอนไหน หรือเกิด Error ก็ตาม)
+	AgeBreakRunning = false
 end
 
 giftEvent.OnClientEvent:Connect(function(arg1, arg2, arg3)
