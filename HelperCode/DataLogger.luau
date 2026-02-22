@@ -165,6 +165,8 @@ local function ShowData(tbl, indent)
 	end
 end
 
+
+
 for x, y in pairs(upvals) do
 	for a, b in pairs(y) do
 		WarnLog(tostring(a))
@@ -183,7 +185,7 @@ end
 		task.wait(1)
 	end
 end) ]]
-
+ShowData(fData["{35ca3515-f40e-4329-bf40-11386a46adc6}"], 1)
 ShowData(upvals, 1)
 
 local ObjectType = pet.ObjectType --PetEgg
@@ -205,3 +207,32 @@ InfoLog("ObjectType : " .. ObjectType)
 InfoLog("Type : " .. Type)
 InfoLog("BaseWeight : " .. tostring(BaseWeight))
 InfoLog("CanHatch : " .. tostring(CanHatch))
+
+
+📋 Script initialized successfully.
+⚠️ {c7816186-9174-49af-b66b-62c21c03cc2a}
+📋 ObjectType : PetEgg
+📋 Type : Bunny
+📋 BaseWeight : 1.0915576520320498
+📋 CanHatch : true
+⚠️ {b65f42e5-ab84-4d03-adc1-bc973c08dee1}
+📋 ObjectType : PetEgg
+📋 Type : Bunny
+📋 BaseWeight : 0.9422727475294814
+📋 CanHatch : true
+⚠️ {35ca3515-f40e-4329-bf40-11386a46adc6}
+⚠️ {1085772b-1398-42c5-ba9b-8b4b09007874}
+📋 ObjectType : PetEgg
+📋 Type : Golden Lab
+📋 BaseWeight : 0.824929737423628
+📋 CanHatch : true
+⚠️ {8035761e-dcc7-4173-976e-1c82b41d62a3}
+📋 ObjectType : PetEgg
+📋 Type : Dog
+📋 BaseWeight : 1.074516758469073
+📋 CanHatch : true
+⚠️ {7c1320b5-082b-4a09-b0f7-d347025e7d6f}
+📋 ObjectType : PetEgg
+📋 Type : Bunny
+📋 BaseWeight : 1.2746890335594423
+📋 CanHatch : true
