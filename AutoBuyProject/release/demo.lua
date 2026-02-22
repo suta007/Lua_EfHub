@@ -39,7 +39,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "Check Dupe3"
+local fVersion = "Check Dupe4"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -889,7 +889,7 @@ AutoAgeBreakSection:AddDropdown("AAB_PetType", {
 AutoAgeBreakSection:AddInput("AAB_TargetAge", {
 	Title = "Target Break Age",
 	Description = "Min: 101, Max: 125",
-	Default = "125",
+	Default = 125,
 	Numeric = true,
 	Finished = true,
 	Callback = function(Value)
@@ -921,8 +921,9 @@ AutoAgeBreakSection:AddDropdown("AAB_WeightCond", {
 })
 AutoAgeBreakSection:AddInput("AAB_WeightVal", {
 	Title = "Dupe Weight Value",
-	Default = "0",
+	Default = 10,
 	Numeric = true,
+	Finished = true,
 	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
@@ -952,7 +953,7 @@ AutoAgeBreakSection:AddDropdown("AAB_AgeCond", {
 })
 AutoAgeBreakSection:AddInput("AAB_AgeVal", {
 	Title = "Dupe Age Value",
-	Default = "0",
+	Default = 30,
 	Numeric = true,
 	Callback = function(Value)
 		if QuickSave then
