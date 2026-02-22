@@ -44,9 +44,7 @@ local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
 local IsLoading = true
-local CollectFruitWorker
-local ToggleTask
-local SyncBackgroundTasks
+
 local targetUUID
 local Mutanting = false
 local IsActivePet = false
@@ -92,6 +90,7 @@ local MakePetFavorite, MakePetUnfavorite, GetPetFavorite
 local AutoSellAll, PickFinishPet
 local HardCoreBuy
 local CheckFruit, CheckFruit1, CheckFruit2
+local CollectFruitWorker1, CollectFruitWorker2 = nil, nil
 
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
