@@ -33,30 +33,39 @@ local giftNotificationFrame =
 	LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification"):WaitForChild("Frame")
 
 local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
-
 local DataService = require(ReplicatedStorage.Modules.DataService)
-
 local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.22-01.11"
+local fVersion = "2569.02.22-14.00"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
-local DevNoti
 local IsLoading = true
-local QuickSave
-local GetSelectedItems
-local CollectFruitWorker
-local CollectValentines
-local HasHeartstruck
-local ValentinesEvent
-local ToggleTask
-local SyncBackgroundTasks
+local AgeBreakRunning = false
 
 local targetUUID
+local Mutanting = false
+local IsActivePet = false
+local targetWidth = 1280
+local targetHeight = 768
+local IsScanning1, IsScanning2 = false, false
+local FruitQueue1, FruitQueue2 = {}, {}
+local currentMainPetUUID = nil
+
+-- =========================================================
+-- 1. ประกาศตัวแปรฟังก์ชันไว้ด้านบน (Forward Declarations)
+-- =========================================================
+local calculateCurrentWeight
+local getInventoryList
+local findMainPet
+local findDupePet
+local processAgeBreakMachine
+local ToggleTask
+local SyncBackgroundTasks
+local DevNoti
 local GetPetUUID
 local EquipPet
 local UnequipPet
@@ -67,8 +76,11 @@ local heldItemUUID
 local MakeMutant
 local Mutation
 local ClaimMutantPet
-local Mutanting = false
-local IsActivePet = false
+local QuickSave
+local GetSelectedItems
+local CollectValentines
+local HasHeartstruck
+local ValentinesEvent
 local ApplyAntiLag
 local DevLog
 local ProcessBuy, GetMyFarm, AutoPlant, GetPosition, ScanFarmTask
@@ -78,13 +90,8 @@ local GetEquippedPetsUUID, FindFruitInv, FeedPet
 local MakePetFavorite, MakePetUnfavorite, GetPetFavorite
 local AutoSellAll, PickFinishPet
 local HardCoreBuy
-
-local targetWidth = 1280
-local targetHeight = 768
-
-local IsScanning1, IsScanning2 = false, false
-local FruitQueue1, FruitQueue2 = {}, {}
 local CheckFruit, CheckFruit1, CheckFruit2
+local CollectFruitWorker1, CollectFruitWorker2 = nil, nil
 
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
@@ -845,6 +852,110 @@ PetWorkSection:AddDropdown("MutantSlots", {
 	Values = { 1, 2, 3, 4, 5, 6 },
 	Default = 3,
 	Multi = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+local AutoAgeBreakSection = Tabs.Pet:AddCollapsibleSection("Auto Age Break")
+
+AutoAgeBreakSection:AddToggle("AAB_Enabled", {
+	Title = "Enable Auto Age Break",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+AutoAgeBreakSection:AddDropdown("AAB_PetType", {
+	Title = "Select Pet Type",
+	Values = PetTable,
+	Default = "",
+	Multi = false,
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+AutoAgeBreakSection:AddInput("AAB_TargetAge", {
+	Title = "Target Break Age",
+	Description = "Min: 101, Max: 125",
+	Default = 125,
+	Numeric = true,
+	Finished = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+-- เงื่อนไข Dupe: น้ำหนัก
+AutoAgeBreakSection:AddToggle("AAB_CheckWeight", {
+	Title = "Check Dupe Weight?",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+AutoAgeBreakSection:AddDropdown("AAB_WeightCond", {
+	Title = "Weight Condition",
+	Values = { "<=", ">=" },
+	Default = "<=",
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+AutoAgeBreakSection:AddInput("AAB_WeightVal", {
+	Title = "Dupe Weight Value",
+	Default = 10,
+	Numeric = true,
+	Finished = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+-- เงื่อนไข Dupe: อายุ (Level)
+AutoAgeBreakSection:AddToggle("AAB_CheckAge", {
+	Title = "Check Dupe Age?",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+AutoAgeBreakSection:AddDropdown("AAB_AgeCond", {
+	Title = "Age Condition",
+	Values = { "<=", ">=" },
+	Default = "<=",
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+AutoAgeBreakSection:AddInput("AAB_AgeVal", {
+	Title = "Dupe Age Value",
+	Default = 30,
+	Numeric = true,
 	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
@@ -1694,7 +1805,7 @@ GetPetMutation = function(uuid)
 	if data and data.PetData then
 		local rawEnum = data.PetData.MutationType
 		if rawEnum then
-			return EnumToNameCache[rawEnum] or rawEnum
+			return EnumToNameCache and EnumToNameCache[rawEnum] or rawEnum
 		end
 	end
 	return nil
@@ -1724,7 +1835,12 @@ GetPetType = function(uuid)
 end
 
 GetPetHungerPercent = function(uuid)
-	return 100 * (GetPetHunger(uuid) / HungerTable[GetPetType(uuid)])
+	local petType = GetPetType(uuid)
+	local maxHunger = (HungerTable and HungerTable[petType]) or 10000
+	if maxHunger <= 0 then
+		return 0
+	end
+	return 100 * (GetPetHunger(uuid) / maxHunger)
 end
 
 -- RawName removed (unused)
@@ -1732,30 +1848,43 @@ end
 GetPetFavorite = function(uuid)
 	local data = GetRawPetData(uuid)
 	if data and data.PetData then
-		local Favorited = data.PetData.IsFavorite
-		if Favorited then
-			return Favorited
-		end
+		return data.PetData.IsFavorite == true
 	end
-	return nil
+	return false
 end
 
 MakePetFavorite = function(uuid)
-	local timeout = 3 -- รอสูงสุด 3 วินาที
+	local timeout = 3
 	local startTime = tick()
+
+	local favoriteEvent = GameEvents:WaitForChild("Favorite_Item")
+
 	if not GetPetFavorite(uuid) then
 		repeat
+			local targetItem = nil
+
 			for _, item in ipairs(Backpack:GetChildren()) do
 				if item:GetAttribute("ItemType") == "Pet" and item:GetAttribute("PET_UUID") == uuid then
-					local args = {
-						item,
-					}
-					GameEvents:WaitForChild("Favorite_Item"):FireServer(unpack(args))
-
-					task.wait(0.3) -- รอให้ถือติด
-					return true
+					targetItem = item
+					break
 				end
 			end
+
+			if not targetItem and LocalPlayer.Character then
+				for _, item in ipairs(LocalPlayer.Character:GetChildren()) do
+					if item:GetAttribute("ItemType") == "Pet" and item:GetAttribute("PET_UUID") == uuid then
+						targetItem = item
+						break
+					end
+				end
+			end
+
+			if targetItem then
+				favoriteEvent:FireServer(targetItem)
+				task.wait(0.3)
+				return true
+			end
+
 			task.wait(0.2)
 		until tick() - startTime > timeout
 	end
@@ -1763,20 +1892,37 @@ MakePetFavorite = function(uuid)
 end
 
 MakePetUnfavorite = function(uuid)
-	local timeout = 3 -- รอสูงสุด 3 วินาที
+	local timeout = 3
 	local startTime = tick()
+
+	local favoriteEvent = GameEvents:WaitForChild("Favorite_Item")
+
 	if GetPetFavorite(uuid) then
 		repeat
+			local targetItem = nil
+
 			for _, item in ipairs(Backpack:GetChildren()) do
 				if item:GetAttribute("ItemType") == "Pet" and item:GetAttribute("PET_UUID") == uuid then
-					local args = {
-						item,
-					}
-					GameEvents:WaitForChild("Favorite_Item"):FireServer(unpack(args))
-					task.wait(0.3) -- รอให้ถือติด
-					return true
+					targetItem = item
+					break
 				end
 			end
+
+			if not targetItem and LocalPlayer.Character then
+				for _, item in ipairs(LocalPlayer.Character:GetChildren()) do
+					if item:GetAttribute("ItemType") == "Pet" and item:GetAttribute("PET_UUID") == uuid then
+						targetItem = item
+						break
+					end
+				end
+			end
+
+			if targetItem then
+				favoriteEvent:FireServer(targetItem)
+				task.wait(0.3)
+				return true
+			end
+
 			task.wait(0.2)
 		until tick() - startTime > timeout
 	end
@@ -2586,8 +2732,195 @@ HardCoreBuy = function()
 	end
 end
 
+-- ฟังก์ชันคำนวณน้ำหนักปัจจุบัน
+calculateCurrentWeight = function(uuid, petAge)
+	local baseWeight = GetPetBaseWeight(uuid) or 0
+	return baseWeight * (0.909 + (0.091 * petAge))
+end
+
+-- ฟังก์ชันดึงข้อมูลกระเป๋าสัตว์เลี้ยง
+getInventoryList = function()
+	local data = DataService:GetData()
+	return data and data.PetsData and data.PetsData.PetInventory
+end
+
+-- ฟังก์ชันหาสัตว์เป้าหมาย (ตัวหลัก)
+findMainPet = function()
+	local targetType = Options.AAB_PetType.Value
+	local targetAge = tonumber(Options.AAB_TargetAge.Value) or 125
+	local inventory = getInventoryList()
+
+	if inventory then
+		for _, v in pairs(inventory) do
+			if type(v) == "table" then
+				for _, petData in pairs(v) do
+					local uuid = petData.UUID
+					local tPetType = petData.PetType
+
+					if tPetType == targetType and not GetPetFavorite(uuid) then
+						local petAge = GetPetLevel(uuid) or 0
+						if petAge >= 100 and petAge < targetAge then
+							return uuid
+						end
+					end
+				end
+			end
+		end
+	end
+	return nil
+end
+
+-- ฟังก์ชันหาสัตว์ตัวซ้ำ (Dupe)
+findDupePet = function(mainUUID, targetType)
+	local checkWeight = Options.AAB_CheckWeight.Value
+	local weightCond = Options.AAB_WeightCond.Value
+	local weightVal = tonumber(Options.AAB_WeightVal.Value) or 0
+
+	local checkAge = Options.AAB_CheckAge.Value
+	local ageCond = Options.AAB_AgeCond.Value
+	local ageVal = tonumber(Options.AAB_AgeVal.Value) or 0
+
+	local inventory = getInventoryList()
+
+	if inventory then
+		for _, v in pairs(inventory) do
+			if type(v) == "table" then
+				for _, petData in pairs(v) do
+					local uuid = petData.UUID
+					local tPetType = petData.PetType
+					if uuid ~= mainUUID and tPetType == targetType and not GetPetFavorite(uuid) then
+						local petAge = GetPetLevel(uuid) or 0
+						if petAge >= 100 then
+							continue
+						end
+
+						local isValid = true
+
+						if checkAge then
+							if ageCond == "<=" and petAge > ageVal then
+								isValid = false
+							end
+							if ageCond == ">=" and petAge < ageVal then
+								isValid = false
+							end
+						end
+
+						if isValid and checkWeight then
+							local currentWeight = calculateCurrentWeight(uuid, petAge)
+							if weightCond == "<=" and currentWeight > weightVal then
+								isValid = false
+							end
+							if weightCond == ">=" and currentWeight < weightVal then
+								isValid = false
+							end
+						end
+
+						if isValid then
+							return uuid
+						end
+					end
+				end
+			end
+		end
+	end
+	return nil
+end
+
+-- ลอจิกหลักของตู้ Age Break
+-- ประกาศตัวแปรล็อคไว้ด้านนอก
+--local AgeBreakRunning = false
+
+processAgeBreakMachine = function()
+	-- ถ้ากำลังทำงานอยู่ให้เด้งออกทันที
+	if AgeBreakRunning then
+		return
+	end
+
+	local playerData = DataService:GetData()
+	if not playerData then
+		return
+	end
+
+	local machineData = playerData.PetAgeBreakMachine
+	if not machineData then
+		return
+	end
+
+	-- เริ่มทำงาน: ล็อคประตู!
+	AgeBreakRunning = true
+
+	-- ใช้ pcall ครอบการทำงานหลัก ป้องกัน Error กลางคันแล้วสคริปต์ค้าง
+	local success, err = pcall(function()
+		local character = LocalPlayer.Character
+		local humanoid = character and character:FindFirstChild("Humanoid")
+
+		-- 1. ถ้าระบบพร้อม Claim
+		if machineData.PetReady then
+			GameEvents.PetAgeLimitBreak_Claim:FireServer()
+			task.wait(1.5)
+			return -- เด้งออกจาก pcall
+		end
+
+		-- 2. ถ้าตู้กำลังรันเวลาอยู่ให้รอ
+		if machineData.IsRunning then
+			return -- เด้งออกจาก pcall
+		end
+
+		local submittedPet = machineData.SubmittedPet
+		local hasPetInMachine = submittedPet and type(submittedPet) == "table" and submittedPet.UUID ~= nil
+
+		-- 3. ถ้าตู้ว่าง
+		if not hasPetInMachine then
+			local targetAge = tonumber(Options.AAB_TargetAge.Value) or 125
+
+			if currentMainPetUUID then
+				local petAge = GetPetLevel(currentMainPetUUID)
+				if not petAge or petAge >= targetAge then
+					currentMainPetUUID = nil
+				end
+			end
+
+			if not currentMainPetUUID then
+				currentMainPetUUID = findMainPet()
+			end
+
+			if currentMainPetUUID then
+				if humanoid then
+					humanoid:UnequipTools()
+				end
+				task.wait(0.3)
+
+				heldPet(currentMainPetUUID)
+				task.wait(0.5)
+
+				GameEvents.PetAgeLimitBreak_SubmitHeld:FireServer()
+				task.wait(2) -- เพิ่มเวลาเผื่อเซิร์ฟเวอร์หน่วง
+			end
+
+		-- 4. ถ้าส่งตัวหลักไปแล้ว รอส่ง Dupe
+		elseif hasPetInMachine and not machineData.IsRunning then
+			local targetType = submittedPet.PetType
+			local inMachineUUID = submittedPet.UUID
+
+			local dupeUUID = findDupePet(inMachineUUID, targetType)
+			if dupeUUID then
+				GameEvents.PetAgeLimitBreak_Submit:FireServer({ dupeUUID })
+				task.wait(2) -- เพิ่มเวลาเผื่อเซิร์ฟเวอร์รับคำสั่งไม่ทัน
+			end
+		end
+	end)
+
+	-- ถ้าเกิด Error ให้แจ้งเตือน
+	if not success then
+		WarnLog("EfHub - Age Break Task Error: " .. err)
+	end
+
+	-- จบการทำงาน: ปลดล็อคประตูเสมอ! (ไม่ว่าจะ return ตอนไหน หรือเกิด Error ก็ตาม)
+	AgeBreakRunning = false
+end
+
 giftEvent.OnClientEvent:Connect(function(arg1, arg2, arg3)
-	-- 1. หน่วงเวลาเล็กน้อย (0.5 วินาที) ให้เกมสร้าง UI บนหน้าจอให้เสร็จก่�����น
+	-- 1. หน่วงเวลาเล็กน้อย (0.5 วินาที) ให้เกมสร้าง UI บนหน้าจอให้เสร็จก่อน
 	task.wait(0.5)
 	if not Options.tgAcceptPetGift.Value then
 		return
@@ -2754,6 +3087,12 @@ SyncBackgroundTasks = function()
 	ToggleTask("PickFinishPet", Options.PetModeEnable.Value, PickFinishPet)
 
 	ToggleTask("HardCoreBuy", Options.HardCoreBuyEnable.Value, HardCoreBuy)
+
+	ToggleTask("AutoAgeBreak", Options.AAB_Enabled.Value, function()
+		pcall(processAgeBreakMachine)
+		task.wait(2) -- ดีเลย์ 2 วินาทีเพื่อไม่ให้รบกวนประสิทธิภาพเกมมากไป
+	end)
+
 	-- Valentines Event
 
 	ToggleTask("CollectValentines", Options.tgCollectValentines.Value, function()
