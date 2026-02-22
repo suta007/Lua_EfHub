@@ -39,7 +39,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "Check Dupe4"
+local fVersion = "Check Dupe 5"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -2887,11 +2887,12 @@ processAgeBreakMachine = function()
 
 	-- 4. ถ้าส่งตัวหลักไปแล้ว รอส่ง Dupe
 	elseif machineData.SubmittedPet and not machineData.IsRunning then
-		InfoLog("เข้าเงื่อนไข")
+		--InfoLog("เข้าเงื่อนไข")
 		local targetType = machineData.SubmittedPet.PetType
 		local inMachineUUID = machineData.submittedPet.UUID
-
+		InfoLog(targetType .. ":" .. inMachineUUID)
 		local dupeUUID = findDupePet(inMachineUUID, targetType)
+		InfoLog("Dupe:" .. dupeUUID)
 		if dupeUUID then
 			SuccessLog("จับทำ Dupe แล้ว : " .. dupeUUID)
 			GameEvents.PetAgeLimitBreak_Submit:FireServer({ dupeUUID })
