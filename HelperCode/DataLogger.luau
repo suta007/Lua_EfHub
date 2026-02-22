@@ -142,7 +142,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataService = require(ReplicatedStorage.Modules.DataService)
 local GetData_result = DataService:GetData()
 
-local fData = GetData_result.ValentinesEvent.Completed2
+local fData = GetData_result.PetAgeBreakMachine
 --local fData = GetData_result.Sheckles
 
 local function ShowData(tbl, indent)
@@ -158,11 +158,11 @@ local function ShowData(tbl, indent)
 		--return
 	end
 end
-task.spawn(function()
+--[[ task.spawn(function()
 	while true do
 		ShowData(fData, 1)
 		task.wait(1)
 	end
-end)
-
+end) ]]
+ShowData(fData, 1)
 --InfoLog(fData)

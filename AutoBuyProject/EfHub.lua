@@ -2772,6 +2772,7 @@ end
 
 -- ฟังก์ชันหาสัตว์ตัวซ้ำ (Dupe)
 findDupePet = function(mainUUID, targetType)
+	WarnLog("Start Dupe Check")
 	local checkWeight = Options.AAB_CheckWeight.Value
 	local weightCond = Options.AAB_WeightCond.Value
 	local weightVal = tonumber(Options.AAB_WeightVal.Value) or 0
@@ -2888,7 +2889,7 @@ processAgeBreakMachine = function()
 	-- 4. ถ้าส่งตัวหลักไปแล้ว รอส่ง Dupe
 	elseif machineData.SubmittedPet and not machineData.IsRunning then
 		local targetType = machineData.SubmittedPet.PetType
-		local inMachineUUID = machineData.SubmittedPet.PetUUID or currentMainPetUUID
+		local inMachineUUID = machineData.submittedPet.UUID
 
 		local dupeUUID = findDupePet(inMachineUUID, targetType)
 		if dupeUUID then
