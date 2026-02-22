@@ -39,7 +39,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "Check Dupe"
+local fVersion = "Check Dupe2"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -923,7 +923,6 @@ AutoAgeBreakSection:AddInput("AAB_WeightVal", {
 	Title = "Dupe Weight Value",
 	Default = "0",
 	Numeric = true,
-	Finished = true,
 	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
@@ -955,7 +954,6 @@ AutoAgeBreakSection:AddInput("AAB_AgeVal", {
 	Title = "Dupe Age Value",
 	Default = "0",
 	Numeric = true,
-	Finished = true,
 	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
