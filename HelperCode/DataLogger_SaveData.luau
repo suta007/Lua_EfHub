@@ -24,7 +24,7 @@ Window:SelectTab(1)
 -- 1. ประกาศตัวแปรระบบ (จองที่ไว้ก่อน)
 ------------------------------------------------------
 local MaxLines = 100 -- จำนวนบรรทัดที่จะโชว์
-local MaxFullHistory = 1000 -- จำนวนบรรทัดสูงสุดของประวัติทั้งหมด
+local MaxFullHistory = 10000 -- จำนวนบรรทัดสูงสุดของประวัติทั้งหมด
 local DisplayTable = {} -- ตารางเก็บข้อความโชว์
 local FullHistoryTable = {} -- ตารางเก็บประวัติทั้งหมด
 local IsPaused = false
@@ -111,7 +111,7 @@ end
 ------------------------------------------------------
 -- 5. [NEW] ฟังก์ชันเสริม (Wrapper Functions) ที่พี่เอฟต้องการ
 ------------------------------------------------------
---[[ local function InfoLog(message)
+local function InfoLog(message)
 	AddLog("📋 " .. message)
 end
 
@@ -125,7 +125,7 @@ end
 
 local function SuccessLog(message)
 	AddLog("✅ " .. message)
-end ]]
+end
 
 local function TimeLog(message)
 	local timestamp = os.date("%X")
@@ -135,49 +135,31 @@ end
 ------------------------------------------------------
 -- 6. Test Loop (ทดสอบดูความสวยงาม)
 ------------------------------------------------------
-AddLog("Script initialized successfully.")
+InfoLog("Script initialized successfully.")
 task.wait(0.5)
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
-local DataStream = GameEvents:WaitForChild("DataStream")
-local LocalPlayer = game:GetService("Players").LocalPlayer
 
-local function ShowData(tbl, indent)
-	local lclIndent = indent or 0
-	local spacing = string.rep("  ", lclIndent)
-	if type(tbl) == "table" then
-		for k, v in pairs(tbl) do
-			if type(v) == "table" then
-				AddLog(spacing .. "[" .. tostring(k) .. "] : (Table)")
-				ShowData(v, lclIndent + 1)
-			else
-				AddLog(spacing .. "[" .. tostring(k) .. "] : " .. tostring(v))
-			end
-			--return
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local DataService = require(ReplicatedStorage.Modules.DataService)
+local GetData_result = DataService:GetData()
+
+local fData = GetData_result.SaveSlots.AllSlots
+
+local function dumpTableWithPaths(t, path)
+	path = path or "" -- เริ่มต้น path ว่างเปล่า
+
+	for k, v in pairs(t) do
+		-- สร้างชื่อ path ใหม่ โดยเอา path เก่ามาต่อกับ key ปัจจุบัน
+		-- ถ้าเป็นชั้นแรกสุดไม่ต้องใส่จุดข้างหน้า
+		local currentPath = (path == "" and tostring(k) or path .. "." .. tostring(k))
+
+		if type(v) == "table" then
+			-- ถ้าเจอ Table อีกชั้น ให้เรียกฟังก์ชันตัวเอง (Recursive)
+			dumpTableWithPaths(v, currentPath)
+		else
+			-- ถ้าเจอค่าข้อมูลแล้ว (เช่น ตัวเลข, ข้อความ) ให้ปริ้นท์ออกมา
+			AddLog(currentPath .. " = " .. tostring(v) .. " (" .. type(v) .. ")")
 		end
-	else
-		AddLog(spacing .. tostring(tbl))
 	end
 end
 
-DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
-	if Type ~= "UpdateData" then
-		return
-	end
-	if not string.find(Profile, LocalPlayer.Name) then
-		return
-	end
-	if not Data or type(Data) ~= "table" then
-		return
-	end
-
-	for _, Packet in ipairs(Data) do
-		local Key = Packet[1]
-		local Content = Packet[2]
-
-		--if string.find(Key:lower(), "daily") and string.find(Key:lower(), "stocks") then  --daily
-		TimeLog(Key)
-		ShowData(Content, 1)
-		--end
-	end
-end)
+dumpTableWithPaths(fData)
