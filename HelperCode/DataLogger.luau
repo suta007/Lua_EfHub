@@ -140,12 +140,11 @@ task.wait(0.5)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataService = require(ReplicatedStorage.Modules.DataService)
-local GetData_result = DataService:GetData()
-local upvals = debug.getupvalues(
-	getconnections(game:GetService("ReplicatedStorage").GameEvents.EggReadyToHatch_RE.OnClientEvent)[1].Function
-)
---local fData = GetData_result.SaveSlots.AllSlots.DEFAULT.SavedObjects["{8035761e-dcc7-4173-976e-1c82b41d62a3}"]
-local fData = GetData_result.SaveSlots.AllSlots.DEFAULT.SavedObjects
+--local GetData_result = DataService:GetData()
+local PetEggs = require(ReplicatedStorage.Data.PetRegistry.PetEggs)
+for name, v in pairs(PetEggs) do
+	print(tostring(name))
+end
 
 local function ShowData(tbl, indent)
 	local lclIndent = indent or 0
@@ -165,43 +164,4 @@ local function ShowData(tbl, indent)
 	end
 end
 
-for x, y in pairs(upvals) do
-	for a, b in pairs(y) do
-		WarnLog(tostring(a))
-		local pet = fData[tostring(a)]
-		if type(pet) == "table" then
-			InfoLog("ObjectType : " .. pet.ObjectType)
-			InfoLog("Type : " .. pet.Data.Type)
-			InfoLog("BaseWeight : " .. tostring(pet.Data.BaseWeight))
-			InfoLog("CanHatch : " .. tostring(pet.Data.CanHatch))
-		end
-	end
-end
---[[ task.spawn(function()
-	while true do
-		ShowData(fData, 1)
-		task.wait(1)
-	end
-end) ]]
-
-ShowData(upvals, 1)
-
-local ObjectType = pet.ObjectType --PetEgg
-local Type = pet.Data.Type -- ชนิดสัตว์
-local BaseWeight = pet.Data.BaseWeight --น้ำหนัก
-local CanHatch = pet.Data.CanHatch -- true
-
-InfoLog("ObjectType : " .. ObjectType)
-InfoLog("Type : " .. Type)
-InfoLog("BaseWeight : " .. tostring(BaseWeight))
-InfoLog("CanHatch : " .. tostring(CanHatch))
-
-local ObjectType = fData.ObjectType --PetEgg
-local Type = fData.Data.Type -- ชนิดสัตว์
-local BaseWeight = fData.Data.BaseWeight --น้ำหนัก
-local CanHatch = fData.Data.CanHatch -- true
-
-InfoLog("ObjectType : " .. ObjectType)
-InfoLog("Type : " .. Type)
-InfoLog("BaseWeight : " .. tostring(BaseWeight))
-InfoLog("CanHatch : " .. tostring(CanHatch))
+--ShowData(PetEggs,1)
