@@ -140,12 +140,11 @@ task.wait(0.5)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataService = require(ReplicatedStorage.Modules.DataService)
-local GetData_result = DataService:GetData()
-local upvals = debug.getupvalues(
-	getconnections(game:GetService("ReplicatedStorage").GameEvents.EggReadyToHatch_RE.OnClientEvent)[1].Function
-)
---local fData = GetData_result.SaveSlots.AllSlots.DEFAULT.SavedObjects["{8035761e-dcc7-4173-976e-1c82b41d62a3}"]
-local fData = GetData_result.SaveSlots.AllSlots.DEFAULT.SavedObjects
+--local GetData_result = DataService:GetData()
+local PetEggs = require(ReplicatedStorage.Data.PetRegistry.PetEggs)
+for name, v in pairs(PetEggs) do
+	print(tostring(name))
+end
 
 local function ShowData(tbl, indent)
 	local lclIndent = indent or 0
@@ -165,6 +164,7 @@ local function ShowData(tbl, indent)
 	end
 end
 
+<<<<<<< HEAD
 
 
 for x, y in pairs(upvals) do
@@ -236,3 +236,6 @@ InfoLog("CanHatch : " .. tostring(CanHatch))
 📋 Type : Bunny
 📋 BaseWeight : 1.2746890335594423
 📋 CanHatch : true
+=======
+--ShowData(PetEggs,1)
+>>>>>>> 094cde81184c9c3c11b8bdc2db09877bf3914a7a
