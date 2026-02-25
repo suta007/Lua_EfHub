@@ -436,7 +436,7 @@ heldItemName = function(itemName) -- find item in backpack and select it
 	return false
 end
 
-heldPet = function(uuid)
+SelectPet = function(uuid)
 	local timeout = 3 -- รอสูงสุด 3 วินาที
 	local startTime = tick()
 
@@ -674,60 +674,48 @@ IsValidSellPet = function(petData)
 	end
 	return true
 end
-
 SellPetEgg = function()
-	-- 1. เช็คเบื้องต้นก่อน
-	if not Options.tgSellPetEn.Value or isEggProcessing then
+	if not Options.tgSellPetEn.Value then
 		return
 	end
-
+	if isEggProcessing then
+		return
+	end
 	local GetData_result = DataService:GetData()
 	local inventory = GetData_result and GetData_result.PetsData and GetData_result.PetsData.PetInventory
-	if not inventory then
-		return
-	end -- ถ้าไม่มีของก็เลิกทำ
-
-	local lo = GetData_result.PetsData.SelectedPetLoadout
+	local lo = GetData_result and GetData_result.PetsData and GetData_result.PetsData.SelectedPetLoadout
 	local targetSlot = tonumber(Options.ddSellPetSlot.Value)
-
-	-- 2. ล็อคสถานะตั้งแต่เริ่มทำงาน
-	isEggProcessing = true
-
-	-- ใช้ pcall คลุมเพื่อความปลอดภัย ถ้าโค้ดข้างใน Error จะได้ไม่ค้างที่ true ตลอดกาล
-	pcall(function()
+	if inventory then
 		for _, v in pairs(inventory) do
 			if type(v) == "table" then
 				for _, petData in pairs(v) do
+					--local uuid = petData.UUID
+					--local tPetType = petData.PetType
 					if type(petData) == "table" and IsValidSellPet(petData) then
-						print("Selling " .. petData.PetType)
-
+						--print("Selling " .. petData.PetType)
+						isEggProcessing = true
 						local uuid = petData.UUID
-						local sPet = heldPet(uuid) -- ในนี้ควรมี Humanoid:EquipTool(item) นะคะ
+						--local sPet = SelectPet(uuid)
 
-						if sPet then
-							-- เช็ค Loadout
+						if SelectPet(uuid) then
 							if lo ~= targetSlot then
 								SwapPetLoadout(targetSlot)
 								task.wait(10)
 								lo = targetSlot
 							end
-
-							-- ขาย (ในเมื่อถือแล้ว บางเกมไม่ต้องส่ง args ก็ได้ หรือส่ง sPet ไปด้วยเพื่อความชัวร์)
 							game:GetService("ReplicatedStorage")
 								:WaitForChild("GameEvents")
 								:WaitForChild("SellPet_RE")
-								:FireServer(sPet)
-
-							task.wait(0.5) -- รอให้ Server ประมวลผลการขายแวบนึงค่ะ
+								:FireServer()
 						end
 					end
+					task.wait(0.2)
 				end
 			end
+			task.wait()
 		end
-	end)
-
-	-- 3. ปลดล็อคสถานะเมื่อทำงานเสร็จ (ไม่ว่าจะ Error หรือไม่ก็ตาม)
-	isEggProcessing = false
+		isEggProcessing = false
+	end
 end
 
 task.spawn(function()
