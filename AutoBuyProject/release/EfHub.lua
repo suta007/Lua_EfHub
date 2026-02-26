@@ -3669,7 +3669,8 @@ SyncBackgroundTasks = function()
 			task.wait(0.1)
 		end
 		if Options.tgAutoHatchEn.Value then
-			pcall(HatchEgg)
+			--pcall(HatchEgg)
+				HatchEgg()
 			task.wait(0.1)
 		end
 		if Options.tgSellPetEn.Value then
