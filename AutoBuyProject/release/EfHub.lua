@@ -1,4 +1,4 @@
---!nocheck
+
 local Fluent = loadstring(
 	game:HttpGet(
 		"https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau",
@@ -40,7 +40,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.22-21.51"
+local fVersion = "mobile"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
