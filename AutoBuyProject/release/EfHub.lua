@@ -40,7 +40,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.26-20.35"
+local fVersion = "2569.02.22-13.56"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -3277,10 +3277,13 @@ end
 
 HatchEgg = function()
 	if Options.tgAutoHatchEn.Value then
+		InfoLog("In Hatch Egg")
 		if isEggProcessing then
 			return
 		end
+		InfoLog("Pass Process")
 		if #EggHatchList == 0 then
+			InfoLog("Egg can hatch = 0")
 			return
 		end
 		isEggProcessing = true
@@ -3299,6 +3302,7 @@ HatchEgg = function()
 				petCount += 1
 			end
 		end
+		InfoLog("patcount : " .. petCount)
 		for _, nEggs in pairs(myEggs) do
 			if nEggs:GetAttribute("READY") then
 				if table.find(EggHatchList, "ALL") or table.find(EggHatchList, nEggs:GetAttribute("EggName")) then
