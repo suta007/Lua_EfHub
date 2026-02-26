@@ -3664,7 +3664,8 @@ SyncBackgroundTasks = function()
 
 	ToggleTask("EggManagement", isEggTaskEnabled, function()
 		if Options.tgPlaceEggsEn.Value then
-			pcall(PlaceEggs)
+			--pcall(PlaceEggs)
+				PlaceEggs()
 			task.wait(0.1)
 		end
 		if Options.tgAutoHatchEn.Value then
