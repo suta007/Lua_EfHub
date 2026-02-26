@@ -2696,7 +2696,7 @@ CheckFruit = function(model)
 		end
 	end
 
-	-- หากผ่านกา�����ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
+	-- หากผ่านกา���������ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
 	return true
 end
 --[[
@@ -3275,16 +3275,6 @@ ValidEggs = function(EggsData, rEggs)
 	return nmEggs, spEggs
 end
 
-local function SwapPetLoadout(Loadout) -- Loadout is int 1-6
-	if Loadout == 2 then
-		Loadout = 3
-	elseif Loadout == 3 then
-		Loadout = 2
-	end
-	local args = { "SwapPetLoadout", Loadout }
-	GameEvents:WaitForChild("PetsService"):FireServer(unpack(args))
-end
-
 HatchEgg = function()
 	if Options.tgAutoHatchEn.Value then
 		if isEggProcessing then
@@ -3464,19 +3454,20 @@ SellPetEgg = function()
 	if #SellPetList > 0 then
 		print("Selling Pet")
 		isEggProcessing = true
-		local GetData_result = DataService:GetData()
-		local lo = GetData_result.PetsData.SelectedPetLoadout
-		if lo ~= tonumber(Options.ddSellPetSlot.Value) then
-			SwapPetLoadout(tonumber(Options.ddSellPetSlot.Value))
-			task.wait(10)
-		end
-		local f, s = 1, 1
+		--local GetData_result = DataService:GetData()
+		--local lo = GetData_result.PetsData.SelectedPetLoadout
+		--task.wait(0.1)
+		--if lo ~= tonumber(Options.ddSellPetSlot.Value) then
+		SwapPetLoadout(tonumber(Options.ddSellPetSlot.Value))
+		task.wait(10)
+		--end
+		--local f, s = 1, 1
 		for _, uuid in pairs(SellPetList) do
-			print("Found Sell pet : " .. tostring(f))
-			f += 1
+			--print("Found Sell pet : " .. tostring(f))
+			--f += 1
 			if heldPet(uuid) then
-				print("Sell pet : " .. tostring(s))
-				s += 1
+				--print("Sell pet : " .. tostring(s))
+				--s += 1
 				GameEvents:WaitForChild("SellPet_RE"):FireServer()
 			end
 			task.wait(Options.ipSellPetDelay.Value)
