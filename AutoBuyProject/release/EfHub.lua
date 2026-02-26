@@ -40,7 +40,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "mobile"
+local fVersion = "mobile2"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -3249,7 +3249,7 @@ EggInFarm = function()
 end
 
 ValidEggs = function(EggsData, rEggs)
-	local spWeight = Options.ipSpecialHatchWeight.Value
+	local spWeight = tonumber(Options.ipSpecialHatchWeight.Value)
 	--local spTypes = Options.ddSpecialHatchType.Value
 	local spEggs = {}
 	local nmEggs = {}
