@@ -3277,13 +3277,13 @@ end
 
 HatchEgg = function()
 	if Options.tgAutoHatchEn.Value then
-		InfoLog("In Hatch Egg")
+		--InfoLog("In Hatch Egg")
 		if isEggProcessing then
 			return
 		end
-		InfoLog("Pass Process")
+		--InfoLog("Pass Process")
 		if #EggHatchList == 0 then
-			InfoLog("Egg can hatch = 0")
+			--InfoLog("Egg can hatch = 0")
 			return
 		end
 		isEggProcessing = true
@@ -3302,7 +3302,7 @@ HatchEgg = function()
 				petCount += 1
 			end
 		end
-		InfoLog("petcount : " .. tostring(petCount))
+		--InfoLog("petcount : " .. tostring(petCount))
 		for _, nEggs in pairs(myEggs) do
 			if nEggs:GetAttribute("READY") then
 				if table.find(EggHatchList, "ALL") or table.find(EggHatchList, nEggs:GetAttribute("EggName")) then
@@ -3310,12 +3310,12 @@ HatchEgg = function()
 				end
 			end
 		end
-		InfoLog("Ready Egg"..tostring(#ReadyEggs))
+		--InfoLog("Ready Egg"..tostring(#ReadyEggs))
 		if petCount ~= #ReadyEggs then
 			isEggProcessing = false
 			return
 		end
-		InfoLog("check valid")
+		--InfoLog("check valid")
 		local NormalEggs, SpecialEggs = ValidEggs(PetsData, ReadyEggs)
 		if #NormalEggs > 0 then
 			SwapPetLoadout(tonumber(Options.ddHatchSlot.Value))
