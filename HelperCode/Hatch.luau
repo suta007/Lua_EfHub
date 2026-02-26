@@ -24,9 +24,6 @@ local Options = Fluent.Options
 local QuickSave
 local GetSelectedItems
 
-local testPlant
-
-local EncodingService = game:GetService("EncodingService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local PetData = require(ReplicatedStorage.Data.PetRegistry.PetList)
@@ -115,13 +112,6 @@ local Tabs = {
 	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" }),
 }
 Window:SelectTab(1)
-
-Tabs.Pet:AddButton({
-	Title = "Test Plant",
-	Callback = function()
-		testPlant()
-	end,
-})
 
 local HatchSection = Tabs.Pet:AddCollapsibleSection("Auto Hatch Eggs", false)
 
@@ -367,6 +357,18 @@ HatchSection:AddToggle("tgSellMutantPet", {
 		end
 	end,
 })
+HatchSection:AddInput("ipSellPetDelay", {
+	Title = "Sell Pet Delay",
+	Default = 0.2,
+	Numeric = true,
+	Finished = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
 InterfaceManager:SetFolder("EfHub")
@@ -393,12 +395,13 @@ local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local Humanoid = Character:WaitForChild("Humanoid")
 local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
 local DataService = require(ReplicatedStorage.Modules.DataService)
-local heldItemName, heldPet, SelectPet
+local heldItemName, heldPet
 
 --ของใหม่
 --Function
 local PlaceEggs, HatchEgg, SellPetEgg
-local getBoundary, getPlate, ValidEggs, EggInFarm, IsValidSellPet
+local getBoundary, getPlate, ValidEggs, EggInFarm, IsValidSellPet, ScanSellPet
+
 --Variable
 local isEggProcessing = false
 
@@ -436,7 +439,7 @@ heldItemName = function(itemName) -- find item in backpack and select it
 	return false
 end
 
-SelectPet = function(uuid)
+heldPet = function(uuid)
 	local timeout = 3 -- รอสูงสุด 3 วินาที
 	local startTime = tick()
 
@@ -499,7 +502,7 @@ end
 
 ValidEggs = function(EggsData, rEggs)
 	local spWeight = Options.ipSpecialHatchWeight.Value
-	local spTypes = Options.ddSpecialHatchType.Value
+	--local spTypes = Options.ddSpecialHatchType.Value
 	local spEggs = {}
 	local nmEggs = {}
 
@@ -515,7 +518,7 @@ ValidEggs = function(EggsData, rEggs)
 		local HatchPetType = EggData.Data.Type
 		if spWeight ~= 0 and HatchWeight >= spWeight then
 			table.insert(spEggs, rEgg)
-		elseif #spTypes > 0 and table.find(spTypes, HatchPetType) then
+		elseif #SpecialHatchType > 0 and table.find(SpecialHatchType, HatchPetType) then
 			table.insert(spEggs, rEgg)
 		else
 			table.insert(nmEggs, rEgg)
@@ -578,6 +581,7 @@ HatchEgg = function()
 				task.wait(tonumber(Options.ipHatchDelay.Value))
 			end
 		end
+		task.wait(10)
 		if #SpecialEggs > 0 then
 			SwapPetLoadout(tonumber(Options.ddSpecialHatchSlot.Value))
 			task.wait(10)
@@ -602,12 +606,14 @@ PlaceEggs = function()
 			return nil
 		end
 		local farmEgg = EggInFarm()
+
 		if #farmEgg >= tonumber(Options.ipMaxEggs.Value) then
+			--print("Max Eggs")
 			local GetData_result = DataService:GetData()
 			local lo = GetData_result.PetsData.SelectedPetLoadout
 			if lo ~= tonumber(Options.ddSpeedEggSlot.Value) then
 				SwapPetLoadout(tonumber(Options.ddSpeedEggSlot.Value))
-				--task.wait(10)
+				task.wait(5)
 			end
 			EggMultiple = 0
 			return
@@ -638,7 +644,9 @@ PlaceEggs = function()
 		local Egg = PlaceEggList[myIndex]
 		--print(Egg)
 		heldItemName(Egg)
+		task.wait(0.1)
 		GameEvents:WaitForChild("PetEggService"):FireServer("CreateEgg", finalPos)
+		task.wait(tonumber(Options.ipPlaceEggDelay.Value))
 		isEggProcessing = false
 	end
 	Humanoid:UnequipTools()
@@ -674,7 +682,9 @@ IsValidSellPet = function(petData)
 	end
 	return true
 end
-SellPetEgg = function()
+local SellPetList = {}
+
+ScanSellPet = function()
 	if not Options.tgSellPetEn.Value then
 		return
 	end
@@ -682,39 +692,50 @@ SellPetEgg = function()
 		return
 	end
 	local GetData_result = DataService:GetData()
-	local inventory = GetData_result and GetData_result.PetsData and GetData_result.PetsData.PetInventory
-	local lo = GetData_result and GetData_result.PetsData and GetData_result.PetsData.SelectedPetLoadout
-	local targetSlot = tonumber(Options.ddSellPetSlot.Value)
+	local inventory = GetData_result.PetsData.PetInventory
 	if inventory then
+		table.clear(SellPetList)
 		for _, v in pairs(inventory) do
 			if type(v) == "table" then
 				for _, petData in pairs(v) do
-					--local uuid = petData.UUID
-					--local tPetType = petData.PetType
 					if type(petData) == "table" and IsValidSellPet(petData) then
-						--print("Selling " .. petData.PetType)
-						isEggProcessing = true
-						local uuid = petData.UUID
-						--local sPet = SelectPet(uuid)
-
-						if SelectPet(uuid) then
-							if lo ~= targetSlot then
-								SwapPetLoadout(targetSlot)
-								task.wait(10)
-								lo = targetSlot
-							end
-							game:GetService("ReplicatedStorage")
-								:WaitForChild("GameEvents")
-								:WaitForChild("SellPet_RE")
-								:FireServer()
-						end
+						table.insert(SellPetList, petData.UUID)
 					end
-					task.wait(0.2)
 				end
 			end
-			task.wait()
 		end
+	end
+end
+SellPetEgg = function()
+	if not Options.tgSellPetEn.Value then
+		return
+	end
+	if isEggProcessing then
+		return
+	end
+	if #SellPetList > 0 then
+		print("Selling Pet")
+		isEggProcessing = true
+		local GetData_result = DataService:GetData()
+		local lo = GetData_result.PetsData.SelectedPetLoadout
+		if lo ~= tonumber(Options.ddSellPetSlot.Value) then
+			SwapPetLoadout(tonumber(Options.ddSellPetSlot.Value))
+			task.wait(10)
+		end
+		local f, s = 1, 1
+		for _, uuid in pairs(SellPetList) do
+			print("Found Sell pet : " .. tostring(f))
+			f += 1
+			if heldPet(uuid) then
+				print("Sell pet : " .. tostring(s))
+				s += 1
+				game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("SellPet_RE"):FireServer()
+			end
+			task.wait(Options.ipSellPetDelay.Value)
+		end
+		table.clear(SellPetList)
 		isEggProcessing = false
+		print("End of Sell pet")
 	end
 end
 
@@ -723,24 +744,23 @@ task.spawn(function()
 		if Options.tgPlaceEggsEn.Value then
 			PlaceEggs()
 		end
-		task.wait(tonumber(Options.ipPlaceEggDelay.Value))
-	end -- ปิด while
-end)
-
-task.spawn(function()
-	while true do
+		task.wait(0.1)
 		if Options.tgAutoHatchEn.Value then
 			HatchEgg()
 		end
-		task.wait()
+		task.wait(0.1)
+		if Options.tgSellPetEn.Value then
+			SellPetEgg()
+		end
+		task.wait(0.1)
 	end -- ปิด while
 end)
 
 task.spawn(function()
 	while true do
 		if Options.tgSellPetEn.Value then
-			SellPetEgg()
+			ScanSellPet()
 		end
-		task.wait()
-	end -- ปิด while
+		task.wait(1)
+	end
 end)
