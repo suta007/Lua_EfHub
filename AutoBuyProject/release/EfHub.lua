@@ -3302,7 +3302,7 @@ HatchEgg = function()
 				petCount += 1
 			end
 		end
-		InfoLog("patcount : " .. tostring(petCount))
+		InfoLog("petcount : " .. tostring(petCount))
 		for _, nEggs in pairs(myEggs) do
 			if nEggs:GetAttribute("READY") then
 				if table.find(EggHatchList, "ALL") or table.find(EggHatchList, nEggs:GetAttribute("EggName")) then
@@ -3310,10 +3310,12 @@ HatchEgg = function()
 				end
 			end
 		end
+		InfoLog("Ready Egg"..tostring(#ReadyEggs))
 		if petCount ~= #ReadyEggs then
 			isEggProcessing = false
 			return
 		end
+		InfoLog("check valid")
 		local NormalEggs, SpecialEggs = ValidEggs(PetsData, ReadyEggs)
 		if #NormalEggs > 0 then
 			SwapPetLoadout(tonumber(Options.ddHatchSlot.Value))
