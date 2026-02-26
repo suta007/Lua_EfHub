@@ -40,7 +40,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.22-13.56"
+local fVersion = "2569.02.22-21.51"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
