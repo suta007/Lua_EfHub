@@ -1080,9 +1080,14 @@ HatchSection:AddToggle("tgPlaceEggsEn", {
 	end,
 })
 
+local AllPetEggs = require(ReplicatedStorage.Data.PetRegistry.PetEggs)
+local AllEggTable = {}
+for EggName, v in pairs(AllPetEggs) do
+	table.insert(AllEggTable, EggName)
+end
 HatchSection:AddDropdown("ddPlaceEgg", {
 	Title = "Select Eggs",
-	Values = EggTable,
+	Values = AllEggTable,
 	Multi = true,
 	Default = {},
 	Searchable = true,
@@ -1147,7 +1152,7 @@ HatchSection:AddToggle("tgAutoHatchEn", {
 	end,
 })
 local tempTable = { "ALL" }
-table.move(EggTable, 1, #EggTable, 2, tempTable)
+table.move(AllEggTable, 1, #AllEggTable, 2, tempTable)
 HatchSection:AddDropdown("ddEggHatch", {
 	Title = "Select Egg to Hatch",
 	Values = tempTable,
@@ -2691,7 +2696,7 @@ CheckFruit = function(model)
 		end
 	end
 
-	-- หากผ่านการตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
+	-- หากผ่านกา���ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
 	return true
 end
 --[[
