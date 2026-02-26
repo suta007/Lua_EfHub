@@ -3302,7 +3302,7 @@ HatchEgg = function()
 				petCount += 1
 			end
 		end
-		InfoLog("patcount : " .. petCount)
+		InfoLog("patcount : " .. tostring(petCount))
 		for _, nEggs in pairs(myEggs) do
 			if nEggs:GetAttribute("READY") then
 				if table.find(EggHatchList, "ALL") or table.find(EggHatchList, nEggs:GetAttribute("EggName")) then
