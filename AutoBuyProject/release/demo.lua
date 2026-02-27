@@ -3494,14 +3494,14 @@ AcceptGift = function(uiNode)
 	if not acceptBtn then
 		return
 	end
-	local playerGui = LocalPlayer:WaitForChild("PlayerGui")
+	--[[ 	local playerGui = LocalPlayer:WaitForChild("PlayerGui")
 	local hiddenGuis = {}
 	for _, gui in pairs(playerGui:GetChildren()) do
 		if gui:IsA("ScreenGui") and gui.Name ~= "Gift_Notification" and gui.Enabled == true then
 			gui.Enabled = false
 			table.insert(hiddenGuis, gui)
 		end
-	end
+	end ]]
 
 	--[[ 	local inset, _ = GuiService:GetGuiInset()
 	local x = acceptBtn.AbsolutePosition.X + (acceptBtn.AbsoluteSize.X / 2)
