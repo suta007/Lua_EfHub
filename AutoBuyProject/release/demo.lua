@@ -3491,6 +3491,8 @@ GiftMainFrame.ChildAdded:Connect(function(child)
 	if not Options.tgAcceptPetGift.Value then
 		return
 	end
+	local playerGui = LocalPlayer.PlayerGui
+	local hiddenGuis = {}
 	-- 2. วนลูปเช็ค UI ทั้งหมดที่อยู่ใน Frame (เผื่อมีคนส่งมาพร้อมกันหลายคน)
 	for _, uiElement in pairs(GiftMainFrame:GetChildren()) do
 		-- 3. ตรวจสอบโครงสร้างว่าเป็น UI แจ้งเตือนของขวัญจริงๆ (ต้องมี Holder > Frame > Accept)
@@ -3499,10 +3501,12 @@ GiftMainFrame.ChildAdded:Connect(function(child)
 
 			-- 4. ถ้าเจอปุ่ม Accept ให้ใช้คำสั่งของ Delta Executor เพื่อจำลองการคลิก
 			if acceptButton then
-				--[[ 				for _, connection in pairs(getconnections(acceptButton.MouseButton1Click)) do
-					connection:Fire() -- สั่งทำงานเหมือนมีคนเอานิ้วไปกดปุ่มจริงๆ
-				end ]]
-				-- หน่วงเวลาสั้นๆ ก่อนกดอันถัดไป (ถ้ามี) ป้องกันเ��มรวน
+				for _, gui in pairs(playerGui:GetChildren()) do
+					if gui:IsA("ScreenGui") and gui.Name ~= "Gift_Notification" and gui.Enabled == true then
+						gui.Enabled = false
+						table.insert(hiddenGuis, gui)
+					end
+				end
 
 				local inset, _ = game:GetService("GuiService"):GetGuiInset()
 				local x = acceptButton.AbsolutePosition.X + (acceptButton.AbsoluteSize.X / 2)
@@ -3511,6 +3515,10 @@ GiftMainFrame.ChildAdded:Connect(function(child)
 				VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 1) -- เมาส์กดลง
 				task.wait(0.05)
 				VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 1) -- เมาส์ปล่อย
+
+				for _, gui in ipairs(hiddenGuis) do
+					gui.Enabled = true
+				end
 
 				task.wait(tonumber(Options.inPetGiftDelay.Value))
 			end
