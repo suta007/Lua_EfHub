@@ -36,12 +36,11 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 local VirtualInputManager = game:GetService("VirtualInputManager")
 local GuiService = game:GetService("GuiService")
---local giftGui = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification")
---local mainFrame = giftGui:WaitForChild("Frame")
+local giftNotiFrame = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification"):WaitForChild("Frame")
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.27-09.27"
+local fVersion = "Demo-Gift"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
