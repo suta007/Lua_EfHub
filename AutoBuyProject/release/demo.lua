@@ -36,8 +36,8 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 local VirtualInputManager = game:GetService("VirtualInputManager")
 local GuiService = game:GetService("GuiService")
-local giftGui = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification")
-local mainFrame = giftGui:WaitForChild("Frame")
+--local giftGui = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification")
+--local mainFrame = giftGui:WaitForChild("Frame")
 
 CollapsibleAddon(Fluent)
 
