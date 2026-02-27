@@ -3489,7 +3489,7 @@ end
 
 -- AcceptGiftClick = function(acceptBtn) end
 
-AcceptGift = function(uiNode)
+--[[ AcceptGift = function(uiNode)
 	local acceptBtn = uiNode:FindFirstChild("Accept", true)
 	if not acceptBtn then
 		return
@@ -3514,16 +3514,16 @@ AcceptGift = function(uiNode)
 	for _, gui in ipairs(hiddenGuis) do
 		gui.Enabled = true
 	end
-end
+end ]]
 
 giftNotiFrame.ChildAdded:Connect(function(child)
 	if not Options.tgAcceptPetGift.Value then
 		return
 	end
-	task.spawn(function()
+	--[[ task.spawn(function()
 		AcceptGift(child)
 		task.wait(0.3)
-	end)
+	end) ]]
 end)
 --End of Main Function
 
