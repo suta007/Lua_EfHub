@@ -29,8 +29,7 @@ local VirtualUser = game:GetService("VirtualUser")
 local Lighting = game:GetService("Lighting")
 local Terrain = workspace.Terrain
 local giftEvent = GameEvents:WaitForChild("GiftPet")
-local giftNotificationFrame =
-	LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification"):WaitForChild("Frame")
+local GiftMainFrame = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification"):WaitForChild("Frame")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 
 local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
@@ -40,7 +39,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.27-09.27"
+local fVersion = "GiftMainFrame"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -3486,14 +3485,14 @@ end
 
 --End of Main Function
 
-giftEvent.OnClientEvent:Connect(function(arg1, arg2, arg3)
+GiftMainFrame.ChildAdded:Connect(function(child)
 	-- 1. หน่วงเวลาเล็กน้อย (0.5 วินาที) ให้เกมสร้าง UI บนหน้าจอให้เสร็จก่อน
 	task.wait(0.5)
 	if not Options.tgAcceptPetGift.Value then
 		return
 	end
 	-- 2. วนลูปเช็ค UI ทั้งหมดที่อยู่ใน Frame (เผื่อมีคนส่งมาพร้อมกันหลายคน)
-	for _, uiElement in pairs(giftNotificationFrame:GetChildren()) do
+	for _, uiElement in pairs(GiftMainFrame:GetChildren()) do
 		-- 3. ตรวจสอบโครงสร้างว่าเป็น UI แจ้งเตือนของขวัญจริงๆ (ต้องมี Holder > Frame > Accept)
 		if uiElement:FindFirstChild("Holder") and uiElement.Holder:FindFirstChild("Frame") then
 			local acceptButton = uiElement.Holder.Frame:FindFirstChild("Accept")
