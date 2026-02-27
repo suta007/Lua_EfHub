@@ -1,4 +1,3 @@
---!nocheck
 local Fluent = loadstring(
 	game:HttpGet(
 		"https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau",
@@ -33,6 +32,11 @@ local giftEvent = GameEvents:WaitForChild("GiftPet")
 local giftNotificationFrame =
 	LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification"):WaitForChild("Frame")
 
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local GuiService = game:GetService("GuiService")
+local giftGui = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification")
+local mainFrame = giftGui:WaitForChild("Frame")
+
 local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
 local DataService = require(ReplicatedStorage.Modules.DataService)
 local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
@@ -40,7 +44,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.22-13.56"
+local fVersion = "2569.02.27-09.27"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -2688,7 +2692,7 @@ CheckFruit = function(model)
 
 		local tWeight = weightObj.Value
 
-		-- ตรวจสอบค่าตัวเลข
+		-- ตรวจส�����บค่าตัวเลข
 		if WeightType == "Above" and not (tWeight >= WeightValue) then
 			return false
 		elseif WeightType == "Below" and not (tWeight < WeightValue) then
@@ -2696,7 +2700,7 @@ CheckFruit = function(model)
 		end
 	end
 
-	-- หากผ่านกา���������ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
+	-- หากผ่านกา���������������ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
 	return true
 end
 --[[
@@ -3249,7 +3253,7 @@ EggInFarm = function()
 end
 
 ValidEggs = function(EggsData, rEggs)
-	local spWeight = Options.ipSpecialHatchWeight.Value
+	local spWeight = tonumber(Options.ipSpecialHatchWeight.Value)
 	--local spTypes = Options.ddSpecialHatchType.Value
 	local spEggs = {}
 	local nmEggs = {}
@@ -3277,10 +3281,13 @@ end
 
 HatchEgg = function()
 	if Options.tgAutoHatchEn.Value then
+		--InfoLog("In Hatch Egg")
 		if isEggProcessing then
 			return
 		end
+		--InfoLog("Pass Process")
 		if #EggHatchList == 0 then
+			--InfoLog("Egg can hatch = 0")
 			return
 		end
 		isEggProcessing = true
@@ -3299,6 +3306,7 @@ HatchEgg = function()
 				petCount += 1
 			end
 		end
+		--InfoLog("petcount : " .. tostring(petCount))
 		for _, nEggs in pairs(myEggs) do
 			if nEggs:GetAttribute("READY") then
 				if table.find(EggHatchList, "ALL") or table.find(EggHatchList, nEggs:GetAttribute("EggName")) then
@@ -3306,10 +3314,12 @@ HatchEgg = function()
 				end
 			end
 		end
+		--InfoLog("Ready Egg"..tostring(#ReadyEggs))
 		if petCount ~= #ReadyEggs then
 			isEggProcessing = false
 			return
 		end
+		--InfoLog("check valid")
 		local NormalEggs, SpecialEggs = ValidEggs(PetsData, ReadyEggs)
 		if #NormalEggs > 0 then
 			SwapPetLoadout(tonumber(Options.ddHatchSlot.Value))
@@ -3480,29 +3490,76 @@ end
 
 --End of Main Function
 
-giftEvent.OnClientEvent:Connect(function(arg1, arg2, arg3)
-	-- 1. หน่วงเวลาเล็กน้อย (0.5 วินาที) ให้เกมสร้าง UI บนหน้าจอให้เสร็จก่อน
-	task.wait(0.5)
-	if not Options.tgAcceptPetGift.Value then
-		return
-	end
-	-- 2. วนลูปเช็ค UI ทั้งหมดที่อยู่ใน Frame (เผื่อมีคนส่งมาพร้อมกันหลายคน)
-	for _, uiElement in pairs(giftNotificationFrame:GetChildren()) do
-		-- 3. ตรวจสอบโครงสร้างว่าเป็น UI แจ้งเตือนของขวัญจริงๆ (ต้องมี Holder > Frame > Accept)
-		if uiElement:FindFirstChild("Holder") and uiElement.Holder:FindFirstChild("Frame") then
-			local acceptButton = uiElement.Holder.Frame:FindFirstChild("Accept")
+-- ฟังก์ชัน: ซ่อน UI อื่น -> สั่งคลิกด้วย VIM -> คืนค่า UI
+local function clearPathAndClick(button)
+	local playerGui = LocalPlayer.PlayerGui
+	local hiddenGuis = {}
 
-			-- 4. ถ้าเจอปุ่ม Accept ให้ใช้คำสั่งของ Delta Executor เพื่อจำลองการคลิก
-			if acceptButton then
-				for _, connection in pairs(getconnections(acceptButton.MouseButton1Click)) do
-					connection:Fire() -- สั่งทำงานเหมือนมีคนเอานิ้วไปกดปุ่มจริงๆ
-				end
-				-- หน่วงเวลาสั้นๆ ก่อนกดอันถัดไป (ถ้ามี) ป้องกันเ��มรวน
-				task.wait(tonumber(Options.inPetGiftDelay.Value))
-			end
+	-- 1. ซ่อน UI อื่นๆ ทั้งหมดชั่วคราว (ป้องกันการคลิกติด UI ที่ทับอยู่)
+	for _, gui in pairs(playerGui:GetChildren()) do
+		if gui:IsA("ScreenGui") and gui.Name ~= "Gift_Notification" and gui.Enabled == true then
+			gui.Enabled = false
+			table.insert(hiddenGuis, gui)
 		end
 	end
+
+	-- 2. คำนวณพิกัดปุ่ม (บวก GuiInset เพื่อความแม่นยำ 100%)
+	local inset, _ = GuiService:GetGuiInset()
+	local x = button.AbsolutePosition.X + (button.AbsoluteSize.X / 2)
+	local y = button.AbsolutePosition.Y + (button.AbsoluteSize.Y / 2) + inset.Y
+
+	--print("🖱️ [VIM] สั่งคลิก Accept แบบรวดเร็วที่พิกัด: X=".. math.floor(x).. ", Y=".. math.floor(y))
+
+	-- 3. ยิงคำสั่งเมาส์จำลอง
+	VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 1) -- เมาส์กดลง
+	task.wait(0.05)
+	VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 1) -- เมาส์ปล่อย
+
+	-- 4. เปิด UI อื่นๆ กลับมาทันที (ไวมากจนตาแทบมองไม่ทัน)
+	for _, gui in ipairs(hiddenGuis) do
+		gui.Enabled = true
+	end
+end
+
+-- ฟังก์ชัน: ตรวจจับและสั่งทำงาน
+local function processGift(uiNode)
+	task.spawn(function()
+		local acceptBtn = nil
+		local timeout = 0
+
+		-- รอให้ปุ่ม Accept ปรากฏขึ้นมาในหน้าต่าง (รอนานสุด 3 วินาที)
+		while timeout < 30 do
+			acceptBtn = uiNode:FindFirstChild("Accept", true)
+			if acceptBtn then
+				break
+			end
+
+			task.wait(0.1)
+			timeout = timeout + 1
+		end
+
+		if acceptBtn then
+			-- หน่วงเวลาเล็กน้อยให้ UI ขยายตัวจนเสร็จแอนิเมชัน (ป้องกันคลิกพลาดพิกัด)
+			task.wait(0.2)
+
+			-- สั่งแหวกทางและคลิก
+			clearPathAndClick(acceptBtn)
+			--print("✅ [Success] รับของขวัญเรียบร้อย!")
+		else
+			--print("❌ [Error] ไม่พบปุ่ม Accept ในเวลาที่กำหนด")
+		end
+	end)
+end
+
+-- ดักจับเมื่อมีแจ้งเตือนใหม่
+mainFrame.ChildAdded:Connect(function(child)
+	processGift(child)
 end)
+
+-- เคลียร์แจ้งเตือนเก่าที่ค้างอยู่ตอนเพิ่งรันสคริปต์
+for _, child in pairs(mainFrame:GetChildren()) do
+	processGift(child)
+end
 
 isLoveFruit = function(fruit)
 	local ValentinesType = { "Heartstruck", "Cute", "Heartbound" }
@@ -3658,11 +3715,13 @@ SyncBackgroundTasks = function()
 
 	ToggleTask("EggManagement", isEggTaskEnabled, function()
 		if Options.tgPlaceEggsEn.Value then
-			pcall(PlaceEggs)
+			--pcall(PlaceEggs)
+			PlaceEggs()
 			task.wait(0.1)
 		end
 		if Options.tgAutoHatchEn.Value then
-			pcall(HatchEgg)
+			--pcall(HatchEgg)
+			HatchEgg()
 			task.wait(0.1)
 		end
 		if Options.tgSellPetEn.Value then
