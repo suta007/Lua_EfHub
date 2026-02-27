@@ -28,19 +28,16 @@ local Humanoid = Character:WaitForChild("Humanoid")
 local VirtualUser = game:GetService("VirtualUser")
 local Lighting = game:GetService("Lighting")
 local Terrain = workspace.Terrain
-local giftEvent = GameEvents:WaitForChild("GiftPet")
-local giftNotificationFrame =
-	LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification"):WaitForChild("Frame")
-
-local VirtualInputManager = game:GetService("VirtualInputManager")
-local GuiService = game:GetService("GuiService")
-local giftGui = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification")
-local mainFrame = giftGui:WaitForChild("Frame")
 
 local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
 local DataService = require(ReplicatedStorage.Modules.DataService)
 local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
+
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local GuiService = game:GetService("GuiService")
+local giftGui = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification")
+local mainFrame = giftGui:WaitForChild("Frame")
 
 CollapsibleAddon(Fluent)
 
@@ -2692,7 +2689,7 @@ CheckFruit = function(model)
 
 		local tWeight = weightObj.Value
 
-		-- ตรวจส�����บค่าตัวเลข
+		-- ตรวจส���บค่าตัวเลข
 		if WeightType == "Above" and not (tWeight >= WeightValue) then
 			return false
 		elseif WeightType == "Below" and not (tWeight < WeightValue) then
@@ -3490,7 +3487,6 @@ end
 
 --End of Main Function
 
--- ฟังก์ชัน: ซ่อน UI อื่น -> สั่งคลิกด้วย VIM -> คืนค่า UI
 local function clearPathAndClick(button)
 	local playerGui = LocalPlayer.PlayerGui
 	local hiddenGuis = {}
@@ -3508,8 +3504,6 @@ local function clearPathAndClick(button)
 	local x = button.AbsolutePosition.X + (button.AbsoluteSize.X / 2)
 	local y = button.AbsolutePosition.Y + (button.AbsoluteSize.Y / 2) + inset.Y
 
-	--print("🖱️ [VIM] สั่งคลิก Accept แบบรวดเร็วที่พิกัด: X=".. math.floor(x).. ", Y=".. math.floor(y))
-
 	-- 3. ยิงคำสั่งเมาส์จำลอง
 	VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 1) -- เมาส์กดลง
 	task.wait(0.05)
@@ -3521,7 +3515,6 @@ local function clearPathAndClick(button)
 	end
 end
 
--- ฟังก์ชัน: ตรวจจับและสั่งทำงาน
 local function processGift(uiNode)
 	task.spawn(function()
 		local acceptBtn = nil
@@ -3544,9 +3537,6 @@ local function processGift(uiNode)
 
 			-- สั่งแหวกทางและคลิก
 			clearPathAndClick(acceptBtn)
-			--print("✅ [Success] รับของขวัญเรียบร้อย!")
-		else
-			--print("❌ [Error] ไม่พบปุ่ม Accept ในเวลาที่กำหนด")
 		end
 	end)
 end
