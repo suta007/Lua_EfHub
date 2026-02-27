@@ -3488,7 +3488,7 @@ end
 -- Accept Gifts Button
 
 -- AcceptGiftClick = function(acceptBtn) end
---[[ 
+
 AcceptGift = function(uiNode)
 	local acceptBtn = uiNode:FindFirstChild("Accept", true)
 	if not acceptBtn then
@@ -3516,7 +3516,7 @@ AcceptGift = function(uiNode)
 	end
 end
 
-mainFrame.ChildAdded:Connect(function(child)
+giftNotiFrame.ChildAdded:Connect(function(child)
 	if not Options.tgAcceptPetGift.Value then
 		return
 	end
@@ -3524,7 +3524,7 @@ mainFrame.ChildAdded:Connect(function(child)
 		AcceptGift(child)
 		task.wait(0.3)
 	end)
-end) ]]
+end)
 --End of Main Function
 
 isLoveFruit = function(fruit)
