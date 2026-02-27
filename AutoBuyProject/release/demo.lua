@@ -1,10 +1,7 @@
 --!nocheck
 
 local Fluent = loadstring(
-	game:HttpGet(
-		"https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau",
-		true
-	)
+	game:HttpGetAsync("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau")
 )()
 local SaveManager = loadstring(
 	game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau")
