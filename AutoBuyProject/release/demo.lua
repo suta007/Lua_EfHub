@@ -1,7 +1,8 @@
---!nocheck
-
 local Fluent = loadstring(
-	game:HttpGetAsync("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau")
+	game:HttpGet(
+		"https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau",
+		true
+	)
 )()
 local SaveManager = loadstring(
 	game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau")
@@ -15,7 +16,6 @@ local CollapsibleAddon = loadstring(
 	game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua")
 )()
 
---local EncodingService = game:GetService("EncodingService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
 local DataStream = GameEvents:WaitForChild("DataStream")
@@ -28,19 +28,19 @@ local Humanoid = Character:WaitForChild("Humanoid")
 local VirtualUser = game:GetService("VirtualUser")
 local Lighting = game:GetService("Lighting")
 local Terrain = workspace.Terrain
+local giftEvent = GameEvents:WaitForChild("GiftPet")
+local giftNotificationFrame =
+	LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification"):WaitForChild("Frame")
+local VirtualInputManager = game:GetService("VirtualInputManager")
 
 local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
 local DataService = require(ReplicatedStorage.Modules.DataService)
 local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
-local VirtualInputManager = game:GetService("VirtualInputManager")
-local GuiService = game:GetService("GuiService")
-local giftNotiFrame = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification"):WaitForChild("Frame")
-
 CollapsibleAddon(Fluent)
 
-local fVersion = "Demo-Gift"
+local fVersion = "2569.02.27-09.27"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -85,22 +85,20 @@ local QuickSave
 local GetSelectedItems
 local CollectValentines
 local HasHeartstruck
-local ValentinesEvent, ValentinesEvent2, isLoveFruit
+local ValentinesEvent
 local ApplyAntiLag
 local DevLog
 local ProcessBuy, GetMyFarm, AutoPlant, GetPosition, ScanFarmTask
 local GetRawPetData, GetPetLevel, GetPetMutation, GetPetHunger, GetPetType
 local GetPetHungerPercent, CheckMakeMutant, PetNightmare, GetPetBaseWeight
 local GetEquippedPetsUUID, FindFruitInv, FeedPet
-local MakePetFavorite, GetPetFavorite, MakePetUnfavorite
+local MakePetFavorite, MakePetUnfavorite, GetPetFavorite
 local AutoSellAll, PickFinishPet
 local HardCoreBuy
 local CheckFruit, CheckFruit1, CheckFruit2
 local CollectFruitWorker1, CollectFruitWorker2 = nil, nil
 local PlaceEggs, HatchEgg, SellPetEgg
 local getBoundary, getPlate, ValidEggs, EggInFarm, IsValidSellPet, ScanSellPet
-
-local AcceptGift
 
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
@@ -189,7 +187,7 @@ ProcessBuy = function(ShopKey, StockData)
 		local ItemName = itemInfo.EggName or itemId
 		local StockAmount = tonumber(itemInfo.Stock) or 0
 		local BuyEnabled = false
-		local StockInfo = string.format("Found %s : %s", ItemName, tostring(StockAmount))
+		local StockInfo = string.format("Found %s : %s", ItemName, StockAmount)
 		DevNoti(StockInfo)
 		if Setting.BuyAll then
 			BuyEnabled = true
@@ -217,7 +215,7 @@ ProcessBuy = function(ShopKey, StockData)
 			end
 			BuyEnabled = false
 
-			local LogMessage = string.format("Bought %s : %s", ItemName, tostring(StockAmount))
+			local LogMessage = string.format("Bought %s : %s", ItemName, StockAmount)
 			DevNoti(LogMessage)
 		end
 	end
@@ -2690,7 +2688,7 @@ CheckFruit = function(model)
 
 		local tWeight = weightObj.Value
 
-		-- ตรวจสอบค่าต��วเล��
+		-- ตรวจสอบค่าตัวเลข
 		if WeightType == "Above" and not (tWeight >= WeightValue) then
 			return false
 		elseif WeightType == "Below" and not (tWeight < WeightValue) then
@@ -3485,47 +3483,41 @@ SellPetEgg = function()
 		print("End of Sell pet")
 	end
 end
--- Accept Gifts Button
 
--- AcceptGiftClick = function(acceptBtn) end
+--End of Main Function
 
-AcceptGift = function(uiNode)
-	local acceptBtn = uiNode:FindFirstChild("Accept", true) or nil
-	if not acceptBtn then
-		return
-	end
-	--[[ 	local playerGui = LocalPlayer:WaitForChild("PlayerGui")
-	local hiddenGuis = {}
-	for _, gui in pairs(playerGui:GetChildren()) do
-		if gui:IsA("ScreenGui") and gui.Name ~= "Gift_Notification" and gui.Enabled == true then
-			gui.Enabled = false
-			table.insert(hiddenGuis, gui)
-		end
-	end ]]
-
-	--[[ 	local inset, _ = GuiService:GetGuiInset()
-	local x = acceptBtn.AbsolutePosition.X + (acceptBtn.AbsoluteSize.X / 2)
-	local y = acceptBtn.AbsolutePosition.Y + (acceptBtn.AbsoluteSize.Y / 2) + inset.Y
-
-	VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 1) -- เมาส์กดลง
-	task.wait(0.05)
-	VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 1) -- เมาส์ปล่อย
-
-	for _, gui in ipairs(hiddenGuis) do
-		gui.Enabled = true
-	end ]]
-end
-
-giftNotiFrame.ChildAdded:Connect(function(child)
+giftEvent.OnClientEvent:Connect(function(arg1, arg2, arg3)
+	-- 1. หน่วงเวลาเล็กน้อย (0.5 วินาที) ให้เกมสร้าง UI บนหน้าจอให้เสร็จก่อน
+	task.wait(0.5)
 	if not Options.tgAcceptPetGift.Value then
 		return
 	end
-	task.spawn(function()
-		AcceptGift(child)
-		task.wait(0.3)
-	end)
+	-- 2. วนลูปเช็ค UI ทั้งหมดที่อยู่ใน Frame (เผื่อมีคนส่งมาพร้อมกันหลายคน)
+	for _, uiElement in pairs(giftNotificationFrame:GetChildren()) do
+		-- 3. ตรวจสอบโครงสร้างว่าเป็น UI แจ้งเตือนของขวัญจริงๆ (ต้องมี Holder > Frame > Accept)
+		if uiElement:FindFirstChild("Holder") and uiElement.Holder:FindFirstChild("Frame") then
+			local acceptButton = uiElement.Holder.Frame:FindFirstChild("Accept")
+
+			-- 4. ถ้าเจอปุ่ม Accept ให้ใช้คำสั่งของ Delta Executor เพื่อจำลองการคลิก
+			if acceptButton then
+				--[[ 				for _, connection in pairs(getconnections(acceptButton.MouseButton1Click)) do
+					connection:Fire() -- สั่งทำงานเหมือนมีคนเอานิ้วไปกดปุ่มจริงๆ
+				end ]]
+				-- หน่วงเวลาสั้นๆ ก่อนกดอันถัดไป (ถ้ามี) ป้องกันเ��มรวน
+
+				local inset, _ = game:GetService("GuiService"):GetGuiInset()
+				local x = acceptButton.AbsolutePosition.X + (acceptButton.AbsoluteSize.X / 2)
+				local y = acceptButton.AbsolutePosition.Y + (acceptButton.AbsoluteSize.Y / 2) + inset.Y
+
+				VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 1) -- เมาส์กดลง
+				task.wait(0.05)
+				VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 1) -- เมาส์ปล่อย
+
+				task.wait(tonumber(Options.inPetGiftDelay.Value))
+			end
+		end
+	end
 end)
---End of Main Function
 
 isLoveFruit = function(fruit)
 	local ValentinesType = { "Heartstruck", "Cute", "Heartbound" }
