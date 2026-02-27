@@ -1,4 +1,3 @@
---!nocheck
 local Fluent = loadstring(
 	game:HttpGet(
 		"https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau",
@@ -40,7 +39,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.22-13.56"
+local fVersion = "2569.02.27-09.27"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -2696,7 +2695,7 @@ CheckFruit = function(model)
 		end
 	end
 
-	-- หากผ่านกา�������������ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
+	-- หากผ่านกา���������������ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
 	return true
 end
 --[[
@@ -3249,7 +3248,7 @@ EggInFarm = function()
 end
 
 ValidEggs = function(EggsData, rEggs)
-	local spWeight = Options.ipSpecialHatchWeight.Value
+	local spWeight = tonumber(Options.ipSpecialHatchWeight.Value)
 	--local spTypes = Options.ddSpecialHatchType.Value
 	local spEggs = {}
 	local nmEggs = {}
@@ -3277,13 +3276,13 @@ end
 
 HatchEgg = function()
 	if Options.tgAutoHatchEn.Value then
-		InfoLog("In Hatch Egg")
+		--InfoLog("In Hatch Egg")
 		if isEggProcessing then
 			return
 		end
-		InfoLog("Pass Process")
+		--InfoLog("Pass Process")
 		if #EggHatchList == 0 then
-			InfoLog("Egg can hatch = 0")
+			--InfoLog("Egg can hatch = 0")
 			return
 		end
 		isEggProcessing = true
@@ -3302,7 +3301,7 @@ HatchEgg = function()
 				petCount += 1
 			end
 		end
-		InfoLog("patcount : " .. petCount)
+		--InfoLog("petcount : " .. tostring(petCount))
 		for _, nEggs in pairs(myEggs) do
 			if nEggs:GetAttribute("READY") then
 				if table.find(EggHatchList, "ALL") or table.find(EggHatchList, nEggs:GetAttribute("EggName")) then
@@ -3310,10 +3309,12 @@ HatchEgg = function()
 				end
 			end
 		end
+		--InfoLog("Ready Egg"..tostring(#ReadyEggs))
 		if petCount ~= #ReadyEggs then
 			isEggProcessing = false
 			return
 		end
+		--InfoLog("check valid")
 		local NormalEggs, SpecialEggs = ValidEggs(PetsData, ReadyEggs)
 		if #NormalEggs > 0 then
 			SwapPetLoadout(tonumber(Options.ddHatchSlot.Value))
@@ -3662,11 +3663,13 @@ SyncBackgroundTasks = function()
 
 	ToggleTask("EggManagement", isEggTaskEnabled, function()
 		if Options.tgPlaceEggsEn.Value then
-			pcall(PlaceEggs)
+			--pcall(PlaceEggs)
+			PlaceEggs()
 			task.wait(0.1)
 		end
 		if Options.tgAutoHatchEn.Value then
-			pcall(HatchEgg)
+			--pcall(HatchEgg)
+			HatchEgg()
 			task.wait(0.1)
 		end
 		if Options.tgSellPetEn.Value then
