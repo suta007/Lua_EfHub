@@ -3490,7 +3490,7 @@ end
 -- AcceptGiftClick = function(acceptBtn) end
 
 AcceptGift = function(uiNode)
-	local acceptBtn = uiNode:FindFirstChild("Accept", true)
+	local acceptBtn = uiNode:FindFirstChild("Accept", true) or nil
 	if not acceptBtn then
 		return
 	end
