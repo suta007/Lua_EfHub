@@ -34,10 +34,10 @@ local DataService = require(ReplicatedStorage.Modules.DataService)
 local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
---[[ local VirtualInputManager = game:GetService("VirtualInputManager")
+local VirtualInputManager = game:GetService("VirtualInputManager")
 local GuiService = game:GetService("GuiService")
 local giftGui = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification")
-local mainFrame = giftGui:WaitForChild("Frame") ]]
+local mainFrame = giftGui:WaitForChild("Frame")
 
 CollapsibleAddon(Fluent)
 
