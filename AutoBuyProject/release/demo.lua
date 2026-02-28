@@ -1,4 +1,3 @@
---!nocheck
 local Fluent = loadstring(
 	game:HttpGet(
 		"https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau",
@@ -1828,7 +1827,7 @@ PlantSection:AddInput("inPlantDelay", {
 })
 
 --[[ Automatic Section In Automatic tab]]
-local ShovelSection = Tabs.Automatic:AddCollapsibleSection("Shovel", false)
+local ShovelSection = Tabs.Auto:AddCollapsibleSection("Shovel", false)
 ShovelSection:AddToggle("tgAutoPlantShovel", {
 	Title = "Auto Plant Shovel",
 	Default = false,
@@ -1896,7 +1895,7 @@ ShovelSection:AddToggle("tgShovelCosmetic", {
 	end,
 })
 
-local ReclaimSection = Tabs.Automatic:AddCollapsibleSection("Reclaim", false)
+local ReclaimSection = Tabs.Auto:AddCollapsibleSection("Reclaim", false)
 ReclaimSection:AddToggle("tgReclaim", {
 	Title = "Reclaim",
 	Default = false,
@@ -1923,7 +1922,7 @@ ReclaimSection:AddDropdown("ddReclaim", {
 })
 --[[ Trowel Section ]]
 --
-local TrowelSection = Tabs.Automatic:AddCollapsibleSection("Trowel", false)
+local TrowelSection = Tabs.Auto:AddCollapsibleSection("Trowel", false)
 TrowelSection:AddToggle("tgTrowel", {
 	Title = "Trowel",
 	Default = false,
