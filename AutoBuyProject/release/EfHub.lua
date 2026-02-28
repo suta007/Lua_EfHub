@@ -38,7 +38,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.27-19.05"
+local fVersion = "2569.02.28-09.07"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -2694,7 +2694,7 @@ CheckFruit = function(model)
 		end
 	end
 
-	-- หากผ่านกา���������������������ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
+	-- หากผ่านกา�������������������������ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
 	return true
 end
 --[[
@@ -3288,8 +3288,8 @@ HatchEgg = function()
 		local ReadyEggs = {}
 		local PetsData = {}
 		local myEggs = EggInFarm()
-		local GetData_result = DataService:GetData()
-		local fData = GetData_result.SaveSlots.AllSlots.DEFAULT.SavedObjects
+		local SelectedSlot = GetData_result.SaveSlots.SelectedSlot
+		local fData = GetData_result.SaveSlots.AllSlots[SelectedSlot].SavedObjects
 		if not fData or type(fData) ~= "table" then
 			return
 		end

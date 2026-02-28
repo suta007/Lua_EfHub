@@ -141,10 +141,10 @@ task.wait(0.5)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataService = require(ReplicatedStorage.Modules.DataService)
 local GetData_result = DataService:GetData()
-local saveslot = GetData_result.SaveSlots.SelectedSlot
-print(saveslot)
+local SelectedSlot = GetData_result.SaveSlots.SelectedSlot
+--print(SelectedSlot)
 
-local fData = GetData_result.SaveSlots.AllSlots[saveslot].SavedObjects
+local fData = GetData_result.SaveSlots.AllSlots[SelectedSlot].SavedObjects
 --local fData = GetData_result.SaveSlots.AllSlots
 
 local function dumpTableWithPaths(t, path)
