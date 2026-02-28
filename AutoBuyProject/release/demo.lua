@@ -97,6 +97,7 @@ local CheckFruit, CheckFruit1, CheckFruit2
 local CollectFruitWorker1, CollectFruitWorker2 = nil, nil
 local PlaceEggs, HatchEgg, SellPetEgg
 local getBoundary, getPlate, ValidEggs, EggInFarm, IsValidSellPet, ScanSellPet
+local ShovelPlant
 
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
@@ -236,6 +237,7 @@ local Tabs = {
 	Buy = Window:AddTab({ Title = "Buy", Icon = "shopping-cart" }),
 	Pet = Window:AddTab({ Title = "Pet", Icon = "bone" }),
 	Farm = Window:AddTab({ Title = "Farm", Icon = "tree-pine" }),
+	Auto = Window:AddTab({ Title = "Automatic", Icon = "bot" }),
 	Event = Window:AddTab({ Title = "Event", Icon = "calendar" }),
 	Log = Window:AddTab({ Title = "Console", Icon = "terminal" }),
 	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" }),
@@ -1825,6 +1827,139 @@ PlantSection:AddInput("inPlantDelay", {
 		end
 	end,
 })
+
+--[[ Automatic Section In Automatic tab]]
+local ShovelSection = Tabs.Auto:AddCollapsibleSection("Shovel", false)
+
+ShovelSection:AddToggle("tgAutoPlantShovel", {
+	Title = "Auto Plant Shovel",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+local tempShovelDD = { "ALL" }
+table.move(FruitTable, 1, #FruitTable, 2, tempShovelDD)
+
+ShovelSection:AddDropdown("ddShovelPlant", {
+	Title = "Select Plant(s) to Shovel",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+ShovelSection:AddDivider()
+
+ShovelSection:AddToggle("tgAutoCropShovel", {
+	Title = "Auto Crop Shovel",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+ShovelSection:AddDropdown("ddShovelCrop", {
+	Title = "Select Crop(s) to Shovel",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+--[[ Add a lot of Fruit Shovel Conditions ]]
+ShovelSection:AddDivider()
+
+--[[ Shovel Cosmetic]]
+ShovelSection:AddToggle("tgShovelCosmetic", {
+	Title = "Shovel All Cosmetic",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+local ReclaimSection = Tabs.Auto:AddCollapsibleSection("Reclaim", false)
+ReclaimSection:AddToggle("tgReclaim", {
+	Title = "Reclaim",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+ReclaimSection:AddDropdown("ddReclaim", {
+	Title = "Reclaim Type",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+--[[ Trowel Section ]]
+local TrowelSection = Tabs.Auto:AddCollapsibleSection("Trowel", false)
+TrowelSection:AddToggle("tgTrowel", {
+	Title = "Trowel",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+TrowelSection:AddDropdown("ddTrowel", {
+	Title = "Trowel Type",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
 --[[ Event Section ]]
 local ValentinesSection = Tabs.Event:AddCollapsibleSection("Valentines Event", false)
 
@@ -3481,6 +3616,29 @@ SellPetEgg = function()
 	end
 end
 
+ShovelPlant = function()
+	if not Options.tgAutoPlantShovel.Value then
+		return
+	end
+	local Farm_Important = MyFarm:FindFirstChild("Important")
+	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+
+	local ShovelPlantList = GetSelectedItems(Options.ddShovelPlant.Value)
+	local myShovel = LocalPlayer.Backpack:FindFirstChild("Shovel [Destroy Plants]")
+
+	if Plants_Physical then
+		for _, plant in pairs(Plants_Physical:GetChildren()) do
+			if table.find(ShovelPlantList, plant.Name) then
+				pcall(function()
+					Humanoid:EquipTool(myShovel)
+				end)
+				GameEvents:WaitForChild("Remove_Item"):FireServer(plant)
+				task.wait(0.1)
+			end
+		end
+	end
+end
+
 --End of Main Function
 
 GiftMainFrame.ChildAdded:Connect(function(child)
@@ -3587,20 +3745,8 @@ ValentinesEvent = function()
 		task.wait(0.3)
 	end
 end
-local _ItemName = {
-	"Angel Arrow Statue",
-	"Heart String Light",
-	"Heart Stepping Stone",
-	"Heart Bridge",
-	"Love Walkway",
-	"Heart Fountain",
-	"Heart Shaped Gate",
-	"Heart Signs",
-	"Red Rose Fox Statue",
-	"Heart Blossom",
-}
 
-local Price = {
+--[[ local Price = {
 	1000000000000000,
 	5000000000000000,
 	10000000000000000,
@@ -3611,12 +3757,13 @@ local Price = {
 	250000000000000000,
 	500000000000000000,
 	1000000000000000000,
-}
+} ]]
 ValentinesEvent2 = function()
 	local currentSheckles = DataService:GetData().Sheckles
 	local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed2
 	for i = 1, 10 do
-		if currentSheckles >= Price[i] and not ValentinesCompleted[i] then
+		--if currentSheckles >= Price[i] and not ValentinesCompleted[i] then
+		if not ValentinesCompleted[i] then
 			GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward2"):FireServer()
 		end
 		task.wait(1)
@@ -3668,6 +3815,8 @@ SyncBackgroundTasks = function()
 	ToggleTask("PickFinishPet", Options.PetModeEnable.Value, PickFinishPet)
 
 	ToggleTask("HardCoreBuy", Options.HardCoreBuyEnable.Value, HardCoreBuy)
+
+	ToggleTask("ShovelPlant", Options.tgAutoPlantShovel.Value, ShovelPlant)
 
 	ToggleTask("AutoAgeBreak", Options.AAB_Enabled.Value, function()
 		pcall(processAgeBreakMachine)
