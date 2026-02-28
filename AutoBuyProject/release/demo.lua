@@ -1,3 +1,4 @@
+--!strict
 local Fluent = loadstring(
 	game:HttpGet(
 		"https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau",
@@ -206,7 +207,7 @@ ProcessBuy = function(ShopKey, StockData)
 				if Setting.ArgType == "SeedMode" then
 					Args = { "Shop", ItemName }
 				elseif Setting.ArgType == "EventMode" then
-					Args = { ItemName, Setting.EventArg }
+					Args = { ItemName, tostring(Setting.EventArg) }
 				else
 					Args = { ItemName }
 				end

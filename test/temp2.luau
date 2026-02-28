@@ -1,52 +1,180 @@
-local LocalPlayer = game:GetService("Players").LocalPlayer
-local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-local Humanoid = Character:WaitForChild("Humanoid")
+--!strict
+local Fluent = loadstring(
+	game:HttpGet(
+		"https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau",
+		true
+	)
+)()
+local SaveManager = loadstring(
+	game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau")
+)()
+local InterfaceManager = loadstring(
+	game:HttpGet(
+		"https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"
+	)
+)()
+local CollapsibleAddon = loadstring(
+	game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua")
+)()
 
-local myShovel = LocalPlayer.Backpack["Shovel [Destroy Plants]"]
-Humanoid:EquipTool(myShovel)
+CollapsibleAddon(Fluent)
 
-GetMyFarm = function()
-	local farmFolder = workspace:FindFirstChild("Farm")
-	if not farmFolder then
-		return nil
-	end
-	for _, oFarm in pairs(farmFolder:GetChildren()) do
-		local success, owner = pcall(function()
-			return oFarm.Important.Data.Owner.Value
-		end)
+local Window = Fluent:CreateWindow({
+	Title = "Grow a Garden ",
+	SubTitle = "by EfHub",
+	TabWidth = 100,
+	Size = UDim2.fromOffset(1400, 900),
+	Resize = true,
+	MinSize = Vector2.new(580, 460),
+	Acrylic = true,
+	Theme = "Darker",
+	MinimizeKey = Enum.KeyCode.RightControl,
+})
 
-		if success and owner == LocalPlayer.Name then
-			return oFarm
+local QuickSave, SyncBackgroundTasks
+local FruitData = require(game:GetService("ReplicatedStorage").Data.SeedData) -- This is table data of seeds
+local FruitTable = {}
+for FruitName, FruitInfo in pairs(FruitData) do
+	table.insert(FruitTable, FruitName)
+end
+table.sort(FruitTable)
+
+local Tabs = {
+	Auto = Window:AddTab({ Title = "Automatic", Icon = "robot" }),
+}
+
+local Options = Fluent.Options
+
+Window:SelectTab(1)
+
+--[[ Automatic Section In Automatic tab]]
+local ShovelSection = Tabs.Auto:AddCollapsibleSection("Shovel", false)
+
+ShovelSection:AddToggle("tgAutoPlantShovel", {
+	Title = "Auto Plant Shovel",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
 		end
-	end
-	return nil
-end
-
-local MyFarm = GetMyFarm()
-
-ShovelPlant = function()
-	local Farm_Important = MyFarm:FindFirstChild("Important")
-	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
-
-	local ShovelPlantList = { "Buttercup" } --GetSelectedItems(Options.ddShovelPlant.Value)
-	local myShovel = LocalPlayer.Backpack:FindFirstChild("Shovel [Destroy Plants]")
-
-	if Plants_Physical then
-		for _, plant in pairs(Plants_Physical:GetChildren()) do
-			if table.find(ShovelPlantList, plant.Name) then
-				pcall(function()
-					Humanoid:EquipTool(myShovel)
-				end)
-				game:GetService("ReplicatedStorage")
-					:WaitForChild("GameEvents")
-					:WaitForChild("Remove_Item")
-					:FireServer(plant)
-				task.wait(0.1)
-			end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
 		end
-	end
-end
+	end,
+})
 
-for i = 1, 3 do
-	ShovelPlant()
-end
+local tempShovelDD = { "ALL" }
+table.move(FruitTable, 1, #FruitTable, 2, tempShovelDD)
+
+ShovelSection:AddDropdown("ddShovelPlant", {
+	Title = "Select Plant(s) to Shovel",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+ShovelSection:AddDivider()
+
+ShovelSection:AddToggle("tgAutoCropShovel", {
+	Title = "Auto Crop Shovel",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+ShovelSection:AddDropdown("ddShovelCrop", {
+	Title = "Select Crop(s) to Shovel",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+--[[ Add a lot of Fruit Shovel Conditions ]]
+ShovelSection:AddDivider()
+
+--[[ Shovel Cosmetic]]
+ShovelSection:AddToggle("tgShovelCosmetic", {
+	Title = "Shovel All Cosmetic",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+local ReclaimSection = Tabs.Auto:AddCollapsibleSection("Reclaim", false)
+ReclaimSection:AddToggle("tgReclaim", {
+	Title = "Reclaim",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+ReclaimSection:AddDropdown("ddReclaim", {
+	Title = "Reclaim Type",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+--[[ Trowel Section ]]
+local TrowelSection = Tabs.Auto:AddCollapsibleSection("Trowel", false)
+TrowelSection:AddToggle("tgTrowel", {
+	Title = "Trowel",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+TrowelSection:AddDropdown("ddTrowel", {
+	Title = "Trowel Type",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
