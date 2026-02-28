@@ -3615,7 +3615,7 @@ SellPetEgg = function()
 	end
 end
 
---[[ ShovelPlant = function()
+ShovelPlant = function()
 	if not Options.tgAutoPlantShovel.Value then
 		return
 	end
@@ -3636,7 +3636,7 @@ end
 			end
 		end
 	end
-end ]]
+end
 
 --End of Main Function
 
