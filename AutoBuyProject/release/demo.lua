@@ -16,6 +16,7 @@ local CollapsibleAddon = loadstring(
 	game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua")
 )()
 
+local EncodingService = game:GetService("EncodingService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
 local DataStream = GameEvents:WaitForChild("DataStream")
@@ -48,8 +49,8 @@ local AgeBreakRunning = false
 local targetUUID
 local Mutanting = false
 local IsActivePet = false
-local targetWidth = 1280
-local targetHeight = 768
+local targetWidth = 1400
+local targetHeight = 900
 local IsScanning1, IsScanning2 = false, false
 local FruitQueue1, FruitQueue2 = {}, {}
 local currentMainPetUUID = nil
@@ -97,7 +98,7 @@ local CheckFruit, CheckFruit1, CheckFruit2
 local CollectFruitWorker1, CollectFruitWorker2 = nil, nil
 local PlaceEggs, HatchEgg, SellPetEgg
 local getBoundary, getPlate, ValidEggs, EggInFarm, IsValidSellPet, ScanSellPet
-local ShovelPlant
+local ShovelPlant, Trowel, Reclaim, ShovelCosmetic, ShovelCrop
 
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
@@ -3546,7 +3547,9 @@ ShovelPlant = function()
 	end
 	local Farm_Important = MyFarm:FindFirstChild("Important")
 	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
-
+	pcall(function()
+		Humanoid:UnequipTools()
+	end)
 	local ShovelPlantList = GetSelectedItems(Options.ddShovelPlant.Value)
 	local myShovel = LocalPlayer.Backpack:FindFirstChild("Shovel [Destroy Plants]")
 
@@ -3563,6 +3566,38 @@ ShovelPlant = function()
 	end
 end
 
+Reclaim = function()
+	if not Options.tgReclaim.Value then
+		return
+	end
+	pcall(function()
+		Humanoid:UnequipTools()
+	end)
+	local Backpack = LocalPlayer.Backpack
+	local myReclaimer
+	for _, item in pairs(Backpack:GetChildren()) do
+		if item:IsA("Tool") and string.find(item.Name, "^Reclaimer") then
+			myReclaimer = item
+			break
+		end
+	end
+
+	local Farm_Important = MyFarm:FindFirstChild("Important")
+	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+
+	local ReclaimPlantList = GetSelectedItems(Options.ddReclaim.Value)
+	if Plants_Physical then
+		for _, plant in pairs(Plants_Physical:GetChildren()) do
+			if table.find(ReclaimPlantList, plant.Name) then
+				pcall(function()
+					Humanoid:EquipTool(myReclaimer)
+				end)
+				GameEvents:WaitForChild("ReclaimerService_RE"):FireServer("TryReclaim", plant)
+				task.wait(0.1)
+			end
+		end
+	end
+end
 --End of Main Function
 
 GiftMainFrame.ChildAdded:Connect(function(child)
@@ -3653,6 +3688,8 @@ SyncBackgroundTasks = function()
 	ToggleTask("HardCoreBuy", Options.HardCoreBuyEnable.Value, HardCoreBuy)
 
 	ToggleTask("ShovelPlant", Options.tgAutoPlantShovel.Value, ShovelPlant)
+
+	ToggleTask("Reclaim", Options.tgReclaim.Value, Reclaim)
 
 	ToggleTask("AutoAgeBreak", Options.AAB_Enabled.Value, function()
 		pcall(processAgeBreakMachine)

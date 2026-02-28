@@ -1,3 +1,4 @@
+--!nocheck
 local Fluent = loadstring(
 	game:HttpGet(
 		"https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau",
@@ -16,6 +17,7 @@ local CollapsibleAddon = loadstring(
 	game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua")
 )()
 
+local EncodingService = game:GetService("EncodingService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
 local DataStream = GameEvents:WaitForChild("DataStream")
@@ -38,7 +40,7 @@ local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.28-09.07"
+local fVersion = "2569.02.28-23.03"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -48,8 +50,8 @@ local AgeBreakRunning = false
 local targetUUID
 local Mutanting = false
 local IsActivePet = false
-local targetWidth = 1280
-local targetHeight = 768
+local targetWidth = 1400
+local targetHeight = 900
 local IsScanning1, IsScanning2 = false, false
 local FruitQueue1, FruitQueue2 = {}, {}
 local currentMainPetUUID = nil
@@ -97,6 +99,7 @@ local CheckFruit, CheckFruit1, CheckFruit2
 local CollectFruitWorker1, CollectFruitWorker2 = nil, nil
 local PlaceEggs, HatchEgg, SellPetEgg
 local getBoundary, getPlate, ValidEggs, EggInFarm, IsValidSellPet, ScanSellPet
+local ShovelPlant, Trowel, Reclaim, ShovelCosmetic, ShovelCrop
 
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
@@ -236,6 +239,7 @@ local Tabs = {
 	Buy = Window:AddTab({ Title = "Buy", Icon = "shopping-cart" }),
 	Pet = Window:AddTab({ Title = "Pet", Icon = "bone" }),
 	Farm = Window:AddTab({ Title = "Farm", Icon = "tree-pine" }),
+	Auto = Window:AddTab({ Title = "Automatic", Icon = "bot" }),
 	Event = Window:AddTab({ Title = "Event", Icon = "calendar" }),
 	Log = Window:AddTab({ Title = "Console", Icon = "terminal" }),
 	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" }),
@@ -1825,11 +1829,12 @@ PlantSection:AddInput("inPlantDelay", {
 		end
 	end,
 })
---[[ Event Section ]]
-local ValentinesSection = Tabs.Event:AddCollapsibleSection("Valentines Event", false)
 
-ValentinesSection:AddToggle("tgCollectValentines", {
-	Title = "Auto Collect Heartstruck Fruits",
+--[[ Automatic Section In Automatic tab]]
+local ShovelSection = Tabs.Auto:AddCollapsibleSection("Shovel", false)
+
+ShovelSection:AddToggle("tgAutoPlantShovel", {
+	Title = "Auto Plant Shovel",
 	Default = false,
 	Callback = function(Value)
 		if QuickSave then
@@ -1840,8 +1845,27 @@ ValentinesSection:AddToggle("tgCollectValentines", {
 		end
 	end,
 })
-ValentinesSection:AddToggle("tgGiveHeartstruck", {
-	Title = "Auto Give Heartstruck Fruits",
+
+local tempShovelDD = { "ALL" }
+table.move(FruitTable, 1, #FruitTable, 2, tempShovelDD)
+
+ShovelSection:AddDropdown("ddShovelPlant", {
+	Title = "Select Plant(s) to Shovel",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+ShovelSection:AddDivider()
+
+ShovelSection:AddToggle("tgAutoCropShovel", {
+	Title = "Auto Crop Shovel",
 	Default = false,
 	Callback = function(Value)
 		if QuickSave then
@@ -1852,8 +1876,26 @@ ValentinesSection:AddToggle("tgGiveHeartstruck", {
 		end
 	end,
 })
-ValentinesSection:AddToggle("tgValentinesReward", {
-	Title = "Auto Claim Rewards",
+
+ShovelSection:AddDropdown("ddShovelCrop", {
+	Title = "Select Crop(s) to Shovel",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+--[[ Add a lot of Fruit Shovel Conditions ]]
+ShovelSection:AddDivider()
+
+--[[ Shovel Cosmetic]]
+ShovelSection:AddToggle("tgShovelCosmetic", {
+	Title = "Shovel All Cosmetic",
 	Default = false,
 	Callback = function(Value)
 		if QuickSave then
@@ -1864,9 +1906,10 @@ ValentinesSection:AddToggle("tgValentinesReward", {
 		end
 	end,
 })
-local ValentinesSection2 = Tabs.Event:AddCollapsibleSection("Valentines Event 2", false)
-ValentinesSection2:AddToggle("tgCollectValentines2", {
-	Title = "Auto Collect Heartstruck Fruits",
+
+local ReclaimSection = Tabs.Auto:AddCollapsibleSection("Reclaim", false)
+ReclaimSection:AddToggle("tgReclaim", {
+	Title = "Reclaim",
 	Default = false,
 	Callback = function(Value)
 		if QuickSave then
@@ -1877,8 +1920,24 @@ ValentinesSection2:AddToggle("tgCollectValentines2", {
 		end
 	end,
 })
-ValentinesSection2:AddToggle("tgGiveHeartstruck2", {
-	Title = "Auto Give Heartstruck Fruits",
+
+ReclaimSection:AddDropdown("ddReclaim", {
+	Title = "Reclaim Type",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
+--[[ Trowel Section ]]
+local TrowelSection = Tabs.Auto:AddCollapsibleSection("Trowel", false)
+TrowelSection:AddToggle("tgTrowel", {
+	Title = "Trowel",
 	Default = false,
 	Callback = function(Value)
 		if QuickSave then
@@ -1889,18 +1948,20 @@ ValentinesSection2:AddToggle("tgGiveHeartstruck2", {
 		end
 	end,
 })
-ValentinesSection2:AddToggle("tgValentinesReward2", {
-	Title = "Auto Claim Rewards",
-	Default = false,
+
+TrowelSection:AddDropdown("ddTrowel", {
+	Title = "Trowel Type",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
 	Callback = function(Value)
 		if QuickSave then
 			QuickSave()
 		end
-		if SyncBackgroundTasks then
-			SyncBackgroundTasks()
-		end
 	end,
 })
+
 --[[ Log Section ]]
 --
 local MaxLines = 100 -- จำนวนบรรทัดที่จะโชว์
@@ -3481,6 +3542,63 @@ SellPetEgg = function()
 	end
 end
 
+ShovelPlant = function()
+	if not Options.tgAutoPlantShovel.Value then
+		return
+	end
+	local Farm_Important = MyFarm:FindFirstChild("Important")
+	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+	pcall(function()
+		Humanoid:UnequipTools()
+	end)
+	local ShovelPlantList = GetSelectedItems(Options.ddShovelPlant.Value)
+	local myShovel = LocalPlayer.Backpack:FindFirstChild("Shovel [Destroy Plants]")
+
+	if Plants_Physical then
+		for _, plant in pairs(Plants_Physical:GetChildren()) do
+			if table.find(ShovelPlantList, plant.Name) then
+				pcall(function()
+					Humanoid:EquipTool(myShovel)
+				end)
+				GameEvents:WaitForChild("Remove_Item"):FireServer(plant)
+				task.wait(0.1)
+			end
+		end
+	end
+end
+
+Reclaim = function()
+	if not Options.tgReclaim.Value then
+		return
+	end
+	pcall(function()
+		Humanoid:UnequipTools()
+	end)
+	local Backpack = LocalPlayer.Backpack
+	local myReclaimer
+	for _, item in pairs(Backpack:GetChildren()) do
+		if item:IsA("Tool") and string.find(item.Name, "^Reclaimer") then
+			myReclaimer = item
+			break
+		end
+	end
+
+	local Farm_Important = MyFarm:FindFirstChild("Important")
+	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+
+	local ReclaimPlantList = GetSelectedItems(Options.ddReclaim.Value)
+	if Plants_Physical then
+		for _, plant in pairs(Plants_Physical:GetChildren()) do
+			if table.find(ReclaimPlantList, plant.Name) then
+				pcall(function()
+					Humanoid:EquipTool(myReclaimer)
+				end)
+				GameEvents:WaitForChild("ReclaimerService_RE"):FireServer("TryReclaim", plant)
+				task.wait(0.1)
+			end
+		end
+	end
+end
 --End of Main Function
 
 GiftMainFrame.ChildAdded:Connect(function(child)
@@ -3523,105 +3641,6 @@ GiftMainFrame.ChildAdded:Connect(function(child)
 		end
 	end
 end)
-
-isLoveFruit = function(fruit)
-	local ValentinesType = { "Heartstruck", "Cute", "Heartbound" }
-	if fruit and fruit:IsA("Model") then
-		for _, v in pairs(ValentinesType) do
-			if fruit:GetAttribute(v) == true then
-				return true
-			end
-		end
-	end
-	return false
-end
-
-CollectValentines = function()
-	local flag = false
-	local Farm_Important = MyFarm:FindFirstChild("Important")
-	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
-
-	if Plants_Physical then
-		for _, plant in pairs(Plants_Physical:GetChildren()) do
-			local FruitsContainer = plant:FindFirstChild("Fruits")
-			local Fruits = FruitsContainer and FruitsContainer:GetChildren() or { plant }
-			for _, fruit in ipairs(Fruits) do
-				if InventoryService.IsMaxInventory() then
-					--InfoLog("Inventory Full")
-					return false
-				end
-				if fruit:IsA("Model") then
-					local Prompt = fruit:FindFirstChild("ProximityPrompt", true)
-					if Prompt and Prompt.Enabled then
-						if isLoveFruit(fruit) then
-							CollectEvent:FireServer({ fruit })
-							flag = true
-							task.wait()
-						end
-					end
-				end
-			end
-			task.wait()
-		end
-	end
-	return flag
-end
-
-HasHeartstruck = function()
-	for _, v in ipairs(Backpack:GetChildren()) do
-		if v:GetAttribute("Heartstruck") or v:GetAttribute("Cute") then
-			return true
-		end
-	end
-	return false
-end
-
-ValentinesEvent = function()
-	local currentCoins = DataService:GetData().SpecialCurrency.HeartCoins
-	local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed
-	local Rewards = { 30, 200, 700, 2000, 10000 }
-	for i = 1, #Rewards do
-		if currentCoins >= Rewards[i] and not ValentinesCompleted[i] then
-			GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward"):FireServer(i)
-		end
-		task.wait(0.3)
-	end
-end
-local _ItemName = {
-	"Angel Arrow Statue",
-	"Heart String Light",
-	"Heart Stepping Stone",
-	"Heart Bridge",
-	"Love Walkway",
-	"Heart Fountain",
-	"Heart Shaped Gate",
-	"Heart Signs",
-	"Red Rose Fox Statue",
-	"Heart Blossom",
-}
-
-local Price = {
-	1000000000000000,
-	5000000000000000,
-	10000000000000000,
-	25000000000000000,
-	50000000000000000,
-	100000000000000000,
-	250000000000000000,
-	250000000000000000,
-	500000000000000000,
-	1000000000000000000,
-}
-ValentinesEvent2 = function()
-	local currentSheckles = DataService:GetData().Sheckles
-	local ValentinesCompleted = DataService:GetData().ValentinesEvent.Completed2
-	for i = 1, 10 do
-		if currentSheckles >= Price[i] and not ValentinesCompleted[i] then
-			GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("ClaimValentineReward2"):FireServer()
-		end
-		task.wait(1)
-	end
-end
 
 -- Background task controller (toggle-driven)
 ToggleTask = function(taskName, enabled, funcBody)
@@ -3669,6 +3688,10 @@ SyncBackgroundTasks = function()
 
 	ToggleTask("HardCoreBuy", Options.HardCoreBuyEnable.Value, HardCoreBuy)
 
+	ToggleTask("ShovelPlant", Options.tgAutoPlantShovel.Value, ShovelPlant)
+
+	ToggleTask("Reclaim", Options.tgReclaim.Value, Reclaim)
+
 	ToggleTask("AutoAgeBreak", Options.AAB_Enabled.Value, function()
 		pcall(processAgeBreakMachine)
 		task.wait(2) -- ดีเลย์ 2 วินาทีเพื่อไม่ให้รบกวนประสิทธิภาพเกมมากไป
@@ -3697,45 +3720,5 @@ SyncBackgroundTasks = function()
 	ToggleTask("ScanSellPetTask", Options.tgSellPetEn.Value, function()
 		pcall(ScanSellPet)
 		task.wait(1)
-	end)
-	-- Valentines Event
-
-	ToggleTask("CollectValentines", Options.tgCollectValentines.Value, function()
-		pcall(CollectValentines)
-		task.wait(0.5)
-	end)
-
-	ToggleTask("GiveHeartstruck", Options.tgGiveHeartstruck.Value, function()
-		if Options.tgGiveHeartstruck.Value and HasHeartstruck() then
-			pcall(function()
-				GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("GiveHeartstruckFruits"):InvokeServer()
-			end)
-		end
-		task.wait(0.3)
-	end)
-
-	ToggleTask("ValentinesReward", Options.tgValentinesReward.Value, function()
-		pcall(ValentinesEvent)
-		task.wait(60)
-	end)
-
-	-- Valentines Event 2
-	ToggleTask("CollectValentines2", Options.tgCollectValentines2.Value, function()
-		pcall(CollectValentines)
-		task.wait(0.5)
-	end)
-
-	ToggleTask("GiveHeartstruck2", Options.tgGiveHeartstruck2.Value, function()
-		if Options.tgGiveHeartstruck.Value and HasHeartstruck() then
-			pcall(function()
-				GameEvents:WaitForChild("ValentinesEvent"):WaitForChild("GiveHeartstruckFruits"):InvokeServer()
-			end)
-		end
-		task.wait(0.3)
-	end)
-
-	ToggleTask("ValentinesReward2", Options.tgValentinesReward2.Value, function()
-		pcall(ValentinesEvent2)
-		task.wait(60)
 	end)
 end
