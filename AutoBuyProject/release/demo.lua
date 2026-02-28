@@ -41,7 +41,7 @@ local GetData_result = DataService:GetData()
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "Shovel Plant"
+local fVersion = "Shovel Plant 2"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -3612,7 +3612,7 @@ ShovelPlant = function()
 	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
 
 	local ShovelPlantList = GetSelectedItems(Options.ddShovelPlant.Value)
-	local myShovel = LocalPlayer.Backpack["Shovel [Destroy Plants]"]
+	local myShovel = LocalPlayer.Backpack:FindFirstChild("Shovel [Destroy Plants]")
 
 	if Plants_Physical then
 		for _, plant in pairs(Plants_Physical:GetChildren()) do
