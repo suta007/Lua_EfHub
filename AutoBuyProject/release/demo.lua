@@ -3290,7 +3290,8 @@ HatchEgg = function()
 		local PetsData = {}
 		local myEggs = EggInFarm()
 		local GetData_result = DataService:GetData()
-		local fData = GetData_result.SaveSlots.AllSlots.DEFAULT.SavedObjects
+		local SelectedSlot = GetData_result.SaveSlots.SelectedSlot
+		local fData = GetData_result.SaveSlots.AllSlots[SelectedSlot].SavedObjects
 		if not fData or type(fData) ~= "table" then
 			return
 		end
