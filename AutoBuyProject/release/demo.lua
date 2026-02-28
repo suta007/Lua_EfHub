@@ -1,3 +1,4 @@
+--!nocheck
 local Fluent = loadstring(
 	game:HttpGet(
 		"https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau",
@@ -28,7 +29,6 @@ local Humanoid = Character:WaitForChild("Humanoid")
 local VirtualUser = game:GetService("VirtualUser")
 local Lighting = game:GetService("Lighting")
 local Terrain = workspace.Terrain
-local giftEvent = GameEvents:WaitForChild("GiftPet")
 local GiftMainFrame = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification"):WaitForChild("Frame")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 
@@ -37,9 +37,11 @@ local DataService = require(ReplicatedStorage.Modules.DataService)
 local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
 
+local GetData_result = DataService:GetData()
+
 CollapsibleAddon(Fluent)
 
-local fVersion = "GiftMainFrame"
+local fVersion = "Shovel Plant"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -49,8 +51,8 @@ local AgeBreakRunning = false
 local targetUUID
 local Mutanting = false
 local IsActivePet = false
-local targetWidth = 1280
-local targetHeight = 768
+local targetWidth = 1400
+local targetHeight = 960
 local IsScanning1, IsScanning2 = false, false
 local FruitQueue1, FruitQueue2 = {}, {}
 local currentMainPetUUID = nil
@@ -59,6 +61,7 @@ local SellPetType = {}
 local PlaceEggList = {}
 local EggHatchList = {}
 local isEggProcessing = false
+
 -- =========================================================
 -- 1. ประกาศตัวแปรฟังก์ชันไว้ด้านบน (Forward Declarations)
 -- =========================================================
@@ -98,6 +101,7 @@ local CheckFruit, CheckFruit1, CheckFruit2
 local CollectFruitWorker1, CollectFruitWorker2 = nil, nil
 local PlaceEggs, HatchEgg, SellPetEgg
 local getBoundary, getPlate, ValidEggs, EggInFarm, IsValidSellPet, ScanSellPet
+local Trowel, Reclaim, ShovelCosmetic, ShovelCrop, ShovelPlant
 
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
@@ -186,8 +190,6 @@ ProcessBuy = function(ShopKey, StockData)
 		local ItemName = itemInfo.EggName or itemId
 		local StockAmount = tonumber(itemInfo.Stock) or 0
 		local BuyEnabled = false
-		local StockInfo = string.format("Found %s : %s", ItemName, StockAmount)
-		DevNoti(StockInfo)
 		if Setting.BuyAll then
 			BuyEnabled = true
 		else
@@ -213,9 +215,6 @@ ProcessBuy = function(ShopKey, StockData)
 				task.wait(0.1)
 			end
 			BuyEnabled = false
-
-			local LogMessage = string.format("Bought %s : %s", ItemName, StockAmount)
-			DevNoti(LogMessage)
 		end
 	end
 end
@@ -238,6 +237,7 @@ local Tabs = {
 	Pet = Window:AddTab({ Title = "Pet", Icon = "bone" }),
 	Farm = Window:AddTab({ Title = "Farm", Icon = "tree-pine" }),
 	Event = Window:AddTab({ Title = "Event", Icon = "calendar" }),
+	Auto = Window:AddTab({ Title = "Automatic", Icon = "robot" }),
 	Log = Window:AddTab({ Title = "Console", Icon = "terminal" }),
 	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" }),
 }
@@ -341,7 +341,7 @@ BuySeedSection:AddToggle("buySeedEnable", {
 	Callback = function(Value)
 		BuyList[ShopKey.Seed].Enabled = Value
 		if Value then
-			local GetData_result = DataService:GetData()
+			GetData_result = DataService:GetData()
 			local SeedStocks = GetData_result.SeedStocks.Shop.Stocks
 			if not isTableEmpty(SeedStocks) then
 				ProcessBuy(ShopKey.Seed, SeedStocks)
@@ -392,7 +392,7 @@ BuyDailySection:AddToggle("buyDailyEnable", {
 	Callback = function(Value)
 		BuyList[ShopKey.Daily].Enabled = Value
 		if Value then
-			local GetData_result = DataService:GetData()
+			GetData_result = DataService:GetData()
 			local DailyStocks = GetData_result.SeedStocks["Daily Deals"].Stocks
 			if not isTableEmpty(DailyStocks) then
 				ProcessBuy(ShopKey.Daily, DailyStocks)
@@ -424,7 +424,7 @@ buyGearSection:AddToggle("buyGearEnable", {
 	Callback = function(Value)
 		BuyList[ShopKey.Gear].Enabled = Value
 		if Value then
-			local GetData_result = DataService:GetData()
+			GetData_result = DataService:GetData()
 			local GearStock = GetData_result.GearStock.Stocks
 			if not isTableEmpty(GearStock) then
 				ProcessBuy(ShopKey.Gear, GearStock)
@@ -476,7 +476,7 @@ buyEggSection:AddToggle("buyEggEnable", {
 	Callback = function(Value)
 		BuyList[ShopKey.Egg].Enabled = Value
 		if Value then
-			local GetData_result = DataService:GetData()
+			GetData_result = DataService:GetData()
 			local EggStock = GetData_result.PetEggStock.Stocks
 			if not isTableEmpty(EggStock) then
 				ProcessBuy(ShopKey.Egg, EggStock)
@@ -528,7 +528,7 @@ BuyTravelingSection:AddToggle("buyTravelingEnable", {
 	Callback = function(Value)
 		BuyList[ShopKey.Traveling].Enabled = Value
 		if Value then
-			local GetData_result = DataService:GetData()
+			GetData_result = DataService:GetData()
 			local TravelingStock = GetData_result.TravelingMerchantShopStock.Stocks
 			if not isTableEmpty(TravelingStock) then
 				ProcessBuy(ShopKey.Traveling, TravelingStock)
@@ -604,7 +604,7 @@ BuySantaSection:AddToggle("buySantaEnable", {
 	Callback = function(Value)
 		BuyList[ShopKey.Santa].Enabled = Value
 		if Value then
-			local GetData_result = DataService:GetData()
+			GetData_result = DataService:GetData()
 			local SantaStocks = GetData_result.EventShopStock["Santa's Stash"].Stocks
 			if not isTableEmpty(SantaStocks) then
 				ProcessBuy(ShopKey.Santa, SantaStocks)
@@ -657,7 +657,7 @@ BuyNewYearSection:AddToggle("buyNewYearEnable", {
 	Callback = function(Value)
 		BuyList[ShopKey.NewYear].Enabled = Value
 		if Value then
-			local GetData_result = DataService:GetData()
+			GetData_result = DataService:GetData()
 			local NewYearStocks = GetData_result.EventShopStock["New Years Shop"].Stocks
 			if not isTableEmpty(NewYearStocks) then
 				ProcessBuy(ShopKey.NewYear, NewYearStocks)
@@ -719,7 +719,6 @@ PetWorkSection:AddDropdown("PetMode", {
 	Values = { "Nightmare", "Elephant", "Mutant", "Level" },
 	Multi = false,
 	Default = "Nightmare",
-	Searchable = true,
 	Callback = function(Value)
 		---PetSetting["PetMode"].Mode = Value
 		if QuickSave then
@@ -1827,6 +1826,129 @@ PlantSection:AddInput("inPlantDelay", {
 		end
 	end,
 })
+
+--[[ Automatic Section In Automatic tab]]
+local ShovelSection = Tabs.Automatic:AddCollapsibleSection("Shovel", false)
+ShovelSection:AddToggle("tgAutoPlantShovel", {
+	Title = "Auto Plant Shovel",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+local tempShovelDD = { "ALL" }
+table.move(FruitTable, 1, #FruitTable, 2, tempShovelDD)
+ShovelSection:AddDropdown("ddShovelPlant", {
+	Title = "Select Plant(s) to Shovel",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+ShovelSection:AddDivider()
+ShovelSection:AddToggle("tgAutoCropShovel", {
+	Title = "Auto Crop Shovel",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+ShovelSection:AddDropdown("ddShovelCrop", {
+	Title = "Select Crop(s) to Shovel",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+--[[ Add a lot fo Fruit Shovel Condtions ]]
+ShovelSection:AddDivider()
+--[[ Shovel Cosmetic]]
+ShovelSection:AddToggle("tgShovelCosmetic", {
+	Title = "Shovel All Cosmetic",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+local ReclaimSection = Tabs.Automatic:AddCollapsibleSection("Reclaim", false)
+ReclaimSection:AddToggle("tgReclaim", {
+	Title = "Reclaim",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+ReclaimSection:AddDropdown("ddReclaim", {
+	Title = "Reclaim Type",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+--[[ Trowel Section ]]
+--
+local TrowelSection = Tabs.Automatic:AddCollapsibleSection("Trowel", false)
+TrowelSection:AddToggle("tgTrowel", {
+	Title = "Trowel",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+TrowelSection:AddDropdown("ddTrowel", {
+	Title = "Trowel Type",
+	Values = tempShovelDD,
+	Multi = true,
+	Default = {},
+	Searchable = true,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
 --[[ Event Section ]]
 local ValentinesSection = Tabs.Event:AddCollapsibleSection("Valentines Event", false)
 
@@ -2046,7 +2168,7 @@ if MyFarm then
 end
 
 GetEquippedPetsUUID = function()
-	local GetData_result = DataService:GetData()
+	GetData_result = DataService:GetData()
 	local EquippedPets = GetData_result.PetsData.EquippedPets or {}
 	local UUIDtbl = {}
 	for _, uuid in pairs(EquippedPets) do
@@ -2582,7 +2704,7 @@ LocalPlayer.Idled:Connect(function()
 end)
 
 FindFruitInv = function()
-	local GetData_result = DataService:GetData()
+	GetData_result = DataService:GetData()
 	local InventoryData = GetData_result.InventoryData or {}
 	local AllowList = GetSelectedItems(Options.AllowFoodType.Value)
 	for uuid, Item in pairs(InventoryData) do
@@ -2640,7 +2762,6 @@ CheckFruit = function(model)
 		-- ตรวจสอบว่าชื่อผลไม้อยู่ในตารางที่กำหนดหรือไม่
 		local isFound = table.find(FruitType, tFruitType) ~= nil
 
-		-- ตรรกะ: (เจอในรายการยกเว้น) หรือ (ไม่เจอในรายการที่ต้องการ) -> ไม่ผ่าน
 		if isFound == ExcludeFruitType then
 			return false
 		end
@@ -2678,7 +2799,7 @@ CheckFruit = function(model)
 		end
 	end
 
-	-- 5. ตรวจสอบน้ำหนัก (Weight)
+	-- 5. ตรวจส����บน้ำหนัก (Weight)
 	if CheckWeight then
 		local weightObj = model:FindFirstChild("Weight")
 		if not weightObj then
@@ -2687,7 +2808,7 @@ CheckFruit = function(model)
 
 		local tWeight = weightObj.Value
 
-		-- ตรวจสอบค่าตัวเลข
+		-- ตรวจสอบค่าตัว���ลข
 		if WeightType == "Above" and not (tWeight >= WeightValue) then
 			return false
 		elseif WeightType == "Below" and not (tWeight < WeightValue) then
@@ -2695,7 +2816,7 @@ CheckFruit = function(model)
 		end
 	end
 
-	-- หากผ่านกา���������������ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
+	-- หากผ่าน��า���������������������������ต���วจสอบทุกขั้น������อ��� ให้ถือว่าเป็นจริง
 	return true
 end
 --[[
@@ -2999,7 +3120,7 @@ end
 
 HardCoreBuy = function()
 	if Options.HardCoreBuyEnable.Value then
-		local GetData_result = DataService:GetData()
+		GetData_result = DataService:GetData()
 		local SeedStocks = GetData_result.SeedStocks.Shop.Stocks
 		local GearStock = GetData_result.GearStock.Stocks
 		local EggStock = GetData_result.PetEggStock.Stocks
@@ -3289,7 +3410,6 @@ HatchEgg = function()
 		local ReadyEggs = {}
 		local PetsData = {}
 		local myEggs = EggInFarm()
-		local GetData_result = DataService:GetData()
 		local SelectedSlot = GetData_result.SaveSlots.SelectedSlot
 		local fData = GetData_result.SaveSlots.AllSlots[SelectedSlot].SavedObjects
 		if not fData or type(fData) ~= "table" then
@@ -3353,7 +3473,7 @@ PlaceEggs = function()
 
 		if #farmEgg >= tonumber(Options.ipMaxEggs.Value) then
 			--print("Max Eggs")
-			local GetData_result = DataService:GetData()
+			GetData_result = DataService:GetData()
 			local lo = GetData_result.PetsData.SelectedPetLoadout
 			if lo ~= tonumber(Options.ddSpeedEggSlot.Value) then
 				SwapPetLoadout(tonumber(Options.ddSpeedEggSlot.Value))
@@ -3435,7 +3555,7 @@ ScanSellPet = function()
 	if isEggProcessing then
 		return
 	end
-	local GetData_result = DataService:GetData()
+	GetData_result = DataService:GetData()
 	local inventory = GetData_result.PetsData.PetInventory
 	if inventory then
 		table.clear(SellPetList)
@@ -3460,7 +3580,7 @@ SellPetEgg = function()
 	if #SellPetList > 0 then
 		print("Selling Pet")
 		isEggProcessing = true
-		--local GetData_result = DataService:GetData()
+		--GetData_result = DataService:GetData()
 		--local lo = GetData_result.PetsData.SelectedPetLoadout
 		--task.wait(0.1)
 		--if lo ~= tonumber(Options.ddSellPetSlot.Value) then
@@ -3481,6 +3601,29 @@ SellPetEgg = function()
 		table.clear(SellPetList)
 		isEggProcessing = false
 		print("End of Sell pet")
+	end
+end
+
+ShovelPlant = function()
+	if not Options.tgAutoPlantShovel.Value then
+		return
+	end
+	local Farm_Important = MyFarm:FindFirstChild("Important")
+	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+
+	local ShovelPlantList = GetSelectedItems(Options.ddShovelPlant.Value)
+	local myShovel = LocalPlayer.Backpack["Shovel [Destroy Plants]"]
+
+	if Plants_Physical then
+		for _, plant in pairs(Plants_Physical:GetChildren()) do
+			if table.find(ShovelPlantList, plant.Name) then
+				pcall(function()
+					Humanoid:EquipTool(myShovel)
+				end)
+				GameEvents:WaitForChild("Remove_Item"):FireServer(plant)
+				task.wait(0.1)
+			end
+		end
 	end
 end
 
@@ -3701,6 +3844,9 @@ SyncBackgroundTasks = function()
 		pcall(ScanSellPet)
 		task.wait(1)
 	end)
+
+	ToggleTask("ShovelPlant", Options.tgAutoPlantShovel.Value, ShovelPlant)
+
 	-- Valentines Event
 
 	ToggleTask("CollectValentines", Options.tgCollectValentines.Value, function()
