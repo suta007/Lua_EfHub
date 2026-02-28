@@ -1827,7 +1827,9 @@ PlantSection:AddInput("inPlantDelay", {
 })
 
 --[[ Automatic Section In Automatic tab]]
+--[[ Automatic Section In Automatic tab]]
 local ShovelSection = Tabs.Auto:AddCollapsibleSection("Shovel", false)
+
 ShovelSection:AddToggle("tgAutoPlantShovel", {
 	Title = "Auto Plant Shovel",
 	Default = false,
@@ -1840,8 +1842,10 @@ ShovelSection:AddToggle("tgAutoPlantShovel", {
 		end
 	end,
 })
+
 local tempShovelDD = { "ALL" }
 table.move(FruitTable, 1, #FruitTable, 2, tempShovelDD)
+
 ShovelSection:AddDropdown("ddShovelPlant", {
 	Title = "Select Plant(s) to Shovel",
 	Values = tempShovelDD,
@@ -1854,7 +1858,9 @@ ShovelSection:AddDropdown("ddShovelPlant", {
 		end
 	end,
 })
+
 ShovelSection:AddDivider()
+
 ShovelSection:AddToggle("tgAutoCropShovel", {
 	Title = "Auto Crop Shovel",
 	Default = false,
@@ -1867,6 +1873,7 @@ ShovelSection:AddToggle("tgAutoCropShovel", {
 		end
 	end,
 })
+
 ShovelSection:AddDropdown("ddShovelCrop", {
 	Title = "Select Crop(s) to Shovel",
 	Values = tempShovelDD,
@@ -1879,8 +1886,10 @@ ShovelSection:AddDropdown("ddShovelCrop", {
 		end
 	end,
 })
---[[ Add a lot fo Fruit Shovel Condtions ]]
+
+--[[ Add a lot of Fruit Shovel Conditions ]]
 ShovelSection:AddDivider()
+
 --[[ Shovel Cosmetic]]
 ShovelSection:AddToggle("tgShovelCosmetic", {
 	Title = "Shovel All Cosmetic",
@@ -1908,6 +1917,7 @@ ReclaimSection:AddToggle("tgReclaim", {
 		end
 	end,
 })
+
 ReclaimSection:AddDropdown("ddReclaim", {
 	Title = "Reclaim Type",
 	Values = tempShovelDD,
@@ -1920,8 +1930,8 @@ ReclaimSection:AddDropdown("ddReclaim", {
 		end
 	end,
 })
+
 --[[ Trowel Section ]]
---
 local TrowelSection = Tabs.Auto:AddCollapsibleSection("Trowel", false)
 TrowelSection:AddToggle("tgTrowel", {
 	Title = "Trowel",
@@ -1935,6 +1945,7 @@ TrowelSection:AddToggle("tgTrowel", {
 		end
 	end,
 })
+
 TrowelSection:AddDropdown("ddTrowel", {
 	Title = "Trowel Type",
 	Values = tempShovelDD,
