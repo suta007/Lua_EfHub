@@ -718,7 +718,6 @@ PetWorkSection:AddDropdown("PetMode", {
 	Values = { "Nightmare", "Elephant", "Mutant", "Level" },
 	Multi = false,
 	Default = "Nightmare",
-	Searchable = true,
 	Callback = function(Value)
 		---PetSetting["PetMode"].Mode = Value
 		if QuickSave then
