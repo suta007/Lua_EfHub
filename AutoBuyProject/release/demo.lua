@@ -1972,7 +1972,7 @@ TrowelSection:AddDropdown("ddTrowel", {
 })
 
 --[[ Event Section ]]
-
+--[[
 local AlienEvent = Tabs.Event:AddCollapsibleSection("Alien Event", false)
 AlienEvent:AddToggle("tgAlienEventEn", {
 	Title = "Alien Event Enable",
@@ -1998,7 +1998,7 @@ AlienEvent:AddDropdown("ddAlienEvent", {
 		end
 	end,
 })
-
+]]
 --[[ Log Section ]]
 --
 local MaxLines = 1000 -- จำนวนบรรทัดที่จะโชว์
@@ -2731,7 +2731,7 @@ FeedPet = function()
 end
 
 CheckFruit = function(model)
-	-- 1. ตรวจส��บเบ���้����ต้นว่าเป็น Model หรื�������������ม่
+	-- 1. ตรวจส��บเบ���้����ต้นว่าเป็น Model หรื���������������ม่
 	if not model or not model:IsA("Model") then
 		return false
 	end
