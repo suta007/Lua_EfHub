@@ -17,7 +17,6 @@ local CollapsibleAddon = loadstring(
 	game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua")
 )()
 
-local EncodingService = game:GetService("EncodingService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
 local DataStream = GameEvents:WaitForChild("DataStream")
@@ -33,14 +32,14 @@ local Terrain = workspace.Terrain
 local GiftMainFrame = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification"):WaitForChild("Frame")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 
-local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
 local DataService = require(ReplicatedStorage.Modules.DataService)
 local CollectEvent = ReplicatedStorage.GameEvents.Crops.Collect
 local InventoryService = require(ReplicatedStorage.Modules.InventoryService)
+local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.28-23.03"
+local fVersion = "2569.03.01-16.40"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -83,9 +82,6 @@ local Mutation
 local ClaimMutantPet
 local QuickSave
 local GetSelectedItems
-local CollectValentines
-local HasHeartstruck
-local ValentinesEvent
 local ApplyAntiLag
 local DevLog
 local ProcessBuy, GetMyFarm, AutoPlant, GetPosition, ScanFarmTask
@@ -168,6 +164,19 @@ local BuyList = {
 local function isTableEmpty(t)
 	return type(t) ~= "table" or next(t) == nil
 end
+
+--[[ function clean_text(raw_text)
+	-- 1. แปลงเป็นตัวพิมพ์เล็กทั้งหมด
+	--local lower_text = string.lower(raw_text)
+
+	-- 2. ตัดช่องว่าง (%s) และอักขระพิเศษ (%p) ที่อยู่ "ด้านหน้าสุด" (^)
+	local cleaned = string.gsub(raw_text, "^[%s%p]+", "")
+
+	-- 3. ตัดช่องว่าง (%s) และอักขระพิเศษ (%p) ที่อยู่ "ด้านหลังสุด" ($)
+	cleaned = string.gsub(cleaned, "[%s%p]+$", "")
+
+	return cleaned
+end ]]
 
 local RemoteCache = {}
 
@@ -758,11 +767,11 @@ PetWorkSection:AddDropdown("TargetPetDropdown", {
 	Title = "Target Pet",
 	Description = "Select Target Pet for Farming",
 	Values = PetTable,
-	Multi = false,
-	Default = PetSetting["PetMode"].TargetPet,
+	Multi = true,
+	Default = {},
 	Searchable = true,
 	Callback = function(Value)
-		PetSetting["PetMode"].TargetPet = Value
+		--PetSetting["PetMode"].TargetPet = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -814,7 +823,7 @@ PetWorkSection:AddInput("AgeLimitInput", {
 	Filter = "Number",
 	Default = 50,
 	Callback = function(Value)
-		local numValue = tonumber(Value)
+		local numValue = tonumber(Value) or 101
 		if numValue < 0 or numValue > 100 then
 			numValue = 50
 			Options.AgeLimitInput:SetValue(numValue)
@@ -1964,7 +1973,7 @@ TrowelSection:AddDropdown("ddTrowel", {
 
 --[[ Log Section ]]
 --
-local MaxLines = 100 -- จำนวนบรรทัดที่จะโชว์
+local MaxLines = 1000 -- จำนวนบรรทัดที่จะโชว์
 local DisplayTable = {} -- ตารางเก็บข้อความโชว์
 local IsUpdateScheduled = false -- ตัวแปรเช็คว่ามีการนัดการอัป
 -- ปุ่ม Clear
@@ -2148,7 +2157,9 @@ GetPetMutation = function(uuid)
 	if data and data.PetData then
 		local rawEnum = data.PetData.MutationType
 		if rawEnum then
-			return EnumToNameCache and EnumToNameCache[rawEnum] or rawEnum
+			return EnumToNameCache and EnumToNameCache[rawEnum] or "None"
+		else
+			return "None"
 		end
 	end
 	return nil
@@ -2296,7 +2307,7 @@ GetPetUUID = function(petName)
 
 	-- ฟังก์ชันเช็คเงื่อนไข (เพื่อลดความซ้ำซ้อนและเพิ่มความเร็ว)
 	local function IsValidPet(uuid, pType)
-		if pType ~= petName then
+		if not table.find(petName, pType) then
 			return false
 		end
 		if (petMode == "Mutant" or petMode == "Nightmare") and GetPetMutation(uuid) == targetMutant then
@@ -2305,8 +2316,6 @@ GetPetUUID = function(petName)
 		if (GetPetFavorite(uuid) or false) ~= useFavOnly then
 			return false
 		end
-		-- เงื่อนไขเพิ่มเติมที่พี่เอฟต้องการ
-		--InfoLog("Weight : ".. tostring(GetPetBaseWeight(uuid)))
 		if petMode == "Elephant" and GetPetBaseWeight(uuid) > 3.5 then
 			return false
 		end
@@ -2317,37 +2326,44 @@ GetPetUUID = function(petName)
 		return true
 	end
 
-	local startTime = tick()
-	repeat
-		-- 1. เช็คจากสัตว์เลี้ยงที่สวมใส่อยู่ (เร็วกว่า)
-		for _, uuid in pairs(GetEquippedPetsUUID()) do
-			local pType = GetPetType(uuid)
-			if IsValidPet(uuid, pType) then
-				InfoLog("Found pet (Equipped): " .. pType .. " [" .. uuid .. "]")
-				return uuid
-			end
+	--local startTime = tick()
+	--repeat
+	WarnLog("Check Active")
+	-- 1. เช็คจากสัตว์เลี้ยงที่สวมใส่อยู่ (เร็วกว่า)
+	for _, uuid in pairs(GetEquippedPetsUUID()) do
+		local pType = GetPetType(uuid)
+		if IsValidPet(uuid, pType) then
+			InfoLog("Found pet (Equipped): " .. pType .. " [" .. uuid .. "]")
+			return uuid
 		end
+	end
 
-		-- 2. เช็คจาก Inventory
-		local data = DataService:GetData()
-		local inventory = data and data.PetsData and data.PetsData.PetInventory
-		if inventory then
-			for _, v in pairs(inventory) do
-				if type(v) == "table" then
-					for _, petData in pairs(v) do
-						local uuid = petData.UUID
+	WarnLog("Check Inventory")
+	-- 2. เช็คจาก Inventory
+	local data = DataService:GetData()
+	local inventory = data and data.PetsData and data.PetsData.PetInventory
+	if inventory then
+		for _, v in pairs(inventory) do
+			if type(v) == "table" then
+				for kUUID, petData in pairs(v) do
+					if type(petData) == "table" then
+						local tuuid = petData.UUID or kUUID
+						if not tuuid then
+							continue
+						end
 						local tPetType = petData.PetType
-						if type(uuid) == "string" and type(tPetType) == "string" and IsValidPet(uuid, tPetType) then
-							InfoLog("Found pet (Backpack): " .. tPetType .. " : " .. uuid)
-							return uuid
+						if IsValidPet(tuuid, tPetType) then
+							InfoLog("Found pet (Backpack): " .. tPetType .. " : " .. tuuid)
+							return tuuid
 						end
 					end
 				end
 			end
 		end
+	end
 
-		task.wait(0.5)
-	until tick() - startTime > 10
+	task.wait(0.5)
+	--until tick() - startTime > 10
 	return nil
 end
 
@@ -2444,7 +2460,7 @@ MakeMutant = function(uuid)
 		local args1 = { "SubmitHeldPet" }
 		GameEvents:WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args1))
 		task.wait(0.5)
-		local args2 = { "PetAssets", Options.TargetPetDropdown.Value }
+		local args2 = { "PetAssets", GetPetType(uuid) }
 		GameEvents:WaitForChild("ReplicationChannel"):FireServer(unpack(args2))
 		task.wait(1)
 		local args3 = { "StartMachine" }
@@ -2486,7 +2502,7 @@ Mutation = function(uuid)
 	if Options.PetModeEnable.Value then
 		local petMode = Options.PetMode.Value
 		local TargetLimit = tonumber(Options.AgeLimitInput.Value) or 50
-		local TargetPet = Options.TargetPetDropdown.Value
+		local TargetPet = GetSelectedItems(Options.TargetPetDropdown.Value)
 
 		-- ใช้ตัวแปร Global ตามที่พี่เอฟต้องการ
 		targetUUID = uuid or GetPetUUID(TargetPet)
@@ -2532,14 +2548,14 @@ Mutation = function(uuid)
 				end)
 			elseif petMode == "Mutant" then
 				-- ถ้าหลุดจาก IsEquipPet และเป็นโหมด Mutant แสดงว่าเลเวลถึงเป้าแล้ว -> ส่งไปต้ม
-				InfoLog("Send " .. TargetPet .. " to the Mutant Machine")
+				InfoLog("Send " .. GetPetType(targetUUID) .. " to the Mutant Machine")
 				MakeMutant(targetUUID)
 			else
 				-- ถ้าเป็นโหมดอื่นที่ถึงเป้าแล้ว ก็จบการทำงาน (Return)
 				return
 			end
 		else
-			ErrorLog("Target pet '" .. TargetPet .. "' not found in backpack.")
+			ErrorLog("Target pet not found in backpack.")
 		end
 	end
 end
@@ -2689,17 +2705,17 @@ FeedPet = function()
 end
 
 CheckFruit = function(model)
-	-- 1. ตรวจสอบเบื้องต้นว่าเป็น Model หรือไม่
+	-- 1. ตรวจส��บเบ���้����ต้นว่าเป็น Model หรือไม่
 	if not model or not model:IsA("Model") then
 		return false
 	end
-	-- 2. ตรวจสอบชนิดผลไม้ (Fruit Type)
+	-- 2. ตรว���สอบชนิดผลไม้ (Fruit Type)
 	if CheckFruitType then
 		local tFruitType = model.Name
-		-- ตรวจสอบว่าชื่อผลไม้อยู่ในตารางที่กำหนดหรือไม่
+		-- ตรวจสอบว่�����ชื่อผลไม้อยู่ในต��รางที่ก��หนด���ร�������อไม่
 		local isFound = table.find(FruitType, tFruitType) ~= nil
 
-		-- ตรรกะ: (เจอในรายการยกเว้น) หรือ (ไม่เจอในรายการที่ต้องการ) -> ไม่ผ่าน
+		-- ตรรกะ: (เจอ�����นรายการยกเว้น) หรือ (ไม่เจอในรายการที่ต้องการ) -> ไม่ผ่าน
 		if isFound == ExcludeFruitType then
 			return false
 		end
@@ -2720,7 +2736,7 @@ CheckFruit = function(model)
 		end
 	end
 
-	-- 4. ตรวจสอบรูปแบบย่อย (Variant)
+	-- 4. ��ร��จ���อบรูปแบบย่อย (Variant)
 	if CheckVariant then
 		local VariantObj = model:FindFirstChild("Variant")
 
@@ -3044,6 +3060,9 @@ AutoSellAll = function()
 end
 
 PickFinishPet = function()
+	if not targetUUID then
+		return
+	end
 	local tPetMode = Options.PetMode.Value
 	if Options.PetModeEnable.Value and (tPetMode == "Elephant" or tPetMode == "Level") then
 		if GetPetLevel(targetUUID) >= tonumber(Options.AgeLimitInput.Value) then

@@ -141,12 +141,16 @@ task.wait(0.5)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataService = require(ReplicatedStorage.Modules.DataService)
---local GetData_result = DataService:GetData()
-local PetEggs = require(ReplicatedStorage.Data.PetRegistry.PetEggs)
+local GetData_result = DataService:GetData()
+--[[ local PetEggs = require(ReplicatedStorage.Data.PetRegistry.PetEggs)
 for name, v in pairs(PetEggs) do
 	print(tostring(name))
-end
+end ]]
 
+local inventory = GetData_result and GetData_result.PetsData and GetData_result.PetsData.PetInventory
+local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePetsService)
+
+local ngo = ActivePetsService:GetPetData("Patty_Nxch", "{a4cb6833-3c37-462e-b855-0f43288a8c22}")
 local function ShowData(tbl, indent)
 	local lclIndent = indent or 0
 	local spacing = string.rep("  ", lclIndent)
@@ -165,4 +169,4 @@ local function ShowData(tbl, indent)
 	end
 end
 
---ShowData(PetEggs,1)
+ShowData(ngo, 1)

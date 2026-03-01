@@ -158,7 +158,7 @@ GetEggStock()
 --GetData_result.SeedStocks.Shop
 
 local SeedStocks = GetData_result.SeedStocks.Shop.Stocks
-
+local inventory = GetData_result and GetData_result.PetsData and GetData_result.PetsData.PetInventory
 local function ShowData(tbl, indent)
 	indent = 1
 	local spacing = string.rep("  ", indent)
@@ -197,7 +197,7 @@ local function ShowData(tbl, indent)
 	ErrorLog("Finish")
 end
 
-ShowData(EggStock)
+ShowData(inventory, 1)
 
 --[[ โครงสร้าง Table
   GetData_result.SeedStocks.Shop.Stocks.Carrot.Stock=21
