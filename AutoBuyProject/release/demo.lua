@@ -1972,7 +1972,7 @@ TrowelSection:AddDropdown("ddTrowel", {
 })
 
 --[[ Event Section ]]
---[[
+
 local AlienEvent = Tabs.Event:AddCollapsibleSection("Alien Event", false)
 AlienEvent:AddToggle("tgAlienEventEn", {
 	Title = "Alien Event Enable",
@@ -1998,8 +1998,6 @@ AlienEvent:AddDropdown("ddAlienEvent", {
 		end
 	end,
 })
-	
-]]
 
 --[[ Log Section ]]
 --
@@ -2733,7 +2731,7 @@ FeedPet = function()
 end
 
 CheckFruit = function(model)
-	-- 1. ตรวจส��บเบ���้����ต้นว่าเป็น Model หรื�������ม่
+	-- 1. ตรวจส��บเบ���้����ต้นว่าเป็น Model หรื�������������ม่
 	if not model or not model:IsA("Model") then
 		return false
 	end
@@ -3694,7 +3692,7 @@ local targetToggles = { "PetModeEnable", "tgPlaceEggsEn", "tgAutoHatchEn", "tgSe
 local savedToggleStates = {}
 
 local function initToggle()
-	table.clean(savedToggleStates)
+	table.clear(savedToggleStates)
 	for _, toggleName in ipairs(targetToggles) do
 		local element = Options[toggleName]
 		if element then
@@ -3729,6 +3727,7 @@ local function AlienEvent()
 
 		pcall(restoreToggle)
 	end
+	task.wait(30)
 end
 -- Background task controller (toggle-driven)
 ToggleTask = function(taskName, enabled, funcBody)
