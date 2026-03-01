@@ -2694,7 +2694,7 @@ CheckFruit = function(model)
 		end
 	end
 
-	-- หากผ่านกา�������������������������ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
+	-- หากผ่านกา���������������������������ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
 	return true
 end
 --[[
@@ -3284,6 +3284,7 @@ HatchEgg = function()
 			--InfoLog("Egg can hatch = 0")
 			return
 		end
+		local GetData_result = DataService:GetData()
 		isEggProcessing = true
 		local ReadyEggs = {}
 		local PetsData = {}
