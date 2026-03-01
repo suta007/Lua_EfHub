@@ -17,7 +17,6 @@ local CollapsibleAddon = loadstring(
 	game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua")
 )()
 
-local EncodingService = game:GetService("EncodingService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
 local DataStream = GameEvents:WaitForChild("DataStream")
@@ -40,7 +39,7 @@ local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePe
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.02.28-23.03"
+local fVersion = "demo 1"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -83,9 +82,6 @@ local Mutation
 local ClaimMutantPet
 local QuickSave
 local GetSelectedItems
-local CollectValentines
-local HasHeartstruck
-local ValentinesEvent
 local ApplyAntiLag
 local DevLog
 local ProcessBuy, GetMyFarm, AutoPlant, GetPosition, ScanFarmTask
@@ -1975,6 +1971,33 @@ TrowelSection:AddDropdown("ddTrowel", {
 	end,
 })
 
+--[[ Event Section ]]
+local AlienEvent = Tabs.Event:AddCollapsibleSection("Alien Event", false)
+AlienEvent:AddToggle("tgAlienEventEn", {
+	Title = "Alien Event Enable",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+		if SyncBackgroundTasks then
+			SyncBackgroundTasks()
+		end
+	end,
+})
+
+AlienEvent:AddDropdown("ddAlienEvent", {
+	Title = "Alien Event Type",
+	Values = { 1, 2, 3, 4, 5, 6 },
+	Default = 6,
+	Multi = false,
+	Callback = function(Value)
+		if QuickSave then
+			QuickSave()
+		end
+	end,
+})
+
 --[[ Log Section ]]
 --
 local MaxLines = 1000 -- จำนวนบรรทัดที่จะโชว์
@@ -2332,7 +2355,6 @@ GetPetUUID = function(petName)
 
 	--local startTime = tick()
 	--repeat
-	WarnLog("Check Active")
 	-- 1. เช็คจากสัตว์เลี้ยงที่สวมใส่อยู่ (เร็วกว่า)
 	for _, uuid in pairs(GetEquippedPetsUUID()) do
 		local pType = GetPetType(uuid)
@@ -2342,7 +2364,6 @@ GetPetUUID = function(petName)
 		end
 	end
 
-	WarnLog("Check Inventory")
 	-- 2. เช็คจาก Inventory
 	local data = DataService:GetData()
 	local inventory = data and data.PetsData and data.PetsData.PetInventory
@@ -2709,17 +2730,17 @@ FeedPet = function()
 end
 
 CheckFruit = function(model)
-	-- 1. ตรวจส��บเบ���้����ต้นว่าเป็น Model หรือไม่
+	-- 1. ตรวจส��บเบ���้����ต้นว่าเป็น Model หรื�����ม่
 	if not model or not model:IsA("Model") then
 		return false
 	end
 	-- 2. ตรว���สอบชนิดผลไม้ (Fruit Type)
 	if CheckFruitType then
 		local tFruitType = model.Name
-		-- ตรวจสอบว่�����ชื่อผลไม้อยู่ในต��รางที่ก��หนด���ร���อไม่
+		-- ตรวจสอบว่�����ชื่อผลไม้อยู่ในต��รางที่ก��หนด���ร�������อไม่
 		local isFound = table.find(FruitType, tFruitType) ~= nil
 
-		-- ตรรกะ: (เจอในรายการยกเว้น) หรือ (ไม่เจอในรายการที่ต้องการ) -> ไม่ผ่าน
+		-- ตรรกะ: (เจอ���นรายการยกเว้น) ห�������������������������������ือ (ไม่เจอในรายการที่ต้องการ) -> ไม่ผ่าน
 		if isFound == ExcludeFruitType then
 			return false
 		end
@@ -3665,7 +3686,47 @@ GiftMainFrame.ChildAdded:Connect(function(child)
 		end
 	end
 end)
+--Event Code
+local targetToggles = { "PetModeEnable", "tgPlaceEggsEn", "tgAutoHatchEn", "tgSellPetEn" }
+local savedToggleStates = {}
 
+local function initToggle()
+	table.clean(savedToggleStates)
+	for _, toggleName in ipairs(targetToggles) do
+		local element = Options[toggleName]
+		if element then
+			savedToggleStates[toggleName] = element.Value
+			if element.Value == true then
+				element:SetValue(false)
+			end
+		end
+	end
+end
+
+local function restoreToggle()
+	for toggleName, previousState in pairs(savedToggleStates) do
+		local element = Options[toggleName]
+		if element then
+			element:SetValue(previousState)
+		end
+	end
+end
+local lastTriggerMinute = -1
+local function AlienEvent()
+	local timeData = os.date("!*t")
+	local currentMinute = timeData.min
+
+	if currentMinute == 55 and currentMinute ~= lastTriggerMinute then
+		lastTriggerMinute = currentMinute
+		pcall(initToggle)
+	end
+
+	if currentMinute == 15 and currentMinute ~= lastTriggerMinute then
+		lastTriggerMinute = currentMinute
+
+		pcall(restoreToggle)
+	end
+end
 -- Background task controller (toggle-driven)
 ToggleTask = function(taskName, enabled, funcBody)
 	if enabled then

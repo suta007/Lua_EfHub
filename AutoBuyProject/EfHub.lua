@@ -2328,7 +2328,6 @@ GetPetUUID = function(petName)
 
 	--local startTime = tick()
 	--repeat
-	WarnLog("Check Active")
 	-- 1. เช็คจากสัตว์เลี้ยงที่สวมใส่อยู่ (เร็วกว่า)
 	for _, uuid in pairs(GetEquippedPetsUUID()) do
 		local pType = GetPetType(uuid)
@@ -2338,7 +2337,6 @@ GetPetUUID = function(petName)
 		end
 	end
 
-	WarnLog("Check Inventory")
 	-- 2. เช็คจาก Inventory
 	local data = DataService:GetData()
 	local inventory = data and data.PetsData and data.PetsData.PetInventory
@@ -2715,7 +2713,7 @@ CheckFruit = function(model)
 		-- ตรวจสอบว่�����ชื่อผลไม้อยู่ในต��รางที่ก��หนด���ร�������อไม่
 		local isFound = table.find(FruitType, tFruitType) ~= nil
 
-		-- ตรรกะ: (เจอ���นรายการยกเว้น) หรือ (ไม่เจอในรายการที่ต้องการ) -> ไม่ผ่าน
+		-- ตรรกะ: (เจอ���นรายการยกเว้น) ห���ือ (ไม่เจอในรายการที่ต้องการ) -> ไม่ผ่าน
 		if isFound == ExcludeFruitType then
 			return false
 		end
