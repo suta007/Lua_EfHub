@@ -2425,7 +2425,7 @@ ScanFarmTask = function(mode)
 				-- หยุดสแกนทันทีถ้าผู้ใช้ปิด Function
 				if not sEnable then break end
 
-				-- ตรวจสอบว่าในต้นไม้นั้นมี Folder Fruits หรือไม่ (บางทีผลไม้��ยู่ใน plant เลย)
+				-- ตรวจสอบว่าในต้นไม้นั้นมี Folder Fruits หรือไม่ (บางทีผลไม้���ยู่ใน plant เลย)
 				local FruitsContainer = plant:FindFirstChild("Fruits")
 				local itemsToCheck = FruitsContainer and FruitsContainer:GetChildren() or { plant }
 
@@ -3230,11 +3230,12 @@ local isOverrideActive = false
 local function CheckAlienPet()
 	if not Options.tgAlienEventEnable.Value or not Options.tgAlienAutoHatch.Value or StopFlag then return end
 
-	local AlienPetCount = 0
+	local AlienPetCount = 13
 	local data = DataService:GetData()
 	local inventory = data and data.PetsData and data.PetsData.PetInventory
 	local AlienMaxPet = tonumber(Options.ddAlienMaxPet.Value)
 	if inventory then
+		AlienPetCount = 0
 		local AlienPet = GetSelectedItems(Options.ddAlienPet.Value)
 		for _, v in pairs(inventory) do
 			if type(v) == "table" then
