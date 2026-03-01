@@ -304,8 +304,6 @@ UICorner.Parent = ToggleButton
 
 ToggleButton.MouseButton1Click:Connect(function()
 	pcall(function()
-		-- ซ่อน/แสดง UI แบบตรงๆ ข้ามระบบ Minimize ของ Library ไปเลย
-		-- เช็คดูว่า Fluent เก็บ ScreenGui หรือ Frame หลักไว้ที่ตัวแปรไหน
 		if Window.GUI then
 			Window.GUI.Enabled = not Window.GUI.Enabled
 		elseif Window.Instance then
@@ -2731,23 +2729,20 @@ FeedPet = function()
 end
 
 CheckFruit = function(model)
-	-- 1. ตรวจส��บเบ���้����ต้นว่าเป็น Model หรื���������������ม่
 	if not model or not model:IsA("Model") then
 		return false
 	end
-	-- 2. ตรว���สอบชนิดผลไม้ (Fruit Type)
+
 	if CheckFruitType then
 		local tFruitType = model.Name
-		-- ตรวจสอบว่�����ชื่อผลไม้อยู่ในต��รางที่ก��หนด���ร�������อไม่
+
 		local isFound = table.find(FruitType, tFruitType) ~= nil
 
-		-- ตรรกะ: (เจอ���นรายการยกเว้น) ห�������������������������������ือ (ไม่เจอในรายการที่ต้องการ) -> ไม่ผ่าน
 		if isFound == ExcludeFruitType then
 			return false
 		end
 	end
 
-	-- 3. ตรวจสอบการกลายพันธุ์ (Mutant)
 	if CheckMutant then
 		local hasMutant = false
 		for _, v in pairs(MutantType) do
@@ -2762,11 +2757,9 @@ CheckFruit = function(model)
 		end
 	end
 
-	-- 4. ��ร��จ���อบรูปแบบย่อย (Variant)
 	if CheckVariant then
 		local VariantObj = model:FindFirstChild("Variant")
 
-		-- ถ้าต้องเช็ค Variant แต่ผลไม้ไม่มี Variant เลย -> ถือว่าไม่ผ่าน
 		if not VariantObj then
 			return false
 		end
@@ -2779,7 +2772,6 @@ CheckFruit = function(model)
 		end
 	end
 
-	-- 5. ตรวจสอบน้ำหนัก (Weight)
 	if CheckWeight then
 		local weightObj = model:FindFirstChild("Weight")
 		if not weightObj then
@@ -2788,7 +2780,6 @@ CheckFruit = function(model)
 
 		local tWeight = weightObj.Value
 
-		-- ตรวจสอบค่าตัวเลข
 		if WeightType == "Above" and not (tWeight >= WeightValue) then
 			return false
 		elseif WeightType == "Below" and not (tWeight < WeightValue) then
@@ -2796,7 +2787,6 @@ CheckFruit = function(model)
 		end
 	end
 
-	-- หากผ่านกา���������������������������ตรวจสอบทุกขั้นตอน ให้ถือว่าเป็นจริง
 	return true
 end
 --[[
