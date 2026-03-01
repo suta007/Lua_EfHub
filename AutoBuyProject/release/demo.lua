@@ -59,8 +59,7 @@ local SellPetType = {}
 local PlaceEggList = {}
 local EggHatchList = {}
 local isEggProcessing = false
--- =========================================================
--- 1. ประกาศตัวแปรฟังก์ชันไว้ด้านบน (Forward Declarations)
+
 -- =========================================================
 local calculateCurrentWeight
 local getInventoryList
@@ -165,19 +164,6 @@ local function isTableEmpty(t)
 	return type(t) ~= "table" or next(t) == nil
 end
 
---[[ function clean_text(raw_text)
-	-- 1. แปลงเป็นตัวพิมพ์เล็กทั้งหมด
-	--local lower_text = string.lower(raw_text)
-
-	-- 2. ตัดช่องว่าง (%s) และอักขระพิเศษ (%p) ที่อยู่ "ด้านหน้าสุด" (^)
-	local cleaned = string.gsub(raw_text, "^[%s%p]+", "")
-
-	-- 3. ตัดช่องว่าง (%s) และอักขระพิเศษ (%p) ที่อยู่ "ด้านหลังสุด" ($)
-	cleaned = string.gsub(cleaned, "[%s%p]+$", "")
-
-	return cleaned
-end ]]
-
 local RemoteCache = {}
 
 ProcessBuy = function(ShopKey, StockData)
@@ -279,14 +265,13 @@ GetSelectedItems = function(DropdownValue)
 end
 
 Window:SelectTab(1)
-------------------------------------------------------
--- ระบบปุ่มลอย (Floating Button) สำหรับ Android
+
 ------------------------------------------------------
 local ToggleGui = Instance.new("ScreenGui")
 local ToggleButton = Instance.new("TextButton")
 
 ToggleGui.Name = "EfHub_Toggle"
-ToggleGui.Parent = game:GetService("CoreGui") -- หรือเปลี่ยนเป็น PlayerGui ถ้าไม่ติด
+ToggleGui.Parent = game:GetService("CoreGui")
 ToggleGui.ResetOnSpawn = false
 
 ToggleButton.Name = "ToggleButton"
@@ -373,7 +358,7 @@ BuySeedSection:AddToggle("buySeedAll", {
 	end,
 })
 
-local SeedData = require(game:GetService("ReplicatedStorage").Data.SeedShopData) -- This is table data of seeds
+local SeedData = require(game:GetService("ReplicatedStorage").Data.SeedShopData)
 local SeedTable = {}
 for seedName, seedInfo in pairs(SeedData) do
 	table.insert(SeedTable, seedName)
@@ -424,9 +409,7 @@ BuyDailySection:AddToggle("buyDailyAll", {
 	end,
 })
 
---[[
- Buy Gear Section
-]]
+--[[ Buy Gear Section]]
 local buyGearSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Gear", false)
 buyGearSection:AddToggle("buyGearEnable", {
 	Title = "Buy Gear",
@@ -476,9 +459,7 @@ buyGearSection:AddDropdown("GearList", {
 	end,
 })
 
---[[
- Buy Pet Section
-]]
+--[[ Buy Pet Section]]
 local buyEggSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Pet Eggs", false)
 buyEggSection:AddToggle("buyEggEnable", {
 	Title = "Buy Pet Eggs",
@@ -528,9 +509,7 @@ buyEggSection:AddDropdown("EggList", {
 	end,
 })
 
---[[
- Buy Traveling Merchant Items Section
-]]
+--[[ Buy Traveling Merchant Items Section]]
 local BuyTravelingSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Traveling Merchant Items", false)
 BuyTravelingSection:AddToggle("buyTravelingEnable", {
 	Title = "Buy Traveling Merchant Items",
@@ -600,13 +579,9 @@ for Name, data in pairs(TravelingData) do
 	t = t + 1
 end
 
---[[
- Buy Event Shop Items Section
-]]
+--[[ Buy Event Shop Items Section]]
 
---[[
- Buy Santa's Stash Section
-]]
+--[[ Buy Santa's Stash Section]]
 local BuySantaSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Santa's Stash Items", false)
 BuySantaSection:AddToggle("buySantaEnable", {
 	Title = "Buy Santa's Stash Items",
@@ -657,9 +632,7 @@ BuySantaSection:AddDropdown("SantaList", {
 	end,
 })
 
---[[
- Buy New Years Shop Items Section
-]]
+--[[ Buy New Years Shop Items Section]]
 local BuyNewYearSection = Tabs.Buy:AddCollapsibleSection("Auto Buy New Years Shop Items", false)
 BuyNewYearSection:AddToggle("buyNewYearEnable", {
 	Title = "Buy New Years Shop Items",
@@ -708,19 +681,6 @@ BuyNewYearSection:AddDropdown("NewYearList", {
 	end,
 })
 
-local PetSetting = {
-	["PetMode"] = {
-		Enabled = false,
-		Mode = "Nightmare",
-		TargetMutant = "GiantGolem",
-		TargetPet = "Tiger",
-		LevelSlots = 1,
-		TimeSlot = 2,
-		MutantSlot = 3,
-		AgeLimit = 50,
-	},
-}
-
 --[[ Auto Pet Tab]]
 local PetWorkSection = Tabs.Pet:AddCollapsibleSection("Pet Farming", false)
 PetWorkSection:AddDropdown("PetMode", {
@@ -730,7 +690,6 @@ PetWorkSection:AddDropdown("PetMode", {
 	Multi = false,
 	Default = "Nightmare",
 	Callback = function(Value)
-		---PetSetting["PetMode"].Mode = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -740,7 +699,6 @@ PetWorkSection:AddToggle("PetModeEnable", {
 	Title = "Enable Pet Farm",
 	Default = false,
 	Callback = function(Value)
-		-- PetSetting["PetMode"].Enabled = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -769,7 +727,6 @@ PetWorkSection:AddDropdown("TargetPetDropdown", {
 	Default = {},
 	Searchable = true,
 	Callback = function(Value)
-		--PetSetting["PetMode"].TargetPet = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -803,10 +760,9 @@ PetWorkSection:AddDropdown("TargetMutantDropdown", {
 	Description = "Select Target Mutant for Farming",
 	Values = MutantTable,
 	Multi = false,
-	Default = PetSetting["PetMode"].TargetMutant,
+	Default = "",
 	Searchable = true,
 	Callback = function(Value)
-		PetSetting["PetMode"].TargetMutant = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -826,7 +782,6 @@ PetWorkSection:AddInput("AgeLimitInput", {
 			numValue = 50
 			Options.AgeLimitInput:SetValue(numValue)
 		end
-		-- PetSetting["PetMode"].AgeLimit = numValue
 		if QuickSave then
 			QuickSave()
 		end
@@ -923,7 +878,6 @@ AutoAgeBreakSection:AddInput("AAB_TargetAge", {
 	end,
 })
 
--- เงื่อนไข Dupe: น้ำหนัก
 AutoAgeBreakSection:AddToggle("AAB_CheckWeight", {
 	Title = "Check Dupe Weight?",
 	Default = false,
@@ -955,7 +909,6 @@ AutoAgeBreakSection:AddInput("AAB_WeightVal", {
 	end,
 })
 
--- เงื่อนไข Dupe: อายุ (Level)
 AutoAgeBreakSection:AddToggle("AAB_CheckAge", {
 	Title = "Check Dupe Age?",
 	Default = false,
@@ -1000,7 +953,7 @@ PetFeedSection:AddToggle("AutoFeedPet", {
 		end
 	end,
 })
--- Toggle Allow All Food
+
 PetFeedSection:AddToggle("AllowAllFood", {
 	Title = "Allow All Food",
 	Default = false,
@@ -1010,7 +963,7 @@ PetFeedSection:AddToggle("AllowAllFood", {
 		end
 	end,
 })
-local FruitData = require(game:GetService("ReplicatedStorage").Data.SeedData) -- This is table data of seeds
+local FruitData = require(game:GetService("ReplicatedStorage").Data.SeedData)
 local FruitTable = {}
 for FruitName, FruitInfo in pairs(FruitData) do
 	table.insert(FruitTable, FruitName)
@@ -1371,31 +1324,23 @@ SellFruitSection:AddToggle("AutoSellFruit", {
 	end,
 })
 
---[[ สร้าง gui สำหรับตั้งค่าพวกนี้ ]]
-
 local CollectDelay = 0.3
 
-local CheckFruitType = false --toggle
-local FruitType = {} -- dropdown multi
-local ExcludeFruitType = false --toggle
+local CheckFruitType = false
+local FruitType = {}
+local ExcludeFruitType = false
 
-local CheckMutant = false --toggle
-local MutantType = {} --dropdown multi
-local ExceptMutant = false --toggle
+local CheckMutant = false
+local MutantType = {}
+local ExceptMutant = false
 
-local CheckVariant = false --toggle
-local VariantType = "Normal" -- dropdown gingle
-local ExceptVariant = false -- toggle
+local CheckVariant = false
+local VariantType = "Normal"
+local ExceptVariant = false
 
-local CheckWeight = false --toggle
-local WeightType = "Below" -- "Above" or "Below" --dropdown single
-local WeightValue = 100 --input
-
---[[
-ใน CollectSection
-
-ข้อมูลสร้าง gui อยู่ใน FluentData/renewed/Example.luau
-]]
+local CheckWeight = false
+local WeightType = "Below"
+local WeightValue = 100
 
 local CollectSection = Tabs.Farm:AddCollapsibleSection("Collect Fruit", false)
 CollectSection:AddToggle("tgCollectFruitEnable", {
@@ -1410,7 +1355,7 @@ CollectSection:AddToggle("tgCollectFruitEnable", {
 		end
 	end,
 })
---local CollectDelay = 0.3
+
 CollectSection:AddInput("inCollectDelay", {
 	Title = "Collect Delay",
 	Default = 0.3,
@@ -1462,7 +1407,7 @@ CollectSection:AddToggle("tgExcludeFruitType", {
 })
 
 CollectSection:AddDivider()
---CheckMutant
+
 CollectSection:AddToggle("tgCheckMutant", {
 	Title = "Check Mutant",
 	Default = false,
@@ -1473,7 +1418,7 @@ CollectSection:AddToggle("tgCheckMutant", {
 		end
 	end,
 })
---MutantType
+
 local MutationData = DataService:GetData().GardenGuide.MutationData
 local MutationTable = {}
 for MutationName, MutationInfo in pairs(MutationData) do
@@ -1494,7 +1439,6 @@ CollectSection:AddDropdown("ddMutantType", {
 	end,
 })
 
--- ExceptMutant
 CollectSection:AddToggle("tgExceptMutant", {
 	Title = "Except Mutant",
 	Default = false,
@@ -1543,10 +1487,6 @@ CollectSection:AddToggle("tgExceptVariant", {
 
 CollectSection:AddDivider()
 
--- local CheckWeight = false --toggle
--- local WeightType = "Below" -- "Above", "Below"--dropdown single
--- local WeightValue = 100 --input
-
 CollectSection:AddToggle("tgCheckWeight", {
 	Title = "Check Weight",
 	Default = false,
@@ -1582,25 +1522,6 @@ CollectSection:AddInput("ipWeightValue", {
 	end,
 })
 -- Collect2
-
-local CollectDelay2 = 0.3
-
-local CheckFruitType2 = false --toggle
-local FruitType2 = {} -- dropdown multi
-local ExcludeFruitType2 = false --toggle
-
-local CheckMutant2 = false --toggle
-local MutantType2 = {} --dropdown multi
-local ExceptMutant2 = false --toggle
-
-local CheckVariant2 = false --toggle
-local VariantType2 = "Normal" -- dropdown gingle
-local ExceptVariant2 = false -- toggle
-
-local CheckWeight2 = false --toggle
-local WeightType2 = "Below" -- "Above" or "Below" --dropdown single
-local WeightValue2 = 100 --input
-
 local CollectSection2 = Tabs.Farm:AddCollapsibleSection("Collect Fruit 2", false)
 CollectSection2:AddToggle("tgCollectFruitEnable2", {
 	Title = "Enable Auto Collect Fruit ",
@@ -1621,7 +1542,6 @@ CollectSection2:AddInput("inCollectDelay2", {
 	Min = 0.1,
 	Max = 3600,
 	Callback = function(Value)
-		CollectDelay2 = tonumber(Value)
 		if QuickSave then
 			QuickSave()
 		end
@@ -1633,7 +1553,6 @@ CollectSection2:AddToggle("tgCheckFruitType2", {
 	Title = "Check Fruit Type",
 	Default = false,
 	Callback = function(Value)
-		CheckFruitType2 = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -1647,7 +1566,6 @@ CollectSection2:AddDropdown("ddFruitType2", {
 	Default = {},
 	Searchable = true,
 	Callback = function(Value)
-		FruitType2 = GetSelectedItems(Value)
 		if QuickSave then
 			QuickSave()
 		end
@@ -1658,7 +1576,6 @@ CollectSection2:AddToggle("tgExcludeFruitType2", {
 	Title = "Exclude Fruit Type",
 	Default = false,
 	Callback = function(Value)
-		ExcludeFruitType2 = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -1671,7 +1588,6 @@ CollectSection2:AddToggle("tgCheckMutant2", {
 	Title = "Check Mutant",
 	Default = false,
 	Callback = function(Value)
-		CheckMutant2 = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -1691,7 +1607,6 @@ CollectSection2:AddDropdown("ddMutantType2", {
 	Default = {},
 	Searchable = true,
 	Callback = function(Value)
-		MutantType2 = GetSelectedItems(Value)
 		if QuickSave then
 			QuickSave()
 		end
@@ -1703,7 +1618,6 @@ CollectSection2:AddToggle("tgExceptMutant2", {
 	Title = "Except Mutant",
 	Default = false,
 	Callback = function(Value)
-		ExceptMutant2 = Value
 		if QuickSave then
 		end
 	end,
@@ -1714,7 +1628,6 @@ CollectSection2:AddToggle("tgCheckVariant2", {
 	Title = "Check Variant",
 	Default = false,
 	Callback = function(Value)
-		CheckVariant2 = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -1727,7 +1640,6 @@ CollectSection2:AddDropdown("ddVariantType2", {
 	Multi = false,
 	Default = "Normal",
 	Callback = function(Value)
-		VariantType2 = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -1738,7 +1650,6 @@ CollectSection2:AddToggle("tgExceptVariant2", {
 	Title = "Except Variant",
 	Default = false,
 	Callback = function(Value)
-		ExceptVariant2 = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -1747,15 +1658,10 @@ CollectSection2:AddToggle("tgExceptVariant2", {
 
 CollectSection2:AddDivider()
 
--- local CheckWeight = false --toggle
--- local WeightType = "Below" -- "Above", "Below"--dropdown single
--- local WeightValue = 100 --input
-
 CollectSection2:AddToggle("tgCheckWeight2", {
 	Title = "Check Weight",
 	Default = false,
 	Callback = function(Value)
-		CheckWeight2 = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -1767,7 +1673,6 @@ CollectSection2:AddDropdown("ddWeightType2", {
 	Multi = false,
 	Default = "Below",
 	Callback = function(Value)
-		WeightType2 = Value
 		if QuickSave then
 			QuickSave()
 		end
@@ -1779,7 +1684,6 @@ CollectSection2:AddInput("ipWeightValue2", {
 	Numeric = true,
 	Finished = false,
 	Callback = function(Value)
-		WeightValue2 = tonumber(Value) or 100
 		if QuickSave then
 			QuickSave()
 		end
@@ -2789,25 +2693,6 @@ CheckFruit = function(model)
 
 	return true
 end
---[[
- local CollectDelay = 0.3
- 
- local CheckFruitType = false --toggle
- local FruitType = {} -- dropdown multi
- local ExcludeFruitType = false --toggle
- 
- local CheckMutant = false --toggle
- local MutantType = {} --dropdown multi
- local ExceptMutant = false --toggle
- 
- local CheckVariant = false --toggle
- local VariantType = "Normal" -- dropdown gingle
- local ExceptVariant = false -- toggle
- 
- local CheckWeight = false --toggle
- local WeightType = "Below" -- "Above" or "Below" --dropdown single
- local WeightValue = 100 --input
- ]]
 
 CheckFruit1 = function(Fruit)
 	CheckFruitType = Options.tgCheckFruitType.Value
@@ -3110,19 +2995,16 @@ HardCoreBuy = function()
 	end
 end
 
--- ฟังก์ชันคำนวณน้ำหนักปัจจุบัน
 calculateCurrentWeight = function(uuid, petAge)
 	local baseWeight = GetPetBaseWeight(uuid) or 0
 	return baseWeight * (0.909 + (0.091 * petAge))
 end
 
--- ฟังก์ชันดึงข้อมูลกระเป๋าสัตว์เลี้ยง
 getInventoryList = function()
 	local data = DataService:GetData()
 	return data and data.PetsData and data.PetsData.PetInventory
 end
 
--- ฟังก์ชันหาสัตว์เป้าหมาย (ตัวหลัก)
 findMainPet = function()
 	local targetType = Options.AAB_PetType.Value
 	local targetAge = tonumber(Options.AAB_TargetAge.Value) or 125
@@ -3148,7 +3030,6 @@ findMainPet = function()
 	return nil
 end
 
--- ฟังก์ชันหาสัตว์ตัวซ้ำ (Dupe)
 findDupePet = function(mainUUID, targetType)
 	local checkWeight = Options.AAB_CheckWeight.Value
 	local weightCond = Options.AAB_WeightCond.Value
@@ -3204,12 +3085,7 @@ findDupePet = function(mainUUID, targetType)
 	return nil
 end
 
--- ลอจิกหลักของตู้ Age Break
--- ประกาศตัวแปรล็อคไว้ด้านนอก
---local AgeBreakRunning = false
-
 processAgeBreakMachine = function()
-	-- ถ้ากำลังทำงานอยู่ให้เด้งออกทันที
 	if AgeBreakRunning then
 		return
 	end
@@ -3224,30 +3100,25 @@ processAgeBreakMachine = function()
 		return
 	end
 
-	-- เริ่มทำงาน: ล็อคประตู!
 	AgeBreakRunning = true
 
-	-- ใช้ pcall ครอบการทำงานหลัก ป้องกัน Error กลางคันแล้วสคริปต์ค้าง
 	local success, err = pcall(function()
 		local character = LocalPlayer.Character
 		local humanoid = character and character:FindFirstChild("Humanoid")
 
-		-- 1. ถ้าระบบพร้อม Claim
 		if machineData.PetReady then
 			GameEvents.PetAgeLimitBreak_Claim:FireServer()
 			task.wait(1.5)
-			return -- เด้งออกจาก pcall
+			return
 		end
 
-		-- 2. ถ้าตู้กำลังรันเวลาอยู่ให้รอ
 		if machineData.IsRunning then
-			return -- เด้งออกจาก pcall
+			return
 		end
 
 		local submittedPet = machineData.SubmittedPet
 		local hasPetInMachine = submittedPet and type(submittedPet) == "table" and submittedPet.UUID ~= nil
 
-		-- 3. ถ้าตู้ว่าง
 		if not hasPetInMachine then
 			local targetAge = tonumber(Options.AAB_TargetAge.Value) or 125
 
@@ -3272,10 +3143,8 @@ processAgeBreakMachine = function()
 				task.wait(0.5)
 
 				GameEvents.PetAgeLimitBreak_SubmitHeld:FireServer()
-				task.wait(2) -- เพิ่มเวลาเผื่อเซิร์ฟเวอร์หน่วง
+				task.wait(2)
 			end
-
-		-- 4. ถ้าส่งตัวหลักไปแล้ว รอส่ง Dupe
 		elseif hasPetInMachine and not machineData.IsRunning then
 			local targetType = submittedPet.PetType
 			local inMachineUUID = submittedPet.UUID
@@ -3283,17 +3152,15 @@ processAgeBreakMachine = function()
 			local dupeUUID = findDupePet(inMachineUUID, targetType)
 			if dupeUUID then
 				GameEvents.PetAgeLimitBreak_Submit:FireServer({ dupeUUID })
-				task.wait(2) -- เพิ่มเวลาเผื่อเซิร์ฟเวอร์รับคำสั่งไม่ทัน
+				task.wait(2)
 			end
 		end
 	end)
 
-	-- ถ้าเกิด Error ให้แจ้งเตือน
 	if not success then
 		WarnLog("EfHub - Age Break Task Error: " .. err)
 	end
 
-	-- จบการทำงาน: ปลดล็อคประตูเสมอ! (ไม่ว่าจะ return ตอนไหน หรือเกิด Error ก็ตาม)
 	AgeBreakRunning = false
 end
 
@@ -3343,7 +3210,7 @@ end
 
 ValidEggs = function(EggsData, rEggs)
 	local spWeight = tonumber(Options.ipSpecialHatchWeight.Value)
-	--local spTypes = Options.ddSpecialHatchType.Value
+
 	local spEggs = {}
 	local nmEggs = {}
 
@@ -3370,13 +3237,11 @@ end
 
 HatchEgg = function()
 	if Options.tgAutoHatchEn.Value then
-		--InfoLog("In Hatch Egg")
 		if isEggProcessing then
 			return
 		end
-		--InfoLog("Pass Process")
+
 		if #EggHatchList == 0 then
-			--InfoLog("Egg can hatch = 0")
 			return
 		end
 		local GetData_result = DataService:GetData()
@@ -3396,7 +3261,7 @@ HatchEgg = function()
 				petCount += 1
 			end
 		end
-		--InfoLog("petcount : " .. tostring(petCount))
+
 		for _, nEggs in pairs(myEggs) do
 			if nEggs:GetAttribute("READY") then
 				if table.find(EggHatchList, "ALL") or table.find(EggHatchList, nEggs:GetAttribute("EggName")) then
@@ -3404,12 +3269,12 @@ HatchEgg = function()
 				end
 			end
 		end
-		--InfoLog("Ready Egg"..tostring(#ReadyEggs))
+
 		if petCount ~= #ReadyEggs then
 			isEggProcessing = false
 			return
 		end
-		--InfoLog("check valid")
+
 		local NormalEggs, SpecialEggs = ValidEggs(PetsData, ReadyEggs)
 		if #NormalEggs > 0 then
 			SwapPetLoadout(tonumber(Options.ddHatchSlot.Value))
@@ -3446,7 +3311,6 @@ PlaceEggs = function()
 		local farmEgg = EggInFarm()
 
 		if #farmEgg >= tonumber(Options.ipMaxEggs.Value) then
-			--print("Max Eggs")
 			local GetData_result = DataService:GetData()
 			local lo = GetData_result.PetsData.SelectedPetLoadout
 			if lo ~= tonumber(Options.ddSpeedEggSlot.Value) then
@@ -3480,7 +3344,7 @@ PlaceEggs = function()
 
 		local myIndex = Random.new():NextInteger(1, #PlaceEggList)
 		local Egg = PlaceEggList[myIndex]
-		--print(Egg)
+
 		heldItemName(Egg)
 		task.wait(0.1)
 		GameEvents:WaitForChild("PetEggService"):FireServer("CreateEgg", finalPos)
@@ -3491,7 +3355,6 @@ PlaceEggs = function()
 	return
 end
 IsValidSellPet = function(petData)
-	-- local SellPetType  --Global
 	local sSellMode = Options.ddSellMode.Value
 	local sSellWeight = tonumber(Options.ipSellWeight.Value)
 	if sSellWeight == nil then
@@ -3554,20 +3417,12 @@ SellPetEgg = function()
 	if #SellPetList > 0 then
 		print("Selling Pet")
 		isEggProcessing = true
-		--local GetData_result = DataService:GetData()
-		--local lo = GetData_result.PetsData.SelectedPetLoadout
-		--task.wait(0.1)
-		--if lo ~= tonumber(Options.ddSellPetSlot.Value) then
+
 		SwapPetLoadout(tonumber(Options.ddSellPetSlot.Value))
 		task.wait(10)
-		--end
-		--local f, s = 1, 1
+
 		for _, uuid in pairs(SellPetList) do
-			--print("Found Sell pet : " .. tostring(f))
-			--f += 1
 			if heldPet(uuid) then
-				--print("Sell pet : " .. tostring(s))
-				--s += 1
 				GameEvents:WaitForChild("SellPet_RE"):FireServer()
 			end
 			task.wait(Options.ipSellPetDelay.Value)
@@ -3638,20 +3493,17 @@ end
 --End of Main Function
 
 GiftMainFrame.ChildAdded:Connect(function(child)
-	-- 1. หน่วงเวลาเล็กน้อย (0.5 วินาที) ให้เกมสร้าง UI บนหน้าจอให้เสร็จก่อน
 	task.wait(0.5)
 	if not Options.tgAcceptPetGift.Value then
 		return
 	end
 	local playerGui = LocalPlayer.PlayerGui
 	local hiddenGuis = {}
-	-- 2. วนลูปเช็ค UI ทั้งหมดที่อยู่ใน Frame (เผื่อมีคนส่งมาพร้อมกันหลายคน)
+
 	for _, uiElement in pairs(GiftMainFrame:GetChildren()) do
-		-- 3. ตรวจสอบโครงสร้างว่าเป็น UI แจ้งเตือนของขวัญจริงๆ (ต้องมี Holder > Frame > Accept)
 		if uiElement:FindFirstChild("Holder") and uiElement.Holder:FindFirstChild("Frame") then
 			local acceptButton = uiElement.Holder.Frame:FindFirstChild("Accept")
 
-			-- 4. ถ้าเจอปุ่ม Accept ให้ใช้คำสั่งของ Delta Executor เพื่อจำลองการคลิก
 			if acceptButton then
 				for _, gui in pairs(playerGui:GetChildren()) do
 					if gui:IsA("ScreenGui") and gui.Name ~= "Gift_Notification" and gui.Enabled == true then
@@ -3664,9 +3516,9 @@ GiftMainFrame.ChildAdded:Connect(function(child)
 				local x = acceptButton.AbsolutePosition.X + (acceptButton.AbsoluteSize.X / 2)
 				local y = acceptButton.AbsolutePosition.Y + (acceptButton.AbsoluteSize.Y / 2) + inset.Y
 
-				VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 1) -- เมาส์กดลง
+				VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 1)
 				task.wait(0.05)
-				VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 1) -- เมาส์ปล่อย
+				VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 1)
 
 				for _, gui in ipairs(hiddenGuis) do
 					gui.Enabled = true
@@ -3771,19 +3623,17 @@ SyncBackgroundTasks = function()
 
 	ToggleTask("AutoAgeBreak", Options.AAB_Enabled.Value, function()
 		pcall(processAgeBreakMachine)
-		task.wait(2) -- ดีเลย์ 2 วินาทีเพื่อไม่ให้รบกวนประสิทธิภาพเกมมากไป
+		task.wait(2)
 	end)
 
 	local isEggTaskEnabled = Options.tgPlaceEggsEn.Value or Options.tgAutoHatchEn.Value or Options.tgSellPetEn.Value
 
 	ToggleTask("EggManagement", isEggTaskEnabled, function()
 		if Options.tgPlaceEggsEn.Value then
-			--pcall(PlaceEggs)
 			PlaceEggs()
 			task.wait(0.1)
 		end
 		if Options.tgAutoHatchEn.Value then
-			--pcall(HatchEgg)
 			HatchEgg()
 			task.wait(0.1)
 		end
