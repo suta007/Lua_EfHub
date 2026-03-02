@@ -1,0 +1,17 @@
+local function initToggle()
+	table.clear(savedToggleStates)
+	for _, toggleName in ipairs(targetToggles) do
+		local element = Options[toggleName]
+		if element then
+			savedToggleStates[toggleName] = element.Value
+			if element.Value == true then element:SetValue(false) end
+		end
+	end
+end
+
+local function restoreToggle()
+	for toggleName, previousState in pairs(savedToggleStates) do
+		local element = Options[toggleName]
+		if element then element:SetValue(previousState) end
+	end
+end

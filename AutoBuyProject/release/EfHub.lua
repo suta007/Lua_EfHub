@@ -26,7 +26,7 @@ local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePe
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.03.01-22.35"
+local fVersion = "2569.03.02-15.15"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -1625,12 +1625,50 @@ AlienEventSection:AddDropdown("ddAlienMaxPet", {
 })
 AlienEventSection:AddDivider()
 
+AlienEventSection:AddToggle("tgAlienAutoClaim", {
+	Title = "Alien Auto Claim",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then QuickSave() end
+		if SyncBackgroundTasks then SyncBackgroundTasks() end
+	end,
+})
+
 AlienEventSection:AddToggle("tgAlienAutoHatch", {
 	Title = "Alien Auto Hatch",
 	Default = false,
 	Callback = function(Value)
 		if QuickSave then QuickSave() end
 		if SyncBackgroundTasks then SyncBackgroundTasks() end
+	end,
+})
+AlienEventSection:AddDivider()
+AlienEventSection:AddToggle("tgAlienDefaultPetMode", {
+	Title = "Default Pet Mode",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then QuickSave() end
+	end,
+})
+AlienEventSection:AddToggle("tgAlienDefaultPlaceEggs", {
+	Title = "Default Place Eggs",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then QuickSave() end
+	end,
+})
+AlienEventSection:AddToggle("tgAlienDefaultHatchEggs", {
+	Title = "Default Hatch Eggs",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then QuickSave() end
+	end,
+})
+AlienEventSection:AddToggle("tgAlienDefaultSellPets", {
+	Title = "Default Sell Pets",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then QuickSave() end
 	end,
 })
 
@@ -2407,7 +2445,7 @@ ScanFarmTask = function(mode)
 	sIsScanning = true
 
 	task.spawn(function()
-		-- เคลียร์คิวเก่าทิ้งก่อนเริ่มรอบใหม่ เพื่อความสดใหม่ของข้อมูล
+		-- เคลียร์คิวเก่าทิ้งก่อนเริ่มรอบใหม่ เพื่อความสดใหม่ของข้อ������ูล
 		table.clear(sFruitQueue)
 
 		local MyFarm = GetMyFarm()
@@ -2428,7 +2466,7 @@ ScanFarmTask = function(mode)
 				-- หยุดสแกนทันทีถ้าผู้ใช้ปิด Function
 				if not sEnable then break end
 
-				-- ตรวจสอบว่าในต้นไม้นั้�����มี Folder Fruits หรือไม่ (บางทีผลไม้��������ยู่ใน plant เลย)
+				-- ตรวจสอบว่าในต้นไม้นั้�������มี Folder Fruits หรือไม่ (บางทีผลไม้��������ยู่ใน plant เลย)
 				local FruitsContainer = plant:FindFirstChild("Fruits")
 				local itemsToCheck = FruitsContainer and FruitsContainer:GetChildren() or { plant }
 
@@ -3091,26 +3129,21 @@ GiftMainFrame.ChildAdded:Connect(function(child)
 	end
 end)
 --Event Code
-local targetToggles = { "PetModeEnable", "tgPlaceEggsEn", "tgAutoHatchEn", "tgSellPetEn" }
-local savedToggleStates = {}
 
 local function initToggle()
-	table.clear(savedToggleStates)
-	for _, toggleName in ipairs(targetToggles) do
-		local element = Options[toggleName]
-		if element then
-			savedToggleStates[toggleName] = element.Value
-			if element.Value == true then element:SetValue(false) end
-		end
-	end
+	Options.PetModeEnable:SetValue(false)
+	Options.tgPlaceEggsEn:SetValue(false)
+	Options.tgAutoHatchEn:SetValue(false)
+	Options.tgSellPetEn:SetValue(false)
 end
 
 local function restoreToggle()
-	for toggleName, previousState in pairs(savedToggleStates) do
-		local element = Options[toggleName]
-		if element then element:SetValue(previousState) end
-	end
+	Options.PetModeEnable:SetValue(Options.tgAlienDefaultPetMode.Value)
+	Options.tgPlaceEggsEn:SetValue(Options.tgAlienDefaultPlaceEggs.Value)
+	Options.tgAutoHatchEn:SetValue(Options.tgAlienDefaultHatchEggs.Value)
+	Options.tgSellPetEn:SetValue(Options.tgAlienDefaultSellPets.Value)
 end
+
 local lastTriggerMinute = -1
 local StopFlag = false
 local function AlienEvent()
@@ -3283,6 +3316,34 @@ local function CheckAlienPet()
 	end
 end
 
+local function AutoAlienClaim()
+	if not Options.tgAlienAutoClaim.Value then return end
+
+	local data = DataService:GetData()
+	local inventory = data and data.PetsData and data.PetsData.PetInventory
+	local AlienedPet = 0
+	if inventory then
+		for _, v in pairs(inventory) do
+			if type(v) == "table" then
+				for kUUID, petData in pairs(v) do
+					local tuuid = petData.UUID or kUUID
+					if type(petData) == "table" then
+						if GetPetMutation(tuuid) == "Alienated" then AlienedPet = AlienedPet + 1 end
+					end
+				end
+			end
+		end
+	end
+
+	task.wait(0.1)
+	if AlienedPet >= 10 then
+		GameEvents:WaitForChild("GetPetMutationNames"):InvokeServer()
+		task.wait(0.2)
+		GameEvents:WaitForChild("AlienEvent"):WaitForChild("GiveAlienatedPets"):InvokeServer()
+		task.wait(10)
+	end
+end
+
 -- Background task controller (toggle-driven)
 ToggleTask = function(taskName, enabled, funcBody)
 	if enabled then
@@ -3365,4 +3426,5 @@ SyncBackgroundTasks = function()
 		pcall(CheckAlienPet)
 		task.wait(10)
 	end)
+	ToggleTask("AutoAlienClaim", Options.tgAlienAutoClaim.Value, AutoAlienClaim)
 end
