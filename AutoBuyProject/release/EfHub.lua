@@ -26,7 +26,7 @@ local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePe
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.03.02-15.15"
+local fVersion = "2569.03.02-18.08"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -3199,9 +3199,9 @@ local function AlienEvent()
 			UnequipPet(uuid)
 			task.wait(0.2)
 		end
-		pcall(restoreToggle)
-		task.wait(1)
 		StopFlag = false
+		task.wait(2)
+		pcall(restoreToggle)
 	end
 	task.wait(30)
 end
