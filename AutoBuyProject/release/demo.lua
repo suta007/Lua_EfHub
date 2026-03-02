@@ -26,7 +26,7 @@ local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePe
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "Demo-02-03"
+local fVersion = "2569.03.02-18.08"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -1305,7 +1305,7 @@ CollectSection2:AddToggle("tgCollectFruitEnable2", {
 		if SyncBackgroundTasks then SyncBackgroundTasks() end
 	end,
 })
---local CollectDelay = 0.3
+
 CollectSection2:AddInput("inCollectDelay2", {
 	Title = "Collect Delay",
 	Default = 0.3,
@@ -1353,12 +1353,6 @@ CollectSection2:AddToggle("tgCheckMutant2", {
 		if QuickSave then QuickSave() end
 	end,
 })
---MutantType
---local MutationData = DataService:GetData().GardenGuide.MutationData
---local MutationTable = {}
---for MutationName, MutationInfo in pairs(MutationData) do
---	table.insert(MutationTable, MutationName)
---end
 
 CollectSection2:AddDropdown("ddMutantType2", {
 	Title = "Mutant Type",
@@ -1673,18 +1667,16 @@ AlienEventSection:AddToggle("tgAlienDefaultSellPets", {
 })
 
 --[[ Log Section ]]
---
-local MaxLines = 1000 -- จำนวนบรรทัดที่จะโชว์
-local DisplayTable = {} -- ตารางเก็บข้อความโชว์
-local IsUpdateScheduled = false -- ตัวแปรเช็คว่ามีการนัดการอัป
--- ปุ่ม Clear
+
+local MaxLines = 100
+local DisplayTable = {}
+local IsUpdateScheduled = false
+
 Tabs.Log:AddButton({
 	Title = "Clear Logs",
 	Callback = function()
 		DisplayTable = {}
-		if LogDisplay then
-			LogDisplay:SetValue("") -- ตอนนี้ปุ่มจะรู้จัก LogDisplay แล้ว
-		end
+		if LogDisplay then LogDisplay:SetValue("") end
 	end,
 })
 
@@ -1693,24 +1685,16 @@ LogDisplay = Tabs.Log:CreateParagraph("MyConsole", {
 	Content = "System initialized...",
 })
 
-------------------------------------------------------
--- 4. ฟังก์ชัน AddLog
-------------------------------------------------------
-
 local function FlushLogUpdates()
-	if LogDisplay then
-		pcall(function()
-			-- รวบยอดเอาข้อมูลในตารางไปแสดงทีเดียว
-			LogDisplay:SetValue(table.concat(DisplayTable, "\n"))
-		end)
-	end
-	IsUpdateScheduled = false -- ทำงานเสร็จแล้ว ยกเลิก "นัด" (พร้อมรับนัดใหม่)
+	if LogDisplay then pcall(function()
+		LogDisplay:SetValue(table.concat(DisplayTable, "\n"))
+	end) end
+	IsUpdateScheduled = false
 end
 
 local function AddLog(message)
 	local entry = string.format("[%s] %s", os.date("%X"), message)
 
-	-- เก็บลงตารางแสดงผล (จำกัดบรรทัด)
 	table.insert(DisplayTable, entry)
 	if #DisplayTable > MaxLines then table.remove(DisplayTable, 1) end
 
@@ -1720,9 +1704,6 @@ local function AddLog(message)
 	end
 end
 
-------------------------------------------------------
--- 5. [NEW] ฟังก์ชันเสริม (Wrapper Functions) ที่พี่เอฟต้องการ
-------------------------------------------------------
 local function InfoLog(message)
 	AddLog("📋 " .. message)
 end
@@ -1814,29 +1795,20 @@ end
 
 GetRawPetData = function(uuid)
 	local success, result = pcall(function()
-		-- ถูกต้อง: ส่ง Name ตามที่เราแกะได้
 		return ActivePetsService:GetPetData(LocalPlayer.Name, uuid)
 	end)
 
-	if success and result then
-		return result -- คืนค่า Table ข้อมูลทั้งหมดกลับไป
-	end
+	if success and result then return result end
 	return nil
 end
 
--- ==========================================
--- 1. ฟังก์ชันหา Level
--- ==========================================
 GetPetLevel = function(uuid)
 	local data = GetRawPetData(uuid)
-	-- เช็ค PetData ก่อน เพราะ Level อยู่ข้างในนั้น
+
 	if data and data.PetData then return data.PetData.Level or 1 end
 	return 1
 end
 
--- ==========================================
--- 2. ฟังก์ชันหา Mutation
--- ==========================================
 GetPetMutation = function(uuid)
 	local data = GetRawPetData(uuid)
 	if data and data.PetData then
@@ -1850,24 +1822,15 @@ GetPetMutation = function(uuid)
 	return nil
 end
 
--- ==========================================
--- 3. ฟังก์ชันหา Hunger
--- ==========================================
 GetPetHunger = function(uuid)
 	local data = GetRawPetData(uuid)
 	if data and data.PetData then return data.PetData.Hunger or 0 end
 	return 0
 end
 
--- ==========================================
--- 4. ฟังก์ชันหา PetType
--- ==========================================
 GetPetType = function(uuid)
 	local data = GetRawPetData(uuid)
-	if data then
-		-- ถูกต้อง: ตัวนี้อยู่นอก PetData (ตามโครงสร้างที่พี่เอฟเจอ)
-		return data.PetType or "Unknown"
-	end
+	if data then return data.PetType or "Unknown" end
 	return "Unknown"
 end
 
@@ -1877,8 +1840,6 @@ GetPetHungerPercent = function(uuid)
 	if maxHunger <= 0 then return 0 end
 	return 100 * (GetPetHunger(uuid) / maxHunger)
 end
-
--- RawName removed (unused)
 
 GetPetFavorite = function(uuid)
 	local data = GetRawPetData(uuid)
@@ -1982,7 +1943,6 @@ GetPetUUID = function(petName)
 		targetMutant = Options.TargetMutantDropdown.Value
 	end
 
-	-- ฟังก์ชันเช็คเงื่อนไข (เพื่อลดความซ้ำซ้อนและเพิ่มความเร็ว)
 	local function IsValidPet(uuid, pType)
 		if not table.find(petName, pType) then return false end
 		if (petMode == "Mutant" or petMode == "Nightmare") and GetPetMutation(uuid) == targetMutant then return false end
@@ -1993,9 +1953,6 @@ GetPetUUID = function(petName)
 		return true
 	end
 
-	--local startTime = tick()
-	--repeat
-	-- 1. เช็คจากสัตว์เลี้ยงที่สวมใส่อยู่ (เร็วกว่า)
 	for _, uuid in pairs(GetEquippedPetsUUID()) do
 		local pType = GetPetType(uuid)
 		if IsValidPet(uuid, pType) then
@@ -2004,7 +1961,6 @@ GetPetUUID = function(petName)
 		end
 	end
 
-	-- 2. เช็คจาก Inventory
 	local data = DataService:GetData()
 	local inventory = data and data.PetsData and data.PetsData.PetInventory
 	if inventory then
@@ -2027,7 +1983,7 @@ GetPetUUID = function(petName)
 	end
 
 	task.wait(0.5)
-	--until tick() - startTime > 10
+
 	return nil
 end
 
@@ -2041,7 +1997,7 @@ UnequipPet = function(uuid)
 	GameEvents:WaitForChild("PetsService"):FireServer(unpack(args))
 end
 
-SwapPetLoadout = function(Loadout) -- Loadout is int 1-6
+SwapPetLoadout = function(Loadout)
 	if Loadout == 2 then
 		Loadout = 3
 	elseif Loadout == 3 then
@@ -2052,14 +2008,14 @@ SwapPetLoadout = function(Loadout) -- Loadout is int 1-6
 end
 
 heldPet = function(uuid)
-	local timeout = 3 -- รอสูงสุด 3 วินาที
+	local timeout = 3
 	local startTime = tick()
 
 	repeat
 		for _, item in ipairs(Backpack:GetChildren()) do
 			if item:GetAttribute("ItemType") == "Pet" and item:GetAttribute("PET_UUID") == uuid then
 				Humanoid:EquipTool(item)
-				task.wait(0.3) -- รอให้ถือติด
+				task.wait(0.3)
 				return true
 			end
 		end
@@ -2070,7 +2026,7 @@ heldPet = function(uuid)
 	return false
 end
 
-heldItemUUID = function(uuid) -- find item in backpack and select it
+heldItemUUID = function(uuid)
 	for _, item in ipairs(Backpack:GetChildren()) do
 		if item:GetAttribute("c") == uuid then
 			Humanoid:EquipTool(item)
@@ -2080,11 +2036,11 @@ heldItemUUID = function(uuid) -- find item in backpack and select it
 	return false
 end
 
-heldItemName = function(itemName) -- find item in backpack and select it
+heldItemName = function(itemName)
 	for _, item in ipairs(Backpack:GetChildren()) do
 		local name = string.match(item.Name, "^(.-)%s*%[") or string.match(item.Name, "^(.-)%s*[xX]%d+") or item.Name
 		name = string.gsub(name, "^%s*(.-)%s*$", "%1")
-		--name = string.trim(name)
+
 		if name == itemName then
 			pcall(function()
 				Humanoid:EquipTool(item)
@@ -2112,13 +2068,12 @@ MakeMutant = function(uuid)
 	Character:PivotTo(CFrame.new(-236.17, 4.50, 14.36))
 	task.wait(0.2)
 	if IsActivePet(uuid) then
-		UnequipPet(uuid) -- Swaps to loadout 4 to check pet age
+		UnequipPet(uuid)
 		task.wait(1)
 	end
 	if heldPet(uuid) then
 		task.wait(0.5)
-		-- local args = {"MakeMutant", uuid}
-		-- GameEvents:WaitForChild("PetsService"):FireServer(unpack(args))
+
 		local args1 = { "SubmitHeldPet" }
 		GameEvents:WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args1))
 		task.wait(0.5)
@@ -2132,18 +2087,17 @@ MakeMutant = function(uuid)
 end
 
 ClaimMutantPet = function(uuid)
-	-- print("Swapping to claim loadout " .. ClaimLoadout .. " to claim mutant pet...")
 	SwapPetLoadout(Options.MutantSlots.Value)
 	task.wait(Options.LoadOutDelay.Value)
 	task.wait(Options.LoadOutDelay.Value)
 	local args = { "ClaimMutatedPet" }
 	GameEvents:WaitForChild("PetMutationMachineService_RE"):FireServer(unpack(args))
-	-- print("Mutant pet claimed successfully!")
+
 	task.wait(3)
 	if Character and Humanoid then pcall(function()
 		Humanoid:UnequipTools()
 	end) end
-	-- local mutantPetname = GetPetMutation(uuid)
+
 	SuccessLog("Successfully claimed " .. GetPetType(uuid) .. " Mutant : " .. GetPetMutation(uuid))
 	Mutanting = false
 	local TargetMutant = Options.TargetMutantDropdown.Value
@@ -2164,29 +2118,24 @@ Mutation = function(uuid)
 		local TargetLimit = tonumber(Options.AgeLimitInput.Value) or 50
 		local TargetPet = GetSelectedItems(Options.TargetPetDropdown.Value)
 
-		-- ใช้ตัวแปร Global ตามที่พี่เอฟต้องการ
 		targetUUID = uuid or GetPetUUID(TargetPet)
 
 		if targetUUID then
 			local age = GetPetLevel(targetUUID)
-			-- InfoLog("Current level of " .. TargetPet .. ": " .. tostring(age))
 
 			local function IsEquipPet()
-				-- [แก้] ใช้ >= เพื่อให้หยุดเมื่อ "ถึง" เลเวลเป้าหมายพอดี (ไม่ต้องรอให้เกิน)
 				if petMode == "Mutant" and age >= TargetLimit then return false end
 
-				-- เงื่อนไขหยุดของ Level และ Elephant (หยุดเมื่อถึงเป้า)
 				if petMode == "Level" and age >= TargetLimit then return false end
 
 				if petMode == "Elephant" and age >= TargetLimit and GetPetBaseWeight(targetUUID) > 3.5 then return false end
-				-- เงื่อนไขหยุดของ Nightmare
+
 				if petMode == "Nightmare" and GetPetMutation(targetUUID) == "Nightmare" then return false end
 
 				return true
 			end
 
 			if IsEquipPet() then
-				-- สั่งวาร์ปทันที (ไม่ต้องเช็ค Character เพราะพี่เอฟยืนยันว่าไม่มีตาย)
 				Character:PivotTo(CFrame.new(FarmPoint.X, FarmPoint.Y, FarmPoint.Z))
 				task.wait(0.3)
 
@@ -2199,11 +2148,9 @@ Mutation = function(uuid)
 					EquipPet(targetUUID)
 				end)
 			elseif petMode == "Mutant" then
-				-- ถ้าหลุดจาก IsEquipPet และเป็นโหมด Mutant แสดงว่าเลเวลถึงเป้าแล้ว -> ส่งไปต้ม
 				InfoLog("Send " .. GetPetType(targetUUID) .. " to the Mutant Machine")
 				MakeMutant(targetUUID)
 			else
-				-- ถ้าเป็นโหมดอื่นที่ถึงเป้าแล้ว ก็จบการทำงาน (Return)
 				return
 			end
 		else
@@ -2214,7 +2161,6 @@ end
 
 DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 	local TargetLevel = tonumber(Options.AgeLimitInput.Value) or 50
-	--local TargetPet = Options.TargetPetDropdown.Value or "None"
 
 	if Type ~= "UpdateData" then return end
 	if not string.find(Profile, LocalPlayer.Name) then return end
@@ -2223,13 +2169,11 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 		local Key = Packet[1]
 		local Content = Packet[2]
 
-		-- Process Buy Requests
 		if BuyList[Key] then task.spawn(function()
 			ProcessBuy(Key, Content)
 		end) end
 
 		if Options.PetModeEnable.Value then
-			-- Process Pet Mutation
 			task.spawn(function()
 				if string.find(Key, "ROOT/GardenGuide/PetData") or Key == "ROOT/BadgeData/PetMaster" then
 					if Options.PetMode.Value == "Nightmare" then
@@ -2244,7 +2188,7 @@ DataStream.OnClientEvent:Connect(function(Type, Profile, Data)
 							task.wait(1)
 							Mutation()
 						end
-					end --Elephant
+					end
 				elseif Key == "ROOT/PetMutationMachine/PetReady" then
 					if Mutanting and Options.PetMode.Value == "Mutant" then ClaimMutantPet(targetUUID) end
 					task.wait(0.3)
@@ -2308,10 +2252,7 @@ FindFruitInv = function()
 			else
 				--AllowFoodType
 				for _, Fruit in pairs(AllowList) do
-					if FruitInv == Fruit then
-						--AddLog("Found Fruit : "..FruitInv.." UUID: "..uuid)
-						return uuid
-					end
+					if FruitInv == Fruit then return uuid end
 				end
 			end
 		end
@@ -2324,14 +2265,14 @@ FeedPet = function()
 	if #petUUID == 0 then return end
 	for i, uuid in pairs(petUUID) do
 		local hunger = tonumber(GetPetHungerPercent(uuid))
-		--AddLog("Hunger:" .. tostring(hunger))
+
 		if hunger <= Options.PetHungerPercent.Value then
 			local FruitInvUUID = FindFruitInv()
 			if FruitInvUUID then
 				if heldItemUUID(FruitInvUUID) then
 					local args = { "Feed", uuid }
 					GameEvents:WaitForChild("ActivePetService"):FireServer(unpack(args))
-					--AddLog("Feed : " .. uuid)
+
 					task.wait(1)
 				end
 			else
@@ -2339,7 +2280,6 @@ FeedPet = function()
 			end
 		end
 	end
-	--GetPetHunger
 end
 
 CheckFruit = function(model)
@@ -2445,7 +2385,6 @@ ScanFarmTask = function(mode)
 	sIsScanning = true
 
 	task.spawn(function()
-		-- เคลียร์คิวเก่าทิ้งก่อนเริ่มรอบใหม่ เพื่อความสดใหม่ของข้อ������ูล
 		table.clear(sFruitQueue)
 
 		local MyFarm = GetMyFarm()
@@ -2461,19 +2400,14 @@ ScanFarmTask = function(mode)
 		if Plants_Physical then
 			local count = 0
 
-			-- ใช้ ipairs เพื่อ���วามเร็วในการวนลูป Array
 			for _, plant in ipairs(Plants_Physical:GetChildren()) do
-				-- หยุดสแกนทันทีถ้าผู้ใช้ปิด Function
 				if not sEnable then break end
 
-				-- ตรวจสอบว่าในต้นไม้นั้�������มี Folder Fruits หรือไม่ (บางทีผลไม้��������ยู่ใน plant เลย)
 				local FruitsContainer = plant:FindFirstChild("Fruits")
 				local itemsToCheck = FruitsContainer and FruitsContainer:GetChildren() or { plant }
 
 				for _, item in ipairs(itemsToCheck) do
 					if item:IsA("Model") then
-						-- Optimization: เ����������็ค ProximityPrompt ���่อนเรียก CheckFruit
-						-- (เพราะ CheckFruit กินทรัพยากรเยอะกว่า)
 						local Prompt = item:FindFirstChild("ProximityPrompt", true)
 
 						if Prompt and Prompt.Enabled then
@@ -2482,7 +2416,6 @@ ScanFarmTask = function(mode)
 					end
 				end
 
-				-- Optimization: พักหายใจทุกๆ 50 ต้นไม้ ป้องกันเกมค้าง (Lag)
 				count = count + 1
 				if count % 50 == 0 then task.wait() end
 			end
@@ -2498,7 +2431,6 @@ ScanFarmTask = function(mode)
 	end)
 end
 
--- CollectFruit worker (ToggleTask-managed) - grouped with functions, not UI
 CollectFruitWorker1 = function()
 	if not Options.tgCollectFruitEnable.Value then
 		table.clear(FruitQueue1)
@@ -2592,9 +2524,8 @@ CheckMakeMutant = function(uuid)
 	local age = GetPetLevel(uuid)
 	if not age then return end
 	task.wait(0.3)
-	--DevNoti("Key 1 :  " .. TargetPet .. " Age : " .. tostring(age))
+
 	if age >= TargetLevel then
-		--DevNoti(TargetPet .. " has reached level " .. TargetLevel)
 		UnequipPet(uuid)
 		task.wait(0.3)
 		MakeMutant(uuid)
@@ -3091,7 +3022,6 @@ Reclaim = function()
 		end
 	end
 end
---End of Main Function
 
 GiftMainFrame.ChildAdded:Connect(function(child)
 	task.wait(0.5)
@@ -3112,7 +3042,7 @@ GiftMainFrame.ChildAdded:Connect(function(child)
 				end
 
 				local inset, _ = game:GetService("GuiService"):GetGuiInset()
-				local x = acceptButton.AbsolutePosition.X + (acceptButton.AbsoluteSize.X / 2)
+				local x = acceptButton.AbsolutePosition.X + (acceptButton.AbsoluteSize.X / 2) + inset.X
 				local y = acceptButton.AbsolutePosition.Y + (acceptButton.AbsoluteSize.Y / 2) + inset.Y
 
 				VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 1)
@@ -3128,7 +3058,6 @@ GiftMainFrame.ChildAdded:Connect(function(child)
 		end
 	end
 end)
---Event Code
 
 local function initToggle()
 	Options.PetModeEnable:SetValue(false)
@@ -3199,31 +3128,26 @@ local function AlienEvent()
 			UnequipPet(uuid)
 			task.wait(0.2)
 		end
-		pcall(restoreToggle)
-		task.wait(1)
 		StopFlag = false
+		task.wait(2)
+		pcall(restoreToggle)
 	end
 	task.wait(30)
 end
 
---Alienated Alienated ["EnumId"] = "Y",
--- game:GetService("ReplicatedStorage").GameEvents.AlienEvent.SubmitPet
-
 local function CatchAlien()
 	if not Options.tgAlienEventEnable.Value or not StopFlag then return end
 
-	-- Phase 1: ถอดสัตว์ Alienated ออกให้หมด
 	for _, uuid in pairs(GetEquippedPetsUUID()) do
 		local mutant = GetPetMutation(uuid)
-		if mutant == "Alienated" then -- ลดรูปเงื่อนไขให้กระชับขึ้นได้ค่ะ
+		if mutant == "Alienated" then
 			UnequipPet(uuid)
 			task.wait(0.2)
 		end
 	end
 
-	-- Phase 2: เติมสัตว์ธรรมดาให้เต็มโควตา
 	local ActivePet = GetEquippedPetsUUID()
-	local currentEquipped = #ActivePet -- เก็บจำนวนที่ใส่อยู่ตอนนี้
+	local currentEquipped = #ActivePet
 	local AlienMaxPet = tonumber(Options.ddAlienMaxPet.Value) or 0
 
 	if currentEquipped < AlienMaxPet then
@@ -3234,23 +3158,21 @@ local function CatchAlien()
 			local AlienPet = GetSelectedItems(Options.ddAlienPet.Value)
 
 			for _, v in pairs(inventory) do
-				if currentEquipped >= AlienMaxPet then break end -- ถ้าใส่ครบโควตาแล้ว ให้หยุดลูปกระเป๋าชั้นนอก
+				if currentEquipped >= AlienMaxPet then break end
 
 				if type(v) == "table" then
 					for kUUID, petData in pairs(v) do
-						if currentEquipped >= AlienMaxPet then break end -- ถ้าใส่ครบโควตาแล้ว ให้หยุดลูปชั้นใน
+						if currentEquipped >= AlienMaxPet then break end
 
 						if type(petData) == "table" then
 							local tPetType = petData.PetType
 							if table.find(AlienPet, tPetType) then
 								local tuuid = petData.UUID or kUUID
 
-								-- เช็กให้แน่ใจว่าเป็นสัตว์ธรรมดา และไม่ได้สวมใส่อยู่แล้ว
 								if tuuid and (GetPetMutation(tuuid) == nil or GetPetMutation(tuuid) == "None") then
-									-- เพิ่มการเช็กว่าสัตว์ตัวนี้ไม่ได้อยู่ในลิสต์ที่ใส่อยู่แล้ว กันบั๊กใส่ซ้ำ
 									if not table.find(GetEquippedPetsUUID(), tuuid) then
 										EquipPet(tuuid)
-										currentEquipped = currentEquipped + 1 -- อัปเดตยอดว่าใส่เพิ่มไป 1 ตัวแล้ว
+										currentEquipped = currentEquipped + 1
 										task.wait(0.3)
 									end
 								end
@@ -3292,18 +3214,15 @@ local function CheckAlienPet()
 	task.wait(0.2)
 	if AlienPetCount <= AlienMaxPet then
 		if not isOverrideActive then
-			-- จำค่าเดิมที่ผู้เล่นตั้งไว้ก่อนสคริปต์จะแทรกแซง
 			pcall(initToggle)
 			task.wait(1)
 			isOverrideActive = true
 
-			-- บังคับเปิดออโต้
 			Options.tgPlaceEggsEn:SetValue(true)
 			Options.tgAutoHatchEn:SetValue(true)
 			task.wait(1)
 		end
 	else
-		-- ถ้าฟักสัตว์ได้ครบจำนวนที่ต้องการแล้ว คืนค่าเดิมให้ UI
 		if isOverrideActive then
 			pcall(restoreToggle)
 			task.wait(1)
@@ -3344,7 +3263,6 @@ local function AutoAlienClaim()
 	end
 end
 
--- Background task controller (toggle-driven)
 ToggleTask = function(taskName, enabled, funcBody)
 	if enabled then
 		if ActiveTasks[taskName] then return end
@@ -3428,3 +3346,131 @@ SyncBackgroundTasks = function()
 	end)
 	ToggleTask("AutoAlienClaim", Options.tgAlienAutoClaim.Value, AutoAlienClaim)
 end
+
+local hideTrees = false
+local hideFruits = false
+
+local function GetPlantsFolder()
+	local farm1 = workspace:FindFirstChild("Farm")
+	if not farm1 then return nil end
+	local farm2 = farm1:FindFirstChild("Farm")
+	if not farm2 then return nil end
+	local important = farm2:FindFirstChild("Important")
+	if not important then return nil end
+	return important:FindFirstChild("Plants_Physical")
+end
+
+local function IsFruit(object)
+	local current = object
+
+	while current and current ~= workspace do
+		if current.Name == "Fruits" then return true end
+		current = current.Parent
+	end
+	return false
+end
+
+local function SetVisibility(object, isHidden)
+	if object:IsA("BasePart") or object:IsA("MeshPart") or object:IsA("Decal") or object:IsA("Texture") then
+		if isHidden then
+			if not object:GetAttribute("OriginalTrans") then object:SetAttribute("OriginalTrans", object.Transparency) end
+			object.Transparency = 1
+		else
+			local originalTrans = object:GetAttribute("OriginalTrans")
+			if originalTrans then object.Transparency = originalTrans end
+		end
+	elseif object:IsA("ParticleEmitter") or object:IsA("Sparkles") or object:IsA("Fire") or object:IsA("Trail") then
+		if isHidden then
+			if object:GetAttribute("OriginalEnabled") == nil then object:SetAttribute("OriginalEnabled", object.Enabled) end
+			object.Enabled = false
+		else
+			local originalEnabled = object:GetAttribute("OriginalEnabled")
+			if originalEnabled ~= nil then object.Enabled = originalEnabled end
+		end
+	end
+end
+
+local TreeToggle = Tabs.Main:AddToggle("TreeToggle", {
+	Title = "ซ่อนต้นไม้ (เหลือไว้แต่ผลไม้)",
+	Default = false,
+	Callback = function(state)
+		hideTrees = state
+		local plantsFolder = GetPlantsFolder()
+		if plantsFolder then
+			for _, obj in ipairs(plantsFolder:GetDescendants()) do
+				if not IsFruit(obj) then SetVisibility(obj, state) end
+			end
+		end
+	end,
+})
+
+local FruitToggle = Tabs.Main:AddToggle("FruitToggle", {
+	Title = "ซ่อนผลไม้",
+	Default = false,
+	Callback = function(state)
+		hideFruits = state
+		local plantsFolder = GetPlantsFolder()
+		if plantsFolder then
+			for _, obj in ipairs(plantsFolder:GetDescendants()) do
+				if IsFruit(obj) then SetVisibility(obj, state) end
+			end
+		end
+	end,
+})
+
+local plantsFolder = GetPlantsFolder()
+if plantsFolder then plantsFolder.DescendantAdded:Connect(function(newObj)
+	task.wait()
+
+	if IsFruit(newObj) then
+		if hideFruits then SetVisibility(newObj, true) end
+	else
+		if hideTrees then SetVisibility(newObj, true) end
+	end
+end) end
+
+local CacheFolder = Lighting:FindFirstChild("EfHub_FarmCache")
+if not CacheFolder then
+	CacheFolder = Instance.new("Folder")
+	CacheFolder.Name = "EfHub_FarmCache"
+	CacheFolder.Parent = Lighting
+end
+
+local function ToggleOtherFarms(state)
+	local mainFarmFolder = workspace:FindFirstChild("Farm")
+
+	if not mainFarmFolder then return end
+
+	if state then
+		for _, farmObj in ipairs(mainFarmFolder:GetChildren()) do
+			if farmObj.Name == "Farm" then
+				local important = farmObj:FindFirstChild("Important")
+				if important then
+					local data = important:FindFirstChild("Data")
+					if data then
+						local ownerVal = data:FindFirstChild("Owner")
+						if ownerVal then
+							local ownerName = tostring(ownerVal.Value)
+
+							if ownerName ~= LocalPlayer.Name then farmObj.Parent = CacheFolder end
+						end
+					end
+				end
+			end
+		end
+	else
+		for _, cachedFarm in ipairs(CacheFolder:GetChildren()) do
+			cachedFarm.Parent = mainFarmFolder
+		end
+	end
+end
+
+local HideOthersToggle = Tabs.Main:AddToggle("HideOthersToggle", {
+	Title = "ซ่อนสวนคนอื่น (ลดแลค)",
+	Default = false,
+	Callback = function(state)
+		ToggleOtherFarms(state)
+	end,
+})
+
+SuccessLog("Script Loaded!")
