@@ -895,6 +895,7 @@ HatchSection:AddToggle("tgPlaceEggsEn", {
 	Callback = function(Value)
 		if QuickSave then QuickSave() end
 		if SyncBackgroundTasks then SyncBackgroundTasks() end
+		isEggProcessing = false
 	end,
 })
 
@@ -953,6 +954,7 @@ HatchSection:AddToggle("tgAutoHatchEn", {
 	Callback = function(Value)
 		if QuickSave then QuickSave() end
 		if SyncBackgroundTasks then SyncBackgroundTasks() end
+		isEggProcessing = false
 	end,
 })
 local tempTable = { "ALL" }
@@ -1030,6 +1032,7 @@ HatchSection:AddToggle("tgSellPetEn", {
 	Callback = function(Value)
 		if QuickSave then QuickSave() end
 		if SyncBackgroundTasks then SyncBackgroundTasks() end
+		isEggProcessing = false
 	end,
 })
 
@@ -2425,7 +2428,7 @@ ScanFarmTask = function(mode)
 				-- หยุดสแกนทันทีถ้าผู้ใช้ปิด Function
 				if not sEnable then break end
 
-				-- ตรวจสอบว่าในต้นไม้นั้นมี Folder Fruits หรือไม่ (บางทีผลไม้����ยู่ใน plant เลย)
+				-- ตรวจสอบว่าในต้นไม้นั้�����มี Folder Fruits หรือไม่ (บางทีผลไม้��������ยู่ใน plant เลย)
 				local FruitsContainer = plant:FindFirstChild("Fruits")
 				local itemsToCheck = FruitsContainer and FruitsContainer:GetChildren() or { plant }
 
@@ -3125,9 +3128,9 @@ local function AlienEvent()
 	if currentMinute == 58 and currentMinute ~= lastTriggerMinute then
 		lastTriggerMinute = currentMinute
 		pcall(initToggle)
-		task.wait(0.2)
+		task.wait(1)
 		SwapPetLoadout(AlienLoadout)
-		task.wait(0.2)
+		task.wait(0.5)
 		for _, uuid in pairs(GetEquippedPetsUUID()) do
 			UnequipPet(uuid)
 			task.wait(0.2)
@@ -3164,6 +3167,7 @@ local function AlienEvent()
 			task.wait(0.2)
 		end
 		pcall(restoreToggle)
+		task.wait(1)
 		StopFlag = false
 	end
 	task.wait(30)
@@ -3223,6 +3227,7 @@ local function CatchAlien()
 				end
 			end
 		end
+		task.wait(1)
 	end
 end
 local isOverrideActive = false
@@ -3251,27 +3256,29 @@ local function CheckAlienPet()
 			end
 		end
 	end
-
+	task.wait(0.2)
 	if AlienPetCount <= AlienMaxPet then
 		if not isOverrideActive then
 			-- จำค่าเดิมที่ผู้เล่นตั้งไว้ก่อนสคริปต์จะแทรกแซง
 			pcall(initToggle)
-			task.wait(0.2)
+			task.wait(1)
 			isOverrideActive = true
 
 			-- บังคับเปิดออโต้
 			Options.tgPlaceEggsEn:SetValue(true)
 			Options.tgAutoHatchEn:SetValue(true)
+			task.wait(1)
 		end
 	else
 		-- ถ้าฟักสัตว์ได้ครบจำนวนที่ต้องการแล้ว คืนค่าเดิมให้ UI
 		if isOverrideActive then
 			pcall(restoreToggle)
-			task.wait(0.2)
+			task.wait(1)
 			isOverrideActive = false
 			pcall(function()
 				Humanoid:UnequipTools()
 			end)
+			task.wait(1)
 		end
 	end
 end
