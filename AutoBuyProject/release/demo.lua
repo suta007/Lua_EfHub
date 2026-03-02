@@ -1,8 +1,10 @@
 --!nocheck
-local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau", true))()
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/FluentData/Renewed/Fluent.luau"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"))()
 local CollapsibleAddon = loadstring(game:HttpGet("https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/Core/CollapsibleSection.lua"))()
+
+local Lighting = game:GetService("Lighting")
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local GameEvents = ReplicatedStorage:WaitForChild("GameEvents")
@@ -14,7 +16,7 @@ local Backpack = LocalPlayer:WaitForChild("Backpack")
 local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local Humanoid = Character:WaitForChild("Humanoid")
 local VirtualUser = game:GetService("VirtualUser")
-local Lighting = game:GetService("Lighting")
+
 local Terrain = workspace.Terrain
 local GiftMainFrame = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Gift_Notification"):WaitForChild("Frame")
 local VirtualInputManager = game:GetService("VirtualInputManager")
@@ -46,8 +48,8 @@ local SellPetType = {}
 local PlaceEggList = {}
 local EggHatchList = {}
 local isEggProcessing = false
-local isPlantHidden, isFruitHidden = false, false
--- Forward Declaration
+
+-- =========================================================
 local calculateCurrentWeight
 local getInventoryList
 local findMainPet
@@ -82,7 +84,9 @@ local CollectFruitWorker1, CollectFruitWorker2 = nil, nil
 local PlaceEggs, HatchEgg, SellPetEgg
 local getBoundary, getPlate, ValidEggs, EggInFarm, IsValidSellPet, ScanSellPet
 local ShovelPlant, Reclaim --, Trowel, ShovelCosmetic, ShovelCrop
-local GetPlantsFolder, IsFruit, SetVisibility, HidePlant, HideFruit, SetupPlantTracker
+
+local isPlantHidden, isFruitHidden = false, false
+local GetPlantsFolder, IsFruit, SetVisibility, HidePlant, HideFruit, SetupTracker
 
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
@@ -289,8 +293,24 @@ Tabs.Main:AddButton({
 		end)
 	end,
 })
-Tabs.Main:AddToggle("TreeToggle", { Title = "ซ่อนต้นไม้", Default = false, Callback = HidePlant })
-Tabs.Main:AddToggle("FruitToggle", { Title = "ซ่อนผลไม้", Default = false, Callback = HideFruit })
+
+Tabs.Main:AddToggle("FruitToggle", {
+	Title = "Hide Fruits",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then QuickSave() end
+		if HideFruit then HideFruit(Value) end
+	end,
+})
+
+Tabs.Main:AddToggle("PlantToggle", {
+	Title = "Hide Plants",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then QuickSave() end
+		if HidePlant then HidePlant(Value) end
+	end,
+})
 
 local HardCoreSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Hardcore", false)
 HardCoreSection:AddToggle("HardCoreBuyEnable", {
@@ -1786,6 +1806,11 @@ if MyFarm then
 	if MyFarm:FindFirstChild("Spawn_Point") then FarmPoint = MyFarm.Spawn_Point.CFrame end
 end
 
+GetPlantsFolder = function()
+	local Farm_Important = MyFarm:FindFirstChild("Important")
+	return Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+end
+
 GetEquippedPetsUUID = function()
 	local GetData_result = DataService:GetData()
 	local EquippedPets = GetData_result.PetsData.EquippedPets or {}
@@ -2243,15 +2268,6 @@ LocalPlayer.Idled:Connect(function()
 	VirtualUser:ClickButton2(Vector2.new())
 end)
 
-GetPlantsFolder = function()
-	local farm = workspace:FindFirstChild("Farm")
-	if farm and farm:FindFirstChild("Farm") then
-		local important = farm.Farm:FindFirstChild("Important")
-		if important then return important:FindFirstChild("Plants_Physical") end
-	end
-	return nil
-end
-
 IsFruit = function(obj)
 	local current = obj
 	while current and current ~= workspace do
@@ -2264,18 +2280,20 @@ end
 SetVisibility = function(obj, isHidden)
 	if obj:IsA("BasePart") or obj:IsA("MeshPart") or obj:IsA("Decal") or obj:IsA("Texture") then
 		if isHidden then
-			if not obj:GetAttribute("OrigTrans") then obj:SetAttribute("OrigTrans", obj.Transparency) end
+			-- ใช้คีย์เวิร์ดเดิม OriginalTrans
+			if not obj:GetAttribute("OriginalTrans") then obj:SetAttribute("OriginalTrans", obj.Transparency) end
 			obj.Transparency = 1
 		else
-			local orig = obj:GetAttribute("OrigTrans")
+			local orig = obj:GetAttribute("OriginalTrans")
 			if orig then obj.Transparency = orig end
 		end
 	elseif obj:IsA("ParticleEmitter") or obj:IsA("Sparkles") or obj:IsA("Fire") or obj:IsA("Trail") then
 		if isHidden then
-			if obj:GetAttribute("OrigEnabled") == nil then obj:SetAttribute("OrigEnabled", obj.Enabled) end
+			-- ใช้คีย์เวิร์ดเดิม OriginalEnabled
+			if obj:GetAttribute("OriginalEnabled") == nil then obj:SetAttribute("OriginalEnabled", obj.Enabled) end
 			obj.Enabled = false
 		else
-			local orig = obj:GetAttribute("OrigEnabled")
+			local orig = obj:GetAttribute("OriginalEnabled")
 			if orig ~= nil then obj.Enabled = orig end
 		end
 	end
@@ -2283,26 +2301,29 @@ end
 
 HidePlant = function(state)
 	isPlantHidden = state
-	local folder = GetPlantsFolder()
-	if not folder then return end
-	for _, obj in ipairs(folder:GetDescendants()) do
+	local PlantFolder = GetPlantsFolder()
+	if not PlantFolder then return end
+
+	for _, obj in ipairs(PlantFolder:GetDescendants()) do
 		if not IsFruit(obj) then SetVisibility(obj, state) end
 	end
 end
 
 HideFruit = function(state)
 	isFruitHidden = state
-	local folder = GetPlantsFolder()
-	if not folder then return end
-	for _, obj in ipairs(folder:GetDescendants()) do
+	local PlantFolder = GetPlantsFolder()
+	if not PlantFolder then return end
+
+	for _, obj in ipairs(PlantFolder:GetDescendants()) do
 		if IsFruit(obj) then SetVisibility(obj, state) end
 	end
 end
 
-SetupPlantTracker = function()
-	local plantsFolder = GetPlantsFolder()
-	if plantsFolder then
-		plantsFolder.DescendantAdded:Connect(function(newObj)
+SetupTracker = function()
+	local PlantFolder = GetPlantsFolder()
+	if PlantFolder then
+		-- ดักจับเฉพาะของที่งอกใหม่ในสวนของเราโดยตรง (ลดภาระเครื่องได้เยอะมาก)
+		PlantFolder.DescendantAdded:Connect(function(newObj)
 			task.wait()
 			if IsFruit(newObj) then
 				if isFruitHidden then SetVisibility(newObj, true) end
@@ -2467,8 +2488,7 @@ ScanFarmTask = function(mode)
 			IsScanning2 = false
 			return
 		end
-		local Farm_Important = MyFarm:FindFirstChild("Important")
-		local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+		local Plants_Physical = GetPlantsFolder()
 
 		if Plants_Physical then
 			local count = 0
@@ -3044,8 +3064,7 @@ end
 
 ShovelPlant = function()
 	if not Options.tgAutoPlantShovel.Value then return end
-	local Farm_Important = MyFarm:FindFirstChild("Important")
-	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+	local Plants_Physical = GetPlantsFolder()
 	pcall(function()
 		Humanoid:UnequipTools()
 	end)
@@ -3079,8 +3098,7 @@ Reclaim = function()
 		end
 	end
 
-	local Farm_Important = MyFarm:FindFirstChild("Important")
-	local Plants_Physical = Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+	local Plants_Physical = GetPlantsFolder()
 
 	local ReclaimPlantList = GetSelectedItems(Options.ddReclaim.Value)
 	if Plants_Physical then
@@ -3419,5 +3437,7 @@ SyncBackgroundTasks = function()
 	end)
 	ToggleTask("AutoAlienClaim", Options.tgAlienAutoClaim.Value, AutoAlienClaim)
 end
+
+pcall(SetupTracker)
 
 SuccessLog("Script Loaded!")
