@@ -3199,9 +3199,9 @@ local function AlienEvent()
 			UnequipPet(uuid)
 			task.wait(0.2)
 		end
-		pcall(restoreToggle)
-		task.wait(1)
 		StopFlag = false
+		task.wait(2)
+		pcall(restoreToggle)
 	end
 	task.wait(30)
 end
