@@ -3112,7 +3112,7 @@ GiftMainFrame.ChildAdded:Connect(function(child)
 				end
 
 				local inset, _ = game:GetService("GuiService"):GetGuiInset()
-				local x = acceptButton.AbsolutePosition.X + (acceptButton.AbsoluteSize.X / 2)
+				local x = acceptButton.AbsolutePosition.X + (acceptButton.AbsoluteSize.X / 2) + inset.X
 				local y = acceptButton.AbsolutePosition.Y + (acceptButton.AbsoluteSize.Y / 2) + inset.Y
 
 				VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 1)
