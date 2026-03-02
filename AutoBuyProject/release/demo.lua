@@ -46,8 +46,8 @@ local SellPetType = {}
 local PlaceEggList = {}
 local EggHatchList = {}
 local isEggProcessing = false
-
--- =========================================================
+local isPlantHidden, isFruitHidden = false, false
+-- Forward Declaration
 local calculateCurrentWeight
 local getInventoryList
 local findMainPet
@@ -82,6 +82,7 @@ local CollectFruitWorker1, CollectFruitWorker2 = nil, nil
 local PlaceEggs, HatchEgg, SellPetEgg
 local getBoundary, getPlate, ValidEggs, EggInFarm, IsValidSellPet, ScanSellPet
 local ShovelPlant, Reclaim --, Trowel, ShovelCosmetic, ShovelCrop
+local GetPlantsFolder, IsFruit, SetVisibility, HidePlant, HideFruit, SetupPlantTracker
 
 local ShopKey = {
 	Seed = "ROOT/SeedStocks/Shop/Stocks",
@@ -288,6 +289,8 @@ Tabs.Main:AddButton({
 		end)
 	end,
 })
+Tabs.Main:AddToggle("TreeToggle", { Title = "ซ่อนต้นไม้", Default = false, Callback = HidePlant })
+Tabs.Main:AddToggle("FruitToggle", { Title = "ซ่อนผลไม้", Default = false, Callback = HideFruit })
 
 local HardCoreSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Hardcore", false)
 HardCoreSection:AddToggle("HardCoreBuyEnable", {
@@ -2240,6 +2243,76 @@ LocalPlayer.Idled:Connect(function()
 	VirtualUser:ClickButton2(Vector2.new())
 end)
 
+GetPlantsFolder = function()
+	local farm = workspace:FindFirstChild("Farm")
+	if farm and farm:FindFirstChild("Farm") then
+		local important = farm.Farm:FindFirstChild("Important")
+		if important then return important:FindFirstChild("Plants_Physical") end
+	end
+	return nil
+end
+
+IsFruit = function(obj)
+	local current = obj
+	while current and current ~= workspace do
+		if current.Name == "Fruits" then return true end
+		current = current.Parent
+	end
+	return false
+end
+
+SetVisibility = function(obj, isHidden)
+	if obj:IsA("BasePart") or obj:IsA("MeshPart") or obj:IsA("Decal") or obj:IsA("Texture") then
+		if isHidden then
+			if not obj:GetAttribute("OrigTrans") then obj:SetAttribute("OrigTrans", obj.Transparency) end
+			obj.Transparency = 1
+		else
+			local orig = obj:GetAttribute("OrigTrans")
+			if orig then obj.Transparency = orig end
+		end
+	elseif obj:IsA("ParticleEmitter") or obj:IsA("Sparkles") or obj:IsA("Fire") or obj:IsA("Trail") then
+		if isHidden then
+			if obj:GetAttribute("OrigEnabled") == nil then obj:SetAttribute("OrigEnabled", obj.Enabled) end
+			obj.Enabled = false
+		else
+			local orig = obj:GetAttribute("OrigEnabled")
+			if orig ~= nil then obj.Enabled = orig end
+		end
+	end
+end
+
+HidePlant = function(state)
+	isPlantHidden = state
+	local folder = GetPlantsFolder()
+	if not folder then return end
+	for _, obj in ipairs(folder:GetDescendants()) do
+		if not IsFruit(obj) then SetVisibility(obj, state) end
+	end
+end
+
+HideFruit = function(state)
+	isFruitHidden = state
+	local folder = GetPlantsFolder()
+	if not folder then return end
+	for _, obj in ipairs(folder:GetDescendants()) do
+		if IsFruit(obj) then SetVisibility(obj, state) end
+	end
+end
+
+SetupPlantTracker = function()
+	local plantsFolder = GetPlantsFolder()
+	if plantsFolder then
+		plantsFolder.DescendantAdded:Connect(function(newObj)
+			task.wait()
+			if IsFruit(newObj) then
+				if isFruitHidden then SetVisibility(newObj, true) end
+			else
+				if isPlantHidden then SetVisibility(newObj, true) end
+			end
+		end)
+	end
+end
+
 FindFruitInv = function()
 	local GetData_result = DataService:GetData()
 	local InventoryData = GetData_result.InventoryData or {}
@@ -3346,131 +3419,5 @@ SyncBackgroundTasks = function()
 	end)
 	ToggleTask("AutoAlienClaim", Options.tgAlienAutoClaim.Value, AutoAlienClaim)
 end
-
-local hideTrees = false
-local hideFruits = false
-
-local function GetPlantsFolder()
-	local farm1 = workspace:FindFirstChild("Farm")
-	if not farm1 then return nil end
-	local farm2 = farm1:FindFirstChild("Farm")
-	if not farm2 then return nil end
-	local important = farm2:FindFirstChild("Important")
-	if not important then return nil end
-	return important:FindFirstChild("Plants_Physical")
-end
-
-local function IsFruit(object)
-	local current = object
-
-	while current and current ~= workspace do
-		if current.Name == "Fruits" then return true end
-		current = current.Parent
-	end
-	return false
-end
-
-local function SetVisibility(object, isHidden)
-	if object:IsA("BasePart") or object:IsA("MeshPart") or object:IsA("Decal") or object:IsA("Texture") then
-		if isHidden then
-			if not object:GetAttribute("OriginalTrans") then object:SetAttribute("OriginalTrans", object.Transparency) end
-			object.Transparency = 1
-		else
-			local originalTrans = object:GetAttribute("OriginalTrans")
-			if originalTrans then object.Transparency = originalTrans end
-		end
-	elseif object:IsA("ParticleEmitter") or object:IsA("Sparkles") or object:IsA("Fire") or object:IsA("Trail") then
-		if isHidden then
-			if object:GetAttribute("OriginalEnabled") == nil then object:SetAttribute("OriginalEnabled", object.Enabled) end
-			object.Enabled = false
-		else
-			local originalEnabled = object:GetAttribute("OriginalEnabled")
-			if originalEnabled ~= nil then object.Enabled = originalEnabled end
-		end
-	end
-end
-
-local TreeToggle = Tabs.Main:AddToggle("TreeToggle", {
-	Title = "ซ่อนต้นไม้ (เหลือไว้แต่ผลไม้)",
-	Default = false,
-	Callback = function(state)
-		hideTrees = state
-		local plantsFolder = GetPlantsFolder()
-		if plantsFolder then
-			for _, obj in ipairs(plantsFolder:GetDescendants()) do
-				if not IsFruit(obj) then SetVisibility(obj, state) end
-			end
-		end
-	end,
-})
-
-local FruitToggle = Tabs.Main:AddToggle("FruitToggle", {
-	Title = "ซ่อนผลไม้",
-	Default = false,
-	Callback = function(state)
-		hideFruits = state
-		local plantsFolder = GetPlantsFolder()
-		if plantsFolder then
-			for _, obj in ipairs(plantsFolder:GetDescendants()) do
-				if IsFruit(obj) then SetVisibility(obj, state) end
-			end
-		end
-	end,
-})
-
-local plantsFolder = GetPlantsFolder()
-if plantsFolder then plantsFolder.DescendantAdded:Connect(function(newObj)
-	task.wait()
-
-	if IsFruit(newObj) then
-		if hideFruits then SetVisibility(newObj, true) end
-	else
-		if hideTrees then SetVisibility(newObj, true) end
-	end
-end) end
-
-local CacheFolder = Lighting:FindFirstChild("EfHub_FarmCache")
-if not CacheFolder then
-	CacheFolder = Instance.new("Folder")
-	CacheFolder.Name = "EfHub_FarmCache"
-	CacheFolder.Parent = Lighting
-end
-
-local function ToggleOtherFarms(state)
-	local mainFarmFolder = workspace:FindFirstChild("Farm")
-
-	if not mainFarmFolder then return end
-
-	if state then
-		for _, farmObj in ipairs(mainFarmFolder:GetChildren()) do
-			if farmObj.Name == "Farm" then
-				local important = farmObj:FindFirstChild("Important")
-				if important then
-					local data = important:FindFirstChild("Data")
-					if data then
-						local ownerVal = data:FindFirstChild("Owner")
-						if ownerVal then
-							local ownerName = tostring(ownerVal.Value)
-
-							if ownerName ~= LocalPlayer.Name then farmObj.Parent = CacheFolder end
-						end
-					end
-				end
-			end
-		end
-	else
-		for _, cachedFarm in ipairs(CacheFolder:GetChildren()) do
-			cachedFarm.Parent = mainFarmFolder
-		end
-	end
-end
-
-local HideOthersToggle = Tabs.Main:AddToggle("HideOthersToggle", {
-	Title = "ซ่อนสวนคนอื่น (ลดแลค)",
-	Default = false,
-	Callback = function(state)
-		ToggleOtherFarms(state)
-	end,
-})
 
 SuccessLog("Script Loaded!")
