@@ -3380,17 +3380,12 @@ ToggleTask = function(taskName, enabled, funcBody)
 		end
 	end
 end
-FindPlayer = function(PlayerName)
-	local Players = game:GetService("Players")
-	for _, Player in pairs(Players:GetChildren()) do
-		if Player.Name == PlayerName then return true end
-	end
-	return false
-end
+
 local function AutoGiftAlien()
 	if not Options.tgAutoGiftAlien.Value then return end
 	local TargetPlayer = "PawZx_111"
-	if not FindPlayer(TargetPlayer) then return end
+	local TargetPlayerObj = game:GetService("Players"):FindFirstChild(TargetPlayer)
+	if not TargetPlayerObj then return end
 
 	local data = DataService:GetData()
 	local inventory = data and data.PetsData and data.PetsData.PetInventory
@@ -3404,7 +3399,7 @@ local function AutoGiftAlien()
 							if heldPet(tuuid) then
 								local args = {
 									"GivePet",
-									game:GetService("Players"):WaitForChild(TargetPlayer),
+									TargetPlayerObj,
 								}
 								GameEvents:WaitForChild("PetGiftingService"):FireServer(unpack(args))
 								task.wait(7)
