@@ -50,7 +50,7 @@ local EggHatchList = {}
 local isEggProcessing = false
 
 -- =========================================================
-local FindPlayer
+
 local calculateCurrentWeight
 local getInventoryList
 local findMainPet, findDupePet
