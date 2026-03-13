@@ -3,14 +3,7 @@ local Main = {}
 
 local function LoadModule(name)
     local source = "https://raw.githubusercontent.com/suta007/Lua_EfHub/refs/heads/master/AI_Code/Modules/" .. name .. ".lua"
-    local success, mod = pcall(function() return loadstring(game:HttpGet(source))() end)
-    
-    if not success then
-        -- Fallback to local files if testing during development
-        local localSuccess, localMod = pcall(function() return loadstring(readfile("EfHub/AI_Code/Modules/" .. name .. ".lua"))() end)
-        if localSuccess then return localMod end
-    end
-    
+    mod = loadstring(game:HttpGet(source))()
     return mod
 end
 
