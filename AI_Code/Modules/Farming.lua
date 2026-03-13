@@ -264,7 +264,7 @@ function Farming.AutoPlant()
 	local tPlant = UI.Options.ddPlantFruitType.Value
 	local tSeed = tPlant .. " Seed"
 
-    if Core.HeldItemName then Core.HeldItemName(tSeed) end 
+    if Farming.heldItemName then Farming.heldItemName(tSeed) end 
 
 	if pos then
 		local args = { vector.create(pos.X, pos.Y, pos.Z), tPlant }
@@ -272,9 +272,132 @@ function Farming.AutoPlant()
 	end
 end
 
+function Farming.heldItemName(itemName)
+    if not Core.LocalPlayer.Character then return false end
+    local Humanoid = Core.LocalPlayer.Character:FindFirstChild("Humanoid")
+    if not Humanoid then return false end
+
+    for _, item in ipairs(Core.LocalPlayer.Backpack:GetChildren()) do
+        local name = string.match(item.Name, "^(.-)%s*%[") or string.match(item.Name, "^(.-)%s*[xX]%d+") or item.Name
+        name = string.gsub(name, "^%s*(.-)%s*$", "%1")
+        if name == itemName then
+            pcall(function() Humanoid:EquipTool(item) end)
+            return true
+        end
+    end
+    return false
+end
+
+function Farming.AutoSellAll()
+    if UI.Options.tgAutoSellALL.Value then
+        local success, isFull = pcall(function() return Core.InventoryService.IsMaxInventory(Core.LocalPlayer) end)
+        if success and isFull then
+            local Previous = Core.GetCharacter() and Core.GetCharacter():GetPivot()
+            if Previous then 
+                Core.GetCharacter():PivotTo(CFrame.new(36.58, 4.50, 0.43))
+                task.wait(0.3)
+                Core.GameEvents.Sell_Inventory:FireServer()
+                task.wait(0.5)
+                Core.GetCharacter():PivotTo(Previous)
+            end
+        end
+    end
+    task.wait(1)
+end
+
+function Farming.ShovelPlant()
+    if not UI.Options.tgAutoPlantShovel.Value then return end
+    local Plants_Physical = Farming.GetPlantsFolder()
+    
+    local character = Core.LocalPlayer.Character
+    if character and character:FindFirstChild("Humanoid") then
+        pcall(function() character.Humanoid:UnequipTools() end)
+    end
+    
+    local ShovelPlantList = UI.GetSelectedItems(UI.Options.ddShovelPlant.Value)
+    local myShovel = Core.LocalPlayer.Backpack:FindFirstChild("Shovel [Destroy Plants]")
+
+    if Plants_Physical and myShovel then
+        for _, plant in pairs(Plants_Physical:GetChildren()) do
+            if table.find(ShovelPlantList, plant.Name) then
+                if character and character:FindFirstChild("Humanoid") then
+                    pcall(function() character.Humanoid:EquipTool(myShovel) end)
+                end
+                Core.GameEvents:WaitForChild("Remove_Item"):FireServer(plant)
+                task.wait(0.1)
+            end
+        end
+    end
+end
+
+function Farming.Reclaim()
+    if not UI.Options.tgReclaim.Value then return end
+    
+    local character = Core.LocalPlayer.Character
+    if character and character:FindFirstChild("Humanoid") then
+        pcall(function() character.Humanoid:UnequipTools() end)
+    end
+    
+    local Backpack = Core.LocalPlayer.Backpack
+    local myReclaimer
+    for _, item in pairs(Backpack:GetChildren()) do
+        if item:IsA("Tool") and string.find(item.Name, "^Reclaimer") then
+            myReclaimer = item
+            break
+        end
+    end
+
+    local Plants_Physical = Farming.GetPlantsFolder()
+    local ReclaimPlantList = UI.GetSelectedItems(UI.Options.ddReclaim.Value)
+    if Plants_Physical and myReclaimer then
+        for _, plant in pairs(Plants_Physical:GetChildren()) do
+            if table.find(ReclaimPlantList, plant.Name) then
+                if character and character:FindFirstChild("Humanoid") then
+                    pcall(function() character.Humanoid:EquipTool(myReclaimer) end)
+                end
+                Core.GameEvents:WaitForChild("ReclaimerService_RE"):FireServer("TryReclaim", plant)
+                task.wait(0.1)
+            end
+        end
+    end
+end
+
+function Farming.Trowel()
+    if not UI.Options.tgTrowel.Value then return end
+    
+    local character = Core.LocalPlayer.Character
+    if character and character:FindFirstChild("Humanoid") then
+        pcall(function() character.Humanoid:UnequipTools() end)
+    end
+    
+    local Backpack = Core.LocalPlayer.Backpack
+    local myTrowel
+    for _, item in pairs(Backpack:GetChildren()) do
+        if item:IsA("Tool") and string.find(item.Name, "Trowel") then
+            myTrowel = item
+            break
+        end
+    end
+
+    local Plants_Physical = Farming.GetPlantsFolder()
+    local TrowelPlantList = UI.GetSelectedItems(UI.Options.ddTrowel.Value)
+    if Plants_Physical and myTrowel then
+        for _, plant in pairs(Plants_Physical:GetChildren()) do
+            if table.find(TrowelPlantList, plant.Name) then
+                if character and character:FindFirstChild("Humanoid") then
+                    pcall(function() character.Humanoid:EquipTool(myTrowel) end)
+                end
+                Core.GameEvents:WaitForChild("Move_Item"):FireServer(plant)
+                task.wait(0.1)
+            end
+        end
+    end
+end
+
 function Farming.BuildUI()
     local Tabs = UI.Tabs
     local Options = UI.Options
+    local Sync = function() if UI.SyncBackgroundTasks then UI.SyncBackgroundTasks() end end
 
     local FruitTable = {}
     local FruitData = require(Core.ReplicatedStorage.Data.SeedData)
@@ -292,70 +415,70 @@ function Farming.BuildUI()
     Tabs.Main:AddToggle("PlantToggle", { Title = "Hide Plants", Default = false, Callback = function(Value) Core.QuickSave(); Farming.HidePlant(Value) end })
 
     local SellFruitSection = Tabs.Farm:AddCollapsibleSection("Sell Fruit", false)
-    SellFruitSection:AddToggle("tgAutoSellALL", { Title = "Auto Sell ALL", Default = false, Callback = function(Value) Core.QuickSave() end })
-    SellFruitSection:AddToggle("AutoSellFruit", { Title = "Auto Sell Fruit", Default = false, Callback = function(Value) Core.QuickSave() end })
+    SellFruitSection:AddToggle("tgAutoSellALL", { Title = "Auto Sell ALL", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    SellFruitSection:AddToggle("AutoSellFruit", { Title = "Auto Sell Fruit", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
 
     local CollectSection = Tabs.Farm:AddCollapsibleSection("Collect Fruit", false)
-    CollectSection:AddToggle("tgCollectFruitEnable", { Title = "Enable Auto Collect Fruit", Default = false, Callback = function(Value) Core.QuickSave() end })
-    CollectSection:AddInput("inCollectDelay", { Title = "Collect Delay", Default = 0.3, Min = 0.1, Max = 3600, Callback = function(Value) Core.QuickSave() end })
-    CollectSection:AddToggle("tgCheckFruitType", { Title = "Check Fruit Type", Default = false, Callback = function(Value) Core.QuickSave() end })
-    CollectSection:AddDropdown("ddFruitType", { Title = "Fruit Type", Values = FruitTable, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave() end })
-    CollectSection:AddToggle("tgExcludeFruitType", { Title = "Exclude Fruit Type", Default = false, Callback = function(Value) Core.QuickSave() end })
+    CollectSection:AddToggle("tgCollectFruitEnable", { Title = "Enable Auto Collect Fruit", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection:AddInput("inCollectDelay", { Title = "Collect Delay", Default = 0.3, Min = 0.1, Max = 3600, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection:AddToggle("tgCheckFruitType", { Title = "Check Fruit Type", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection:AddDropdown("ddFruitType", { Title = "Fruit Type", Values = FruitTable, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection:AddToggle("tgExcludeFruitType", { Title = "Exclude Fruit Type", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
     
-    CollectSection:AddToggle("tgCheckMutant", { Title = "Check Mutant", Default = false, Callback = function(Value) Core.QuickSave() end })
-    CollectSection:AddDropdown("ddMutantType", { Title = "Mutant Type", Values = MutationTable, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave() end })
-    CollectSection:AddToggle("tgExceptMutant", { Title = "Except Mutant", Default = false, Callback = function(Value) Core.QuickSave() end })
+    CollectSection:AddToggle("tgCheckMutant", { Title = "Check Mutant", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection:AddDropdown("ddMutantType", { Title = "Mutant Type", Values = MutationTable, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection:AddToggle("tgExceptMutant", { Title = "Except Mutant", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
     
-    CollectSection:AddToggle("tgCheckVariant", { Title = "Check Variant", Default = false, Callback = function(Value) Core.QuickSave() end })
-    CollectSection:AddDropdown("ddVariantType", { Title = "Variant Type", Values = { "Normal", "Silver", "Gold", "Rainbow", "Diamond" }, Multi = false, Default = "Normal", Callback = function(Value) Core.QuickSave() end })
-    CollectSection:AddToggle("tgExceptVariant", { Title = "Except Variant", Default = false, Callback = function(Value) Core.QuickSave() end })
+    CollectSection:AddToggle("tgCheckVariant", { Title = "Check Variant", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection:AddDropdown("ddVariantType", { Title = "Variant Type", Values = { "Normal", "Silver", "Gold", "Rainbow", "Diamond" }, Multi = false, Default = "Normal", Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection:AddToggle("tgExceptVariant", { Title = "Except Variant", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
     
-    CollectSection:AddToggle("tgCheckWeight", { Title = "Check Weight", Default = false, Callback = function(Value) Core.QuickSave() end })
-    CollectSection:AddDropdown("ddWeightType", { Title = "Weight Type", Values = { "Above", "Below" }, Multi = false, Default = "Below", Callback = function(Value) Core.QuickSave() end })
-    CollectSection:AddInput("ipWeightValue", { Title = "Weight Value", Default = "100", Numeric = true, Callback = function(Value) Core.QuickSave() end })
+    CollectSection:AddToggle("tgCheckWeight", { Title = "Check Weight", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection:AddDropdown("ddWeightType", { Title = "Weight Type", Values = { "Above", "Below" }, Multi = false, Default = "Below", Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection:AddInput("ipWeightValue", { Title = "Weight Value", Default = "100", Numeric = true, Callback = function(Value) Core.QuickSave(); Sync() end })
 
     local CollectSection2 = Tabs.Farm:AddCollapsibleSection("Collect Fruit 2", false)
-    CollectSection2:AddToggle("tgCollectFruitEnable2", { Title = "Enable Auto Collect Fruit 2", Default = false, Callback = function(Value) Core.QuickSave() end })
-    CollectSection2:AddInput("inCollectDelay2", { Title = "Collect Delay 2", Default = 0.3, Min = 0.1, Max = 3600, Callback = function(Value) Core.QuickSave() end })
-    CollectSection2:AddToggle("tgCheckFruitType2", { Title = "Check Fruit Type", Default = false, Callback = function(Value) Core.QuickSave() end })
-    CollectSection2:AddDropdown("ddFruitType2", { Title = "Fruit Type", Values = FruitTable, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave() end })
-    CollectSection2:AddToggle("tgExcludeFruitType2", { Title = "Exclude Fruit Type", Default = false, Callback = function(Value) Core.QuickSave() end })
+    CollectSection2:AddToggle("tgCollectFruitEnable2", { Title = "Enable Auto Collect Fruit 2", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection2:AddInput("inCollectDelay2", { Title = "Collect Delay 2", Default = 0.3, Min = 0.1, Max = 3600, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection2:AddToggle("tgCheckFruitType2", { Title = "Check Fruit Type", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection2:AddDropdown("ddFruitType2", { Title = "Fruit Type", Values = FruitTable, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection2:AddToggle("tgExcludeFruitType2", { Title = "Exclude Fruit Type", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
     
-    CollectSection2:AddToggle("tgCheckMutant2", { Title = "Check Mutant", Default = false, Callback = function(Value) Core.QuickSave() end })
-    CollectSection2:AddDropdown("ddMutantType2", { Title = "Mutant Type", Values = MutationTable, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave() end })
-    CollectSection2:AddToggle("tgExceptMutant2", { Title = "Except Mutant", Default = false, Callback = function(Value) Core.QuickSave() end })
+    CollectSection2:AddToggle("tgCheckMutant2", { Title = "Check Mutant", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection2:AddDropdown("ddMutantType2", { Title = "Mutant Type", Values = MutationTable, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection2:AddToggle("tgExceptMutant2", { Title = "Except Mutant", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
     
-    CollectSection2:AddToggle("tgCheckVariant2", { Title = "Check Variant", Default = false, Callback = function(Value) Core.QuickSave() end })
-    CollectSection2:AddDropdown("ddVariantType2", { Title = "Variant Type", Values = { "Normal", "Silver", "Gold", "Rainbow", "Diamond" }, Multi = false, Default = "Normal", Callback = function(Value) Core.QuickSave() end })
-    CollectSection2:AddToggle("tgExceptVariant2", { Title = "Except Variant", Default = false, Callback = function(Value) Core.QuickSave() end })
+    CollectSection2:AddToggle("tgCheckVariant2", { Title = "Check Variant", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection2:AddDropdown("ddVariantType2", { Title = "Variant Type", Values = { "Normal", "Silver", "Gold", "Rainbow", "Diamond" }, Multi = false, Default = "Normal", Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection2:AddToggle("tgExceptVariant2", { Title = "Except Variant", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
     
-    CollectSection2:AddToggle("tgCheckWeight2", { Title = "Check Weight", Default = false, Callback = function(Value) Core.QuickSave() end })
-    CollectSection2:AddDropdown("ddWeightType2", { Title = "Weight Type", Values = { "Above", "Below" }, Multi = false, Default = "Below", Callback = function(Value) Core.QuickSave() end })
-    CollectSection2:AddInput("ipWeightValue2", { Title = "Weight Value", Default = "100", Numeric = true, Callback = function(Value) Core.QuickSave() end })
+    CollectSection2:AddToggle("tgCheckWeight2", { Title = "Check Weight", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection2:AddDropdown("ddWeightType2", { Title = "Weight Type", Values = { "Above", "Below" }, Multi = false, Default = "Below", Callback = function(Value) Core.QuickSave(); Sync() end })
+    CollectSection2:AddInput("ipWeightValue2", { Title = "Weight Value", Default = "100", Numeric = true, Callback = function(Value) Core.QuickSave(); Sync() end })
 
     local PlantSection = Tabs.Farm:AddCollapsibleSection("Plant Fruit", false)
-    PlantSection:AddToggle("tgPlantFruitEnable", { Title = "Plant Fruit", Default = false, Callback = function(Value) Core.QuickSave() end })
-    PlantSection:AddDropdown("ddPlantFruitType", { Title = "Seed to Plant", Values = FruitTable, Multi = false, Default = "", Searchable = true, Callback = function() Core.QuickSave() end })
-    PlantSection:AddDropdown("ddPlantPosition", { Title = "Plant Position", Values = { "User Position" }, Multi = false, Default = "", Callback = function() Core.QuickSave() end })
-    PlantSection:AddInput("inPlantDelay", { Title = "Plant Delay (ms)", Default = "0.3", Numeric = true, Callback = function() Core.QuickSave() end })
+    PlantSection:AddToggle("tgPlantFruitEnable", { Title = "Plant Fruit", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    PlantSection:AddDropdown("ddPlantFruitType", { Title = "Seed to Plant", Values = FruitTable, Multi = false, Default = "", Searchable = true, Callback = function() Core.QuickSave(); Sync() end })
+    PlantSection:AddDropdown("ddPlantPosition", { Title = "Plant Position", Values = { "User Position" }, Multi = false, Default = "", Callback = function() Core.QuickSave(); Sync() end })
+    PlantSection:AddInput("inPlantDelay", { Title = "Plant Delay (ms)", Default = "0.3", Numeric = true, Callback = function() Core.QuickSave(); Sync() end })
 
     local tempShovelDD = { "ALL" }
     for _, v in ipairs(FruitTable) do table.insert(tempShovelDD, v) end
 
     local ShovelSection = Tabs.Auto:AddCollapsibleSection("Shovel", false)
-    ShovelSection:AddToggle("tgAutoPlantShovel", { Title = "Auto Plant Shovel", Default = false, Callback = function(Value) Core.QuickSave() end })
-    ShovelSection:AddDropdown("ddShovelPlant", { Title = "Select Plant(s) to Shovel", Values = tempShovelDD, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave() end })
-    ShovelSection:AddToggle("tgAutoCropShovel", { Title = "Auto Crop Shovel", Default = false, Callback = function(Value) Core.QuickSave() end })
-    ShovelSection:AddDropdown("ddShovelCrop", { Title = "Select Crop(s) to Shovel", Values = tempShovelDD, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave() end })
-    ShovelSection:AddToggle("tgShovelCosmetic", { Title = "Shovel All Cosmetic", Default = false, Callback = function(Value) Core.QuickSave() end })
+    ShovelSection:AddToggle("tgAutoPlantShovel", { Title = "Auto Plant Shovel", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    ShovelSection:AddDropdown("ddShovelPlant", { Title = "Select Plant(s) to Shovel", Values = tempShovelDD, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave(); Sync() end })
+    ShovelSection:AddToggle("tgAutoCropShovel", { Title = "Auto Crop Shovel", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    ShovelSection:AddDropdown("ddShovelCrop", { Title = "Select Crop(s) to Shovel", Values = tempShovelDD, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave(); Sync() end })
+    ShovelSection:AddToggle("tgShovelCosmetic", { Title = "Shovel All Cosmetic", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
 
     local ReclaimSection = Tabs.Auto:AddCollapsibleSection("Reclaim", false)
-    ReclaimSection:AddToggle("tgReclaim", { Title = "Reclaim", Default = false, Callback = function(Value) Core.QuickSave() end })
-    ReclaimSection:AddDropdown("ddReclaim", { Title = "Reclaim Type", Values = tempShovelDD, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave() end })
+    ReclaimSection:AddToggle("tgReclaim", { Title = "Reclaim", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    ReclaimSection:AddDropdown("ddReclaim", { Title = "Reclaim Type", Values = tempShovelDD, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave(); Sync() end })
 
     local TrowelSection = Tabs.Auto:AddCollapsibleSection("Trowel", false)
-    TrowelSection:AddToggle("tgTrowel", { Title = "Trowel", Default = false, Callback = function(Value) Core.QuickSave() end })
-    TrowelSection:AddDropdown("ddTrowel", { Title = "Trowel Type", Values = tempShovelDD, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave() end })
+    TrowelSection:AddToggle("tgTrowel", { Title = "Trowel", Default = false, Callback = function(Value) Core.QuickSave(); Sync() end })
+    TrowelSection:AddDropdown("ddTrowel", { Title = "Trowel Type", Values = tempShovelDD, Multi = true, Default = {}, Searchable = true, Callback = function(Value) Core.QuickSave(); Sync() end })
 end
 
 return Farming

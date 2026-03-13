@@ -4,6 +4,7 @@ local Core = nil
 
 UI.Window = nil
 UI.Tabs = {}
+UI.SyncBackgroundTasks = nil
 
 function UI.Init(RefCore)
 	Core = RefCore
@@ -97,6 +98,7 @@ function UI.GetSelectedItems(DropdownValue)
 end
 
 function UI.InitSaveManager(SyncBackgroundTasks)
+    UI.SyncBackgroundTasks = SyncBackgroundTasks
 	Core.SaveManager:SetLibrary(Core.Fluent)
 	Core.InterfaceManager:SetLibrary(Core.Fluent)
 	
