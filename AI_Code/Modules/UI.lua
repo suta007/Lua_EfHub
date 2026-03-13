@@ -7,8 +7,6 @@ UI.Tabs = {}
 
 function UI.Init(RefCore)
 	Core = RefCore
-	UI.Options = Core.Fluent.Options
-
 	UI.Window = Core.Fluent:CreateWindow({
 		Title = "Grow a Garden " .. Core.fVersion,
 		SubTitle = "by EfHub",
@@ -20,6 +18,8 @@ function UI.Init(RefCore)
 		Theme = "Darker",
 		MinimizeKey = Enum.KeyCode.RightControl,
 	})
+
+	UI.Options = Core.Fluent.Options
 
 	UI.Tabs = {
 		Main = UI.Window:AddTab({ Title = "Main", Icon = "house" }),
