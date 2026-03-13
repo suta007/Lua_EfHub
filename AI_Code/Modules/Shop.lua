@@ -177,7 +177,84 @@ function Shop.BuildUI()
         Shop.BuyList[Shop.ShopKey.Egg].Items = UI.GetSelectedItems(Value); Core.QuickSave()
     end})
 
-    -- Traveling ... (Other shops follow the exact same logic)
+    -- Traveling Merchant Items Section
+    local BuyTravelingSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Traveling Merchant Items", false)
+    BuyTravelingSection:AddToggle("buyTravelingEnable", { Title = "Buy Traveling Merchant Items", Default = false, Callback = function(Value)
+        Shop.BuyList[Shop.ShopKey.Traveling].Enabled = Value
+        if Value then
+            local GetData_result = Core.DataService:GetData()
+            local TravelingStock = GetData_result.TravelingMerchantShopStock.Stocks
+            if not isTableEmpty(TravelingStock) then Shop.ProcessBuy(Shop.ShopKey.Traveling, TravelingStock) end
+        end
+        Core.QuickSave()
+    end})
+    BuyTravelingSection:AddToggle("buyTravelingAll", { Title = "Buy All Traveling Merchant Items", Default = false, Callback = function(Value) Shop.BuyList[Shop.ShopKey.Traveling].BuyAll = Value; Core.QuickSave() end })
+
+    local TravelingList = {}
+    local function TravelSelected(DropdownValue)
+        if type(DropdownValue) == "table" then
+            for Value, State in pairs(DropdownValue) do
+                if State then table.insert(TravelingList, Value) end
+            end
+        end
+        return TravelingList
+    end
+
+    local TravelingData = require(Core.ReplicatedStorage.Data.TravelingMerchant.TravelingMerchantData)
+    local t = 1
+    for Name, data in pairs(TravelingData) do
+        local TravalTable = {}
+        if type(data.ShopData) == "table" then
+            for itemName, itemInfo in pairs(data.ShopData) do
+                table.insert(TravalTable, itemName)
+            end
+        end
+        BuyTravelingSection:AddDropdown("TravelingList" .. t, { Title = Name .. " Items", Values = TravalTable, Multi = true, Default = {}, Searchable = true, Callback = function(Value)
+            Shop.BuyList[Shop.ShopKey.Traveling].Items = TravelSelected(Value); Core.QuickSave()
+        end})
+        t = t + 1
+    end
+
+    -- Event Shop Section (Santa's Stash)
+    local BuySantaSection = Tabs.Buy:AddCollapsibleSection("Auto Buy Santa's Stash Items", false)
+    BuySantaSection:AddToggle("buySantaEnable", { Title = "Buy Santa's Stash Items", Default = false, Callback = function(Value)
+        Shop.BuyList[Shop.ShopKey.Santa].Enabled = Value
+        if Value then
+            local GetData_result = Core.DataService:GetData()
+            local SantaStocks = GetData_result.EventShopStock["Santa's Stash"].Stocks
+            if not isTableEmpty(SantaStocks) then Shop.ProcessBuy(Shop.ShopKey.Santa, SantaStocks) end
+        end
+        Core.QuickSave()
+    end})
+    BuySantaSection:AddToggle("buySantaAll", { Title = "Buy All Santa's Stash Items", Default = false, Callback = function(Value) Shop.BuyList[Shop.ShopKey.Santa].BuyAll = Value; Core.QuickSave() end })
+    
+    local EventData = require(Core.ReplicatedStorage.Data.EventShopData)
+    local SantaTable = {}
+    for itemName, _ in pairs(EventData["Santa's Stash"]) do table.insert(SantaTable, itemName) end
+    table.sort(SantaTable)
+    BuySantaSection:AddDropdown("SantaList", { Title = "Santa's Stash Items", Values = SantaTable, Multi = true, Default = {}, Searchable = true, Callback = function(Value)
+        Shop.BuyList[Shop.ShopKey.Santa].Items = UI.GetSelectedItems(Value); Core.QuickSave()
+    end})
+
+    -- Event Shop Section (New Years Shop)
+    local BuyNewYearSection = Tabs.Buy:AddCollapsibleSection("Auto Buy New Years Shop Items", false)
+    BuyNewYearSection:AddToggle("buyNewYearEnable", { Title = "Buy New Years Shop Items", Default = false, Callback = function(Value)
+        Shop.BuyList[Shop.ShopKey.NewYear].Enabled = Value
+        if Value then
+            local GetData_result = Core.DataService:GetData()
+            local NewYearStocks = GetData_result.EventShopStock["New Years Shop"].Stocks
+            if not isTableEmpty(NewYearStocks) then Shop.ProcessBuy(Shop.ShopKey.NewYear, NewYearStocks) end
+        end
+        Core.QuickSave()
+    end})
+    BuyNewYearSection:AddToggle("buyNewYearAll", { Title = "Buy All New Years Shop Items", Default = false, Callback = function(Value) Shop.BuyList[Shop.ShopKey.NewYear].BuyAll = Value; Core.QuickSave() end })
+    
+    local NewYearTable = {}
+    for itemName, _ in pairs(EventData["New Years Shop"]) do table.insert(NewYearTable, itemName) end
+    table.sort(NewYearTable)
+    BuyNewYearSection:AddDropdown("NewYearList", { Title = "New Years Shop Items", Values = NewYearTable, Multi = true, Default = {}, Searchable = true, Callback = function(Value)
+        Shop.BuyList[Shop.ShopKey.NewYear].Items = UI.GetSelectedItems(Value); Core.QuickSave()
+    end})
 end
 
 return Shop
