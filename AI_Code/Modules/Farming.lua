@@ -1,0 +1,292 @@
+-- Modules/Farming.lua
+local Farming = {}
+local Core = nil
+local UI = nil
+
+-- State variables
+Farming.FruitQueue1 = {}
+Farming.FruitQueue2 = {}
+Farming.IsScanning1 = false
+Farming.IsScanning2 = false
+Farming.isPlantHidden = false
+Farming.isFruitHidden = false
+Farming.CollectDelay = 0.3
+
+local FruitTable = {}
+
+function Farming.Init(RefCore, RefUI)
+    Core = RefCore
+    UI = RefUI
+    
+    local FruitData = require(Core.ReplicatedStorage.Data.SeedData)
+    for FruitName, _ in pairs(FruitData) do table.insert(FruitTable, FruitName) end
+    table.sort(FruitTable)
+
+    Farming.BuildUI()
+    Farming.SetupTracker()
+end
+
+function Farming.ApplyAntiLag()
+    local Lighting = Core.Lighting
+    local Terrain = workspace.Terrain
+	Lighting.GlobalShadows = false
+	Lighting.FogEnd = 9e9
+	Lighting.Brightness = 0
+	Lighting.EnvironmentDiffuseScale = 0
+	Lighting.EnvironmentSpecularScale = 0
+	Lighting.OutdoorAmbient = Color3.new(0, 0, 0)
+	Terrain.WaterWaveSize = 0
+	Terrain.WaterWaveSpeed = 0
+	Terrain.WaterReflectance = 0
+	Terrain.WaterTransparency = 1
+	for i, v in ipairs(workspace:GetDescendants()) do
+		if i % 200 == 0 then task.wait() end
+		if v:IsA("BasePart") then
+			v.Material = Enum.Material.SmoothPlastic
+			v.Reflectance = 0
+		elseif v:IsA("ParticleEmitter") then
+			v.Enabled = false
+		elseif v:IsA("Decal") or v:IsA("Texture") then
+			v.Transparency = 1
+		end
+	end
+	pcall(function() settings().Rendering.QualityLevel = Enum.QualityLevel.Level01 end)
+end
+
+function Farming.GetMyFarm()
+	local farmFolder = workspace:FindFirstChild("Farm")
+	if not farmFolder then return nil end
+	for _, oFarm in pairs(farmFolder:GetChildren()) do
+		local success, owner = pcall(function() return oFarm.Important.Data.Owner.Value end)
+		if success and owner == Core.MyName then return oFarm end
+	end
+	return nil
+end
+
+function Farming.GetPlantsFolder()
+    local MyFarm = Farming.GetMyFarm()
+	local Farm_Important = MyFarm and MyFarm:FindFirstChild("Important")
+	return Farm_Important and Farm_Important:FindFirstChild("Plants_Physical")
+end
+
+function Farming.IsFruit(obj)
+	local current = obj
+	while current and current ~= workspace do
+		if current.Name == "Fruits" then return true end
+		current = current.Parent
+	end
+	return false
+end
+
+function Farming.SetVisibility(obj, isHidden)
+	if obj:IsA("BasePart") or obj:IsA("MeshPart") or obj:IsA("Decal") or obj:IsA("Texture") then
+		if isHidden then
+			if not obj:GetAttribute("OriginalTrans") then obj:SetAttribute("OriginalTrans", obj.Transparency) end
+			obj.Transparency = 1
+		else
+			local orig = obj:GetAttribute("OriginalTrans")
+			if orig then obj.Transparency = orig end
+		end
+	elseif obj:IsA("ParticleEmitter") or obj:IsA("Sparkles") or obj:IsA("Fire") or obj:IsA("Trail") then
+		if isHidden then
+			if obj:GetAttribute("OriginalEnabled") == nil then obj:SetAttribute("OriginalEnabled", obj.Enabled) end
+			obj.Enabled = false
+		else
+			local orig = obj:GetAttribute("OriginalEnabled")
+			if orig ~= nil then obj.Enabled = orig end
+		end
+	end
+end
+
+function Farming.HidePlant(state)
+	Farming.isPlantHidden = state
+	local PlantFolder = Farming.GetPlantsFolder()
+	if not PlantFolder then return end
+	for _, obj in ipairs(PlantFolder:GetDescendants()) do
+		if not Farming.IsFruit(obj) then Farming.SetVisibility(obj, state) end
+	end
+end
+
+function Farming.HideFruit(state)
+	Farming.isFruitHidden = state
+	local PlantFolder = Farming.GetPlantsFolder()
+	if not PlantFolder then return end
+	for _, obj in ipairs(PlantFolder:GetDescendants()) do
+		if Farming.IsFruit(obj) then Farming.SetVisibility(obj, state) end
+	end
+end
+
+function Farming.SetupTracker()
+	local PlantFolder = Farming.GetPlantsFolder()
+	if PlantFolder then
+		PlantFolder.DescendantAdded:Connect(function(newObj)
+			task.wait()
+			if Farming.IsFruit(newObj) then
+				if Farming.isFruitHidden then Farming.SetVisibility(newObj, true) end
+			else
+				if Farming.isPlantHidden then Farming.SetVisibility(newObj, true) end
+			end
+		end)
+	end
+end
+
+-- Collect Logic (optimized)
+function Farming.CheckFruit(model, config)
+	if not model or not model:IsA("Model") then return false end
+	if config.CheckFruitType then
+		local tFruitType = model.Name
+		local isFound = table.find(config.FruitType, tFruitType) ~= nil
+		if isFound == config.ExcludeFruitType then return false end
+	end
+	if config.CheckMutant then
+		local hasMutant = false
+		for _, v in pairs(config.MutantType) do
+			if model:GetAttribute(v) == true then
+				hasMutant = true; break
+			end
+		end
+		if hasMutant == config.ExceptMutant then return false end
+	end
+	if config.CheckVariant then
+		local VariantObj = model:FindFirstChild("Variant")
+		if not VariantObj then return false end
+		local isVariantMatch = (VariantObj.Value == config.VariantType)
+		if isVariantMatch == config.ExceptVariant then return false end
+	end
+	if config.CheckWeight then
+		local weightObj = model:FindFirstChild("Weight")
+		if not weightObj then return false end
+		local tWeight = weightObj.Value
+		if config.WeightType == "Above" and not (tWeight >= config.WeightValue) then return false
+		elseif config.WeightType == "Below" and not (tWeight < config.WeightValue) then return false end
+	end
+	return true
+end
+
+function Farming.GetFruitConfig1()
+	return {
+		CheckFruitType = UI.Options.tgCheckFruitType and UI.Options.tgCheckFruitType.Value,
+		FruitType = UI.Options.ddFruitType and UI.GetSelectedItems(UI.Options.ddFruitType.Value) or {},
+		ExcludeFruitType = UI.Options.tgExcludeFruitType and UI.Options.tgExcludeFruitType.Value,
+		CheckMutant = UI.Options.tgCheckMutant and UI.Options.tgCheckMutant.Value,
+		MutantType = UI.Options.ddMutantType and UI.GetSelectedItems(UI.Options.ddMutantType.Value) or {},
+		ExceptMutant = UI.Options.tgExceptMutant and UI.Options.tgExceptMutant.Value,
+		CheckVariant = UI.Options.tgCheckVariant and UI.Options.tgCheckVariant.Value,
+		VariantType = UI.Options.ddVariantType and UI.Options.ddVariantType.Value or "Normal",
+		ExceptVariant = UI.Options.tgExceptVariant and UI.Options.tgExceptVariant.Value,
+		CheckWeight = UI.Options.tgCheckWeight and UI.Options.tgCheckWeight.Value,
+		WeightType = UI.Options.ddWeightType and UI.Options.ddWeightType.Value or "Below",
+		WeightValue = UI.Options.ipWeightValue and tonumber(UI.Options.ipWeightValue.Value) or 100
+	}
+end
+
+function Farming.GetFruitConfig2()
+	return {
+		-- Reuse config builder structure for 2
+	}
+end
+
+function Farming.ScanFarmTask(mode)
+	local sIsScanning, sFruitQueue, sEnable
+	if mode == 1 then
+		sIsScanning, sFruitQueue, sEnable = Farming.IsScanning1, Farming.FruitQueue1, UI.Options.tgCollectFruitEnable.Value
+	else
+		sIsScanning, sFruitQueue, sEnable = Farming.IsScanning2, Farming.FruitQueue2, UI.Options.tgCollectFruitEnable2.Value
+	end
+	if sIsScanning then return end
+
+	local function setScanningState(state)
+        if mode == 1 then Farming.IsScanning1 = state else Farming.IsScanning2 = state end
+    end
+
+    setScanningState(true)
+
+	task.spawn(function()
+		table.clear(sFruitQueue)
+		local Plants_Physical = Farming.GetPlantsFolder()
+		if Plants_Physical then
+			local count = 0
+			local config = Farming.GetFruitConfig1() 
+			for _, plant in ipairs(Plants_Physical:GetChildren()) do
+				if not sEnable then break end
+				local FruitsContainer = plant:FindFirstChild("Fruits")
+				local itemsToCheck = FruitsContainer and FruitsContainer:GetChildren() or { plant }
+				for _, item in ipairs(itemsToCheck) do
+					if item:IsA("Model") then
+						local Prompt = item:FindFirstChild("ProximityPrompt", true)
+						if Prompt and Prompt.Enabled and Farming.CheckFruit(item, config) then 
+                            table.insert(sFruitQueue, item) 
+                        end
+					end
+				end
+				count = count + 1
+				if count % 50 == 0 then task.wait() end
+			end
+		end
+		setScanningState(false)
+	end)
+end
+
+function Farming.CollectFruitWorker(mode)
+	local isEnabled, queue, isScanning, scanMode
+	
+	if mode == 1 then
+		isEnabled, queue, isScanning, scanMode = UI.Options.tgCollectFruitEnable.Value, Farming.FruitQueue1, Farming.IsScanning1, 1
+	elseif mode == 2 then
+		isEnabled, queue, isScanning, scanMode = UI.Options.tgCollectFruitEnable2.Value, Farming.FruitQueue2, Farming.IsScanning2, 2
+	end
+
+	if not isEnabled then table.clear(queue); task.wait(1); return end
+	local success, isFull = pcall(function() return Core.InventoryService.IsMaxInventory(Core.LocalPlayer) end)
+	if success and isFull then table.clear(queue); task.wait(1); return end
+
+	if #queue > 0 then
+		local itemToCollect = table.remove(queue, 1)
+		if itemToCollect and itemToCollect.Parent and itemToCollect:FindFirstChild("ProximityPrompt", true) then
+			Core.CollectEvent:FireServer({ itemToCollect })
+			task.wait(Farming.CollectDelay)
+			return
+		end
+	else
+		if not isScanning then Farming.ScanFarmTask(scanMode) end
+		task.wait(0.5)
+		return
+	end
+	task.wait()
+end
+
+function Farming.AutoPlant()
+	local pos = nil
+	if UI.Options.ddPlantPosition.Value == "User Position" then 
+        local root = Core.GetCharacter() and Core.GetCharacter():FindFirstChild("HumanoidRootPart")
+        if root then pos = Core.GetCharacter():GetPivot().Position end
+    end
+	local tPlant = UI.Options.ddPlantFruitType.Value
+	local tSeed = tPlant .. " Seed"
+
+    if Core.HeldItemName then Core.HeldItemName(tSeed) end 
+
+	if pos then
+		local args = { vector.create(pos.X, pos.Y, pos.Z), tPlant }
+		Core.GameEvents:WaitForChild("Plant_RE"):FireServer(unpack(args))
+	end
+end
+
+function Farming.BuildUI()
+    local Tabs = UI.Tabs
+    local Options = UI.Options
+
+    Tabs.Main:AddButton({ Title = "Anti Lag", Callback = function() pcall(Farming.ApplyAntiLag) end })
+    Tabs.Main:AddToggle("FruitToggle", { Title = "Hide Fruits", Default = false, Callback = function(Value) Core.QuickSave(); Farming.HideFruit(Value) end })
+    Tabs.Main:AddToggle("PlantToggle", { Title = "Hide Plants", Default = false, Callback = function(Value) Core.QuickSave(); Farming.HidePlant(Value) end })
+
+    local PlantSection = Tabs.Farm:AddCollapsibleSection("Plant Fruit", false)
+    PlantSection:AddToggle("tgPlantFruitEnable", { Title = "Plant Fruit", Default = false, Callback = function(Value) Core.QuickSave() end })
+    PlantSection:AddDropdown("ddPlantFruitType", { Title = "Seed to Plant", Values = FruitTable, Multi = false, Default = "", Searchable = true, Callback = function() Core.QuickSave() end })
+    PlantSection:AddDropdown("ddPlantPosition", { Title = "Plant Position", Values = { "User Position" }, Multi = false, Default = "", Callback = function() Core.QuickSave() end })
+    PlantSection:AddInput("inPlantDelay", { Title = "Plant Delay (ms)", Default = "0.3", Numeric = true, Callback = function() Core.QuickSave() end })
+    
+    -- Incomplete BuildUI section for demo, full integration will handle all toggles.
+end
+
+return Farming
